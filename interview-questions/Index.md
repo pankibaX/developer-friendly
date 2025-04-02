@@ -83,3 +83,6 @@
 4. Lazy Loading strategy
 5. How to make entitymanager thread safe in hibernate / spring data jpa
 6. Microservice , Circuit Breaker
+7. in Angular, if URL is not working, where you will look into ?
+8. CORS error, How you will resolve it
+   
