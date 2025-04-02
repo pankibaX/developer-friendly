@@ -72,3 +72,14 @@
 #### GitHub Questions
  - [**What are the common problems faced by developers while using GIT ?**]()
  - [**How to do cherrypicking ?**]()
+ - 
+
+
+***
+
+1. AWS lamdata restart
+2. @Trasanctonal annotation
+3. In built repository in Spring Data JPA
+4. Lazy Loading strategy
+5. How to make entitymanager thread safe in hibernate / spring data jpa
+6. Microservice , Circuit Breaker
