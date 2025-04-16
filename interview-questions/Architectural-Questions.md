@@ -60,6 +60,11 @@
     - **Bridge**
     - **Composite**
     - **Decorator**
+      - The Decorator Pattern dynamically adds new behavior to an object without altering its original class. This allows for flexible 
+        runtime extensions of functionality while keeping the core object unchanged. Unlike inheritance, which modifies behavior 
+        statically, decorators wrap objects to enhance them transparently—ensuring other instances of the same class remain unaffected.
+        - Wrapping HTTP requests/responses with filters (e.g., OncePerRequestFilter).
+        - Enhancing I/O streams (e.g., BufferedInputStream decorates FileInputStream).
     - **Facade**
     - **Flyweight**
     - **Proxy**
