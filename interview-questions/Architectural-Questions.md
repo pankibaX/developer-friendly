@@ -65,6 +65,7 @@
         statically, decorators wrap objects to enhance them transparently—ensuring other instances of the same class remain unaffected.
         - Wrapping HTTP requests/responses with filters (e.g., OncePerRequestFilter).
         - Enhancing I/O streams (e.g., BufferedInputStream decorates FileInputStream).
+        - Promotes Open/Closed Principle (open for extension, closed for modification) and composition over inheritance.
     - **Facade**
     - **Flyweight**
     - **Proxy**
