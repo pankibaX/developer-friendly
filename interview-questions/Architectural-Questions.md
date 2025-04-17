@@ -43,7 +43,7 @@
     - Need additional time to write/maintain test classes
 
 #### **Explain Design Patterns ?**
-  - **Creational Patterns**
+  - **Creational Patterns**  - Deal with object creation
     - **Factory**
       - Creates objects without exposing the instantiation logic to the client & refers to the newly created object through a common interface
       - Implementation Details
@@ -54,7 +54,7 @@
     - **Singleton**
     - **Prototype**
     - **Builder**
-  - **Structural Patterns**
+  - **Structural Patterns**  - Deal with object composition 
     - Structural object-patterns define ways to compose objects to obtain new functionality
     - **Adapter**
     - **Bridge**
@@ -69,7 +69,7 @@
     - **Facade**
     - **Flyweight**
     - **Proxy**
-  - **Behavioral Pattern**
+  - **Behavioral Pattern** - Deal with object interaction and responsibility
     - **Chain of Responsibility**
     - **Command**
     - **Iterator**
