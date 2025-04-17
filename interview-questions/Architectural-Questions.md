@@ -42,6 +42,65 @@
     - Difficult to test GUI based applications
     - Need additional time to write/maintain test classes
 
+#### **Explain Design Pattern ?**
+  - **Creational Patterns**
+    -  Deals with object creation mechanisms. 
+        - **Factory Method**
+            - Defines interface for creating objects
+            - Lets subclasses decide which class to instantiate
+            - Promotes loose coupling
+            - Example: `Calendar.getInstance()`
+        - **Abstract Factory**
+            - Creates families of related objects
+            - Higher level than Factory Method
+            - Useful when system needs multiple product families
+        - **Singleton**
+            - Ensures only one instance of a class exists
+            - Provides global access point to the instance
+            - Common uses: Logger, Configuration, Database connections
+            - Implementation types: Eager, Lazy, Thread-safe, Double-checked locking
+        - **Builder**
+            - Separates complex object construction from representation
+            - Allows step-by-step construction
+            - Example: `StringBuilder`
+        - **Prototype**
+            - Creates new objects by cloning prototypes
+            - Avoids costly creation process
+            - Requires implementing `Cloneable` interface
+  - **Structural Patterns**
+    - Deals with class & object composition 
+        - **Adapter** 
+            - Bridges incompatible interfaces
+            - Wraps an existing class
+            - Example: `Arrays.asList()`
+        - **Decorator**
+            - Adds responsibilities dynamically
+            - Alternative to subclassing
+            - Example: `Java I/O streams`
+        - **Proxy**
+            - Controls access to another object
+            - Types: Virtual, Remote, Protection, Smart reference
+            - Example: `java.lang.reflect.Proxy`
+        - **Facade**
+            - Provides simplified interface to complex subsystem
+            - Reduces subsystem dependencies
+            - Typical in library design
+  - **Behavioural Patterns**
+    - Deal with object interaction and responsibility distribution
+        - **Observer**
+            - One-to-many dependency between objects
+            - Publisher-Subscriber pattern
+            - Example: Event listeners in Swing
+        - **Strategy**
+            - Defines family of algorithms
+            - Makes them interchangeable
+            - Example: `Comparator` interface
+        - **Template Method**
+            - Defines algorithm skeleton
+            - Lets subclasses redefine certain steps
+            - Example: `HttpServlet` or `JDBCTemplate` class
+
+
 #### **How to design low latency and scalable applications ?**
   - Scalability is the ability of application to deal with an increasing number of users concurrently. Consequently, a scalable web application is one that performs equally well with one or a thousand users and stands ups and downs of the traffic
   - Application framework plays an important role in application performance. Components of application like front end & Back End needs to be designed corrrectly.
