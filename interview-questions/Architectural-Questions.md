@@ -104,6 +104,12 @@
 #### **How to design low latency and scalable applications ?**
   - Scalability is the ability of application to deal with an increasing number of users concurrently. Consequently, a scalable web application is one that performs equally well with one or a thousand users and stands ups and downs of the traffic
   - Application framework plays an important role in application performance. Components of application like front end & Back End needs to be designed corrrectly.
+  - Things to consilder for low latency when you have microservices -
+    - **Individual Service Design Excellence** : Each microservice should adhere to the Single Responsibility Principle, exposing a clear and concise API to minimize inter-service dependencies and reduce latency. By following Domain-Driven Design (DDD), need to aligned services with core business domains, ensuring efficient communication, streamlined data flow, and maintainable boundaries between components
+    - **Efficient Communication Protocols** : Selecting the right communication protocol directly affects microservice performance. Binary protocols like gRPC or Protocol Buffers outperform text-based options by reducing payload size and serialization overhead, boosting speed and efficiency while saving bandwidth
+    - **Strategic Caching & Replication** : Reduce latency by implementing layered caching and data replication. Storing frequently accessed data at multiple layers of microservices, minimizes redundant calls, improving response times and reducing backend load. Balance caching carefully to avoid stale data and excessive memory usage.
+    - **Asynchronous Communication Paradigms** : Use async patterns like message queues and event-driven architectures to reduce latency. Decoupled services communicate without blocking, improving responsiveness and fault tolerance. This prevents cascading failures during peak loads or outages
+
   - Load Balancers for different nodes
   - Load testinig helps to locate and overcome weak areas of your application and guarantees the seamless performance
   - Infrastucture can help -
