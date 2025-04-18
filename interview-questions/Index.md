@@ -4,7 +4,7 @@
 #### Architectural Questions
  - [**Explain SOLID principle ?**](Architectural-Questions.md#explain-solid-principle-)
  - [**Explain TDD Approach ?**](Architectural-Questions.md#explain-tdd-approach-)
- - [**Explain Design Patterns ?**](Architectural-Questions.md#explain-design-patterns-)
+ - [**Explain Design Patterns ?**](Architectural-Questions.md#explain-design-pattern-)
  - [**How to design low latency & scalable applications ?**](Architectural-Questions.md#how-to-design-low-latency-and-scalable-applications-)
  - [**Explain 12 factor app principles ?**](Architectural-Questions.md#explian-12-factor-app-principles-)
  - [**How sessions are handled in web applications ?**](Architectural-Questions.md#how-sessions-are-handled-in-web-applications-)
