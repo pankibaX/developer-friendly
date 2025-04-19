@@ -1,7 +1,7 @@
 
-### Microservices
-
-#### Talk about Monolithic Application / Architecture?
+### Microservices Questions 
+---
+#### **Talk about Monolithic Application / Architecture ?**
 
 A **monolithic architecture** is a traditional software design pattern where an application is built as a **single, tightly coupled unit**. In a monolithic application, all components — including the user interface, business logic, and database interactions — are integrated within the same codebase and deployed together.
 
@@ -44,7 +44,9 @@ A **monolithic architecture** is a traditional software design pattern where an 
     - Database Bottlenecks: Single RDBMS struggles with diverse query patterns.
 
 
-#### **What are the advantages of Microservices Architecture ?**
+#### **Explain Microservices and its advantages / disadvantages ?**
+
+Microservices is an architectural style where an application is built as a collection of small, independent services that communicate over lightweight protocols like HTTP or messaging queues. Each service focuses on a specific business capability, ensuring loose coupling and high cohesion
 
 Microservices architecture offers several advantages, primarily -   
 
@@ -62,8 +64,6 @@ Microservices architecture offers several advantages, primarily -
       - Microservices provide the flexibility to try out a new technology stack on an individual service as needed
   - **Ease to understand and maintain**
       - Smaller codebase enables teams to more easily understand the code, making it simpler to maintain
-
-#### **What are the disadvantages/challenges of Microservices Architecture ?**
 
 - **Disadvantages**
   - **Communication between services is complex**
@@ -106,8 +106,7 @@ Microservices architecture offers several advantages, primarily -
   - **Analyze the architecture:** Identify modules, business logic boundaries, and dependencies.
   - **Identify pain points:** Scalability issues, tightly coupled components, long deployment cycles.
 
-- **Define Service Boundaries (Domain-Driven Design)
-Apply Domain-Driven Design (DDD) principles**
+- **Apply Domain-Driven Design (DDD) principles**
   - Split into Bounded Contexts (e.g., User, Orders, Inventory).
   - Identify aggregate roots, entities, and value objects.
 
