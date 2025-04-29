@@ -54,7 +54,7 @@ Design patterns are reusable solutions to common problems in software design, of
     - Lets subclasses decide which class to instantiate
     - Promotes loose coupling
     - Example: `Calendar.getInstance()`
-    - Refer [Factory Pattern](/creational-patterns/src/main/java/com/pankiba/designpatterns/creational/factory/)
+    - Refer [Factory Pattern](/developer-friendly/interview-questions/creational-patterns/src/main/java/com/pankiba/designpatterns/creational/factory/)
   - **Abstract Factory**
     - Creates families of related objects
       - Higher level than Factory Method
