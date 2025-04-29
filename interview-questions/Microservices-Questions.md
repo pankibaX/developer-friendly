@@ -46,9 +46,7 @@ A **monolithic architecture** is a traditional software design pattern where an 
 
 #### **Explain Microservices and its advantages / disadvantages ?**
 
-Microservices is an architectural style where an application is built as a collection of small, independent services that communicate over lightweight protocols like HTTP or messaging queues. Each service focuses on a specific business capability, ensuring loose coupling and high cohesion
-
-Microservices architecture offers several advantages, primarily -   
+Microservices is an architectural style where an application is built as a collection of small, independent services that communicate over lightweight protocols like HTTP or messaging queues. Each service focuses on a **specific business capabilit**y, ensuring **loose coupling and high cohesion**
 
 - **Advantages**
   - **Independent developement**
@@ -99,7 +97,6 @@ Microservices architecture offers several advantages, primarily -
   - If you don't want to send the username and password in each request, the username and password could be exchanged for a token (such as JWT) that is sent in each request. JWT can contain the username, an expiration date and any other metadata that may be relevant for your application: ***Authorization: Bearer \<token>***
 
 
-
 #### **How to modernize application ?**
 
 - **Understand the Existing Monolith**
@@ -143,12 +140,30 @@ Microservices architecture offers several advantages, primarily -
   - Independent build pipelines per service.
   - Containerization (Docker), orchestration (Kubernetes).
 
-#### **What is DDD and how its applied with microservice ?**
-- Domain-driven design (DDD) is a key & necessary tool when designing microservices, be it breaking a monolith or implementing a greenfield project
-- Domain-driven design (DDD) requires a good understanding of the domain for which the application is written
-- Steps to apply DDD, as follows - 
-  - Identify a ubiquitous language - a common vocabulary that is shared between all stakeholders. As a developer, it's important to use terms in your code that a non-technical person can understand. What your code is trying to achieve should be a reflection of your company processes.
-  - Enhance Domain model
+#### **What is DDD and how its applied with microservices ?**
+
+Domain-driven design (DDD) is a key & necessary tool when designing microservices, be it breaking a monolith or implementing a greenfield project. Domain-driven design (DDD) requires a good understanding of the domain for which the application is written
+
+- **Domain Analysis**:  
+   Collaborate with domain experts to understand the application's functional requirements and identify core business processes.  
+
+- **Define Bounded Contexts**:  
+   Divide the domain into smaller, distinct areas, each with its own unique vocabulary and model, called **Bounded Contexts**.  
+
+- **Context Mapping**:  
+   Visualize the relationships between Bounded Contexts and how they interact.  
+
+- **Tactical DDD**:  
+   Within each Bounded Context, model entities, aggregates, and domain services, applying tactical DDD patterns.  
+
+- **Microservice Design**:  
+   Identify microservices by aligning them with Bounded Contexts, ensuring each service is self-contained and loosely coupled.  
+
+- **Layered Architecture**:  
+   Organize each microservice into layers (*presentation, application, domain, infrastructure*) to improve maintainability and testability.  
+
+- **Iterative Refinement**:  
+   Continuously refine the domain model and microservices based on feedback and evolving business needs.  
 
 #### **How to design scalable microservices ?**
 

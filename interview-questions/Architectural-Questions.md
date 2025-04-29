@@ -2,103 +2,109 @@
 ### Architectural Questions
 
 #### **Explain SOLID principle ?**
-  - SOLID is a set of 5 design principles which encourage us to create more maintainable, understandable, and flexible object oriented software
-  - **S**ingle Responsibility
-    - **A class should have only one reason to change,** means that each class only does one thing and every class or module only has responsibility for one part of the software’s functionality
-  - **O**pen for extensions, close for modifications
-    - **Open for extension,** meaning that the class’s behavior can be extended and **Closed for modification,** meaning that the source code is set and cannot be changed.
-  - **L**iskov Substitution principle
-    - Every derived class should be substitutable for its parent class
-    - In a lot of ways it’s simply an extension of open-closed principle, as it’s a way of ensuring that derived classes extend the base class without changing behavior
-    - Respecting this principle brings more stability over time to your complex systems with a hard focus on **retro-compatibility**
-    - Objects of a superclass shall be replaceable with objects of its subclasses without breaking the application. That requires the objects of your subclasses to behave in the same way as the objects of your superclass. Its done by ***design by contract concept***
-  - **I**nterface Segregation
-    - Clients should not be forced to depend upon interfaces that they don't use
-    - Fine grained interfaces shoulde be designed that are client-specific and they should not be forced to implement interfaces they do not use.
-    - Should have client specific interfaces and avoid general purpose fat interface
-  - **D**ependency Inversion
-    - High-level modules should not depend on low-level modules. Both should depend on abstractions. Depend on abstractions, not on concretions
-    - ***High Level Classes --> Abstraction Layer --> Low Level Classes***
+SOLID is a set of 5 design principles which encourage us to create more maintainable, understandable, and flexible object oriented software
+- **S**ingle Responsibility
+  - **A class should have only one reason to change,** means that each class only does one thing and every class or module only has responsibility for one part of the software’s functionality
+- **O**pen for extensions, close for modifications
+  - **Open for extension,** meaning that the class’s behavior can be extended and **Closed for modification,** meaning that the source code is set and cannot be changed.
+- **L**iskov Substitution principle
+  - Every derived class should be substitutable for its parent class
+  - In a lot of ways it’s simply an extension of open-closed principle, as it’s a way of ensuring that derived classes extend the base class without changing behavior
+  - Respecting this principle brings more stability over time to your complex systems with a hard focus on **retro-compatibility**
+  - Objects of a superclass shall be replaceable with objects of its subclasses without breaking the application. That requires the objects of your subclasses to behave in the same way as the objects of your superclass. Its done by ***design by contract concept***
+- **I**nterface Segregation
+  - Clients should not be forced to depend upon interfaces that they don't use
+  - Fine grained interfaces shoulde be designed that are client-specific and they should not be forced to implement interfaces they do not use.
+  - Should have client specific interfaces and avoid general purpose fat interface
+- **D**ependency Inversion    
+  - High-level modules should not depend on low-level modules. Both should depend on abstractions. Depend on abstractions, not on concretions
+  - ***High Level Classes --> Abstraction Layer --> Low Level Classes***
 
 #### **Explain TDD approach ?**
-  - Test driven development (TDD) is a software development approach in which a test is written before writing the code.It is a technique where test code is written before production code. It is a technique that is used for designing as well as testing software.
-  - **Stages**
-    - Red Stage
+
+Test driven development (TDD) is a software development approach in which a test is written before writing the code.It is a technique where test code is written before production code. It is a technique that is used for designing as well as testing software.
+- **Stages**
+  - Red Stage
       - Writing a test that fails because of code absence
-    - Green Stage
+  - Green Stage
       - Writing a code after which the test is passed 
-    - Refactor Stage
+  - Refactor Stage
       - Checking the code structure and its improvement without changing its external behavior. The expected result of refactoring is obtaining a perfectly written code   
-  - **Advantages**
-    - Better program design and higher code quality
-    - TDD keeps the code clear and simple and improves the quality of code
-    - It Ensures that the written code is covered by at least one test casted
-    - TDD reduces the debugging time and Eliminates duplication of code.
-    - TDD helps in complete understanding of requirements and provides the ability to modify the application with the changing business requirements. Detailed project documentation
-    - Code flexibility and easier maintenance
-    - TDD reduces the time required for project development
-  - **Disadvantages**
-    - DB & external files are not tested
-    - Difficult to test GUI based applications
-    - Need additional time to write/maintain test classes
+- **Advantages**
+  - Better program design and higher code quality
+  - TDD keeps the code clear and simple and improves the quality of code
+  - It Ensures that the written code is covered by at least one test casted
+  - TDD reduces the debugging time and Eliminates duplication of code.
+  - TDD helps in complete understanding of requirements and provides the ability to modify the application with the changing business requirements. Detailed project documentation
+  - Code flexibility and easier maintenance
+  - TDD reduces the time required for project development
+- **Disadvantages**
+  - DB & external files are not tested
+  - Difficult to test GUI based applications
+  - Need additional time to write/maintain test classes
 
 #### **Explain Design Pattern ?**
-  - **Creational Patterns**
-    -  Deals with object creation mechanisms. 
-        - **Factory Method**
-            - Defines interface for creating objects
-            - Lets subclasses decide which class to instantiate
-            - Promotes loose coupling
-            - Example: `Calendar.getInstance()`
-        - **Abstract Factory**
-            - Creates families of related objects
-            - Higher level than Factory Method
-            - Useful when system needs multiple product families
-        - **Singleton**
-            - Ensures only one instance of a class exists
-            - Provides global access point to the instance
-            - Common uses: Logger, Configuration, Database connections
-            - Implementation types: Eager, Lazy, Thread-safe, Double-checked locking
-        - **Builder**
-            - Separates complex object construction from representation
-            - Allows step-by-step construction
-            - Example: `StringBuilder`
-        - **Prototype**
-            - Creates new objects by cloning prototypes
-            - Avoids costly creation process
-            - Requires implementing `Cloneable` interface
-  - **Structural Patterns**
-    - Deals with class & object composition 
-        - **Adapter** 
-            - Bridges incompatible interfaces
-            - Wraps an existing class
-            - Example: `Arrays.asList()`
-        - **Decorator**
-            - Adds responsibilities dynamically
-            - Alternative to subclassing
-            - Example: `Java I/O streams`
-        - **Proxy**
-            - Controls access to another object
-            - Types: Virtual, Remote, Protection, Smart reference
-            - Example: `java.lang.reflect.Proxy`
-        - **Facade**
-            - Provides simplified interface to complex subsystem
-            - Reduces subsystem dependencies
-            - Typical in library design
-  - **Behavioural Patterns**
-    - Deal with object interaction and responsibility distribution
-        - **Observer**
-            - One-to-many dependency between objects
-            - Publisher-Subscriber pattern
-            - Example: Event listeners in Swing
-        - **Strategy**
-            - Defines family of algorithms
-            - Makes them interchangeable
-            - Example: `Comparator` interface
-        - **Template Method**
-            - Defines algorithm skeleton
-            - Lets subclasses redefine certain steps
-            - Example: `HttpServlet` or `JDBCTemplate` class
+
+Design patterns are reusable solutions to common problems in software design, offering proven approaches for structuring code and solving recurring issues. They are blueprints for creating flexible, maintainable, and scalable applications.
+
+- **Creational Patterns**
+  These patterns deal with object creation mechanisms, trying to create objects in a manner suitable for the situation 
+  - **Factory Method**
+    - Defines interface for creating objects
+    - Lets subclasses decide which class to instantiate
+    - Promotes loose coupling
+    - Example: `Calendar.getInstance()`
+  - **Abstract Factory**
+    - Creates families of related objects
+      - Higher level than Factory Method
+      - Useful when system needs multiple product families
+  - **Singleton**
+      - Ensures only one instance of a class exists
+      - Provides global access point to the instance
+      - Common uses: Logger, Configuration, Database connections
+      - Implementation types: Eager, Lazy, Thread-safe, Double-checked locking
+      - [Refer](creational-patterns/src/main/java/com/pankiba/designpatterns/creational/singleton)
+  - **Builder**
+      - Separates complex object construction from representation
+      - Allows step-by-step construction
+      - Example: `StringBuilder`
+  - **Prototype**
+      - Creates new objects by cloning prototypes
+      - Avoids costly creation process
+      - Requires implementing `Cloneable` interface
+
+- **Structural Patterns**
+  These patterns focus on object & class composition and provide relationships between objects to form larger structures
+  - **Adapter** 
+      - Bridges incompatible interfaces
+      - Wraps an existing class
+      - Example: `Arrays.asList()`
+  - **Decorator**
+      - Adds responsibilities dynamically
+      - Alternative to subclassing
+      - Example: `Java I/O streams`
+  - **Proxy**
+      - Controls access to another object
+      - Types: Virtual, Remote, Protection, Smart reference
+      - Example: `java.lang.reflect.Proxy`
+  - **Facade**
+      - Provides simplified interface to complex subsystem
+      - Reduces subsystem dependencies
+      - Typical in library design
+- **Behavioural Patterns**
+  These patterns deals with object collaboration, focusing on how objects interact and communicate with one another.
+  - **Observer**
+      - One-to-many dependency between objects
+      - Publisher-Subscriber pattern
+      - Example: Event listeners in Swing
+  - **Strategy**
+      - Defines family of algorithms
+      - Makes them interchangeable
+      - Example: `Comparator` interface
+  - **Template Method**
+      - Defines algorithm skeleton
+      - Lets subclasses redefine certain steps
+      - Example: `HttpServlet` or `JDBCTemplate` class
 
 
 #### **How to design low latency and scalable applications ?**
