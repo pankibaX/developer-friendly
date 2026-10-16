@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Interview Suite | Candidate Assessment Hub</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link active"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>Candidate Interview Assessment & Overview</h1>
+            <p>Master scorecard, live evaluation tracking across all domains, and one-click candidate report generator.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- MASTER INTERVIEW EVALUATION DASHBOARD -->
+            <div class="master-summary-box">
+                <div class="master-summary-header">
+                    <div>
+                        <h2 style="font-size: 18px; font-weight: 700; color: #0f172a;">📊 Live Candidate Evaluation Scorecard</h2>
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">
+                            Evaluations and assessed concepts automatically aggregate here in real-time as you conduct the interview.
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="btn-primary" onclick="openMasterSummaryModal()">📋 Generate Master Summary</button>
+                        <button class="btn-outline" onclick="resetAllInterviewData()">🔄 Reset All Evaluations</button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Grid -->
+                <div class="master-stats-grid">
+                    <div class="master-stat-card">
+                        <div class="label">Total Questions Rated</div>
+                        <div class="value" id="masterTotalEvaluated">0 Questions Rated</div>
+                    </div>
+                    <div class="master-stat-card">
+                        <div class="label">Overall Calculated Proficiency</div>
+                        <div style="margin-top: 6px;">
+                            <span class="verdict-badge none" id="masterOverallVerdict">Not Rated Yet</span>
+                            <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">Auto-calculated from 1–4 question ratings across all topics</div>
+                        </div>
+                    </div>
+                    <div class="master-stat-card">
+                        <div class="label">Calculated Recommendation</div>
+                        <div style="margin-top: 6px;">
+                            <span class="verdict-badge none" id="masterCalculatedRecommendation">Awaiting Ratings</span>
+                            <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;" id="masterRecommendationSub">Rate questions across domains to generate recommendation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Breakdown Table -->
+                <h3 style="font-size: 14px; font-weight: 700; color: #0f172a; margin-top: 14px; margin-bottom: 8px;">
+                    Domain Proficiency — calculated from 1–4 answer quality ratings:
+                </h3>
+                <table class="section-summary-table">
+                    <thead>
+                        <tr>
+                            <th>Domain / Skill</th>
+                            <th>Questions Rated</th>
+                            <th>Avg Score / 4</th>
+                            <th>Calculated Proficiency</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="masterSummaryTableBody">
+                        <!-- Populated dynamically by interview-tracker.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>Interview Workflow</h3>
+                    <p>
+                        <strong>1. Open a Topic:</strong> Click a section below (Java, Spring, etc.).<br>
+                        <strong>2. Code Challenge:</strong> Click <em>"💻 View Code Snippet"</em> → share with candidate → observe response.<br>
+                        <strong>3. Rate 1–4:</strong> On each question card, tap <strong>1 = Cannot Explain · 2 = Partial · 3 = Good · 4 = Expert</strong>. Rate 3–5 questions per domain for a meaningful result.<br>
+                        <strong>4. Calculated Decision:</strong> The system automatically computes domain proficiencies and suggests a <strong>HIRE</strong> or <strong>REJECT</strong> recommendation.<br>
+                        <strong>5. Export Report:</strong> Click <strong>"📋 Generate Master Summary"</strong> to produce a clean, non-numerical executive evaluation report ready for HR and management.
+                    </p>
+                </div>
+            </div>
+
+            <h2 style="font-size: 20px; margin-bottom: 8px;">Interview Topic Tracks</h2>
+            <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">
+                Direct links to all domain interview pages.
+            </p>
+
+            <!-- Topic Cards Grid -->
+            <div class="hub-grid">
+                <!-- Java Card -->
+                <a href="java.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: var(--primary-blue-light); color: var(--primary-blue);">☕</div>
+                        <h3 class="hub-card-title">Java & JVM Internals</h3>
+                        <p class="hub-card-desc">
+                            JVM GC triage (G1/ZGC), JVM post-8 architecture (Metaspace, cgroups, Compact Strings), HashMap treeification, Generics PECS, Tricky Streams, Records, and Virtual Threads.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- Spring & Boot Card -->
+                <a href="spring-spring-boot.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: var(--accent-green-bg); color: var(--accent-green);">🌱</div>
+                        <h3 class="hub-card-title">Spring & Spring Boot</h3>
+                        <p class="hub-card-desc">
+                            AOP proxies, @Transactional boundaries, circular dependencies, auto-configuration, GraalVM AOT, thread pools, Netty WebFlux, and Kubernetes lifecycle.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- ORM, Hibernate & JPA Card -->
+                <a href="orm-hibernate-jpa.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: var(--accent-amber-bg); color: var(--accent-amber);">🗄️</div>
+                        <h3 class="hub-card-title">ORM, Hibernate & JPA</h3>
+                        <p class="hub-card-desc">
+                            N+1 query problem, 1st & 2nd level caching, transaction isolation traps, entity graph optimization, and optimistic vs pessimistic locking.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- REST API & Microservices Card -->
+                <a href="rest-api-microservices.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #eff6ff; color: #2563eb;">🌐</div>
+                        <h3 class="hub-card-title">REST API & Microservices</h3>
+                        <p class="hub-card-desc">
+                            Idempotency keys, Saga pattern vs 2PC, Circuit breaker / Resilience4j, distributed tracing, and transactional outbox pattern.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- AWS Deployment Card -->
+                <a href="aws-deployment.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: var(--accent-rose-bg); color: var(--accent-rose);">☁️</div>
+                        <h3 class="hub-card-title">AWS Lambda & EC2 Deployment</h3>
+                        <p class="hub-card-desc">
+                            Lambda cold starts, SnapStart, connection pooling in serverless, EC2 auto-scaling, ALB zero-downtime rolling deployments, and IAM least-privilege.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- Angular Card -->
+                <a href="angular.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #fff1f2; color: #e11d48;">🅰️</div>
+                        <h3 class="hub-card-title">Angular (Modern v16-v18)</h3>
+                        <p class="hub-card-desc">
+                            Change detection (Default vs OnPush), Signals vs RxJS leaks, standalone components, dependency injection hierarchy, and route guards.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- Architecture & Design Card -->
+                <a href="architecture-design.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #faf5ff; color: #9333ea;">📐</div>
+                        <h3 class="hub-card-title">Architecture & System Design</h3>
+                        <p class="hub-card-desc">
+                            High-concurrency payment gateway, event-driven ordering, multi-level caching tiers, disaster recovery, and CAP theorem trade-offs.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 5-Level Proficiency Rubric Guide -->
+            <div style="margin-top: 40px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 24px;">
+                <h3 style="font-size: 17px; margin-bottom: 14px; color: var(--text-primary);">🎯 Candidate Proficiency Scale</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                    <div style="background-color: #fee2e2; border: 1px solid #fecdd3; padding: 12px; border-radius: 6px;">
+                        <h4 style="color: #991b1b; font-size: 13px; margin-bottom: 4px;">No Proficiency</h4>
+                        <p style="font-size: 12px; color: #7f1d1d;">Unable to identify issues or suggested invalid/breaking changes.</p>
+                    </div>
+                    <div style="background-color: #ffedd5; border: 1px solid #fed7aa; padding: 12px; border-radius: 6px;">
+                        <h4 style="color: #9a3412; font-size: 13px; margin-bottom: 4px;">Beginner</h4>
+                        <p style="font-size: 12px; color: #7c2d12;">Surface-level syntax familiarity; required heavy guidance to spot failure modes.</p>
+                    </div>
+                    <div style="background-color: #fef3c7; border: 1px solid #fde68a; padding: 12px; border-radius: 6px;">
+                        <h4 style="color: #92400e; font-size: 13px; margin-bottom: 4px;">Intermediate</h4>
+                        <p style="font-size: 12px; color: #78350f;">Solves standard problems; needs occasional hints on edge cases or concurrency.</p>
+                    </div>
+                    <div style="background-color: #eff6ff; border: 1px solid #93c5fd; padding: 12px; border-radius: 6px;">
+                        <h4 style="color: #1e40af; font-size: 13px; margin-bottom: 4px;">Advanced</h4>
+                        <p style="font-size: 12px; color: #1e3a8a;">Accurate root-cause diagnosis, writes clean idiomatic fix, understands practical trade-offs.</p>
+                    </div>
+                    <div style="background-color: #dcfce7; border: 1px solid #86efac; padding: 12px; border-radius: 6px;">
+                        <h4 style="color: #166534; font-size: 13px; margin-bottom: 4px;">Expert</h4>
+                        <p style="font-size: 12px; color: #14532d;">Complete systems-level mastery: articulates JVM internals, memory barriers, and architectural trade-offs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Master Summary Modal Popup -->
+    <div class="modal-overlay" id="masterSummaryModal">
+        <div class="modal-card" style="max-width: 750px;">
+            <div class="modal-header">
+                <h3>📋 Comprehensive Candidate Assessment Report</h3>
+                <button class="btn-outline" onclick="closeMasterSummaryModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                    Copy this clean, bulleted assessment directly into your recruiting portal (Workday, Greenhouse, Lever, email, etc.):
+                </p>
+                <textarea id="masterSummaryTextarea" style="width: 100%; height: 320px; font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 14px; border: 1px solid var(--border-color); border-radius: 6px; background-color: #f8fafc; resize: vertical; line-height: 1.5;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeMasterSummaryModal()">Close</button>
+                <button class="btn-primary" id="copyMasterSummaryBtn" onclick="copyMasterSummaryToClipboard()">📋 Copy Report to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracker Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initIndexPage();
+        });
+    </script>
+</body>
+</html>

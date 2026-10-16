@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java & JVM Interview Suite | Code Debugging & Depth Assessment</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link active"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>☕ Java Core, JVM & Modern Features (Java 8 - 21+)</h1>
+            <p>20 Practical debugging questions covering Collections, Generics, Streams, GC, JVM post-8 architecture, HashMap treeification, Records, and Concurrency.</p>
+        </header>
+
+        <div class="content-container">
+
+                        <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>☕ Skill: Core Java & JVM</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('java')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                                        <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search topics (e.g. garbage collection, post java 8, hashmap treeify, streams, generics, records, volatile)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+
+                <!-- QUESTION 1: equals & hashCode with Employee and HashSet -->
+                <div class="question-card" id="q-1" data-keywords="equals hashcode hashset collections employee duplicates">
+                    <div class="card-header">
+                        <span class="concept-badge">Collections & Core Java</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The <code>equals()</code> and <code>hashCode()</code> contract in Java: How <code>HashSet</code> detects duplicates internally, and what happens when only one method is overridden.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the <code>Employee</code> class and the <code>main</code> method in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> What will <code>employees.size()</code> print? Explain why.
+                                <br>
+                                <strong>Part B:</strong> How do you fix the code so the <code>HashSet</code> correctly removes duplicates based on <code>id</code> and <code>name</code>?
+                                <br>
+                                <strong>Part C (Deep Probe):</strong>
+                                <ul style="margin-left: 20px; margin-top: 6px;">
+                                    <li>What happens if you override <strong>ONLY <code>equals()</code></strong>, but not <code>hashCode()</code>? Will duplicate elimination work?</li>
+                                    <li>What happens if you override <strong>ONLY <code>hashCode()</code></strong>, but not <code>equals()</code>? Will duplicate elimination work?</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'EmployeeSetTest.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">public class Employee {
+    private int id;
+    private String name;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Set&lt;Employee&gt; employees = new HashSet&lt;&gt;();
+
+        Employee e1 = new Employee(101, "Alice");
+        Employee e2 = new Employee(102, "Bob");
+        Employee e3 = new Employee(101, "Alice");
+        Employee e4 = new Employee(102, "Bob");
+        Employee e5 = new Employee(103, "Charlie");
+
+        employees.add(e1);
+        employees.add(e2);
+        employees.add(e3);
+        employees.add(e4);
+        employees.add(e5);
+
+        System.out.println("Set size: " + employees.size());
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 1, 1, 'equals() and hashCode() contract, bucket hashing, and HashSet duplicate detection')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 1, 2, 'equals() and hashCode() contract, bucket hashing, and HashSet duplicate detection')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 1, 3, 'equals() and hashCode() contract, bucket hashing, and HashSet duplicate detection')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 1, 4, 'equals() and hashCode() contract, bucket hashing, and HashSet duplicate detection')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Answer to Part A:</strong> Prints <code>Set size: 5</code> (NOT 3). Default <code>Object.hashCode()</code> uses memory address, and <code>Object.equals()</code> checks reference equality (<code>==</code>).
+                            </p>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Answer to Part B:</strong> Override both <code>equals()</code> and <code>hashCode()</code> using the business identity attributes (<code>id</code> and <code>name</code>). Both methods must be kept consistent with each other so equal objects compute identical hash buckets (see code fix below).
+                            </p>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Answer to Part C (Deep Probe):</strong>
+                                <br>1. <strong>Only <code>equals()</code> overridden:</strong> Size is still <strong>5</strong>. Without <code>hashCode()</code> overridden, objects get placed into completely different hash buckets based on system memory address. <code>HashSet</code> never even calls <code>equals()</code> across different buckets!
+                                <br>2. <strong>Only <code>hashCode()</code> overridden:</strong> Size is still <strong>5</strong>. Identical employees land in the same bucket (collision), but default <code>Object.equals()</code> checks reference equality (<code>e1 == e3</code>). Because they are different objects in heap, <code>equals()</code> returns false and both stay in the bucket.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Correct Fix</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Employee employee = (Employee) o;
+    return id == employee.id && Objects.equals(name, employee.name);
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(id, name);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Guesses 3 because "HashSet removes duplicates", or doesn't know why overriding only one method fails.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains bucket hashing, collision resolution, walks through both partial-override failure scenarios, and suggests Java 16+ <code>record Employee(int id, String name) {}</code>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2: Generics & PECS -->
+                <div class="question-card" id="q-2" data-keywords="generics pecs wildcard extends super invariance">
+                    <div class="card-header">
+                        <span class="concept-badge">Generics & Type Safety</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Invariance of Java Generics and the <strong>PECS Principle (Producer Extends, Consumer Super)</strong> for wildcard method signatures.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer wrote two generic helper methods in the code snippet. When compiled, the compiler rejects lines inside both methods.
+                                <br><br>
+                                <strong>Part A:</strong> Why does <code>list.add(10)</code> fail to compile even though <code>10</code> is an <code>Integer</code> and a subtype of <code>Number</code>?
+                                <br>
+                                <strong>Part B:</strong> Why does <code>copyList(integers, numbers)</code> fail to compile in <code>main</code>, and how do you rewrite the method signature using PECS?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'GenericsTrap.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">public class GenericsTrap {
+
+    public static void addNumber(List&lt;? extends Number&gt; list) {
+        list.add(10); 
+    }
+
+    public static &lt;T&gt; void copyList(List&lt;T&gt; src, List&lt;T&gt; dest) {
+        for (T item : src) {
+            dest.add(item);
+        }
+    }
+
+    public static void main(String[] args) {
+        List&lt;Integer&gt; integers = List.of(1, 2, 3);
+        List&lt;Number&gt; numbers = new ArrayList&lt;&gt;();
+
+        copyList(integers, numbers); 
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 2, 1, 'Generics invariance and the PECS Principle (Producer Extends, Consumer Super)')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 2, 2, 'Generics invariance and the PECS Principle (Producer Extends, Consumer Super)')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 2, 3, 'Generics invariance and the PECS Principle (Producer Extends, Consumer Super)')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 2, 4, 'Generics invariance and the PECS Principle (Producer Extends, Consumer Super)')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Why addNumber fails:</strong> <code>List&lt;? extends Number&gt;</code> represents a list of <em>unknown subtype</em> of <code>Number</code>. If allowed, you could insert an Integer into a List&lt;Double&gt;. Therefore, <code>? extends</code> lists are read-only producers.
+                                <br><br>
+                                <strong>Why copyList fails:</strong> Java Generics are <strong>invariant</strong>. <code>List&lt;Integer&gt;</code> is NOT a subtype of <code>List&lt;Number&gt;</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Apply PECS</span><span class="code-lang">Java</span></div>
+                                <pre><code>public static &lt;T&gt; void copyList(List&lt;? extends T&gt; src, List&lt;? super T&gt; dest) {
+    for (T item : src) {
+        dest.add(item);
+    }
+}
+
+// Now this compiles cleanly!
+copyList(integers, numbers);</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Use raw types or cast with (List&lt;Number&gt;)."
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates PECS instantly, references <code>Collections.copy()</code>, and explains wildcard capture.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3: Tricky Streams - Re-use & Laziness -->
+                <div class="question-card" id="q-3" data-keywords="streams peek terminal operation reuse illegalstateexception">
+                    <div class="card-header">
+                        <span class="concept-badge">Tricky Streams & Pipeline Lifecycle</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Stream lifecycle: Stream re-use exception (<code>IllegalStateException</code>) and Stream laziness (why intermediate operations like <code>peek()</code> never execute without a terminal operation).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the two methods in the code snippet:
+                                <br><br>
+                                <strong>Snippet A:</strong> What will be printed to the console when <code>snippetA()</code> is called?
+                                <br>
+                                <strong>Snippet B:</strong> What happens when <code>snippetB()</code> executes? How do you fix it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'StreamTricks.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">public class StreamTricks {
+
+    public static void snippetA() {
+        Stream.of("apple", "banana", "cherry")
+              .filter(s -> s.length() > 5)
+              .peek(s -> System.out.println("Processing: " + s));
+        
+        System.out.println("Snippet A Finished");
+    }
+
+    public static void snippetB() {
+        Stream&lt;String&gt; stream = Stream.of("red", "green", "blue")
+                                      .filter(c -> c.startsWith("g"));
+
+        long total = stream.count();
+        System.out.println("Total: " + total);
+
+        List&lt;String&gt; items = stream.collect(Collectors.toList());
+        System.out.println("Items: " + items);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 3, 1, 'Stream lifecycle: IllegalStateException on stream re-use and laziness without terminal ops')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 3, 2, 'Stream lifecycle: IllegalStateException on stream re-use and laziness without terminal ops')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 3, 3, 'Stream lifecycle: IllegalStateException on stream re-use and laziness without terminal ops')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 3, 4, 'Stream lifecycle: IllegalStateException on stream re-use and laziness without terminal ops')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Snippet A:</strong> Only prints <code>"Snippet A Finished"</code> because intermediate operations without terminal operations are lazy and never evaluate.
+                                <br><br>
+                                <strong>Snippet B:</strong> Throws <code>IllegalStateException: stream has already been operated upon or closed</code>. Streams can only be traversed once.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Collect into a collection first</span><span class="code-lang">Java</span></div>
+                                <pre><code>List&lt;String&gt; items = Stream.of("red", "green", "blue")
+                           .filter(c -> c.startsWith("g"))
+                           .toList();
+
+int total = items.size();
+System.out.println("Total: " + total + ", Items: " + items);</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes peek() executes immediately, or doesn't know streams cannot be re-used.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains pull-based stream evaluation and warns against side-effects in peek().
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 4: Tricky Streams - Infinite Stream Order Trap -->
+                <div class="question-card" id="q-4" data-keywords="streams infinite stream sorted limit hang cpu deadloop">
+                    <div class="card-header">
+                        <span class="concept-badge">Tricky Streams & Performance</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Intermediate stream operation ordering: Stateful operations (<code>sorted()</code>) vs Short-circuiting operations (<code>limit()</code>) on infinite streams.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer wanted to generate 5 random numbers and sort them. In production, this method freezes at 100% CPU and never returns. Why does it hang forever, and how do you fix it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'InfiniteStreamHang.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">public class RandomNumberService {
+
+    public List&lt;Integer&gt; getFiveSmallestRandoms() {
+        Random random = new Random();
+
+        return Stream.generate(() -> random.nextInt(100))
+                     .sorted()
+                     .limit(5)
+                     .toList();
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 4, 1, 'Stream operation ordering: Stateful sorted() vs short-circuiting on infinite streams')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 4, 2, 'Stream operation ordering: Stateful sorted() vs short-circuiting on infinite streams')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 4, 3, 'Stream operation ordering: Stateful sorted() vs short-circuiting on infinite streams')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 4, 4, 'Stream operation ordering: Stateful sorted() vs short-circuiting on infinite streams')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> <code>Stream.generate()</code> is infinite. <code>sorted()</code> is a <strong>stateful</strong> operation that must collect all elements before sorting. It loops forever trying to sort infinity.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Place limit() BEFORE sorted()</span><span class="code-lang">Java</span></div>
+                                <pre><code>return Stream.generate(() -> random.nextInt(100))
+             .limit(5)      // Short-circuit first!
+             .sorted()     // Sorts only 5 elements
+             .toList();</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Random is blocking" or "Use parallelStream()".
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies stateful intermediate operations and bounds infinite streams with <code>limit()</code> first.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 5: Java Records & Immutability Trap -->
+                <div class="question-card" id="q-5" data-keywords="records java 16 immutability compact constructor defensive copy">
+                    <div class="card-header">
+                        <span class="concept-badge">Modern Java (Java 16+) & Records</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Java <strong>Records</strong> shallow vs deep immutability, compact constructors, and preventing external state mutation with defensive copying.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer wrote the <code>UserAccount</code> record below expecting it to be immutable. In production, roles are modified after creation.
+                                <br><br>
+                                <strong>Part A:</strong> How is external code able to mutate the record in <code>demoMutation()</code>?
+                                <br>
+                                <strong>Part B:</strong> How do you fix the record using a <strong>compact constructor</strong> and defensive copying?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'UserSecurityRecord.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">public record UserAccount(String username, List&lt;String&gt; roles) {
+}
+
+public class SecurityService {
+    public void demoMutation() {
+        List&lt;String&gt; initialRoles = new ArrayList&lt;&gt;();
+        initialRoles.add("READ_ONLY");
+
+        UserAccount account = new UserAccount("john_doe", initialRoles);
+
+        initialRoles.add("SUPER_ADMIN"); 
+        account.roles().clear(); 
+
+        System.out.println("Roles: " + account.roles());
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 5, 1, 'Java Records shallow vs deep immutability, compact constructors, and defensive copying')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 5, 2, 'Java Records shallow vs deep immutability, compact constructors, and defensive copying')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 5, 3, 'Java Records shallow vs deep immutability, compact constructors, and defensive copying')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 5, 4, 'Java Records shallow vs deep immutability, compact constructors, and defensive copying')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> Records provide shallow immutability. The fields are final, but referenced objects like <code>ArrayList</code> remain mutable.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Compact Constructor with List.copyOf()</span><span class="code-lang">Java</span></div>
+                                <pre><code>public record UserAccount(String username, List&lt;String&gt; roles) {
+    public UserAccount {
+        Objects.requireNonNull(username, "Username cannot be null");
+        roles = (roles != null) ? List.copyOf(roles) : List.of();
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes records are deeply immutable by default.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Uses compact constructor syntax cleanly and creates unmodifiable defensive copies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 6: Concurrency & JMM -->
+                <div class="question-card" id="q-6" data-keywords="multithreading volatile singleton double checked locking jmm">
+                    <div class="card-header">
+                        <span class="concept-badge">Concurrency & JMM</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The Java Memory Model (JMM), CPU instruction reordering, and thread visibility in Double-Checked Locking.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Under heavy concurrent traffic, worker threads calling <code>getInstance()</code> occasionally encounter a <code>NullPointerException</code> when calling <code>getConnection()</code>. Why does this happen, and what single keyword fixes it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'DatabaseConnectionManager.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">public class DatabaseConnectionManager {
+    private static DatabaseConnectionManager instance;
+    private final ConnectionPool pool;
+
+    private DatabaseConnectionManager() {
+        this.pool = new ConnectionPool();
+    }
+
+    public static DatabaseConnectionManager getInstance() {
+        if (instance == null) {
+            synchronized (DatabaseConnectionManager.class) {
+                if (instance == null) {
+                    instance = new DatabaseConnectionManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return pool.borrowConnection();
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 6, 1, 'Java Memory Model (JMM), instruction reordering, and volatile barrier in Double-Checked Locking')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 6, 2, 'Java Memory Model (JMM), instruction reordering, and volatile barrier in Double-Checked Locking')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 6, 3, 'Java Memory Model (JMM), instruction reordering, and volatile barrier in Double-Checked Locking')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 6, 4, 'Java Memory Model (JMM), instruction reordering, and volatile barrier in Double-Checked Locking')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> Without <code>volatile</code>, CPU instruction reordering publishes a non-null reference before constructor completion.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Mark volatile</span><span class="code-lang">Java</span></div>
+                                <pre><code>private static volatile DatabaseConnectionManager instance;</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Put synchronized on getInstance()."
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains memory barriers and suggests Initialization-on-demand Holder or Enum singleton.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 7: Java 21 Virtual Threads & Loom Pinning -->
+                <div class="question-card" id="q-7" data-keywords="virtual threads java 21 loom thread pinning synchronized">
+                    <div class="card-header">
+                        <span class="concept-badge">Modern Java 21+ & Virtual Threads</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Java 21 Project Loom: <strong>Virtual Thread Pinning</strong> caused by the <code>synchronized</code> keyword during blocking I/O operations.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A service was migrated to Java 21 Virtual Threads to handle 10,000 concurrent requests. Under load, response times skyrocketed and the JVM stalled. Review the method in the code snippet: why are Virtual Threads stalling, and how do you fix it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'PaymentGatewayClient.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">public class PaymentGatewayClient {
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+
+    public synchronized String processPayment(PaymentRequest request) throws Exception {
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.payment.internal/v1/charge"))
+            .POST(HttpRequest.BodyPublishers.ofString(request.toJson()))
+            .build();
+
+        HttpResponse&lt;String&gt; response = httpClient.send(
+            httpRequest, 
+            HttpResponse.BodyHandlers.ofString()
+        );
+        return response.body();
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 7, 1, 'Java 21 Virtual Thread Pinning caused by synchronized keyword during blocking I/O')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 7, 2, 'Java 21 Virtual Thread Pinning caused by synchronized keyword during blocking I/O')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 7, 3, 'Java 21 Virtual Thread Pinning caused by synchronized keyword during blocking I/O')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 7, 4, 'Java 21 Virtual Thread Pinning caused by synchronized keyword during blocking I/O')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> Virtual threads executing inside <code>synchronized</code> blocks during blocking I/O cannot unmount, pinning carrier threads.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Replace synchronized with ReentrantLock</span><span class="code-lang">Java</span></div>
+                                <pre><code>public class PaymentGatewayClient {
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public String processPayment(PaymentRequest request) throws Exception {
+        lock.lock();
+        try {
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.payment.internal/v1/charge"))
+                .POST(HttpRequest.BodyPublishers.ofString(request.toJson()))
+                .build();
+
+            return httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString()).body();
+        } finally {
+            lock.unlock(); // Safe unmounting!
+        }
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Switch back to traditional thread pools."
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains carrier thread pinning, diagnoses with <code>-Djdk.tracePinnedThreads=full</code>, and migrates to <code>ReentrantLock</code>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 8: ThreadLocal Memory Leak -->
+                <div class="question-card" id="q-8" data-keywords="threadlocal memory leak web server tomcat pool">
+                    <div class="card-header">
+                        <span class="concept-badge">Memory & Web Containers</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <code>ThreadLocal</code> memory leaks and security data contamination in pooled-thread environments (Tomcat, Undertow).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                The filter in the code snippet stores tenant context. Under production load, users report intermittently seeing data belonging to a different tenant, and the application eventually runs out of memory. What are the issues, and how do you fix the code?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'TenantSecurityFilter.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">public class TenantSecurityFilter implements Filter {
+    public static final ThreadLocal&lt;TenantContext&gt; CURRENT_TENANT = new ThreadLocal&lt;&gt;();
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+            throws IOException, ServletException {
+        
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String tenantId = httpRequest.getHeader("X-Tenant-ID");
+        
+        if (tenantId != null) {
+            CURRENT_TENANT.set(new TenantContext(tenantId));
+        }
+
+        chain.doFilter(request, response);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 8, 1, 'ThreadLocal memory leaks and tenant data contamination in pooled-thread environments')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 8, 2, 'ThreadLocal memory leaks and tenant data contamination in pooled-thread environments')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 8, 3, 'ThreadLocal memory leaks and tenant data contamination in pooled-thread environments')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 8, 4, 'ThreadLocal memory leaks and tenant data contamination in pooled-thread environments')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> Web threads are reused. Unremoved <code>ThreadLocal</code> causes cross-tenant data contamination and memory leaks.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Call remove() in finally block</span><span class="code-lang">Java</span></div>
+                                <pre><code>try {
+    if (tenantId != null) {
+        CURRENT_TENANT.set(new TenantContext(tenantId));
+    }
+    chain.doFilter(request, response);
+} finally {
+    CURRENT_TENANT.remove();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests <code>CURRENT_TENANT.set(null)</code> instead of calling <code>.remove()</code>.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Enforces <code>finally { CURRENT_TENANT.remove(); }</code> and mentions Java 21 Scoped Values.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 9: ConcurrentModificationException -->
+                <div class="question-card" id="q-9" data-keywords="collections concurrentmodificationexception iterator removeif">
+                    <div class="card-header">
+                        <span class="concept-badge">Collections & Iteration</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Fail-fast iterators, <code>modCount</code>, and why mutating a collection during a for-each loop throws <code>ConcurrentModificationException</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer wrote the method in the code snippet to purge expired tokens. When executed, it throws <code>ConcurrentModificationException</code>. Why does this happen in a single thread, and what is the modern Java 8+ fix?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'TokenManager.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">public class TokenManager {
+    private List&lt;AuthToken&gt; activeTokens = new ArrayList&lt;&gt;();
+
+    public void purgeExpiredTokens() {
+        for (AuthToken token : activeTokens) {
+            if (token.isExpired()) {
+                activeTokens.remove(token);
+            }
+        }
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 9, 1, 'ConcurrentModificationException, modCount fail-fast mechanics, and Collection.removeIf()')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 9, 2, 'ConcurrentModificationException, modCount fail-fast mechanics, and Collection.removeIf()')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 9, 3, 'ConcurrentModificationException, modCount fail-fast mechanics, and Collection.removeIf()')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 9, 4, 'ConcurrentModificationException, modCount fail-fast mechanics, and Collection.removeIf()')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> Calling <code>list.remove()</code> alters <code>modCount</code>, causing the iterator to detect concurrent modification.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Use Collection.removeIf()</span><span class="code-lang">Java</span></div>
+                                <pre><code>public void purgeExpiredTokens() {
+    activeTokens.removeIf(AuthToken::isExpired);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests basic index loop without adjusting <code>i--</code>.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Provides <code>removeIf()</code> and explains <code>modCount</code> mechanics.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 10: Autoboxing & Ternary NPE -->
+                <div class="question-card" id="q-10" data-keywords="autoboxing nullpointerexception ternary primitive wrapper">
+                    <div class="card-header">
+                        <span class="concept-badge">Language Fundamentals & Autoboxing</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Hidden automatic unboxing traps and unexpected <code>NullPointerException</code> in ternary expressions and arithmetic operations.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                The pricing calculation in the code snippet throws an intermittent <code>NullPointerException</code> even when <code>discount</code> is passed. What causes the NPE, and how do you write the safe version?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'DiscountCalculator.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">public class DiscountCalculator {
+
+    public static Double calculateFinalPrice(boolean isVip, Double basePrice, Double discount) {
+        if (basePrice == null) return 0.0;
+        
+        Double finalPrice = isVip ? (basePrice - discount) : 0.0d;
+        
+        return finalPrice;
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 10, 1, 'Hidden autoboxing traps and unexpected NullPointerException in ternary expressions')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 10, 2, 'Hidden autoboxing traps and unexpected NullPointerException in ternary expressions')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 10, 3, 'Hidden autoboxing traps and unexpected NullPointerException in ternary expressions')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 10, 4, 'Hidden autoboxing traps and unexpected NullPointerException in ternary expressions')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> <code>(basePrice - discount)</code> automatically unboxes both wrapper objects. If discount is null, <code>.doubleValue()</code> throws NPE.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Guard against null wrappers</span><span class="code-lang">Java</span></div>
+                                <pre><code>public static double calculateFinalPrice(boolean isVip, Double basePrice, Double discount) {
+    double safeBase = (basePrice != null) ? basePrice : 0.0;
+    double safeDiscount = (discount != null) ? discount : 0.0;
+
+    return isVip ? Math.max(0.0, safeBase - safeDiscount) : safeBase;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Fails to notice the unboxing during subtraction.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains JLS ternary unboxing rules and recommends <code>BigDecimal</code> for monetary math.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 11: Functional Interfaces & Real-World Use Cases -->
+                <div class="question-card" id="q-11" data-keywords="functional interface sam predicate function consumer supplier default">
+                    <div class="card-header">
+                        <span class="concept-badge">Functional Programming & Java 8+</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The definition and enterprise use cases of <strong>Functional Interfaces</strong>, Single Abstract Method (SAM) contracts, built-in types (<code>Predicate</code>, <code>Function</code>, <code>Consumer</code>, <code>Supplier</code>), and method composition.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> Have you used Functional Interfaces in production? Explain realistic use cases and the core difference between <code>Predicate&lt;T&gt;</code>, <code>Function&lt;T,R&gt;</code>, <code>Consumer&lt;T&gt;</code>, and <code>Supplier&lt;T&gt;</code>.
+                                <br><br>
+                                <strong>Part B:</strong> In the payment validation system in the code snippet, why does the compiler reject the <code>PaymentValidator</code> interface, and how do you fix it while enabling validator chaining (e.g. <code>and()</code>)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'PaymentValidator.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">@FunctionalInterface
+public interface PaymentValidator {
+    boolean validate(Payment payment);
+    boolean logValidation(Payment payment);
+}
+
+public class PaymentProcessor {
+    public static void main(String[] args) {
+        PaymentValidator amountCheck = p -> p.getAmount() > 0;
+        PaymentValidator currencyCheck = p -> p.getCurrency() != null;
+
+        Payment payment = new Payment(100.0, "USD");
+        boolean isValid = amountCheck.validate(payment);
+        System.out.println("Valid: " + isValid);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 11, 1, 'Functional Interfaces: SAM rule, built-in functional interfaces, and function composition')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 11, 2, 'Functional Interfaces: SAM rule, built-in functional interfaces, and function composition')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 11, 3, 'Functional Interfaces: SAM rule, built-in functional interfaces, and function composition')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 11, 4, 'Functional Interfaces: SAM rule, built-in functional interfaces, and function composition')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> <code>@FunctionalInterface</code> enforces the <strong>SAM (Single Abstract Method)</strong> rule. <code>PaymentValidator</code> defines TWO abstract methods (<code>validate</code> and <code>logValidation</code>), causing a compile error.
+                                <br><br>
+                                <strong>Built-In Functional Interfaces Overview:</strong>
+                                <br>• <code>Predicate&lt;T&gt;</code>: Takes <code>T</code>, returns <code>boolean</code> (e.g. filtering, validation).
+                                <br>• <code>Function&lt;T, R&gt;</code>: Takes <code>T</code>, transforms and returns <code>R</code> (e.g. DTO mapping, transformations).
+                                <br>• <code>Consumer&lt;T&gt;</code>: Takes <code>T</code>, returns <code>void</code> (e.g. logging, publishing events, side-effects).
+                                <br>• <code>Supplier&lt;T&gt;</code>: Takes no arguments, returns <code>T</code> (e.g. factory generation, lazy initialization).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Single abstract method with default composition</span><span class="code-lang">Java</span></div>
+                                <pre><code>@FunctionalInterface
+public interface PaymentValidator {
+    boolean validate(Payment payment);
+
+    // Default method enables clean chaining (like Predicate.and)
+    default PaymentValidator and(PaymentValidator other) {
+        return payment -> this.validate(payment) && other.validate(payment);
+    }
+}
+
+// Or simply use java.util.function.Predicate<Payment>!
+Predicate&lt;Payment&gt; validator = ((Predicate&lt;Payment&gt;) p -> p.getAmount() > 0)
+    .and(p -> p.getCurrency() != null);</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Remove the @FunctionalInterface annotation so it compiles" (defeats lambda compatibility).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Clearly articulates SAM contract, explains difference between abstract vs default/static methods in interfaces, and suggests reusing built-in <code>Predicate&lt;T&gt;</code> with combinator pattern.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 12: Stream Aggregation - Filter Dept/Grade & Sum Salary -->
+                <div class="question-card" id="q-12" data-keywords="streams salary filter reduce mapTodouble sum aggregation">
+                    <div class="card-header">
+                        <span class="concept-badge">Streams & Data Aggregation</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Multi-condition filtering in Streams, primitive stream specialization (<code>mapToDouble().sum()</code> vs boxed <code>reduce()</code>), and null-safe defensive coding.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Given a list of <code>Employee</code> objects, calculate the sum of salaries for employees belonging to a specific department (e.g. "ENGINEERING") and grade (e.g. "SENIOR") who have been with the company for <strong>more than 5 years</strong>.
+                                <br><br>
+                                Review the developer's stream implementation in the code snippet: what are the bugs and performance inefficiencies, and how do you write the idiomatic solution?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'SalaryAnalyticsService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">public class SalaryAnalyticsService {
+
+    public Double calculateSeniorSalarySum(List&lt;Employee&gt; employees, String dept, String grade) {
+        return employees.stream()
+            .filter(e -> e.getDepartment().equals(dept) && e.getGrade().equals(grade) && e.getYearsOfService() > 5)
+            .map(e -> e.getSalary())
+            .reduce(0.0, (a, b) -> a + b);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 12, 1, 'Stream filtering, primitive streams (mapToDouble().sum()), and avoiding GC churn')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 12, 2, 'Stream filtering, primitive streams (mapToDouble().sum()), and avoiding GC churn')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 12, 3, 'Stream filtering, primitive streams (mapToDouble().sum()), and avoiding GC churn')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 12, 4, 'Stream filtering, primitive streams (mapToDouble().sum()), and avoiding GC churn')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Issues in the snippet:</strong>
+                                <br>1. <strong>NPE Risk:</strong> <code>e.getDepartment().equals(dept)</code> throws NPE if an employee's department is null or if <code>employees</code> contains null elements.
+                                <br>2. <strong>Heavy Boxing Overhead:</strong> <code>.map(e -> e.getSalary()).reduce(0.0, (a,b)->a+b)</code> boxes and unboxes a new <code>Double</code> object for every single employee in the stream, causing heavy GC pressure!
+                                <br>3. <strong>Idiomatic Fix:</strong> Use <code>mapToDouble(Employee::getSalary).sum()</code> to use unboxed primitive <code>double</code> directly.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Null-safe, primitive-specialized stream</span><span class="code-lang">Java</span></div>
+                                <pre><code>public double calculateSeniorSalarySum(List&lt;Employee&gt; employees, String dept, String grade) {
+    if (employees == null || employees.isEmpty()) return 0.0;
+
+    return employees.stream()
+        .filter(Objects::nonNull)
+        .filter(e -> Objects.equals(dept, e.getDepartment()))
+        .filter(e -> Objects.equals(grade, e.getGrade()))
+        .filter(e -> e.getYearsOfService() > 5)
+        .mapToDouble(Employee::getSalary) // Unboxed DoubleStream!
+        .sum();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Replaces it with an imperative for-loop, or keeps boxed <code>reduce((a,b)->a+b)</code> without noticing GC allocations.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Immediately switches to <code>mapToDouble().sum()</code>, uses <code>Objects.equals()</code> for null safety, and considers <code>BigDecimal</code> if high precision / financial compliance is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 13: Streams limit() vs skip() & Pagination -->
+                <div class="question-card" id="q-13" data-keywords="streams limit skip pagination offset order gotcha">
+                    <div class="card-header">
+                        <span class="concept-badge">Streams & In-Memory Pagination</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The operational difference between <code>skip()</code> and <code>limit()</code> in Java Streams, and why intermediate operation ordering is critical for pagination.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> Explain how <code>skip(n)</code> and <code>limit(n)</code> behave in Java Streams.
+                                <br><br>
+                                <strong>Part B:</strong> A developer attempted to implement in-memory pagination in the method in the code snippet. When requesting page 1, 2, or 3, it always returns an empty list! Why does this fail, and how do you write correct pagination?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'PaginationService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">public class PaginationService {
+
+    public List&lt;Transaction&gt; getPaginatedTransactions(List&lt;Transaction&gt; allTransactions, int pageNumber, int pageSize) {
+        return allTransactions.stream()
+            .limit(pageSize)
+            .skip(pageNumber * pageSize)
+            .toList();
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 13, 1, 'Stream limit() vs skip() operational differences and in-memory pagination order traps')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 13, 2, 'Stream limit() vs skip() operational differences and in-memory pagination order traps')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 13, 3, 'Stream limit() vs skip() operational differences and in-memory pagination order traps')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 13, 4, 'Stream limit() vs skip() operational differences and in-memory pagination order traps')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> The developer ordered <code>.limit()</code> BEFORE <code>.skip()</code>!
+                                <br>• Suppose <code>pageSize = 10</code> and <code>pageNumber = 1</code> (second page).
+                                <br>• <code>.limit(10)</code> first truncates the entire stream to only the first 10 items.
+                                <br>• Then <code>.skip(10)</code> discards those 10 items. Result: <strong>empty list</strong>!
+                                <br>• <strong>Rule:</strong> You must always <strong>skip first</strong> (advance the offset), and then <strong>limit</strong> (take the page window).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: skip() then limit()</span><span class="code-lang">Java</span></div>
+                                <pre><code>public List&lt;Transaction&gt; getPaginatedTransactions(List&lt;Transaction&gt; allTransactions, int pageNumber, int pageSize) {
+    if (allTransactions == null || pageNumber < 0 || pageSize <= 0) {
+        return List.of();
+    }
+
+    return allTransactions.stream()
+        .skip((long) pageNumber * pageSize) // 1. Skip prior pages first!
+        .limit(pageSize)                   // 2. Take only current page size!
+        .toList();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Streams don't support pagination, use a SQL query" without spotting the reversed method order.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Reverses order to <code>.skip().limit()</code>, notes that <code>skip()</code> is \(O(N)\) on streams and warns that database-level pagination (<code>LIMIT / OFFSET</code> or Keyset pagination) should always be preferred over fetching full tables into JVM memory.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 14: New JDK Features in 11 and 17 -->
+                <div class="question-card" id="q-14" data-keywords="jdk 11 17 lts sealed classes pattern matching switch text blocks">
+                    <div class="card-header">
+                        <span class="concept-badge">Modern Java LTS (JDK 11 vs 17)</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Major LTS features from JDK 11 and JDK 17: <strong>Sealed Classes / Interfaces</strong>, <strong>Pattern Matching for switch</strong>, <strong>Records</strong>, and <strong>Text Blocks</strong>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> What are the most important language and JVM features introduced between Java 11 and Java 17 LTS?
+                                <br><br>
+                                <strong>Part B:</strong> In the notification dispatcher in the code snippet, the code relies on fragile <code>instanceof</code> checks, manual type casting, and open inheritance. How do you refactor this using Java 17 <strong>Sealed Interfaces</strong> and <strong>Pattern Matching for switch</strong>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'NotificationDispatcher.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">public class NotificationDispatcher {
+
+    public String dispatch(Notification notification) {
+        if (notification instanceof EmailNotification) {
+            EmailNotification email = (EmailNotification) notification;
+            return "Email sent to: " + email.getEmailAddress();
+        } else if (notification instanceof SmsNotification) {
+            SmsNotification sms = (SmsNotification) notification;
+            return "SMS sent to: " + sms.getPhoneNumber();
+        } else if (notification instanceof PushNotification) {
+            PushNotification push = (PushNotification) notification;
+            return "Push sent to device: " + push.getDeviceId();
+        }
+        throw new IllegalArgumentException("Unknown notification type");
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 14, 1, 'Modern Java LTS evolution (JDK 11 to 17): Sealed Classes and Pattern Matching switch')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 14, 2, 'Modern Java LTS evolution (JDK 11 to 17): Sealed Classes and Pattern Matching switch')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 14, 3, 'Modern Java LTS evolution (JDK 11 to 17): Sealed Classes and Pattern Matching switch')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 14, 4, 'Modern Java LTS evolution (JDK 11 to 17): Sealed Classes and Pattern Matching switch')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Key JDK 11 Features:</strong> <code>HttpClient</code> (standardized reactive HTTP/2), <code>var</code> in lambda parameters, String helpers (<code>isBlank()</code>, <code>lines()</code>, <code>repeat()</code>), <code>Files.readString()</code>, running single-file source code without compiling.
+                                <br><br>
+                                <strong>Key JDK 17 Features:</strong> <strong>Sealed Classes</strong> (restrict subclasses), <strong>Records</strong> (immutable data carriers), <strong>Text Blocks</strong> (multi-line strings), <strong>Pattern Matching for instanceof</strong>, <strong>Helpful NullPointerExceptions</strong> (names exact variable in stack trace), Strong Encapsulation of JDK internals, and macOS Metal rendering.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Java 17 Sealed Interface & Pattern Matching Switch</span><span class="code-lang">Java</span></div>
+                                <pre><code>// 1. Sealed hierarchy restricts permitted subtypes:
+public sealed interface Notification 
+    permits EmailNotification, SmsNotification, PushNotification {}
+
+public record EmailNotification(String getEmailAddress) implements Notification {}
+public record SmsNotification(String getPhoneNumber) implements Notification {}
+public record PushNotification(String getDeviceId) implements Notification {}
+
+// 2. Exhaustive pattern matching switch (no default or manual casts needed!):
+public class NotificationDispatcher {
+    public String dispatch(Notification notification) {
+        return switch (notification) {
+            case EmailNotification email -> "Email sent to: " + email.getEmailAddress();
+            case SmsNotification sms     -> "SMS sent to: " + sms.getPhoneNumber();
+            case PushNotification push   -> "Push sent to device: " + push.getDeviceId();
+        };
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Only knows Java 8 lambda syntax; unfamiliar with Sealed types, Records, or Pattern Matching.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains exhaustiveness checking by compiler in sealed switches (omitting <code>default</code> safely), references Helpful NPEs in troubleshooting, and contrasts Java 11 vs 17 LTS upgrade strategies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 15: Sorting Algorithms in JDK & TimSort Contract -->
+                <div class="question-card" id="q-15" data-keywords="sorting timsort dual pivot quicksort comparator general contract violation">
+                    <div class="card-header">
+                        <span class="concept-badge">JDK Internals & Sorting Algorithms</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The sorting algorithms used inside the JDK: <strong>Dual-Pivot Quicksort</strong> (primitives) vs <strong>TimSort</strong> (objects), stability requirements, and the <code>Comparison method violates its general contract!</code> crash.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> What sorting algorithms does the JDK use for <code>Arrays.sort(int[])</code> vs <code>Collections.sort(List&lt;T&gt;)</code>? Why is there no single "best" sorting algorithm?
+                                <br><br>
+                                <strong>Part B:</strong> In production, the sorting method in the code snippet intermittently crashes with <code>java.lang.IllegalArgumentException: Comparison method violates its general contract!</code> on large datasets. What causes this crash and how do you write a compliant comparator?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'ProductCatalogSorter.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">public class ProductCatalogSorter {
+
+    public void sortProducts(List&lt;Product&gt; products) {
+        Collections.sort(products, new Comparator&lt;Product&gt;() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return (p1.getScore() > p2.getScore()) ? 1 : -1;
+            }
+        });
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 15, 1, 'JDK Sorting algorithms (Dual-Pivot Quicksort vs TimSort) and comparator contract violations')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 15, 2, 'JDK Sorting algorithms (Dual-Pivot Quicksort vs TimSort) and comparator contract violations')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 15, 3, 'JDK Sorting algorithms (Dual-Pivot Quicksort vs TimSort) and comparator contract violations')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 15, 4, 'JDK Sorting algorithms (Dual-Pivot Quicksort vs TimSort) and comparator contract violations')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>JDK Sorting Algorithms:</strong>
+                                <br>• <strong>Primitives (<code>int[]</code>, <code>double[]</code>):</strong> Uses <strong>Dual-Pivot Quicksort</strong> (by Vladimir Yaroslavskiy). Average \(O(N \log N)\), in-place, non-stable, highly cache-efficient. Stability is irrelevant for primitives because identical numbers have no distinguishable identity.
+                                <br>• <strong>Objects (<code>List&lt;T&gt;</code>, <code>Object[]</code>):</strong> Uses <strong>TimSort</strong> (hybrid of Merge Sort and Insertion Sort). Worst-case \(O(N \log N)\), best-case \(O(N)\) on partially ordered data, and <strong>stable</strong> (preserves original order of equal items).
+                                <br><br>
+                                <strong>Root Cause of the Crash:</strong>
+                                When <code>p1.getScore() == p2.getScore()</code>, the custom comparator returns <code>-1</code> instead of <code>0</code>!
+                                This violates:
+                                <br>1. <strong>Reflexivity:</strong> <code>compare(a, a)</code> must equal <code>0</code> (here it returns <code>-1</code>).
+                                <br>2. <strong>Symmetry:</strong> <code>compare(a, b) == -compare(b, a)</code> (here both return <code>-1</code>).
+                                <br>TimSort uses these mathematical invariants to verify merge boundaries; violating them throws <code>IllegalArgumentException</code>!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Use Comparator.comparingDouble()</span><span class="code-lang">Java</span></div>
+                                <pre><code>public void sortProducts(List&lt;Product&gt; products) {
+    products.sort(Comparator.comparingDouble(Product::getScore));
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Change -1 to 0 or use subtraction `p1.score - p2.score`" (fails on integer overflow or double casting).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains TimSort vs Dual-Pivot Quicksort tradeoffs, defines mathematical properties of <code>Comparator</code> (transitivity, symmetry, reflexivity), and uses <code>Comparator.comparingDouble()</code>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 16: JVM Garbage Collection & Production Pause Triage -->
+                <div class="question-card" id="q-16" data-keywords="garbage collection jvm g1gc zgc stw stop the world memory churn allocation">
+                    <div class="card-header">
+                        <span class="concept-badge">JVM Internals & Garbage Collection</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                JVM Garbage Collection mechanics: Generational hypothesis (Young/Eden vs Old/Tenured), Stop-The-World (STW) pauses, G1GC vs ZGC tuning, and triaging high-allocation memory churn.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> How does the JVM Generational Garbage Collector work (Eden, Survivor spaces S0/S1, Tenured), and how do modern collectors like <strong>G1GC</strong> and <strong>ZGC</strong> achieve sub-millisecond pause times?
+                                <br><br>
+                                <strong>Part B:</strong> In the audit report export method in the code snippet, ops reports that under batch processing load, the JVM suffers frequent <strong>Stop-The-World GC pauses exceeding 2 seconds</strong> and heavy CPU spikes. What in this code is causing intense GC pressure, and how do you fix it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'TransactionReportService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">public class TransactionReportService {
+
+    public String buildAuditLog(List&lt;Transaction&gt; transactions) {
+        String auditLog = "";
+        for (Transaction tx : transactions) {
+            auditLog += "TX_ID:" + tx.getId() + ",AMOUNT:" + tx.getAmount() + ",TIME:" + System.currentTimeMillis() + "\n";
+        }
+        return auditLog;
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 16, 1, 'JVM Garbage Collection: Generational hypothesis, STW pause triage, and G1GC vs ZGC tuning')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 16, 2, 'JVM Garbage Collection: Generational hypothesis, STW pause triage, and G1GC vs ZGC tuning')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 16, 3, 'JVM Garbage Collection: Generational hypothesis, STW pause triage, and G1GC vs ZGC tuning')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 16, 4, 'JVM Garbage Collection: Generational hypothesis, STW pause triage, and G1GC vs ZGC tuning')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> In Java, strings are immutable. Doing <code>auditLog += ...</code> inside a loop of \(N\) items creates \(O(N^2)\) intermediate <code>StringBuilder</code>, <code>String</code>, and <code>char[]/byte[]</code> arrays. For a batch of 50,000 transactions, this floods the <strong>Eden Space</strong> with tens of millions of short-lived objects per second, forcing premature promotion into Old Gen and triggering frequent full STW GC pauses.
+                                <br><br>
+                                <strong>Generational GC & Collectors Breakdown:</strong>
+                                <br>• <strong>Generational Hypothesis:</strong> Most objects die young. Eden handles fast bump-the-pointer allocations; surviving objects move to Survivor (S0/S1), then get promoted to Tenured after aging threshold (<code>MaxTenuringThreshold</code>).
+                                <br>• <strong>G1GC (Default since Java 9):</strong> Divides heap into 2048 non-contiguous equal regions (1MB to 32MB). Selects regions with most garbage first ("Garbage-First") to satisfy pause time targets (<code>-XX:MaxGCPauseMillis=200</code>).
+                                <br>• <strong>ZGC (Java 15+ / 21 LTS):</strong> Ultra-low latency collector. Uses colored pointers and concurrent load barriers. Performs almost all marking, relocation, and reference processing concurrently, guaranteeing &lt; 1ms pause times regardless of heap size (even on terabyte heaps!).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix: Pre-sized StringBuilder or streaming directly</span><span class="code-lang">Java</span></div>
+                                <pre><code>public String buildAuditLog(List&lt;Transaction&gt; transactions) {
+    if (transactions == null || transactions.isEmpty()) return "";
+    
+    // Pre-allocate capacity to eliminate internal array resizes and GC churn
+    StringBuilder sb = new StringBuilder(transactions.size() * 64);
+    for (Transaction tx : transactions) {
+        sb.append("TX_ID:").append(tx.getId())
+          .append(",AMOUNT:").append(tx.getAmount())
+          .append(",TIME:").append(System.currentTimeMillis())
+          .append("\n");
+    }
+    return sb.toString();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "Increase heap size with -Xmx" without realizing that larger heaps actually increase Stop-The-World pause durations when allocation churn is high.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies \(O(N^2)\) object allocation churn, explains Eden promotion to Old Gen, explains ZGC colored pointers / G1 region partitioning, and recommends streaming directly to an <code>OutputStream</code> or <code>Writer</code> for massive reports.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 17: What Changed in JVM after Java 8 -->
+                <div class="question-card" id="q-17" data-keywords="jvm changes post java 8 metaspace container support compact strings zgc">
+                    <div class="card-header">
+                        <span class="concept-badge">JVM Evolution Post-Java 8</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Major architectural shifts in the JVM runtime after Java 8: <strong>Metaspace vs PermGen</strong>, <strong>Compact Strings</strong>, <strong>Container Awareness (`-XX:+UseContainerSupport`)</strong>, and <strong>Virtual Thread Carrier Runtimes</strong>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> What were the most significant architectural changes inside the JVM runtime after Java 8 (concerning memory layout, default collectors, string internals, and containerization)?
+                                <br><br>
+                                <strong>Part B:</strong> A microservice running in a Docker container with a 2GB hard memory limit on Kubernetes keeps getting silently killed by Linux with <strong>OOMKilled (Exit Code 137)</strong> even though <code>-Xmx1536m</code> was configured. What memory pools exist outside the Heap, and why did legacy Java 8 crash frequently in Docker compared to modern JVMs?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'BatchLoaderService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">public class BatchLoaderService {
+
+    public void processIncomingBatch(byte[] data) {
+        ByteBuffer offHeapBuffer = ByteBuffer.allocateDirect(data.length);
+        offHeapBuffer.put(data);
+        processNative(offHeapBuffer);
+    }
+
+    private native void processNative(ByteBuffer buffer);
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 17, 1, 'JVM Architecture post-Java 8: Metaspace, Compact Strings, and Container Cgroup awareness')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 17, 2, 'JVM Architecture post-Java 8: Metaspace, Compact Strings, and Container Cgroup awareness')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 17, 3, 'JVM Architecture post-Java 8: Metaspace, Compact Strings, and Container Cgroup awareness')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 17, 4, 'JVM Architecture post-Java 8: Metaspace, Compact Strings, and Container Cgroup awareness')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Major JVM Architecture Changes Post-Java 8:</strong>
+                                <br>1. <strong>Default Collector Shift:</strong> Parallel GC (Java 8) $\rightarrow$ G1GC (Java 9) $\rightarrow$ ZGC & Shenandoah available (Java 15+ / 21 LTS).
+                                <br>2. <strong>Compact Strings (Java 9):</strong> Replaced <code>char[]</code> (2 bytes per char) with <code>byte[]</code> + coder flag. Since most enterprise text is Latin-1, this cut string heap footprint by nearly <strong>50%</strong>.
+                                <br>3. <strong>Container Support (`-XX:+UseContainerSupport`):</strong> In early Java 8, JVM read <code>/proc/meminfo</code> from the host OS, ignoring Docker/cgroup limits. A container on a 64GB host given 2GB would attempt to size internal pools based on 64GB and get killed instantly by Linux OOM killer! Post-8 JVMs dynamically read cgroups limits.
+                                <br>4. <strong>Metaspace:</strong> Uses native OS memory for class metadata instead of fixed PermGen.
+                                <br>5. <strong>Virtual Threads (Java 21):</strong> Introduces carrier thread unmounting inside the runtime.
+                                <br><br>
+                                <strong>Why the Container in Snippet Crashes (Exit Code 137):</strong>
+                                Total JVM Memory is NOT just <code>-Xmx</code>!
+                                Total RSS = <strong>Heap (`-Xmx`) + Metaspace + Direct Memory (`allocateDirect`) + Thread Stacks (`-Xss * Thread Count`) + Code Cache + JVM native overhead</strong>.
+                                With 1536MB Heap in a 2048MB container, allocating Direct ByteBuffers and having hundreds of worker thread stacks pushes total process memory past 2048MB, prompting the Linux kernel to send `SIGKILL (137)`.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks JVM memory is strictly limited by `-Xmx`, and doesn't know about off-heap direct memory, thread stacks, or cgroups.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Calculates full off-heap RSS footprint, configures `-XX:MaxDirectMemorySize`, sets `-XX:MaxRAMPercentage=75.0` instead of hardcoded `-Xmx`, and explains how modern JVMs query cgroup v1/v2 memory controllers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 18: What Changed in HashMap after Java 8 -->
+                <div class="question-card" id="q-18" data-keywords="hashmap internals java 8 treeification red black tree collision threshold">
+                    <div class="card-header">
+                        <span class="concept-badge">HashMap Internals & Treeification</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Internal implementation evolution of <code>HashMap</code> in Java 8: <strong>Treeification of buckets</strong> (Singly Linked List $\rightarrow$ Red-Black Tree <code>TreeNode</code>) when collisions exceed thresholds, improving worst-case search from \(O(N)\) to \(O(\log N)\).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                <strong>Part A:</strong> How did the internal data structure of <code>HashMap</code> change between Java 7 and Java 8? What is "treeification", what exact conditions trigger it, and when does it "untreeify"?
+                                <br><br>
+                                <strong>Part B:</strong> Look at the <code>CollidingKey</code> class in the code snippet where every instance deliberately returns the exact same <code>hashCode() = 42</code>. If 10,000 such keys are put into a <code>HashMap</code>, what happens in memory and what is the difference in lookup performance between Java 7 and Java 8+?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'CollidingKey.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">public class CollidingKey implements Comparable&lt;CollidingKey&gt; {
+    private final int id;
+    private final String value;
+
+    public CollidingKey(int id, String value) {
+        this.id = id;
+        this.value = value;
+    }
+
+    @Override
+    public int hashCode() {
+        return 42;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CollidingKey other = (CollidingKey) obj;
+        return id == other.id;
+    }
+
+    @Override
+    public int compareTo(CollidingKey other) {
+        return Integer.compare(this.id, other.id);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 18, 1, 'HashMap internals post-Java 8: Bucket treeification to Red-Black Tree and collision handling')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 18, 2, 'HashMap internals post-Java 8: Bucket treeification to Red-Black Tree and collision handling')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 18, 3, 'HashMap internals post-Java 8: Bucket treeification to Red-Black Tree and collision handling')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 18, 4, 'HashMap internals post-Java 8: Bucket treeification to Red-Black Tree and collision handling')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Java 7 vs Java 8 HashMap Internal Evolution:</strong>
+                                <br>• <strong>Java 7 (Singly Linked List only):</strong> When keys collide, they are stored as a linked list in that bucket. If all 10,000 keys hash to bucket 42, the bucket becomes a 10,000-node linked list! Searching requires traversing all nodes, degrading lookup from \(O(1)\) to \(O(N)\). Attackers exploited this via <strong>HashDoS attacks</strong> (sending crafted HTTP requests with colliding hashes to consume 100% CPU).
+                                <br><br>
+                                • <strong>Java 8+ (Treeification to Red-Black Tree):</strong>
+                                <br>1. <strong>Treeification Threshold:</strong> When the number of elements in a single bucket reaches <code>TREEIFY_THRESHOLD = 8</code> AND the total table capacity is at least <code>MIN_TREEIFY_CAPACITY = 64</code>, the linked list converts into a balanced <strong>Red-Black Tree (TreeNode)</strong>!
+                                <br>2. <strong>Search Complexity:</strong> Lookup time drops from \(O(N)\) down to <strong>\(O(\log N)\)</strong>. For 10,000 colliding items, search takes at most ~14 comparisons instead of 10,000!
+                                <br>3. <strong>Untreeify Threshold:</strong> When elements are removed and the bucket size shrinks to <code>UNTREEIFY_THRESHOLD = 6</code>, the tree is converted back into a standard linked list to save memory overhead.
+                                <br>4. <strong>Why Comparable:</strong> <code>TreeNode</code> uses <code>Comparable.compareTo()</code> (as implemented in <code>CollidingKey</code>) to balance and order nodes in the Red-Black tree; if keys do not implement <code>Comparable</code>, Java uses <code>System.identityHashCode()</code> as a tiebreaker.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    "HashMap uses an array and a linked list" without knowing about Java 8 Red-Black trees or treeification thresholds.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Quotes exact thresholds (8 to treeify, 6 to untreeify, 64 min capacity), explains \(O(N) \rightarrow O(\log N)\) complexity shift, mentions HashDoS vulnerability mitigation, and explains why implementing <code>Comparable</code> on custom keys speeds up tree navigation.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- QUESTION 19: CompletableFuture CommonPool Starvation & Exception Traps -->
+                <div class="question-card" id="q-19" data-keywords="completablefuture forkjoinpool commonpool starvation whencomplete handle exceptionally async">
+                    <div class="card-header">
+                        <span class="concept-badge">Modern Concurrency & Async Architecture</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <code>CompletableFuture</code> execution architecture: The catastrophic danger of using default <code>ForkJoinPool.commonPool()</code> for blocking I/O calls, and why <code>whenComplete()</code> cannot recover from downstream exceptions compared to <code>handle()</code> or <code>exceptionally()</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Review the <code>OrderAggregationService</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> In production under moderate traffic, unrelated services running inside the same JVM start timing out on CPU-bound and async tasks. What is causing thread starvation across the entire JVM?
+                                <br>
+                                <strong>Part B:</strong> If either <code>paymentClient.charge()</code> or <code>inventoryClient.reserve()</code> throws an exception, the author expects <code>whenComplete()</code> to return a fallback <code>OrderSummary("FAILED", "FAILED")</code>. What actually happens to the caller of <code>processOrderAsync()</code>?
+                                <br>
+                                <strong>Part C:</strong> How do you refactor this method to production standards with dedicated executors and resilient error transformation?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'OrderAggregationService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">public class OrderAggregationService {
+    private final PaymentGatewayClient paymentClient = new PaymentGatewayClient();
+    private final InventoryClient inventoryClient = new InventoryClient();
+
+    public CompletableFuture&lt;OrderSummary&gt; processOrderAsync(OrderRequest request) {
+        CompletableFuture&lt;PaymentResult&gt; paymentFuture = CompletableFuture.supplyAsync(() -&gt; {
+            return paymentClient.charge(request.getAmount());
+        });
+
+        CompletableFuture&lt;InventoryResult&gt; inventoryFuture = CompletableFuture.supplyAsync(() -&gt; {
+            return inventoryClient.reserve(request.getItems());
+        });
+
+        return paymentFuture.thenCombine(inventoryFuture, (payment, inventory) -&gt; {
+            return new OrderSummary(payment.getTransactionId(), inventory.getReservationId());
+        }).whenComplete((result, ex) -&gt; {
+            if (ex != null) {
+                result = new OrderSummary("FAILED", "FAILED");
+            }
+        });
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 19, 1, 'CompletableFuture ForkJoinPool commonPool starvation and handle vs whenComplete error recovery')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 19, 2, 'CompletableFuture ForkJoinPool commonPool starvation and handle vs whenComplete error recovery')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 19, 3, 'CompletableFuture ForkJoinPool commonPool starvation and handle vs whenComplete error recovery')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 19, 4, 'CompletableFuture ForkJoinPool commonPool starvation and handle vs whenComplete error recovery')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (CommonPool Thread Starvation):</strong>
+                                <br><code>CompletableFuture.supplyAsync(Supplier)</code> without an explicit <code>Executor</code> executes on the shared <code>ForkJoinPool.commonPool()</code>. This pool is sized strictly for CPU-intensive tasks (typically <code>Runtime.getRuntime().availableProcessors() - 1</code> worker threads).
+                                <br>When blocking HTTP I/O is dispatched to <code>commonPool()</code>, those few worker threads are parked waiting for network responses. Consequently, all other application features utilizing the common pool (parallel streams, other CompletableFutures) starve completely, causing whole-service cascading degradation!
+                                <br><br>
+                                <strong>Part B (whenComplete Bug):</strong>
+                                <br><code>whenComplete(BiConsumer)</code> is purely an observer/callback with a void return! Reassigning the local variable <code>result = new OrderSummary(...)</code> has <strong>zero effect</strong> on the returned stage. If an exception occurred upstream, the returned CompletableFuture remains completed exceptionally with <code>CompletionException</code>, crashing caller code that awaits it.
+                                <br>To transform an exception into a fallback value, one must use <code>.handle((result, ex) -&gt; ...)</code> or <code>.exceptionally(ex -&gt; ...)</code> which return a new stage.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Production-Grade Architecture Fix</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Service
+public class OrderAggregationService {
+    // Dedicated bounded thread pool sized specifically for downstream I/O latency
+    private final ExecutorService ioExecutor = Executors.newFixedThreadPool(
+        50, 
+        new CustomizableThreadFactory("io-aggregator-")
+    );
+
+    public CompletableFuture&lt;OrderSummary&gt; processOrderAsync(OrderRequest request) {
+        CompletableFuture&lt;PaymentResult&gt; paymentFuture = CompletableFuture.supplyAsync(
+            () -&gt; paymentClient.charge(request.getAmount()), 
+            ioExecutor
+        );
+
+        CompletableFuture&lt;InventoryResult&gt; inventoryFuture = CompletableFuture.supplyAsync(
+            () -&gt; inventoryClient.reserve(request.getItems()), 
+            ioExecutor
+        );
+
+        return paymentFuture.thenCombineAsync(inventoryFuture, (payment, inventory) -&gt; {
+            return new OrderSummary(payment.getTransactionId(), inventory.getReservationId());
+        }, ioExecutor)
+        .handle((result, ex) -&gt; {
+            if (ex != null) {
+                log.error("Aggregation failed, returning degraded response", ex);
+                return new OrderSummary("FAILED", "FAILED");
+            }
+            return result;
+        });
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Does not know which pool <code>supplyAsync()</code> runs on by default; assumes <code>whenComplete</code> can return a fallback value like a catch block.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains common pool sizing and thread exhaustion mechanics; immediately spots that <code>whenComplete</code> consumes results and cannot mutate return types; specifies <code>handle()</code> or <code>exceptionally()</code> and configures isolated custom thread pools or Virtual Threads.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 20: High Concurrency Atomic Contention (AtomicLong vs LongAdder) & ABA Problem -->
+                <div class="question-card" id="q-20" data-keywords="atomiclong longadder striped64 cas aba problem atomicstampedreference memory contention">
+                    <div class="card-header">
+                        <span class="concept-badge">Low-Level Concurrency & Memory Architecture</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Hardware CAS (Compare-And-Swap) contention: Why <code>AtomicLong</code> degrades dramatically under heavy write concurrency and how <code>LongAdder</code> (<code>Striped64</code>) eliminates cache line bouncing; plus the <strong>ABA problem</strong> in lock-free algorithms and its resolution via <code>AtomicStampedReference</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Review the <code>HighThroughputMetrics</code> class in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Under a 64-core server processing 200,000 transactions per second across 128 worker threads, CPU utilization spikes to 95% with high kernel context switches and throughput collapses. Why does <code>AtomicLong.addAndGet()</code> suffer severe degradation under high write contention?
+                                <br>
+                                <strong>Part B:</strong> How does <code>LongAdder</code> / <code>LongAccumulator</code> architecturally solve this problem internally?
+                                <br>
+                                <strong>Part C (Architectural Lock-Free Depth):</strong> What is the classic <strong>ABA Problem</strong> in lock-free concurrency (CAS), and how does <code>AtomicStampedReference</code> prevent it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'HighThroughputMetrics.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">public class HighThroughputMetrics {
+    private final AtomicLong transactionCounter = new AtomicLong();
+
+    public void recordTransaction(long amount) {
+        transactionCounter.addAndGet(amount);
+    }
+
+    public long getTotal() {
+        return transactionCounter.get();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('java', 20, 1, 'High-concurrency CAS contention: AtomicLong vs LongAdder Striped64 cells and lock-free ABA problem')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('java', 20, 2, 'High-concurrency CAS contention: AtomicLong vs LongAdder Striped64 cells and lock-free ABA problem')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('java', 20, 3, 'High-concurrency CAS contention: AtomicLong vs LongAdder Striped64 cells and lock-free ABA problem')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('java', 20, 4, 'High-concurrency CAS contention: AtomicLong vs LongAdder Striped64 cells and lock-free ABA problem')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (AtomicLong Contention Bottleneck):</strong>
+                                <br><code>AtomicLong</code> stores a single 64-bit <code>volatile long value</code>. Every update executes a tight hardware CAS loop (Compare-And-Swap) targeting that single memory address. When 128 threads hammer the same variable simultaneously:
+                                <br>1. Exactly one thread succeeds on each CPU cycle; the other 127 fail, spin in a loop, and retry.
+                                <br>2. This causes massive <strong>CPU L1/L2 cache line bouncing</strong> (MESI cache coherency protocol invalidating cache lines across all CPU cores on every write), burning 95%+ CPU on futile retries.
+                                <br><br>
+                                <strong>Part B (LongAdder & Striped64 Architecture):</strong>
+                                <br>Java 8 introduced <code>LongAdder</code> which extends <code>Striped64</code>:
+                                <br>• Instead of a single volatile counter, it dynamically maintains an array of <code>Cell</code> objects (padded with <code>@Contended</code> to avoid false sharing on cache lines).
+                                <br>• Each thread hashes to a different <code>Cell</code> based on its thread hash (<code>ThreadLocalRandom.getProbe()</code>), modifying its own cell independently with virtually <strong>zero thread contention</strong>.
+                                <br>• <code>LongAdder.sum()</code> simply aggregates all cells when the value is read. For write-heavy telemetry/counters, <code>LongAdder</code> is 10x-50x faster than <code>AtomicLong</code>.
+                                <br><br>
+                                <strong>Part C (The ABA Problem & AtomicStampedReference):</strong>
+                                <br>In lock-free data structures (like a Treiber stack), Thread 1 reads value <code>A</code> at memory address \(X\). Thread 1 gets preempted.
+                                <br>Thread 2 changes \(X\) from <code>A</code> to <code>B</code>, and then changes it back from <code>B</code> to <code>A</code>.
+                                <br>When Thread 1 resumes, its CAS checks if \(X == A\). It sees <code>A</code> and assumes nothing changed, proceeding with the swap. However, internal state (or linked nodes) was mutated, leading to silent memory corruption!
+                                <br><strong>Resolution:</strong> <code>AtomicStampedReference&lt;V&gt;</code> binds an integer version stamp (or timestamp) to the reference. The CAS only succeeds if both <code>reference == expectedReference</code> AND <code>stamp == expectedStamp</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Idiomatic Production Solution</span><span class="code-lang">Java</span></div>
+                                <pre><code>public class HighThroughputMetrics {
+    // Zero cache-line contention; striped across independent CPU cores
+    private final LongAdder transactionCounter = new LongAdder();
+
+    public void recordTransaction(long amount) {
+        transactionCounter.add(amount);
+    }
+
+    public long getTotal() {
+        return transactionCounter.sum();
+    }
+}
+
+// ABA-Safe Lock-Free Node Swap Example
+public class SafeLockFreeQueue&lt;T&gt; {
+    private final AtomicStampedReference&lt;Node&lt;T&gt;&gt; head;
+
+    public void updateHead(Node&lt;T&gt; oldHead, Node&lt;T&gt; newHead, int currentStamp) {
+        head.compareAndSet(oldHead, newHead, currentStamp, currentStamp + 1);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends replacing AtomicLong with <code>synchronized</code> or <code>ReentrantLock</code> (which is even slower under contention); has never heard of <code>LongAdder</code> or the ABA problem.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains hardware CAS spinning and MESI cache-line invalidation; details how <code>Striped64</code> hashes threads to padded cells; articulates the ABA hazard with linked node recycling and prescribes <code>AtomicStampedReference</code> versioning.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Reusable Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card modal-code-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Snippet</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Code</span>
+                        <span class="code-lang">Java</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('java');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

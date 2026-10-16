@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring & Spring Boot Interview Suite | Enterprise Depth & Debugging</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link active"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🌱 Spring Framework & Spring Boot (2.x / 3.x)</h1>
+            <p>20 Real-world architectural questions covering AOP proxies, @Transactional boundaries, circular dependencies, auto-configuration, GraalVM AOT, thread pools, distributed caching, Netty WebFlux, and Kubernetes lifecycle.</p>
+        </header>
+
+        <div class="content-container">
+
+                        <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🌱 Skill: Spring & Spring Boot</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('spring')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                                        <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search Spring topics (e.g. aop proxy, transactional rollback, circular dependency, actuator, auto-configuration)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+
+                <!-- QUESTION 1: AOP Proxy Self-Invocation Trap -->
+                <div class="question-card" id="q-1" data-keywords="aop proxy self invocation transactional async cglib aspect">
+                    <div class="card-header">
+                        <span class="concept-badge">Spring Core & AOP Mechanics</span>
+                        <span class="q-number">Question 1 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring AOP dynamic proxy mechanics (CGLIB/JDK Dynamic Proxies) and why internal self-invocation (<code>this.method()</code>) completely bypasses proxy interceptors for <code>@Transactional</code>, <code>@Async</code>, and <code>@Cacheable</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the <code>OrderProcessingService</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> When a client calls <code>submitOrder(order)</code>, which in turn calls <code>executePayment(order)</code>, why does <code>executePayment()</code> fail to start a new transaction?
+                                <br>
+                                <strong>Part B:</strong> If <code>paymentClient.charge()</code> throws an unexpected <code>RuntimeException</code>, why does the database insert performed in <code>submitOrder()</code> still commit instead of rolling back?
+                                <br>
+                                <strong>Part C:</strong> What are the clean architectural fixes to solve this? (Compare self-injection vs service decomposition).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'OrderProcessingService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">@Service
+public class OrderProcessingService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentClient paymentClient;
+
+    public void submitOrder(Order order) {
+        order.setStatus(OrderStatus.PENDING);
+        orderRepository.save(order);
+        executePayment(order);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void executePayment(Order order) {
+        paymentClient.charge(order.getCustomerId(), order.getAmount());
+        order.setStatus(OrderStatus.CONFIRMED);
+        orderRepository.save(order);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 1, 1, 'Spring AOP proxy self-invocation bypass on @Transactional and @Async methods')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 1, 2, 'Spring AOP proxy self-invocation bypass on @Transactional and @Async methods')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 1, 3, 'Spring AOP proxy self-invocation bypass on @Transactional and @Async methods')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 1, 4, 'Spring AOP proxy self-invocation bypass on @Transactional and @Async methods')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> Spring's declarative transaction management operates via <strong>proxies</strong> (CGLIB subclassing or JDK dynamic interfaces). When an external client calls a bean method, it invokes the proxy object, which runs the transaction interceptor before delegating to the target object.
+                                <br><br>
+                                However, when <code>submitOrder()</code> calls <code>executePayment()</code> internally, it uses the direct Java <code>this</code> reference. <code>this</code> points to the raw unproxied instance, completely bypassing the Spring AOP interceptor stack! As a result, <code>@Transactional(propagation = Propagation.REQUIRES_NEW)</code> is totally ignored; execution runs in standard auto-commit mode without transaction boundaries.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Recommended Clean Architectural Fix</span><span class="code-lang">Java</span></div>
+                                <pre><code>// Decompose into distinct cohesive domain services
+@Service
+public class OrderProcessingService {
+    private final OrderRepository orderRepository;
+    private final OrderPaymentService orderPaymentService;
+
+    public OrderProcessingService(OrderRepository orderRepository, OrderPaymentService orderPaymentService) {
+        this.orderRepository = orderRepository;
+        this.orderPaymentService = orderPaymentService;
+    }
+
+    @Transactional
+    public void submitOrder(Order order) {
+        order.setStatus(OrderStatus.PENDING);
+        orderRepository.save(order);
+        orderPaymentService.executePayment(order);
+    }
+}
+
+@Service
+public class OrderPaymentService {
+    private final PaymentClient paymentClient;
+    private final OrderRepository orderRepository;
+
+    public OrderPaymentService(PaymentClient paymentClient, OrderRepository orderRepository) {
+        this.paymentClient = paymentClient;
+        this.orderRepository = orderRepository;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void executePayment(Order order) {
+        paymentClient.charge(order.getCustomerId(), order.getAmount());
+        order.setStatus(OrderStatus.CONFIRMED);
+        orderRepository.save(order);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests using <code>((OrderProcessingService) AopContext.currentProxy()).executePayment(order)</code> or <code>@Autowired private OrderProcessingService self</code> without recognizing that this is an anti-pattern showing poor component design.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates Spring AOP proxy interception mechanics immediately, explains why AspectJ compile-time/load-time weaving differs from Spring runtime proxies, and advocates separating payment into a dedicated service.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2: @Transactional Rollback Failure on Checked Exceptions -->
+                <div class="question-card" id="q-2" data-keywords="transactional rollback checked exception runtime exception rollbackfor">
+                    <div class="card-header">
+                        <span class="concept-badge">Transaction Management</span>
+                        <span class="q-number">Question 2 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring declarative transaction default rollback rules: By default, transactions roll back <strong>only on unchecked exceptions</strong> (<code>RuntimeException</code> and <code>Error</code>), NOT on checked exceptions.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>BankingTransferService.transferFunds()</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> If <code>auditLogService.recordTransfer()</code> throws a custom checked <code>AuditLogException</code>, what happens to the debited balance? Does the database transaction roll back or commit?
+                                <br>
+                                <strong>Part B:</strong> Why does Spring have this default behavior, and how do you ensure the transaction always rolls back on any exception?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'BankingTransferService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">@Service
+public class BankingTransferService {
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private AuditLogService auditLogService;
+
+    @Transactional
+    public void transferFunds(Long fromId, Long toId, BigDecimal amount) throws AuditLogException {
+        Account from = accountRepository.findById(fromId).orElseThrow();
+        Account to = accountRepository.findById(toId).orElseThrow();
+
+        from.debit(amount);
+        to.credit(amount);
+
+        accountRepository.save(from);
+        accountRepository.save(to);
+
+        auditLogService.recordTransfer(fromId, toId, amount);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 2, 1, '@Transactional rollback semantics on checked vs runtime exceptions and rollbackFor')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 2, 2, '@Transactional rollback semantics on checked vs runtime exceptions and rollbackFor')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 2, 3, '@Transactional rollback semantics on checked vs runtime exceptions and rollbackFor')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 2, 4, '@Transactional rollback semantics on checked vs runtime exceptions and rollbackFor')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>The Surprise:</strong> The transaction <strong>COMMITS</strong>! The debited and credited money is persisted permanently, even though <code>AuditLogException</code> was thrown.
+                                <br><br>
+                                <strong>Why:</strong> Spring's <code>@Transactional</code> follows the historical EJB Container-Managed Transactions (CMT) standard: unchecked exceptions (subclasses of <code>RuntimeException</code>) indicate unexpected system errors warranting rollback, whereas checked exceptions are treated as recoverable business outcomes where partial state changes might need to be retained.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix Options</span><span class="code-lang">Java</span></div>
+                                <pre><code>// Option 1: Explicit rollbackFor declaration
+@Transactional(rollbackFor = Exception.class)
+public void transferFunds(Long fromId, Long toId, BigDecimal amount) throws AuditLogException {
+    // ...
+}
+
+// Option 2: Architectural practice - convert checked exceptions to domain runtime exceptions
+public class AuditLogException extends RuntimeException {
+    public AuditLogException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Confidently asserts that `@Transactional` catches all exceptions and rolls back everything automatically.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Immediately identifies the checked exception trap, explains EJB convention roots, specifies `rollbackFor = Exception.class`, and discusses enterprise architectural policies around exception hierarchies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3: Propagation Trap & UnexpectedRollbackException -->
+                <div class="question-card" id="q-3" data-keywords="propagation required unexpectedrollbackexception setrollbackonly try catch">
+                    <div class="card-header">
+                        <span class="concept-badge">Transaction Propagation & Boundaries</span>
+                        <span class="q-number">Question 3 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Transaction boundary propagation (<code>REQUIRED</code> vs <code>REQUIRES_NEW</code>) and the <code>TransactionStatus.setRollbackOnly()</code> marker causing <code>UnexpectedRollbackException</code> when exceptions are swallowed in <code>try-catch</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>InvoiceService</code> and <code>NotificationService</code> in the code snippet.
+                                In <code>generateInvoice()</code>, the call to <code>notificationService.sendNotification()</code> is wrapped in a <code>try-catch</code> block that logs and swallows the exception.
+                                <br><br>
+                                When run with an invalid email, the method throws:
+                                <br>
+                                <code>org.springframework.transaction.UnexpectedRollbackException: Transaction silently rolled back because it has been marked as rollback-only</code>.
+                                <br><br>
+                                Why did the outer transaction roll back even though the exception was caught, and how do you ensure the invoice is saved even if the notification fails?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'InvoiceNotificationFlow.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">@Service
+public class InvoiceService {
+
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Transactional
+    public void generateInvoice(InvoiceRequest request) {
+        Invoice invoice = new Invoice(request);
+        invoiceRepository.save(invoice);
+
+        try {
+            notificationService.sendNotification(invoice);
+        } catch (Exception ex) {
+            log.error("Failed to notify customer", ex);
+        }
+    }
+}
+
+@Service
+public class NotificationService {
+
+    @Transactional
+    public void sendNotification(Invoice invoice) {
+        if (invoice.getEmail() == null) {
+            throw new IllegalArgumentException("Customer email required");
+        }
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 3, 1, 'Transaction propagation traps, setRollbackOnly, and UnexpectedRollbackException')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 3, 2, 'Transaction propagation traps, setRollbackOnly, and UnexpectedRollbackException')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 3, 3, 'Transaction propagation traps, setRollbackOnly, and UnexpectedRollbackException')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 3, 4, 'Transaction propagation traps, setRollbackOnly, and UnexpectedRollbackException')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>The Root Cause:</strong> Both methods use the default propagation <code>Propagation.REQUIRED</code>. When <code>sendNotification()</code> is called, it does NOT start a new transaction; it joins the existing physical transaction started by <code>generateInvoice()</code>.
+                                <br><br>
+                                When <code>sendNotification()</code> throws <code>IllegalArgumentException</code> (an unchecked exception), its Spring transaction interceptor catches it and marks the shared physical transaction as <strong>rollback-only</strong> (<code>TransactionStatus.setRollbackOnly()</code>).
+                                <br><br>
+                                Even though <code>InvoiceService</code> catches and swallows the exception in its Java <code>try-catch</code>, when <code>generateInvoice()</code> finishes, the Spring transaction manager attempts to commit the physical transaction. It detects that the transaction was marked rollback-only by an inner method, aborts the commit, rolls back everything, and throws <code>UnexpectedRollbackException</code>!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Fix Options</span><span class="code-lang">Java</span></div>
+                                <pre><code>// Solution 1: Isolate in an independent physical transaction
+@Service
+public class NotificationService {
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void sendNotification(Invoice invoice) {
+        // Runs in its own separate transaction; failure marks only its own transaction for rollback
+    }
+}
+
+// Solution 2: Preferred Enterprise Design - Decouple via Spring Application Events or MQ
+@Transactional
+public void generateInvoice(InvoiceRequest request) {
+    Invoice invoice = new Invoice(request);
+    invoiceRepository.save(invoice);
+    eventPublisher.publishEvent(new InvoiceGeneratedEvent(invoice.getId()));
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks the `try-catch` was in the wrong place or that Spring is "broken" because it ignored standard Java catch logic.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Immediately explains the shared physical transaction boundary, the `setRollbackOnly()` marker, and architectural options (`REQUIRES_NEW`, `@Async`, or event-driven messaging).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 4: Bean Lifecycle & Circular Dependency Deadlock -->
+                <div class="question-card" id="q-4" data-keywords="circular dependency constructor injection lazy bean lifecycle spring boot 3">
+                    <div class="card-header">
+                        <span class="concept-badge">Dependency Injection & Lifecycle</span>
+                        <span class="q-number">Question 4 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring bean lifecycle instantiation phases, constructor vs setter injection, and why Spring Boot 2.6+ / 3.x disabled circular references by default (<code>BeanCurrentlyInCreationException</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>UserService</code> and <code>AuditService</code> in the code snippet. When the Spring Boot application boots up, it crashes with:
+                                <br>
+                                <code>The dependencies of some of the beans in the application context form a cycle: UserService -> AuditService -> UserService</code>.
+                                <br><br>
+                                <strong>Part A:</strong> Why does constructor injection fail with circular references while field/setter injection used to allow it in older Spring versions?
+                                <br>
+                                <strong>Part B:</strong> Why did Spring Boot disable circular references by default starting in Spring Boot 2.6?
+                                <br>
+                                <strong>Part C:</strong> How do you resolve this properly without resorting to lazy hacks?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'CircularDependency.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">@Service
+public class UserService {
+    private final AuditService auditService;
+    private final UserRepository userRepository;
+
+    public UserService(AuditService auditService, UserRepository userRepository) {
+        this.auditService = auditService;
+        this.userRepository = userRepository;
+    }
+
+    public void register(User user) {
+        userRepository.save(user);
+        auditService.logAction("USER_REGISTERED", user.getId());
+    }
+
+    public User getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+}
+
+@Service
+public class AuditService {
+    private final UserService userService;
+    private final AuditLogRepository auditLogRepository;
+
+    public AuditService(UserService userService, AuditLogRepository auditLogRepository) {
+        this.userService = userService;
+        this.auditLogRepository = auditLogRepository;
+    }
+
+    public void logAction(String action, Long userId) {
+        User user = userService.getUser(userId);
+        auditLogRepository.save(new AuditEntry(action, user));
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 4, 1, 'Bean lifecycle, constructor injection circular dependencies, and event decoupling')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 4, 2, 'Bean lifecycle, constructor injection circular dependencies, and event decoupling')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 4, 3, 'Bean lifecycle, constructor injection circular dependencies, and event decoupling')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 4, 4, 'Bean lifecycle, constructor injection circular dependencies, and event decoupling')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Why Constructor Injection Crashes:</strong> With constructor injection, Spring must instantiate bean A by calling its constructor. To call bean A's constructor, bean B must already exist. But to instantiate bean B, bean A must already exist. It is a fundamental chicken-and-egg deadlock at the JVM bytecode level before any object instance can be created in heap.
+                                <br><br>
+                                In contrast, field/setter injection allowed Spring to use its <strong>3-level singleton cache</strong> (early bean references): it instantiated an uninitialized bean A, exposed its raw reference to the cache, injected bean A into bean B, and then finished injecting bean B into bean A.
+                                <br><br>
+                                <strong>Why Spring Boot Disabled It:</strong> Circular dependencies violate the <strong>Single Responsibility Principle</strong> and create hard coupling that leads to hidden initialization order bugs, memory leaks, and proxy generation failures (e.g., when <code>@Async</code> or transactional proxies wrap one of the cyclic beans).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural Resolution: Decouple via Events</span><span class="code-lang">Java</span></div>
+                                <pre><code>// 1. UserService publishes an event instead of calling AuditService directly
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
+    public UserService(UserRepository userRepository, ApplicationEventPublisher eventPublisher) {
+        this.userRepository = userRepository;
+        this.eventPublisher = eventPublisher;
+    }
+
+    public void register(User user) {
+        userRepository.save(user);
+        eventPublisher.publishEvent(new UserRegisteredEvent(user));
+    }
+}
+
+// 2. AuditService listens to events; no dependency on UserService!
+@Component
+public class AuditService {
+    private final AuditLogRepository auditLogRepository;
+
+    public AuditService(AuditLogRepository auditLogRepository) {
+        this.auditLogRepository = auditLogRepository;
+    }
+
+    @EventListener
+    public void onUserRegistered(UserRegisteredEvent event) {
+        auditLogRepository.save(new AuditEntry("USER_REGISTERED", event.getUser()));
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends adding <code>@Lazy</code> to the constructor or setting <code>spring.main.allow-circular-references=true</code> in <code>application.properties</code>.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Rejects `@Lazy` as a band-aid hiding architectural rot; redesigns dependencies using Spring Application Events or extracts a third intermediary service.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 5: Spring Boot Auto-Configuration Internals -->
+                <div class="question-card" id="q-5" data-keywords="autoconfiguration conditionalonmissingbean spring.factories imports conditionalonclass">
+                    <div class="card-header">
+                        <span class="concept-badge">Spring Boot Internals</span>
+                        <span class="q-number">Question 5 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring Boot auto-configuration mechanics: <code>@AutoConfiguration</code>, conditional evaluation order (<code>@ConditionalOnClass</code>, <code>@ConditionalOnMissingBean</code>), and the migration from <code>META-INF/spring.factories</code> to <code>AutoConfiguration.imports</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Your platform team built a custom starter <code>company-security-starter</code> with the configuration class in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> An application developer registers their own <code>@Bean public TokenValidator customValidator()</code> inside their application, expecting it to replace the starter's validator. Instead, the application crashes with <code>NoUniqueBeanDefinitionException: expected single matching bean but found 2: tokenValidator, customValidator</code>. Why?
+                                <br>
+                                <strong>Part B:</strong> In Spring Boot 3.x, why does registering auto-configuration classes in <code>META-INF/spring.factories</code> no longer work? What file replaced it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'SecurityStarterAutoConfiguration.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">@AutoConfiguration
+public class SecurityStarterAutoConfiguration {
+
+    @Bean
+    public TokenValidator tokenValidator() {
+        return new JwtTokenValidator("default-secret");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ApiAuthorizer apiAuthorizer(TokenValidator tokenValidator) {
+        return new DefaultApiAuthorizer(tokenValidator);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 5, 1, 'Spring Boot auto-configuration, conditional bean ordering, and Spring Boot 3 imports file')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 5, 2, 'Spring Boot auto-configuration, conditional bean ordering, and Spring Boot 3 imports file')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 5, 3, 'Spring Boot auto-configuration, conditional bean ordering, and Spring Boot 3 imports file')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 5, 4, 'Spring Boot auto-configuration, conditional bean ordering, and Spring Boot 3 imports file')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Why It Crashed:</strong> Look closely at <code>tokenValidator()</code>: it is missing the <code>@ConditionalOnMissingBean</code> annotation! Because it lacks this condition, Spring Boot registers it unconditionally, regardless of what the user defines in their application context.
+                                <br><br>
+                                <strong>Spring Boot 2.7 / 3.x Migration:</strong>
+                                In Spring Boot 3, auto-configuration registration in <code>META-INF/spring.factories</code> under <code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code> was completely removed. It was replaced by:
+                                <br>
+                                <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>.
+                                This file contains a simple newline-delimited list of class names, which significantly speeds up startup parsing and simplifies Ahead-Of-Time (AOT) reflection analysis.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Correct Starter Configuration</span><span class="code-lang">Java</span></div>
+                                <pre><code>@AutoConfiguration
+@ConditionalOnClass(TokenValidator.class)
+public class SecurityStarterAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean(TokenValidator.class)
+    public TokenValidator tokenValidator() {
+        return new JwtTokenValidator("default-secret");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ApiAuthorizer.class)
+    public ApiAuthorizer apiAuthorizer(TokenValidator tokenValidator) {
+        return new DefaultApiAuthorizer(tokenValidator);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests adding <code>@Primary</code> to the user's bean or using <code>@Qualifier</code> everywhere, failing to understand how starters provide fallback beans.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Spots the missing `@ConditionalOnMissingBean` immediately, details the two-phase bean registration process (user beans scanned first, auto-configurations evaluated second), and cites the `AutoConfiguration.imports` specification in Spring Boot 3.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 6: Prototype Bean Injected into Singleton Bean (Scope Leak) -->
+                <div class="question-card" id="q-6" data-keywords="prototype singleton scope leak lookup objectprovider">
+                    <div class="card-header">
+                        <span class="concept-badge">Bean Scope & Concurrency Hazards</span>
+                        <span class="q-number">Question 6 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The Spring bean scope mismatch trap: Injecting a <strong>Prototype</strong> scoped bean into a <strong>Singleton</strong> scoped bean via standard dependency injection, causing state contamination and concurrency bugs.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>ReportContext</code> (scoped as <code>prototype</code>) and <code>ReportJobRunner</code> (default <code>singleton</code>) in the code snippet.
+                                <br><br>
+                                In production, multiple tenant reports run concurrently. Customers are reporting that their generated PDFs contain confidential rows from other tenants!
+                                <br><br>
+                                <strong>Part A:</strong> Why is <code>ReportContext</code> behaving like a singleton even though it is annotated with <code>@Scope("prototype")</code>?
+                                <br>
+                                <strong>Part B:</strong> How do you fix this without injecting <code>ApplicationContext</code> directly (which violates inversion of control)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'ReportJobRunner.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class ReportContext {
+    private String tenantId;
+    private List&lt;String&gt; buffer = new ArrayList&lt;&gt;();
+
+    public void init(String tenantId) {
+        this.tenantId = tenantId;
+    }
+    public void addData(String row) {
+        buffer.add(row);
+    }
+    public List&lt;String&gt; getBuffer() { return buffer; }
+}
+
+@Service
+public class ReportJobRunner {
+
+    @Autowired
+    private ReportContext reportContext;
+
+    public void runJob(String tenantId, List&lt;String&gt; records) {
+        reportContext.init(tenantId);
+        records.forEach(reportContext::addData);
+        persistReport(reportContext);
+    }
+
+    private void persistReport(ReportContext ctx) {
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 6, 1, 'Bean scope mismatch: Prototype bean injected into Singleton bean and ObjectProvider fix')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 6, 2, 'Bean scope mismatch: Prototype bean injected into Singleton bean and ObjectProvider fix')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 6, 3, 'Bean scope mismatch: Prototype bean injected into Singleton bean and ObjectProvider fix')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 6, 4, 'Bean scope mismatch: Prototype bean injected into Singleton bean and ObjectProvider fix')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Root Cause:</strong> <code>ReportJobRunner</code> is a singleton bean instantiated once during Spring application startup. Its dependencies are resolved and injected <strong>only once</strong> at startup. Therefore, only one single instance of <code>ReportContext</code> is created and bound to <code>ReportJobRunner</code> forever!
+                                <br><br>
+                                When multiple concurrent worker threads call <code>runJob()</code>, they all mutate the exact same <code>reportContext</code> instance and its unsynchronized <code>ArrayList</code> buffer, causing disastrous cross-tenant data leaks and race conditions.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Idiomatic Modern Solutions</span><span class="code-lang">Java</span></div>
+                                <pre><code>// Solution 1: Use ObjectProvider (Modern Spring 5 / Boot 2 & 3 approach)
+@Service
+public class ReportJobRunner {
+    private final ObjectProvider&lt;ReportContext&gt; reportContextProvider;
+
+    public ReportJobRunner(ObjectProvider&lt;ReportContext&gt; reportContextProvider) {
+        this.reportContextProvider = reportContextProvider;
+    }
+
+    public void runJob(String tenantId, List&lt;String&gt; records) {
+        ReportContext freshContext = reportContextProvider.getObject(); // Returns a new prototype instance every time
+        freshContext.init(tenantId);
+        records.forEach(freshContext::addData);
+        persistReport(freshContext);
+    }
+}
+
+// Solution 2: @Lookup Method Injection (CGLIB overrides method at runtime)
+@Service
+public abstract class ReportJobRunner {
+    @Lookup
+    public abstract ReportContext getReportContext();
+
+    public void runJob(String tenantId, List&lt;String&gt; records) {
+        ReportContext freshContext = getReportContext();
+        // ...
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests injecting <code>ApplicationContext</code> and calling <code>context.getBean(ReportContext.class)</code>, introducing anti-pattern coupling to the container.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains dependency injection timing at startup, warns about thread-safety with mutable state in singletons, and uses `ObjectProvider<T>` or proxy scoping (`proxyMode = ScopedProxyMode.TARGET_CLASS`).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 7: Security Context Loss in @Async Execution -->
+                <div class="question-card" id="q-7" data-keywords="securitycontextholder async threadlocal taskdecorator securitycontextexecutor">
+                    <div class="card-header">
+                        <span class="concept-badge">Spring Security & Concurrency</span>
+                        <span class="q-number">Question 7 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <code>SecurityContextHolder</code> storage strategies (<code>ThreadLocal</code>) and the security context loss problem when spawning background threads with <code>@Async</code> or <code>CompletableFuture</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>UserReportService.generateUserReport()</code> in the code snippet.
+                                A logged-in user triggers an asynchronous report export. However, inside the <code>@Async</code> method, <code>SecurityContextHolder.getContext().getAuthentication()</code> returns <code>null</code>, causing an unhandled <code>NullPointerException</code>.
+                                <br><br>
+                                <strong>Part A:</strong> Why is the authentication token missing in the <code>@Async</code> worker thread?
+                                <br>
+                                <strong>Part B:</strong> Why is configuring <code>SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL)</code> dangerous in thread-pool environments (such as Tomcat or <code>ThreadPoolTaskExecutor</code>)?
+                                <br>
+                                <strong>Part C:</strong> What is the production-grade way to propagate security context to thread pools in Spring Boot?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'UserReportService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">@Service
+public class UserReportService {
+
+    @Async
+    public CompletableFuture&lt;ReportResult&gt; generateUserReport() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = auth.getName();
+
+        ReportResult result = buildReportForUser(currentUsername);
+        return CompletableFuture.completedFuture(result);
+    }
+
+    private ReportResult buildReportForUser(String username) {
+        return new ReportResult(username, System.currentTimeMillis());
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 7, 1, 'Spring Security ThreadLocal context loss in @Async threads and TaskDecorator propagation')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 7, 2, 'Spring Security ThreadLocal context loss in @Async threads and TaskDecorator propagation')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 7, 3, 'Spring Security ThreadLocal context loss in @Async threads and TaskDecorator propagation')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 7, 4, 'Spring Security ThreadLocal context loss in @Async threads and TaskDecorator propagation')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Why Authentication is Null:</strong> By default, Spring Security uses <code>SecurityContextHolder.MODE_THREADLOCAL</code>. The authenticated context lives strictly on the HTTP request thread. When <code>@Async</code> runs, it executes on a separate worker thread from the task executor pool, which starts with an empty <code>ThreadLocal</code> map.
+                                <br><br>
+                                <strong>Why `MODE_INHERITABLETHREADLOCAL` is Dangerous:</strong> <code>InheritableThreadLocal</code> only copies context when a new thread is spawned. Thread pools pre-allocate worker threads! A pooled worker thread will retain stale credentials from a previous user and execute subsequent requests under the wrong identity (severe authorization bypass and tenant data leak).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Production-Grade Solution: TaskDecorator</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Configuration
+@EnableAsync
+public class AsyncSecurityConfig {
+
+    @Bean("taskExecutor")
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("async-exec-");
+        
+        // Explicitly copies security context when task is submitted, and clears it when task finishes!
+        executor.setTaskDecorator(runnable -> {
+            SecurityContext context = SecurityContextHolder.getContext();
+            return () -> {
+                try {
+                    SecurityContextHolder.setContext(context);
+                    runnable.run();
+                } finally {
+                    SecurityContextHolder.clearContext(); // Prevents thread-pool contamination!
+                }
+            };
+        });
+        
+        executor.initialize();
+        return executor;
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends passing username as a parameter or setting `MODE_INHERITABLETHREADLOCAL` without recognizing thread reuse contamination.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Details ThreadLocal pool reuse hazards, configures a `TaskDecorator` with `DelegatingSecurityContextRunnable` or `DelegatingSecurityContextAsyncTaskExecutor`, and ensures `clearContext()` is called in `finally`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 8: Custom Actuator Metrics & High Cardinality Leaks -->
+                <div class="question-card" id="q-8" data-keywords="actuator micrometer meterregistry cardinality leak security exposure heapdump env">
+                    <div class="card-header">
+                        <span class="concept-badge">Actuator & Production Observability</span>
+                        <span class="q-number">Question 8 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Micrometer <code>MeterRegistry</code> cardinality leak hazards and production security hardening of Spring Boot Actuator endpoints (protecting against <code>/actuator/env</code> and <code>/actuator/heapdump</code> data theft).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>OrderMetricsController</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Under high production traffic, the service experiences severe Old Generation heap exhaustion and eventually crashes with <code>OutOfMemoryError: Java heap space</code>. Heap dump analysis shows millions of objects retained by <code>MeterRegistry</code>. What caused this leak?
+                                <br>
+                                <strong>Part B:</strong> An ops engineer configured <code>management.endpoints.web.exposure.include=*</code> in production. What catastrophic security exposures does this introduce, and how should Actuator endpoints be locked down for enterprise compliance?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'OrderMetricsController.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">@RestController
+@RequestMapping("/api/orders")
+public class OrderMetricsController {
+
+    private final MeterRegistry meterRegistry;
+
+    public OrderMetricsController(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+    }
+
+    @PostMapping("/submit")
+    public ResponseEntity&lt;String&gt; submitOrder(
+            @RequestHeader("X-Request-Id") String requestId, 
+            @RequestBody OrderDto dto) {
+        
+        meterRegistry.counter("orders.received", "requestId", requestId).increment();
+        return ResponseEntity.ok("Submitted");
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 8, 1, 'Micrometer high cardinality metric leaks and production Actuator security lockdown')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 8, 2, 'Micrometer high cardinality metric leaks and production Actuator security lockdown')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 8, 3, 'Micrometer high cardinality metric leaks and production Actuator security lockdown')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 8, 4, 'Micrometer high cardinality metric leaks and production Actuator security lockdown')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Cardinality Explosion:</strong> In Micrometer (and Prometheus), every unique combination of metric name and tag key-values creates an independent, permanent time-series meter stored in an internal ConcurrentHashMap inside <code>MeterRegistry</code>.
+                                <br><br>
+                                Because <code>X-Request-Id</code> is a unique UUID per request, this line generates millions of permanent entries. Meters are never garbage collected by design, exhausting heap memory rapidly. <strong>Rule: Never use unbounded, high-cardinality values (UUIDs, user IDs, timestamps, URLs with path params) as metric tags!</strong>
+                                <br><br>
+                                <strong>Actuator Exposure Security Hazards:</strong>
+                                <br>• <code>/actuator/env</code>: Exposes decrypted environment variables, database credentials, AWS access keys, and JWT signing keys.
+                                <br>• <code>/actuator/heapdump</code>: Allows any external attacker to download the complete JVM heap snapshot (recovering plain-text passwords, customer PII, credit card numbers).
+                                <br>• <code>/actuator/shutdown</code>: Allows malicious actors to terminate the service remotely.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Enterprise Lockdown Configuration</span><span class="code-lang">yaml</span></div>
+                                <pre><code>management:
+  server:
+    port: 9090 # Isolate metrics to an internal non-public management port!
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus" # Strictly whitelist safe endpoints
+  endpoint:
+    health:
+      show-details: when-authorized
+      roles: "MONITORING_ADMIN"</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Focuses on increasing JVM heap (`-Xmx`) or assumes `requestId` should be cached with an eviction policy.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses tag cardinality explosion immediately, separates metrics from distributed tracing (MDC / OpenTelemetry), and mandates binding management endpoints to an internal non-routable port.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 9: TransactionalEventListener AFTER_COMMIT Silent Failure -->
+                <div class="question-card" id="q-9" data-keywords="transactionaleventlistener after_commit events applicationeventpublisher silent failure">
+                    <div class="card-header">
+                        <span class="concept-badge">Domain Events & Transaction Sync</span>
+                        <span class="q-number">Question 9 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring Domain Events with <code>@TransactionalEventListener</code> vs <code>@EventListener</code>, and why performing database updates in <code>TransactionPhase.AFTER_COMMIT</code> fails silently without throwing an exception.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>OrderService</code> and <code>OrderEmailNotifier</code> in the code snippet.
+                                When an order is created, <code>OrderService</code> saves it and publishes an <code>OrderCreatedEvent</code>.
+                                In <code>OrderEmailNotifier</code>, the listener runs in <code>TransactionPhase.AFTER_COMMIT</code>, sends an email, and updates <code>order.setEmailSent(true)</code>.
+                                <br><br>
+                                The email is sent successfully, but <code>order.setEmailSent(true)</code> is <strong>NEVER saved in the database</strong>! Yet, no exception is logged.
+                                <br><br>
+                                Why does database persistence fail silently in <code>AFTER_COMMIT</code>, and what is the proper architectural pattern?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'OrderEventFlow.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    @Transactional
+    public void createOrder(Order order) {
+        orderRepository.save(order);
+        eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
+    }
+}
+
+@Component
+public class OrderEmailNotifier {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void onOrderCreated(OrderCreatedEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).orElseThrow();
+        sendConfirmationEmail(order);
+        order.setEmailSent(true);
+        orderRepository.save(order);
+    }
+
+    private void sendConfirmationEmail(Order order) {
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 9, 1, 'Spring @TransactionalEventListener AFTER_COMMIT silent flush failure and REQUIRES_NEW fix')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 9, 2, 'Spring @TransactionalEventListener AFTER_COMMIT silent flush failure and REQUIRES_NEW fix')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 9, 3, 'Spring @TransactionalEventListener AFTER_COMMIT silent flush failure and REQUIRES_NEW fix')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 9, 4, 'Spring @TransactionalEventListener AFTER_COMMIT silent flush failure and REQUIRES_NEW fix')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>The Root Cause:</strong> In <code>AFTER_COMMIT</code>, the physical database transaction has already completed and committed. The underlying JDBC connection was either closed or unbound from the current thread.
+                                <br><br>
+                                When the listener calls <code>orderRepository.save(order)</code>, Spring Data JPA / Hibernate sees that the current thread's transaction synchronization is still active but in a committed, read-only completion state. Hibernate's persistence context is not flushed to the database, and no subsequent commit is ever issued. The dirty entity changes are simply discarded when the thread terminates, without throwing an error!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Idiomatic Architectural Fixes</span><span class="code-lang">Java</span></div>
+                                <pre><code>// Solution 1: Explicitly open a fresh independent transaction
+@Component
+public class OrderEmailNotifier {
+    private final OrderRepository orderRepository;
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void onOrderCreated(OrderCreatedEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).orElseThrow();
+        sendConfirmationEmail(order);
+        order.setEmailSent(true);
+        orderRepository.save(order);
+    }
+}
+
+// Solution 2: Asynchronous Outbox / Event Listener (Recommended)
+@Component
+public class OrderEmailNotifier {
+    @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional
+    public void onOrderCreated(OrderCreatedEvent event) {
+        // Runs in separate worker thread, opens fresh transaction, doesn't block caller
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes `saveAndFlush()` will force the database write, without understanding that a commit is impossible without an active transaction.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains transaction synchronization lifecycle callbacks, identifies why Hibernate skips flushing after commit, and combines `@Async` or `REQUIRES_NEW` with outbox patterns.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 10: Spring Boot 3 GraalVM Native Image & Dynamic Proxy Failures -->
+                <div class="question-card" id="q-10" data-keywords="graalvm native image aot reflection spring boot 3 closed world cglib">
+                    <div class="card-header">
+                        <span class="concept-badge">Spring Boot 3 & GraalVM AOT Compilation</span>
+                        <span class="q-number">Question 10 of 10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Ahead-of-Time (AOT) compilation, the <strong>closed-world assumption</strong> of GraalVM Native Images, and why dynamic classloading, reflection, and dynamic proxies fail at runtime without explicit Spring Boot 3 AOT hints.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>DynamicIntegrationService</code> in the code snippet.
+                                The application works perfectly when running on the standard JVM via <code>java -jar app.jar</code>.
+                                However, when the team compiles it into a GraalVM native binary using Spring Boot 3 (<code>./gradlew nativeCompile</code>), the binary crashes at runtime with:
+                                <br>
+                                <code>ClassNotFoundException: com.example.dto.VendorPayload</code> or <code>NoSuchMethodException: com.example.dto.VendorPayload.&lt;init&gt;()</code>.
+                                <br><br>
+                                <strong>Part A:</strong> What is the "closed-world assumption" in GraalVM native image compilation, and why does standard reflection and dynamic classloading break?
+                                <br>
+                                <strong>Part B:</strong> How does Spring Boot 3 solve this during AOT processing, and what code/annotation must be added to make this work in native mode?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'DynamicIntegrationService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">@Service
+public class DynamicIntegrationService {
+
+    private final ObjectMapper objectMapper;
+
+    public DynamicIntegrationService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public &lt;T&gt; T parseDynamicPayload(String rawJson, String className) throws Exception {
+        Class&lt;?&gt; targetClass = Class.forName(className);
+        return (T) objectMapper.readValue(rawJson, targetClass);
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 10, 1, 'Spring Boot 3 GraalVM native image AOT hints and reflection configuration')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 10, 2, 'Spring Boot 3 GraalVM native image AOT hints and reflection configuration')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 10, 3, 'Spring Boot 3 GraalVM native image AOT hints and reflection configuration')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 10, 4, 'Spring Boot 3 GraalVM native image AOT hints and reflection configuration')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>The Closed-World Assumption:</strong> Unlike the standard HotSpot JVM which dynamically loads classes and compiles bytecode at runtime, GraalVM native image generation compiles Java bytecode ahead-of-time directly into a standalone C++ machine binary.
+                                <br><br>
+                                During build time, GraalVM performs aggressive <strong>static reachable code analysis</strong>. Any class, constructor, or field not statically referenced in known execution paths is stripped out (dead-code elimination) to minimize binary size.
+                                <br><br>
+                                Because <code>Class.forName(className)</code> and Jackson reflection construct types dynamically from string values at runtime, GraalVM does not know at build time that <code>VendorPayload</code> is needed, completely removing its constructors and reflection metadata!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Spring Boot 3 AOT Solutions</span><span class="code-lang">Java</span></div>
+                                <pre><code>// Solution 1: Use @RegisterReflectionForBinding (Spring Boot 3 declarative hint)
+@Service
+@RegisterReflectionForBinding({ VendorPayload.class, PartnerPayload.class })
+public class DynamicIntegrationService {
+    // ...
+}
+
+// Solution 2: Implement RuntimeHintsRegistrar for programmatic registration
+public class IntegrationRuntimeHints implements RuntimeHintsRegistrar {
+    @Override
+    public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
+        hints.reflection().registerType(VendorPayload.class, 
+            MemberCategory.INVOKE_DECLARED_CONSTRUCTORS,
+            MemberCategory.INVOKE_DECLARED_METHODS
+        );
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Has no exposure to GraalVM or Ahead-of-Time compilation; suggests writing a manual `switch` statement for JSON deserialization without understanding the underlying reflection issue.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates GraalVM closed-world analysis and dead-code stripping, explains why Spring Boot 3 introduced the AOT processing engine (`processAot`), and provides `@RegisterReflectionForBinding` or custom `RuntimeHintsRegistrar`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- QUESTION 11: @Async ThreadPool Exhaustion & Rejection Policy -->
+                <div class="question-card" id="q-11" data-keywords="async threadpooltaskexecutor simpleasynctaskexecutor rejection policy abort caller runs out of memory">
+                    <div class="card-header">
+                        <span class="concept-badge">Asynchronous Processing & Thread Pools</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring <code>@Async</code> default executor danger (<code>SimpleAsyncTaskExecutor</code> creating unbounded threads) versus properly configured <code>ThreadPoolTaskExecutor</code>, queue capacity boundaries, and task rejection policies (<code>CallerRunsPolicy</code> vs <code>AbortPolicy</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the asynchronous event notification system in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Under sudden promotional traffic spikes (5,000 requests/sec), why does an application using unconfigured <code>@Async</code> crash the entire Linux container with <code>OutOfMemoryError: unable to create native thread</code>?
+                                <br>
+                                <strong>Part B:</strong> If a developer configures a <code>ThreadPoolTaskExecutor</code> with <code>corePoolSize=10</code>, <code>maxPoolSize=50</code>, and <code>queueCapacity=10000</code>, why does the pool remain stuck at 10 threads even when 2,000 tasks arrive simultaneously?
+                                <br>
+                                <strong>Part C:</strong> What happens when the queue fills up completely if no rejection policy is specified, and what is the best policy for enterprise reliability?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'AsyncNotificationService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">@Configuration
+@EnableAsync
+public class AsyncConfig {
+
+    @Bean("notificationExecutor")
+    public Executor notificationExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(10000);
+        executor.setThreadNamePrefix("notif-exec-");
+        executor.initialize();
+        return executor;
+    }
+}
+
+@Service
+public class OrderNotificationService {
+
+    @Async("notificationExecutor")
+    public void dispatchCustomerPushNotification(Long orderId, String message) {
+        ThirdPartyPushClient.send(orderId, message);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 11, 1, 'Spring @Async thread pool sizing, SimpleAsyncTaskExecutor leak, and rejection policies')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 11, 2, 'Spring @Async thread pool sizing, SimpleAsyncTaskExecutor leak, and rejection policies')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 11, 3, 'Spring @Async thread pool sizing, SimpleAsyncTaskExecutor leak, and rejection policies')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 11, 4, 'Spring @Async thread pool sizing, SimpleAsyncTaskExecutor leak, and rejection policies')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (SimpleAsyncTaskExecutor Disaster):</strong> By default without an explicit bean named <code>taskExecutor</code>, Spring Boot falls back to <code>SimpleAsyncTaskExecutor</code>. This executor <strong>does not reuse threads</strong>; it spawns a brand new OS thread for every single task execution. A burst of 5,000 tasks spawns 5,000 OS threads, blowing past the operating system's <code>max_user_processes</code> / PID limit and causing <code>OutOfMemoryError: unable to create native thread</code>.
+                                <br><br>
+                                <strong>Part B (ThreadPoolExecutor Growth Rule):</strong> The JDK <code>ThreadPoolExecutor</code> contract specifies: <em>Threads are only created beyond <code>corePoolSize</code> up to <code>maxPoolSize</code> if the queue is completely full!</em>
+                                With a queue capacity of 10,000, 2,000 tasks are simply queued in memory. The executor remains operating on only 10 worker threads while tasks sit delayed in memory.
+                                <br><br>
+                                <strong>Part C (Rejection Policy):</strong> The default policy is <code>ThreadPoolExecutor.AbortPolicy</code>, which throws a runtime <code>TaskRejectedException</code>. In void <code>@Async</code> methods, this exception is silently swallowed and logged on unhandled exception handlers, causing silent message loss.
+                                <br><strong>Fix:</strong> Configure <code>ThreadPoolExecutor.CallerRunsPolicy</code> (provides automatic backpressure by making the calling thread execute the task) or use a persistent messaging queue (Kafka/RabbitMQ).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Production-Grade Executor Configuration</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Bean("notificationExecutor")
+public Executor notificationExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(16);
+    executor.setMaxPoolSize(32);
+    executor.setQueueCapacity(500); // Bounded queue to avoid massive heap retention
+    executor.setThreadNamePrefix("notif-exec-");
+    executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy()); // Backpressure!
+    executor.setWaitForTasksToCompleteOnShutdown(true);
+    executor.setAwaitTerminationSeconds(30);
+    executor.initialize();
+    return executor;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks <code>maxPoolSize</code> threads are spawned immediately when traffic increases; does not know that default <code>@Async</code> uses <code>SimpleAsyncTaskExecutor</code> without thread reuse.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates exact Java ThreadPoolExecutor queuing mechanics (core -> queue -> max -> reject), identifies thread exhaustion hazards, and configures <code>CallerRunsPolicy</code> for natural backpressure along with graceful shutdown parameters.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 12: Spring Cache Dogpiling (Cache Stampede) & Null Value Caching -->
+                <div class="question-card" id="q-12" data-keywords="cache stampede dogpile redis cacheable sync true unless null">
+                    <div class="card-header">
+                        <span class="concept-badge">Caching Architecture & High Concurrency</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The <strong>Cache Stampede (Dogpile effect)</strong> during high-traffic cache invalidation, locking concurrent cache loaders via <code>@Cacheable(sync = true)</code>, and preventing cache penetration using conditional evaluation (<code>unless = "#result == null"</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>ProductCatalogService</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> A flash sale product with millions of hits has its cache TTL expire at 12:00:00 PM. In the next 100 milliseconds, 30,000 concurrent requests arrive for this product. What happens to the database and why?
+                                <br>
+                                <strong>Part B:</strong> How does setting <code>@Cacheable(sync = true)</code> change internal Spring Cache synchronization behavior to solve this?
+                                <br>
+                                <strong>Part C:</strong> If a product is not found in the database and the repository returns <code>null</code>, what gets stored in Redis, and how do you prevent caching non-existent records?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'ProductCatalogService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">@Service
+public class ProductCatalogService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Cacheable(value = "products", key = "#sku")
+    public ProductDetails getProductBySku(String sku) {
+        return productRepository.findBySkuWithDetails(sku);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 12, 1, 'Spring Cache stampede dogpile mitigation with sync=true and null caching prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 12, 2, 'Spring Cache stampede dogpile mitigation with sync=true and null caching prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 12, 3, 'Spring Cache stampede dogpile mitigation with sync=true and null caching prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 12, 4, 'Spring Cache stampede dogpile mitigation with sync=true and null caching prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Cache Stampede):</strong> By default, Spring's <code>@Cacheable</code> check is non-synchronized. When the key expires, all 30,000 incoming threads simultaneously find a cache miss. Each thread proceeds to execute <code>productRepository.findBySkuWithDetails(sku)</code> against the database. This avalanche instantly consumes all HikariCP database connections, causing database CPU to spike to 100% and timing out all requests across the entire platform.
+                                <br><br>
+                                <strong>Part B (sync = true Mechanics):</strong>
+                                Adding <code>@Cacheable(value = "products", key = "#sku", sync = true)</code> instructs the underlying cache provider (such as Caffeine or Redis via Redisson) to acquire a lock for that specific key.
+                                Exactly <strong>one thread</strong> is permitted to execute the underlying database query; all other 29,999 threads are blocked awaiting that single computation, and are subsequently populated with the cached result!
+                                <br><br>
+                                <strong>Part C (Null Caching & Cache Penetration):</strong>
+                                By default, Spring Cache stores <code>NullValue.INSTANCE</code> in Redis when a method returns null. While this prevents cache penetration (repeated queries for non-existent IDs), if you want to avoid caching nulls, you must declare <code>unless = "#result == null"</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Robust Cacheable Configuration</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Service
+public class ProductCatalogService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    // sync = true prevents cache stampede; unless prevents caching missing records
+    @Cacheable(
+        value = "products", 
+        key = "#sku", 
+        sync = true, 
+        unless = "#result == null"
+    )
+    public ProductDetails getProductBySku(String sku) {
+        return productRepository.findBySkuWithDetails(sku);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests adding a Java <code>synchronized</code> keyword to the whole method (blocking all products globally across all SKUs, killing throughput).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains the Cache Stampede / Dogpile problem immediately, specifies <code>sync = true</code> for per-key synchronized loading, and configures probabilistic early expiration (XFetch) or conditional null exclusion.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 13: Spring Data JPA Projections vs Full Entity Heap Bloat -->
+                <div class="question-card" id="q-13" data-keywords="spring data jpa projections interface projection class dto heap bloat dirty checking">
+                    <div class="card-header">
+                        <span class="concept-badge">Data Access Performance & Hibernate Internals</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring Data JPA Interface-based Projections vs Class-based DTO Projections (Java Records) to eliminate full Hibernate entity instantiation, 1st-level persistence context memory retention, and unintended dirty checking overhead.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An admin screen needs to display a table of 20,000 users showing only <code>id</code>, <code>username</code>, and <code>email</code>.
+                                Review the repository methods in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Why does calling <code>findAllUsers()</code> cause massive heap memory bloat (500MB+) and high GC pressure compared to <code>findUserSummaries()</code>, even if only 3 fields are sent over JSON?
+                                <br>
+                                <strong>Part B:</strong> What is the performance difference between an <strong>Interface-based Projection</strong> (with getter methods) and a <strong>Class-based Record DTO Projection</strong> in Spring Data JPA?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'UserRepositoryProjections.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+
+    @Query("SELECT u FROM User u")
+    List&lt;User&gt; findAllUsers();
+
+    @Query("SELECT u.id AS id, u.username AS username, u.email AS email FROM User u")
+    List&lt;UserSummaryView&gt; findUserSummaries();
+
+    @Query("SELECT new com.example.dto.UserSummaryDto(u.id, u.username, u.email) FROM User u")
+    List&lt;UserSummaryDto&gt; findUserSummaryDtos();
+}
+
+public interface UserSummaryView {
+    Long getId();
+    String getUsername();
+    String getEmail();
+}
+
+public record UserSummaryDto(Long id, String username, String email) {}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 13, 1, 'Spring Data JPA projections vs entity persistence context bloat and Record DTO performance')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 13, 2, 'Spring Data JPA projections vs entity persistence context bloat and Record DTO performance')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 13, 3, 'Spring Data JPA projections vs entity persistence context bloat and Record DTO performance')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 13, 4, 'Spring Data JPA projections vs entity persistence context bloat and Record DTO performance')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Persistence Context Overhead):</strong>
+                                When <code>findAllUsers()</code> executes:
+                                <br>1. Hibernate queries all columns (including large text, audit metadata, and foreign key relations).
+                                <br>2. It instantiates 20,000 managed entities and stores them in the <strong>First-Level Cache (Persistence Context)</strong>.
+                                <br>3. It keeps an additional snapshot array for every entity to perform <strong>dirty checking</strong> when the transaction finishes.
+                                <br>This retains millions of objects in the Young/Old Gen heap until transaction close, creating severe GC pauses.
+                                <br><br>
+                                <strong>Part B (Interface Projections vs Record DTOs):</strong>
+                                <br>• <strong>Interface-based Projection (<code>UserSummaryView</code>):</strong> Spring Data generates a dynamic Java proxy (<code>Proxy.newProxyInstance</code>) wrapping an underlying <code>Map</code> or <code>Object[]</code> for each row. While it generates efficient SQL selecting only 3 columns, generating 20,000 dynamic proxy instances incurs significant reflection and memory overhead.
+                                <br>• <strong>Class/Record DTO Projection (<code>UserSummaryDto</code>):</strong> Pure constructor invocation (<code>SELECT new ...</code>). Hibernate instantiates standard immutable POJOs/Records directly from the JDBC ResultSet. <strong>Zero proxies, zero entity management, zero dirty checking, and lowest memory footprint!</strong>
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes fetching full entities is fine because "Hibernate handles memory automatically"; has never examined Persistence Context heap retention.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Analyzes Hibernate 1st-level cache snapshot costs, explains proxy creation overhead of interface projections, and advocates constructor expression Record DTOs for read-intensive microservices.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 14: @ControllerAdvice Precedence & Swallowing Security Exceptions -->
+                <div class="question-card" id="q-14" data-keywords="controlleradvice exceptionhandler accessdeniedexception order security 403 500">
+                    <div class="card-header">
+                        <span class="concept-badge">Web Architecture & Error Handling</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring MVC <code>@ControllerAdvice</code> exception hierarchy resolution, ordering precedence, and the dangerous anti-pattern of a generic <code>@ExceptionHandler(Exception.class)</code> masking Spring Security's <code>AccessDeniedException</code> (converting HTTP 403 into HTTP 500).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>GlobalExceptionHandler</code> in the code snippet.
+                                A developer wrote an endpoint protected with <code>@PreAuthorize("hasRole('ADMIN')")</code>.
+                                <br><br>
+                                When a normal non-admin user accesses this endpoint, the client receives <strong>HTTP 500 Internal Server Error</strong> instead of <strong>HTTP 403 Forbidden</strong>!
+                                <br><br>
+                                <strong>Part A:</strong> Why did the generic exception handler catch the security authorization exception, and why does this break standard Spring Security workflow?
+                                <br>
+                                <strong>Part B:</strong> What happens to Spring MVC validation errors (e.g. <code>MethodArgumentNotValidException</code> on <code>@Valid</code> request bodies) with this handler?
+                                <br>
+                                <strong>Part C:</strong> How do you design an enterprise-grade global exception handling hierarchy?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'GlobalExceptionHandler.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleBusiness(BusinessException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(new ErrorResponse("BUSINESS_ERROR", ex.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleGeneric(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse("SYSTEM_ERROR", "An unexpected error occurred"));
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 14, 1, 'ControllerAdvice exception hierarchy precedence and AccessDeniedException masking')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 14, 2, 'ControllerAdvice exception hierarchy precedence and AccessDeniedException masking')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 14, 3, 'ControllerAdvice exception hierarchy precedence and AccessDeniedException masking')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 14, 4, 'ControllerAdvice exception hierarchy precedence and AccessDeniedException masking')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Security Masking Trap):</strong>
+                                When <code>@PreAuthorize</code> fails, Spring Security's authorization interceptor throws <code>org.springframework.security.access.AccessDeniedException</code>.
+                                Normally, this exception bubbles up to Spring Security's <code>ExceptionTranslationFilter</code>, which checks if the user is authenticated and responds with HTTP 403 Forbidden (or redirects to login).
+                                <br><br>
+                                However, because <code>@PreAuthorize</code> is evaluated at the controller method level, the exception is thrown inside the MVC DispatcherServlet pipeline. <code>GlobalExceptionHandler</code> catches <code>Exception.class</code> (which matches <code>AccessDeniedException</code>). It intercepts it, formats an HTTP 500 response, and terminates execution. Spring Security never receives the exception!
+                                <br><br>
+                                <strong>Part B (Validation Errors Swallowed):</strong>
+                                Invalid DTO inputs annotated with <code>@Valid</code> throw <code>MethodArgumentNotValidException</code>. With this blanket catch-all, clients get HTTP 500 instead of HTTP 400 Bad Request with field validation errors!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Enterprise Clean Exception Architecture</span><span class="code-lang">Java</span></div>
+                                <pre><code>@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    // Explicitly rethrow or handle AccessDeniedException
+    @ExceptionHandler(AccessDeniedException.class)
+    public void handleAccessDenied(AccessDeniedException ex) throws AccessDeniedException {
+        throw ex; // Allows Spring Security's ExceptionTranslationFilter to generate proper 403!
+    }
+
+    // Handle Bean Validation (JSR-380) explicitly
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;Map&lt;String, String&gt;&gt; handleValidation(MethodArgumentNotValidException ex) {
+        Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();
+        ex.getBindingResult().getFieldErrors().forEach(e -&gt; errors.put(e.getField(), e.getDefaultMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ErrorResponse&gt; handleGeneric(Exception ex) {
+        log.error("Unhandled system error", ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse("SYSTEM_ERROR", "Internal system error"));
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Does not understand how DispatcherServlet and Spring Security filters interact; surprised that `@ExceptionHandler(Exception.class)` catches security exceptions.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains `ExceptionTranslationFilter` positioning in the filter chain, details why rethrowing `AccessDeniedException` preserves standard 403 semantics, and implements explicit handlers for validation and HTTP method mismatches.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 15: Spring Cloud Gateway / WebFlux Netty EventLoop Blocking -->
+                <div class="question-card" id="q-15" data-keywords="webflux netty eventloop blocking schedulers boundedelastic blockhound reactive gateway">
+                    <div class="card-header">
+                        <span class="concept-badge">Reactive Architecture & Non-Blocking I/O</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring WebFlux / Project Reactor execution architecture: Why calling blocking synchronous code (JDBC, legacy REST, <code>Thread.sleep</code>) inside a Netty EventLoop thread completely freezes the server, and how to properly offload blocking operations via <code>Schedulers.boundedElastic()</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An API Gateway built with Spring Cloud Gateway / WebFlux handles 40,000 requests per second across 8 CPU cores.
+                                A developer adds the <code>TenantAuthenticationFilter</code> in the code snippet to validate API keys against an external relational database using standard JDBC.
+                                <br><br>
+                                Immediately after deployment, the entire gateway freezes, latencies shoot to 60+ seconds, and all incoming requests hang indefinitely.
+                                <br><br>
+                                <strong>Part A:</strong> How many worker threads does a Netty-based Spring WebFlux application run by default on an 8-core machine, and what happened when JDBC was called on the event loop?
+                                <br>
+                                <strong>Part B:</strong> How do you detect and prevent blocking calls in reactive applications, and how do you properly offload unavoidable blocking I/O?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'TenantAuthenticationFilter.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">@Component
+public class TenantAuthenticationFilter implements GlobalFilter, Ordered {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        String apiKey = exchange.getRequest().getHeaders().getFirst("X-API-KEY");
+
+        Integer tenantCount = jdbcTemplate.queryForObject(
+            "SELECT count(*) FROM api_keys WHERE key_value = ?", 
+            Integer.class, 
+            apiKey
+        );
+
+        if (tenantCount == null || tenantCount == 0) {
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
+        }
+
+        return chain.filter(exchange);
+    }
+
+    @Override
+    public int getOrder() { return -1; }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 15, 1, 'WebFlux Netty EventLoop thread blocking and Schedulers.boundedElastic offloading')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 15, 2, 'WebFlux Netty EventLoop thread blocking and Schedulers.boundedElastic offloading')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 15, 3, 'WebFlux Netty EventLoop thread blocking and Schedulers.boundedElastic offloading')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 15, 4, 'WebFlux Netty EventLoop thread blocking and Schedulers.boundedElastic offloading')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Netty EventLoop Model):</strong>
+                                Unlike traditional Spring MVC (Tomcat) which allocates 200+ threads (1 thread per request), Netty uses an asynchronous event loop model with exactly <strong>1 thread per available CPU core</strong> (typically 8 threads on an 8-core CPU).
+                                <br><br>
+                                When synchronous <code>jdbcTemplate.queryForObject(...)</code> executes on the event loop, that worker thread is physically parked waiting for TCP network I/O from the database. When just 8 concurrent requests arrive, <strong>100% of the Netty EventLoop threads are completely blocked</strong>! The gateway cannot accept new TCP sockets or process keep-alive traffic, causing catastrophic service-wide starvation.
+                                <br><br>
+                                <strong>Part B (Detection & Solution):</strong>
+                                <br>• <strong>Detection:</strong> Integrate <strong>BlockHound</strong> (<code>BlockHound.install()</code>) in testing, which injects JVM bytecode instrumentation to throw an exception immediately if any blocking method runs on a non-blocking thread.
+                                <br>• <strong>Solution:</strong> Either migrate to reactive R2DBC drivers or wrap the blocking call inside <code>Mono.fromCallable(...).subscribeOn(Schedulers.boundedElastic())</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Proper Reactive Offloading</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Component
+public class TenantAuthenticationFilter implements GlobalFilter, Ordered {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        String apiKey = exchange.getRequest().getHeaders().getFirst("X-API-KEY");
+
+        // Offload blocking JDBC call to boundedElastic thread pool; EventLoop stays free!
+        return Mono.fromCallable(() -> {
+            return jdbcTemplate.queryForObject(
+                "SELECT count(*) FROM api_keys WHERE key_value = ?", 
+                Integer.class, 
+                apiKey
+            );
+        })
+        .subscribeOn(Schedulers.boundedElastic())
+        .flatMap(count -> {
+            if (count == null || count == 0) {
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
+            return chain.filter(exchange);
+        });
+    }
+
+    @Override
+    public int getOrder() { return -1; }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes Netty has hundreds of threads like Tomcat; cannot explain why an 8-core server halted on 8 requests.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Netty single-threaded event loop per core mechanics, cites BlockHound bytecode instrumentation, and uses <code>Schedulers.boundedElastic()</code> or R2DBC.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 16: Spring WebClient Connection Pool Leaks & Buffer Limits -->
+                <div class="question-card" id="q-16" data-keywords="webclient resttemplate connectionprovider connection pool leak databufferlimitexception maxconnections">
+                    <div class="card-header">
+                        <span class="concept-badge">HTTP Client Architecture & Resilience</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Netty <code>ConnectionProvider</code> connection pooling in Spring <code>WebClient</code>, connection leak prevention, configuring <code>pendingAcquireTimeout</code>, and solving <code>DataBufferLimitException: Exceeded limit on max bytes to buffer : 262144</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>PartnerIntegrationClient</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> In production after a few hours of high load, the client starts throwing <code>io.netty.channel.ConnectTimeoutException: Acquire operation took longer than 45000ms</code>. All connections in the pool are permanently tied up. What causes connection leaks in WebClient when consuming responses?
+                                <br>
+                                <strong>Part B:</strong> When downloading a 2MB JSON document from a downstream partner, WebClient crashes with <code>DataBufferLimitException: Exceeded limit on max bytes to buffer : 262144</code>. Why is there a 256KB default buffer, and how do you configure it safely without introducing memory leaks?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'PartnerIntegrationClient.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">@Service
+public class PartnerIntegrationClient {
+
+    private final WebClient webClient = WebClient.builder()
+        .baseUrl("https://partner.api.internal")
+        .build();
+
+    public Mono&lt;String&gt; notifyPartner(EventPayload payload) {
+        return webClient.post()
+            .uri("/v1/events")
+            .bodyValue(payload)
+            .retrieve()
+            .toBodilessEntity()
+            .map(response -&gt; "OK");
+    }
+
+    public Mono&lt;LargeReport&gt; fetchCatalogReport() {
+        return webClient.get()
+            .uri("/v1/catalog-large")
+            .retrieve()
+            .bodyToMono(LargeReport.class);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 16, 1, 'WebClient Netty ConnectionProvider pool tuning and DataBufferLimitException memory limits')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 16, 2, 'WebClient Netty ConnectionProvider pool tuning and DataBufferLimitException memory limits')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 16, 3, 'WebClient Netty ConnectionProvider pool tuning and DataBufferLimitException memory limits')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 16, 4, 'WebClient Netty ConnectionProvider pool tuning and DataBufferLimitException memory limits')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Connection Pool Leaks):</strong>
+                                WebClient relies on Reactor Netty's <code>ConnectionProvider</code>, which defaults to 500 connections with a pending acquire timeout of 45 seconds.
+                                <br>A common leak occurs when using low-level <code>.exchangeToMono()</code> or <code>.exchange()</code>: if the client does not consume the response body, the underlying Netty channel connection is never returned to the pool!
+                                (Note: <code>.retrieve()</code> safely releases connections automatically upon completion).
+                                <br>Additionally, if downstream services stall without an explicit read/response timeout configured via <code>responseTimeout</code>, connections remain held indefinitely.
+                                <br><br>
+                                <strong>Part B (DataBufferLimitException):</strong>
+                                Spring WebFlux sets a default 256KB memory buffer limit (<code>262144 bytes</code>) on <code>ExchangeStrategies</code> to protect reactive servers from Heap Exhaustion attacks (where an upstream sends a 5GB payload consuming all server memory).
+                                <br>To raise it safely, configure <code>maxInMemorySize</code> explicitly on <code>ExchangeStrategies</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Hardened Production WebClient Configuration</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Configuration
+public class WebClientConfig {
+
+    @Bean
+    public WebClient partnerWebClient() {
+        ConnectionProvider provider = ConnectionProvider.builder("partner-pool")
+            .maxConnections(200)
+            .pendingAcquireTimeout(Duration.ofSeconds(10))
+            .maxIdleTime(Duration.ofSeconds(30))
+            .evictInBackground(Duration.ofSeconds(60))
+            .build();
+
+        HttpClient httpClient = HttpClient.create(provider)
+            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+            .responseTimeout(Duration.ofSeconds(10));
+
+        // Safely bump buffer limit to 10MB
+        ExchangeStrategies strategies = ExchangeStrategies.builder()
+            .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(10 * 1024 * 1024))
+            .build();
+
+        return WebClient.builder()
+            .clientConnector(new ReactorClientHttpConnector(httpClient))
+            .exchangeStrategies(strategies)
+            .baseUrl("https://partner.api.internal")
+            .build();
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Sets buffer size to `-1` (unlimited, creating OOM attack risk) and does not know how connection acquisition timeouts work in Netty.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Configures explicit <code>ConnectionProvider</code> pools with eviction intervals, explains why <code>ExchangeStrategies</code> enforces the 256KB limit, and implements proper response timeouts.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 17: Spring Security OAuth2 Resource Server & JWT Key Caching -->
+                <div class="question-card" id="q-17" data-keywords="oauth2 jwt resource server jwk set uri caching jwtdecoder securityfilterchain">
+                    <div class="card-header">
+                        <span class="concept-badge">Cloud Security & Identity Architecture</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring Security OAuth2 Resource Server internals: Remote JWK Set caching (<code>jwk-set-uri</code>), preventing outbound HTTP roundtrips per request, custom claim extraction via <code>JwtAuthenticationConverter</code>, and audience verification.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the microservice security configuration in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> During performance testing at 5,000 req/sec, API latency increases by 300ms. Outbound network telemetry reveals that the microservice is making hundreds of HTTP requests per second to <code>https://auth.company.com/.well-known/jwks.json</code>. Why, and how does Nimbus/Spring Security cache public verification keys?
+                                <br>
+                                <strong>Part B:</strong> Your authorization token contains custom permissions in a claim named <code>"roles": ["read:orders", "write:orders"]</code>. By default, Spring Security maps claims to <code>SCOPE_...</code> instead of <code>ROLE_...</code>, causing <code>hasRole("read:orders")</code> to fail. How do you customize this?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'SecurityResourceServerConfig.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">@Configuration
+@EnableWebSecurity
+public class SecurityResourceServerConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -&gt; auth
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -&gt; oauth2.jwt(Customizer.withDefaults()));
+        return http.build();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 17, 1, 'OAuth2 Resource Server JWT key caching and JwtAuthenticationConverter custom claim mapping')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 17, 2, 'OAuth2 Resource Server JWT key caching and JwtAuthenticationConverter custom claim mapping')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 17, 3, 'OAuth2 Resource Server JWT key caching and JwtAuthenticationConverter custom claim mapping')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 17, 4, 'OAuth2 Resource Server JWT key caching and JwtAuthenticationConverter custom claim mapping')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (JWK Caching Mechanics):</strong>
+                                Spring Security uses Nimbus <code>DefaultJWTProcessor</code> with a <code>RemoteJWKSet</code>.
+                                By default, Nimbus caches the JWK Set in memory (default TTL 15 minutes). However, if an incoming JWT contains a Key ID (<code>kid</code>) header not found in the cache (or if token signing keys are rotated or malformed), Nimbus bypasses the cache and issues an HTTP GET to <code>jwk-set-uri</code>.
+                                If malicious clients send forged tokens with random <code>kid</code> values, they can trigger a distributed Denial of Service (DoS) attack forcing your server to continuously query the identity provider!
+                                <br><br>
+                                <strong>Part B (Custom Claim Conversion):</strong>
+                                By default, Spring's <code>JwtGrantedAuthoritiesConverter</code> looks only at claims named <code>scp</code> or <code>scope</code> and prefixes them with <code>SCOPE_</code>.
+                                To map custom claims to Spring Security roles, you supply a custom <code>JwtAuthenticationConverter</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Custom JWT Authentication Converter</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/api/admin/**").hasRole("ADMIN")
+            .anyRequest().authenticated()
+        )
+        .oauth2ResourceServer(oauth2 -> oauth2
+            .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+        );
+    return http.build();
+}
+
+@Bean
+public JwtAuthenticationConverter jwtAuthenticationConverter() {
+    JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+    authoritiesConverter.setAuthoritiesClaimName("roles");
+    authoritiesConverter.setAuthorityPrefix("ROLE_"); // maps "ADMIN" to "ROLE_ADMIN"
+
+    JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+    converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+    return converter;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Does not understand how public key cryptography verifies JWTs without calling the auth server on every request; writes manual token parsing filters.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains `RemoteJWKSet` caching and `kid` lookup attack vectors, configures `JwtAuthenticationConverter` cleanly, and mandates `OAuth2TokenValidator` for audience (`aud`) and clock skew tolerance.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 18: Custom Starter & @ConfigurationProperties Validation -->
+                <div class="question-card" id="q-18" data-keywords="configurationproperties validated custom starter failureanalyzer relaxed binding">
+                    <div class="card-header">
+                        <span class="concept-badge">Framework Extensibility & Configuration Architecture</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Type-safe configuration via <code>@ConfigurationProperties</code>, early boot validation using JSR-380 (<code>@Validated</code>), relaxed binding rules, and implementing a custom <code>FailureAnalyzer</code> for clear startup diagnosis.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Your platform team builds a custom starter <code>company-kafka-starter</code>.
+                                Look at the configuration properties class in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> If an application team omits <code>company.kafka.bootstrap-servers</code> in their YAML, the application boots up cleanly. 10 minutes later, when the first order is placed, it crashes with <code>NullPointerException</code>. How do you force Spring Boot to fail fast at startup with validation errors?
+                                <br>
+                                <strong>Part B:</strong> What is Spring Boot's <strong>Relaxed Binding</strong>, and why does <code>bootstrap-servers</code> match <code>bootstrapServers</code>, <code>BOOTSTRAP_SERVERS</code>, and <code>bootstrap_servers</code>?
+                                <br>
+                                <strong>Part C:</strong> How do you implement a <code>FailureAnalyzer</code> to give developers a friendly error message instead of an unreadable stack trace?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'KafkaPlatformProperties.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">@ConfigurationProperties(prefix = "company.kafka")
+public class KafkaPlatformProperties {
+
+    private String bootstrapServers;
+    private int connectionTimeoutMs = 3000;
+    private SecurityConfig security;
+
+    public static class SecurityConfig {
+        private String truststorePath;
+        private String password;
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 18, 1, 'Type-safe @ConfigurationProperties validation, relaxed binding, and custom FailureAnalyzer')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 18, 2, 'Type-safe @ConfigurationProperties validation, relaxed binding, and custom FailureAnalyzer')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 18, 3, 'Type-safe @ConfigurationProperties validation, relaxed binding, and custom FailureAnalyzer')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 18, 4, 'Type-safe @ConfigurationProperties validation, relaxed binding, and custom FailureAnalyzer')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Fail-Fast Validation):</strong>
+                                Annotate the class with <code>@Validated</code> (from Spring) and place Bean Validation annotations (<code>@NotBlank</code>, <code>@Min</code>, <code>@Valid</code> on nested objects) on the fields. Spring Boot will execute validation during bean binding at startup, failing immediately with <code>ConfigurationPropertiesBindException</code> before exposing ports.
+                                <br><br>
+                                <strong>Part B (Relaxed Binding):</strong>
+                                Spring Boot allows property keys to be written in kebab-case (<code>bootstrap-servers</code> in YAML), camelCase (<code>bootstrapServers</code> in JSON), snake_case (<code>bootstrap_servers</code>), or uppercase environment variables (<code>COMPANY_KAFKA_BOOTSTRAPSERVERS</code>). Spring normalizes all names to match the Java property.
+                                <br><br>
+                                <strong>Part C (FailureAnalyzer):</strong>
+                                Extend <code>AbstractFailureAnalyzer<BindException></code>, extract the missing property name, and return a clean <code>FailureAnalysis</code> describing the exact required YAML property and a clear resolution suggestion.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Validated Configuration Properties</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Validated
+@ConfigurationProperties(prefix = "company.kafka")
+public class KafkaPlatformProperties {
+
+    @NotBlank(message = "company.kafka.bootstrap-servers must not be empty!")
+    private String bootstrapServers;
+
+    @Min(value = 1000, message = "Timeout must be at least 1000ms")
+    private int connectionTimeoutMs = 3000;
+
+    @Valid // Cascades validation to nested inner class!
+    @NotNull
+    private SecurityConfig security;
+
+    public static class SecurityConfig {
+        @NotBlank
+        private String truststorePath;
+        @NotBlank
+        private String password;
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Relies on <code>@Value("${company.kafka.bootstrap-servers}")</code> and manually checks for null inside constructors or `@PostConstruct`.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Champions `@ConfigurationProperties` over `@Value`, uses `@Validated` with nested `@Valid` cascade, details relaxed binding for Kubernetes environment variables, and creates custom `FailureAnalyzer` classes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 19: Spring @Scheduled in Multi-Replica Kubernetes Duplication -->
+                <div class="question-card" id="q-19" data-keywords="scheduled shedlock distributed lock kubernetes replica duplicate execution cron">
+                    <div class="card-header">
+                        <span class="concept-badge">Distributed Systems & Task Scheduling</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The multi-instance duplicate execution trap of Spring <code>@Scheduled</code> in clustered environments (Kubernetes pods), and solving concurrency with distributed locking mechanisms (ShedLock, Redis Redlock, or DB locks).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>BillingBatchScheduler</code> in the code snippet.
+                                In local development, the cron job runs smoothly once at midnight.
+                                <br><br>
+                                When deployed to production on Kubernetes with <strong>5 pod replicas</strong> for high availability, customers report that their monthly invoices are generated <strong>5 times</strong> and their cards are charged 5 times at midnight!
+                                <br><br>
+                                <strong>Part A:</strong> Why does Spring <code>@Scheduled</code> execute on every single pod instance?
+                                <br>
+                                <strong>Part B:</strong> What are the architectural solutions to ensure this batch runs exactly once across the cluster? Compare Kubernetes CronJob vs Spring ShedLock.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'BillingBatchScheduler.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">@Component
+public class BillingBatchScheduler {
+
+    @Autowired
+    private BillingProcessingService billingService;
+
+    @Scheduled(cron = "0 0 0 1 * ?")
+    public void generateMonthlyInvoices() {
+        billingService.executeBillingCycle();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 19, 1, 'Spring @Scheduled clustering duplicate execution and ShedLock distributed locking')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 19, 2, 'Spring @Scheduled clustering duplicate execution and ShedLock distributed locking')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 19, 3, 'Spring @Scheduled clustering duplicate execution and ShedLock distributed locking')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 19, 4, 'Spring @Scheduled clustering duplicate execution and ShedLock distributed locking')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The In-Memory Timer Problem):</strong>
+                                Spring's <code>@Scheduled</code> operates strictly on an in-memory <code>TaskScheduler</code> inside each independent JVM instance. It has zero awareness of other application instances or Kubernetes cluster topology. When scaled to 5 pods, 5 independent timers trigger simultaneously at midnight.
+                                <br><br>
+                                <strong>Part B (Architectural Solutions):</strong>
+                                <br>• <strong>Solution 1: ShedLock (Recommended for Spring apps):</strong>
+                                Integrates directly with <code>@SchedulerLock</code>. Uses a central coordination store (PostgreSQL table or Redis key). When the cron fires, the first pod acquires a distributed lock row with <code>lockAtMostFor</code> and <code>lockAtLeastFor</code>. Other pods find the lock held and skip execution immediately.
+                                <br>• <strong>Solution 2: Kubernetes CronJob:</strong>
+                                Extract batch processing from the continuously running web pods. Kubernetes launches an ephemeral container pod at midnight, runs the batch to completion, and exits.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>ShedLock Distributed Locking Implementation</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Component
+public class BillingBatchScheduler {
+
+    @Autowired
+    private BillingProcessingService billingService;
+
+    // Guaranteed to execute exactly once across all Kubernetes replicas
+    @Scheduled(cron = "0 0 0 1 * ?")
+    @SchedulerLock(
+        name = "BillingBatchScheduler_generateMonthlyInvoices", 
+        lockAtMostFor = "15m",  // Max hold if pod dies midway
+        lockAtLeastFor = "1m"   // Prevents duplicate firing across slight clock skews
+    )
+    public void generateMonthlyInvoices() {
+        billingService.executeBillingCycle();
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests setting replica count to 1 (sacrificing high availability) or using a database flag without handling crash-recovery lock expirations.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies the in-memory scheduler limitation in containerized topologies, configures ShedLock with clock-skew tolerances, or architects a separate Kubernetes CronJob.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 20: Spring Boot Graceful Shutdown & Kubernetes Termination Race -->
+                <div class="question-card" id="q-20" data-keywords="graceful shutdown kubernetes sigterm prestop hook readiness probe 502 bad gateway">
+                    <div class="card-header">
+                        <span class="concept-badge">Cloud-Native Lifecycle & Zero-Downtime Deployments</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Spring Boot <code>server.shutdown=graceful</code> mechanics, Kubernetes pod termination lifecycle (<code>SIGTERM</code> vs <code>preStop</code> hooks), and resolving the 2-second HTTP 502/503 race condition during rolling updates.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A microservice enabled <code>server.shutdown=graceful</code> in Spring Boot 3.
+                                However, during continuous deployment rolling updates in Kubernetes, clients still report occasional <strong>HTTP 502 Bad Gateway</strong> and connection reset errors.
+                                <br><br>
+                                <strong>Part A:</strong> What does <code>server.shutdown=graceful</code> actually do internally inside Embedded Tomcat / Netty?
+                                <br>
+                                <strong>Part B:</strong> What is the race condition between Kubernetes iptables / kube-proxy endpoint deregistration and the Spring Boot pod receiving <code>SIGTERM</code>?
+                                <br>
+                                <strong>Part C:</strong> How do you configure Kubernetes <code>preStop</code> hooks and Spring lifecycle timeouts to achieve true zero-downtime rolling updates?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'DeploymentConfig.yaml')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">server:
+  shutdown: graceful
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: app
+          image: order-service:latest
+          ports:
+            - containerPort: 8080</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 20, 1, 'Spring Boot graceful shutdown and Kubernetes SIGTERM preStop race condition')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 20, 2, 'Spring Boot graceful shutdown and Kubernetes SIGTERM preStop race condition')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 20, 3, 'Spring Boot graceful shutdown and Kubernetes SIGTERM preStop race condition')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 20, 4, 'Spring Boot graceful shutdown and Kubernetes SIGTERM preStop race condition')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Spring Graceful Shutdown Behavior):</strong>
+                                When Spring Boot receives <code>SIGTERM</code> with <code>server.shutdown=graceful</code>:
+                                <br>1. Embedded Tomcat stops accepting <strong>new</strong> incoming TCP connections immediately.
+                                <br>2. It permits active in-flight HTTP requests a grace period (<code>timeout-per-shutdown-phase: 30s</code>) to complete processing.
+                                <br><br>
+                                <strong>Part B (The Kubernetes Race Condition):</strong>
+                                When Kubernetes terminates a pod during a deployment:
+                                <br>• Event 1: Kubernetes sends <code>SIGTERM</code> to the container.
+                                <br>• Event 2: Kubernetes API server deregisters the pod IP from the Service Endpoints slice and propagates IP table updates across all cluster nodes (kube-proxy / Ingress controller).
+                                <br><strong>The Trap:</strong> These two events happen <strong>asynchronously in parallel</strong>!
+                                Because propagating IP table updates across all nodes takes 1 to 3 seconds, the ingress controller continues routing new user requests to the pod AFTER the pod has already received SIGTERM and stopped accepting new connections. Result: <strong>HTTP 502 / Connection Refused!</strong>
+                                <br><br>
+                                <strong>Part C (The Solution: preStop Hook):</strong>
+                                Introduce a container <code>preStop: exec: command: ["/bin/sleep", "15"]</code>. When Kubernetes initiates shutdown, the pod sleeps for 15 seconds before Spring Boot receives SIGTERM. During these 15 seconds, Kubernetes removes the pod IP from all routers while the Spring container continues serving active and newly arriving traffic smoothly!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Zero-Downtime Kubernetes Pod Spec</span><span class="code-lang">yaml</span></div>
+                                <pre><code>spec:
+  containers:
+    - name: app
+      image: order-service:latest
+      lifecycle:
+        preStop:
+          exec:
+            # Allows ingress controller and kube-proxy 15s to remove IP before Spring receives SIGTERM!
+            command: ["/bin/sleep", "15"]
+      readinessProbe:
+        httpGet:
+          path: /actuator/health/readiness
+          port: 8080
+      terminationGracePeriodSeconds: 45 # Must be larger than preStop (15s) + Spring timeout (30s)</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes setting `server.shutdown=graceful` alone guarantees zero downtime; has never heard of kube-proxy propagation latency or preStop hooks.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagrams the asynchronous race between kube-proxy iptables propagation and SIGTERM delivery; configures a 10-15s `preStop` sleep hook and balances `terminationGracePeriodSeconds` with Spring's shutdown phase.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Challenge Code</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Code</span>
+                        <span class="code-lang">Java / Spring</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('spring');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

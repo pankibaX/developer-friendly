@@ -1,0 +1,2756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API & Microservices Interview Suite | Distributed Architecture & Resilience</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link active"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🌐 REST API & Microservices Architecture</h1>
+            <p>20 Advanced Architectural questions covering idempotency, distributed transactions (Saga), OpenTelemetry tracing, Circuit Breakers, Transactional Outbox, Rate Limiting, CQRS, Service Mesh, and Resilience.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🌐 Skill: REST API & Microservices</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('rest')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search Microservices topics (e.g. idempotency, saga, outbox, tracing, circuit breaker, rate limit, rfc 7807, gRPC, CQRS)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+                <!-- QUESTION 1: API Reliability &amp; Payment Integrity -->
+                <div class="question-card" id="q-1" data-keywords="idempotency key distributed lock redis setnx race condition payment double charge">
+                    <div class="card-header">
+                        <span class="concept-badge">API Reliability &amp; Payment Integrity</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Distributed Idempotency Keys (<code>Idempotency-Key</code> HTTP header), safe network retry handling, Redis atomic locking (<code>SETNX</code>), request payload hashing, and atomic response caching.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A payment microservice exposes <code>POST /api/v1/payments/charge</code>. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Under peak load, a mobile client encounters a network socket timeout after 3 seconds, retries immediately with the same <code>Idempotency-Key</code>, while the first request is still executing inside the payment gateway. What happens in this implementation, and why does it fail to prevent a double charge?
+<br>
+<strong>Part B:</strong> How should an architect design an end-to-end distributed idempotency filter using Redis or database constraints to guarantee zero double charges across clustered instances?
+<br>
+<strong>Part C:</strong> What should the service return if a client sends the exact same <code>Idempotency-Key</code> but alters the request body payload (e.g., changes amount from $50 to $500)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'PaymentChargeController.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">@RestController
+@RequestMapping(&quot;/api/v1/payments&quot;)
+public class PaymentChargeController {
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private ExternalPaymentGateway gateway;
+    @PostMapping(&quot;/charge&quot;)
+    public ResponseEntity&lt;PaymentResponse&gt; charge(
+            @RequestHeader(&quot;Idempotency-Key&quot;) String idempotencyKey,
+            @RequestBody ChargeRequest request) {
+        Optional&lt;PaymentRecord&gt; existing = paymentRepository.findByIdempotencyKey(idempotencyKey);
+        if (existing.isPresent()) {
+            return ResponseEntity.ok(new PaymentResponse(existing.get()));
+        }
+        TransactionResult result = gateway.executeCharge(request.getAmount(), request.getCardToken());
+        PaymentRecord record = new PaymentRecord();
+        record.setIdempotencyKey(idempotencyKey);
+        record.setTransactionId(result.getTransactionId());
+        record.setAmount(request.getAmount());
+        record.setStatus(&quot;SUCCESS&quot;);
+        paymentRepository.save(record);
+        return ResponseEntity.ok(new PaymentResponse(record));
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 1, 1, 'Distributed Idempotency Keys, concurrent in-flight retries, and atomic Redis locking')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 1, 2, 'Distributed Idempotency Keys, concurrent in-flight retries, and atomic Redis locking')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 1, 3, 'Distributed Idempotency Keys, concurrent in-flight retries, and atomic Redis locking')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 1, 4, 'Distributed Idempotency Keys, concurrent in-flight retries, and atomic Redis locking')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Concurrent In-Flight Check-Then-Act Race):</strong>
+<br>The implementation suffers from a classic <strong>Time-Of-Check to Time-Of-Use (TOCTOU)</strong> race condition:
+<br>1. Request 1 arrives; <code>findByIdempotencyKey</code> returns empty because nothing is saved yet. It invokes the external gateway.
+<br>2. Client socket times out and immediately fires Request 2 with the same key.
+<br>3. Request 2 arrives at another pod; Request 1 is still blocked waiting on the gateway, so <code>findByIdempotencyKey</code> ALSO returns empty.
+<br>4. Both threads call <code>gateway.executeCharge()</code> concurrently &mdash; customer is <strong>double-charged</strong>! Furthermore, the second database save will either throw a unique constraint violation after charging or overwrite the first transaction.
+<br><br>
+<strong>Part B (Architectural In-Flight State Locking):</strong>
+<br>• Acquire an atomic distributed lock via Redis <code>SET idempotency:{key} PROCESSING NX EX 120</code> before processing.
+<br>• If key already exists in <code>PROCESSING</code> state: return <strong>HTTP 409 Conflict</strong> or <strong>HTTP 425 Too Early</strong> with <code>Retry-After</code> header, informing client request is actively processing.
+<br>• Once the transaction completes, update Redis key to <code>COMPLETED</code> storing the serialized response payload with TTL (e.g. 24 hours).
+<br>• Subsequent calls return the cached response payload immediately without calling the gateway.
+<br><br>
+<strong>Part C (Payload Tampering & Hash Mismatch):</strong>
+<br>The idempotency record must store a cryptographic hash (SHA-256) of the original request body alongside the key. If an incoming request matches the key but has a different payload hash, the server must reject it with <strong>HTTP 422 Unprocessable Entity</strong> or <strong>HTTP 400 Bad Request</strong> with error <code>IDEMPOTENCY_PAYLOAD_MISMATCH</code> to prevent replay tampering.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Component
+public class DistributedIdempotencyManager {
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    public IdempotencyLock acquireLock(String key, String requestBody) {
+        String payloadHash = DigestUtils.sha256Hex(requestBody);
+        String lockKey = &quot;idemp:&quot; + key;
+        
+        Boolean acquired = redisTemplate.opsForValue()
+            .setIfAbsent(lockKey, &quot;PROCESSING:&quot; + payloadHash, Duration.ofMinutes(2));
+
+        if (Boolean.TRUE.equals(acquired)) {
+            return new IdempotencyLock(Status.ACQUIRED, null);
+        }
+
+        String existingVal = redisTemplate.opsForValue().get(lockKey);
+        if (existingVal != null &amp;&amp; !existingVal.contains(payloadHash)) {
+            throw new IdempotencyMismatchException(&quot;Payload altered for idempotency key: &quot; + key);
+        }
+        if (existingVal != null &amp;&amp; existingVal.startsWith(&quot;PROCESSING:&quot;)) {
+            throw new ConcurrentRequestException(&quot;Request currently processing. Retry shortly.&quot;);
+        }
+        return new IdempotencyLock(Status.CACHED, existingVal);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests putting @Transactional around the controller method or checks the database table synchronously without locking, oblivious to in-flight concurrent gateway calls.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies the TOCTOU race condition, implements atomic Redis SETNX locking with TTL, handles in-flight 409/425 status responses, verifies SHA-256 payload tampering, and caches the final HTTP response.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2: Distributed Transactions &amp; Consistency -->
+                <div class="question-card" id="q-2" data-keywords="saga pattern orchestration choreography compensating transactions dual write eventual consistency">
+                    <div class="card-header">
+                        <span class="concept-badge">Distributed Transactions &amp; Consistency</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Distributed transactions across microservices, Saga Pattern (Orchestration vs Choreography), semantic compensation, pivot transactions, and idempotent rollback handlers.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A microservice architecture processes customer checkout across Order Service, Inventory Service, Payment Service, and Shipping Service. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Why is Two-Phase Commit (2PC / XA transactions) considered an anti-pattern in high-throughput cloud microservices?
+<br>
+<strong>Part B:</strong> Compare Choreography-based Saga (Kafka event choreography) versus Orchestration-based Saga (Camunda / Temporal / Spring State Machine). What are the trade-offs regarding cyclic dependencies, observability, and coupling?
+<br>
+<strong>Part C:</strong> If Payment Service succeeds but Shipping Service fails permanently, how does the Saga execute a rollback? What happens if a compensating transaction fails midway?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'OrderCheckoutService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">@Service
+public class OrderCheckoutService {
+    @Autowired
+    private OrderRepository orderRepo;
+    @Autowired
+    private InventoryClient inventoryClient;
+    @Autowired
+    private PaymentClient paymentClient;
+    @Autowired
+    private ShippingClient shippingClient;
+    @Transactional
+    public CheckoutResult processCheckout(CheckoutCommand cmd) {
+        Order order = orderRepo.save(new Order(cmd));
+        inventoryClient.reserveStock(order.getId(), cmd.getItems());
+        PaymentReceipt receipt = paymentClient.debitAccount(order.getId(), cmd.getTotalAmount());
+        ShippingLabel label = shippingClient.createConsignment(order.getId(), cmd.getAddress());
+        order.markConfirmed(receipt.getId(), label.getTrackingId());
+        return new CheckoutResult(order.getId(), &quot;CONFIRMED&quot;);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 2, 1, 'Saga Pattern, semantic compensation, Orchestration vs Choreography, and pivot transactions')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 2, 2, 'Saga Pattern, semantic compensation, Orchestration vs Choreography, and pivot transactions')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 2, 3, 'Saga Pattern, semantic compensation, Orchestration vs Choreography, and pivot transactions')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 2, 4, 'Saga Pattern, semantic compensation, Orchestration vs Choreography, and pivot transactions')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Why 2PC Fails in Microservices):</strong>
+<br>• <strong>Blocking Coordinator:</strong> 2PC holds database row locks across remote network calls across multiple microservices throughout the prepare/commit phase.
+<br>• <strong>Latency & Availability Collapse:</strong> If one participant or network partition delays response, all databases hold locks, starving connection pools (CAP theorem: sacrificing availability for consistency).
+<br>• <strong>Heterogeneous Polyglot Backends:</strong> Message brokers (Kafka), NoSQL (Mongo, DynamoDB), and third-party SaaS APIs (Stripe) do not support XA/2PC protocols.
+<br><br>
+<strong>Part B (Choreography vs Orchestration):</strong>
+<br>• <strong>Choreography (Event-Driven):</strong> Services react to domain events published to Kafka.
+<br><em>Pros:</em> Loose coupling, high throughput, no central bottleneck.
+<br><em>Cons:</em> High cognitive load, difficult end-to-end observability, risk of cyclic event storms, hard to track distributed transaction state.
+<br>• <strong>Orchestration (Central Coordinator):</strong> A dedicated workflow engine explicitly commands participants (<code>reserveStock</code>, <code>chargeCard</code>, <code>compensateInventory</code>).
+<br><em>Pros:</em> Clear state machine visibility, easy timeout handling, no cyclic dependencies.
+<br><em>Cons:</em> Orchestrator can become a single point of failure and bottleneck if overloaded.
+<br><br>
+<strong>Part C (Compensating Transactions & Forward Recovery):</strong>
+<br>• The Saga executes <strong>Compensating Actions</strong> in reverse order: <code>refundPayment()</code>, then <code>releaseStockReservation()</code>, and transitions Order to <code>CANCELLED</code>.
+<br>• <strong>Pivot Transaction:</strong> The point of no return. Once Payment succeeds, subsequent steps must either succeed or be retried indefinitely (forward recovery).
+<br>• If a compensating step fails (e.g., Payment refund returns 500), it cannot be rolled back via DB ACID. The Saga engine must retry with exponential backoff and publish to a Human-in-the-Loop dead-letter queue.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Component
+public class OrderSagaOrchestrator {
+
+    @Autowired
+    private KafkaTemplate&lt;String, Object&gt; kafka;
+
+    public void handleStepFailure(OrderSagaContext ctx, Step failedStep) {
+        switch (failedStep) {
+            case SHIPPING:
+                kafka.send(&quot;payment-compensation-topic&quot;, new RefundPaymentCommand(ctx.getPaymentId()));
+            case PAYMENT:
+                kafka.send(&quot;inventory-compensation-topic&quot;, new ReleaseInventoryCommand(ctx.getReservationId()));
+            case INVENTORY:
+                kafka.send(&quot;order-cancellation-topic&quot;, new CancelOrderCommand(ctx.getOrderId()));
+                break;
+        }
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes traditional @Transactional can coordinate multiple remote microservices or thinks 2PC is standard for cloud-native applications.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains why 2PC blocks distributed locks, contrasts Choreography vs Orchestration trade-offs, articulates the concept of pivot transactions, and guarantees idempotent compensating workflows.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3: Observability &amp; Context Propagation -->
+                <div class="question-card" id="q-3" data-keywords="distributed tracing opentelemetry w3c traceparent span baggage mdc threadlocal async">
+                    <div class="card-header">
+                        <span class="concept-badge">Observability &amp; Context Propagation</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Distributed Tracing via OpenTelemetry and W3C Trace Context (<code>traceparent</code>), trace/span ID propagation across asynchronous boundaries (<code>CompletableFuture</code>, Kafka headers), and MDC loss prevention.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a distributed banking architecture, Service A calls Service B over HTTP, which then offloads verification to an asynchronous thread pool and emits an event to Kafka. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> In production logs, developers notice that log statements inside <code>CompletableFuture.supplyAsync()</code> have empty or corrupted <code>traceId</code> and <code>spanId</code> values. Why does this happen?
+<br>
+<strong>Part B:</strong> What is the structure of the standard W3C <code>traceparent</code> HTTP header? How does it ensure uniform distributed tracing across multi-language microservices?
+<br>
+<strong>Part C:</strong> How do you bridge W3C Trace Context across an Apache Kafka message producer and consumer so that the entire downstream flow shares the exact same Trace ID?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'TransferAuditService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">@Service
+public class TransferAuditService {
+    private static final Logger log = LoggerFactory.getLogger(TransferAuditService.class);
+    @Autowired
+    private KafkaTemplate&lt;String, AuditEvent&gt; kafkaTemplate;
+    public void auditTransfer(TransferRequest request) {
+        log.info(&quot;Processing audit for transfer: {}&quot;, request.getTransferId());
+        CompletableFuture.supplyAsync(() -&gt; {
+            log.info(&quot;Executing async fraud score check&quot;);
+            return calculateFraudScore(request);
+        }).thenAccept(score -&gt; {
+            log.info(&quot;Fraud score computed: {}&quot;, score);
+            kafkaTemplate.send(&quot;audit-events&quot;, new AuditEvent(request, score));
+        });
+    }
+    private int calculateFraudScore(TransferRequest req) {
+        return 95;
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 3, 1, 'OpenTelemetry W3C trace context, async thread boundary context propagation, and Kafka header propagation')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 3, 2, 'OpenTelemetry W3C trace context, async thread boundary context propagation, and Kafka header propagation')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 3, 3, 'OpenTelemetry W3C trace context, async thread boundary context propagation, and Kafka header propagation')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 3, 4, 'OpenTelemetry W3C trace context, async thread boundary context propagation, and Kafka header propagation')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (ThreadLocal Loss Across Thread Pool Boundaries):</strong>
+<br>Distributed tracing frameworks (Micrometer Tracing, OpenTelemetry, Logback MDC) store <code>traceId</code> and <code>spanId</code> in Java <strong>ThreadLocal</strong> variables tied to the incoming HTTP request thread.
+<br>When <code>CompletableFuture.supplyAsync()</code> runs without an explicit <code>ContextExecutorService</code> or <code>TaskDecorator</code>, the work executes on a worker thread from <code>ForkJoinPool.commonPool()</code>.
+<br>ThreadLocal storage is <strong>not automatically copied</strong> to the worker thread. As a result, MDC entries are null or contain stale data from previous pooled tasks.
+<br><br>
+<strong>Part B (W3C Trace Context Header Specification):</strong>
+<br>Format: <code>traceparent: {version}-{trace_id}-{parent_id/span_id}-{trace_flags}</code>
+<br>Example: <code>00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01</code>
+<br>• <code>00</code>: Version 1.
+<br>• <code>4bf92f3577b34da6...</code>: 16-byte global Trace ID (constant across entire request call graph).
+<br>• <code>00f067aa0ba902b7</code>: 8-byte Parent Span ID for the current hop.
+<br>• <code>01</code>: Bitmask flags (e.g. <code>01</code> = sampled / recorded).
+<br>Standardization ensures Java, Go, Node.js, and Python services seamlessly connect telemetry graphs.
+<br><br>
+<strong>Part C (Kafka Header Context Injection & Extraction):</strong>
+<br>The producer must use an OpenTelemetry <code>TextMapPropagator</code> to inject the active trace context into Kafka message <code>RecordHeaders</code> (e.g. key: <code>traceparent</code>).
+<br>The Kafka consumer extracts the headers upon receipt, recreates the OpenTelemetry SpanContext, and scopes the consumer thread MDC before dispatching to the listener method.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Configuration
+public class AsyncTracingConfig {
+
+    @Bean
+    public ThreadPoolTaskExecutor taskExecutor(ObservationRegistry registry) {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setTaskDecorator(runnable -&gt; {
+            Context context = Context.current();
+            return () -&gt; {
+                try (Scope scope = context.makeCurrent()) {
+                    runnable.run();
+                }
+            };
+        });
+        executor.initialize();
+        return executor;
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Logs a random UUID manually in every method or suggests passing String traceId as a method parameter through every business function.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses ThreadLocal isolation in ForkJoinPool, articulates W3C traceparent 4-part structure, implements TaskDecorator for thread pool context handover, and injects context into Kafka record headers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 4: Resilience &amp; Fault Tolerance -->
+                <div class="question-card" id="q-4" data-keywords="circuit breaker resilience4j sliding window open half open closed fallback thread starvation">
+                    <div class="card-header">
+                        <span class="concept-badge">Resilience &amp; Fault Tolerance</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Circuit Breaker pattern, Resilience4j state transitions (<code>CLOSED</code> &rarr; <code>OPEN</code> &rarr; <code>HALF_OPEN</code>), count-based vs time-based sliding windows, slow call thresholds, and thread pool exhaustion.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce order service calls an external legacy credit verification service. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> During peak sales, the external credit service latency spikes from 150ms to 25 seconds before timing out. Even though timeouts are configured at 5 seconds, the Order Service crashes with <code>Tomcat thread pool exhausted</code>. Explain the cascading failure mechanics.
+<br>
+<strong>Part B:</strong> Describe the exact mathematical and state transition mechanics of Resilience4j from <code>CLOSED</code> to <code>OPEN</code>, and from <code>OPEN</code> to <code>HALF_OPEN</code> to <code>CLOSED</code>.
+<br>
+<strong>Part C:</strong> What is the difference between a Failure Rate Threshold and a Slow Call Rate Threshold? When should you trigger a circuit trip on slow calls even if HTTP 200 is returned?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'CreditCheckClient.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">@Service
+public class CreditCheckClient {
+    @Autowired
+    private RestTemplate restTemplate;
+    public CreditReport verifyCredit(String customerId) {
+        String url = &quot;https://legacy-credit.internal/api/verify/&quot; + customerId;
+        return restTemplate.getForObject(url, CreditReport.class);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 4, 1, 'Resilience4j Circuit Breaker states, sliding window algorithms, and cascading failure prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 4, 2, 'Resilience4j Circuit Breaker states, sliding window algorithms, and cascading failure prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 4, 3, 'Resilience4j Circuit Breaker states, sliding window algorithms, and cascading failure prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 4, 4, 'Resilience4j Circuit Breaker states, sliding window algorithms, and cascading failure prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Cascading Failure & Thread Pool Starvation):</strong>
+<br>• Tomcat has a finite incoming request thread pool (default 200 threads).
+<br>• When the remote service slows down to 5 seconds per call, 40 incoming requests per second will saturate all 200 worker threads in just 5 seconds (Little's Law: $L = \lambda \times W$).
+<br>• Subsequent requests for fast, unrelated endpoints (like <code>/health</code>, <code>/orders/status</code>, <code>/products</code>) are queued or rejected with HTTP 503. The caller service completely collapses.
+<br><br>
+<strong>Part B (Resilience4j State Machine & Sliding Window):</strong>
+<br>1. <strong>CLOSED:</strong> All calls pass to the remote service. Calls are recorded in a sliding window (e.g. last 100 calls or last 60 seconds). If failure rate exceeds <code>failureRateThreshold</code> (e.g., 50%) after minimum calls (<code>minimumNumberOfCalls = 20</code>), the circuit transitions to <strong>OPEN</strong>.
+<br>2. <strong>OPEN:</strong> All incoming calls are short-circuited immediately with <code>CallNotPermittedException</code> without hitting the network, executing fallback logic in microseconds.
+<br>3. <strong>HALF_OPEN:</strong> After <code>waitDurationInOpenState</code> (e.g., 30s), circuit transitions to HALF_OPEN, permitting a limited trial probe of calls (<code>permittedNumberOfCallsInHalfOpenState = 10</code>).
+<br>4. If trial failure rate is below threshold, it returns to <strong>CLOSED</strong>; if failures persist, it transitions back to <strong>OPEN</strong>.
+<br><br>
+<strong>Part C (Slow Call Rate vs Failure Rate):</strong>
+<br>A call returning HTTP 200 after 8 seconds is functionally worse than an immediate HTTP 500 error because it ties up threads, DB connections, and sockets.
+<br>Resilience4j tracks <code>slowCallDurationThreshold</code> (e.g., 2s). If 50% of calls take longer than 2 seconds, the circuit opens, protecting server threads before total collapse.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Service
+public class ResilientCreditService {
+
+    @Autowired
+    private RestClient restClient;
+
+    @CircuitBreaker(name = &quot;creditService&quot;, fallbackMethod = &quot;creditFallback&quot;)
+    @TimeLimiter(name = &quot;creditService&quot;)
+    public CompletableFuture&lt;CreditReport&gt; verifyCredit(String customerId) {
+        return CompletableFuture.supplyAsync(() -&gt; 
+            restClient.get()
+                .uri(&quot;/api/verify/{id}&quot;, customerId)
+                .retrieve()
+                .body(CreditReport.class)
+        );
+    }
+
+    public CompletableFuture&lt;CreditReport&gt; creditFallback(String customerId, Throwable ex) {
+        return CompletableFuture.completedFuture(CreditReport.provisionalPass(customerId));
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Wraps the RestTemplate call in a naive try-catch and returns null or increases the timeout from 5s to 30s, deepening the thread starvation.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Little&#x27;s Law and thread pool starvation, diagrams the 3-state transition model with sliding windows, tunes slow-call thresholds, and pairs CircuitBreaker with Bulkhead isolation.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 5: Event-Driven &amp; Dual-Write Mitigation -->
+                <div class="question-card" id="q-5" data-keywords="transactional outbox pattern dual write kafka debezium cdc event published polling publisher">
+                    <div class="card-header">
+                        <span class="concept-badge">Event-Driven &amp; Dual-Write Mitigation</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The Dual-Write Problem in Microservices, Transactional Outbox Pattern, Change Data Capture (CDC via Debezium), and at-least-once event delivery guarantees.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An order placement endpoint needs to persist an Order to PostgreSQL and publish an <code>OrderCreatedEvent</code> to Apache Kafka. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Identify the critical Dual-Write flaw in this implementation. Under what network or database failure scenarios does the system either lose the event or produce ghost events?
+<br>
+<strong>Part B:</strong> Why can't we solve this simply by placing <code>kafkaTemplate.send()</code> inside a Spring <code>@Transactional</code> method?
+<br>
+<strong>Part C:</strong> Detail the architecture of the <strong>Transactional Outbox Pattern</strong>. Compare an asynchronous Polling Publisher approach against a Log-Based Change Data Capture (CDC) approach using Debezium.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderPlacementService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">@Service
+public class OrderPlacementService {
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private KafkaTemplate&lt;String, OrderCreatedEvent&gt; kafkaTemplate;
+    @Transactional
+    public Order placeOrder(OrderRequest request) {
+        Order order = new Order(request);
+        orderRepository.save(order);
+        OrderCreatedEvent event = new OrderCreatedEvent(order.getId(), order.getTotal());
+        kafkaTemplate.send(&quot;order-created-topic&quot;, event);
+        return order;
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 5, 1, 'Transactional Outbox Pattern, Dual-Write problem, and Debezium Change Data Capture (CDC)')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 5, 2, 'Transactional Outbox Pattern, Dual-Write problem, and Debezium Change Data Capture (CDC)')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 5, 3, 'Transactional Outbox Pattern, Dual-Write problem, and Debezium Change Data Capture (CDC)')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 5, 4, 'Transactional Outbox Pattern, Dual-Write problem, and Debezium Change Data Capture (CDC)')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Dual-Write Failure Scenarios):</strong>
+<br>1. <strong>Ghost Event:</strong> <code>kafkaTemplate.send()</code> succeeds and emits the message to Kafka. However, right after, PostgreSQL fails to commit (e.g. database constraint violation, connection timeout, disk full). Result: Downstream inventory services deduct stock for an order that <strong>does not exist</strong> in the database!
+<br>2. <strong>Lost Event:</strong> Database commits, but Kafka broker is unreachable or network times out. Result: Order exists in DB, but downstream payment and fulfillment services never hear about it.
+<br><br>
+<strong>Part B (Why @Transactional Cannot Wrap Kafka):</strong>
+<br>Kafka is not an XA-compliant resource that participates in local database ACID transactions.
+<br>Even with Spring Kafka transactions, coordinated commit across heterogeneous engines requires 2PC, which Kafka does not support with standard RDBMS transactions. One of the two systems will always commit before the other.
+<br><br>
+<strong>Part C (Transactional Outbox Architecture):</strong>
+<br>• Write the business record (<code>orders</code>) and an event record (<code>outbox_events</code>) within the <strong>same atomic local database transaction</strong>.
+<br>• <strong>Approach 1 (Polling Publisher):</strong> A background scheduled worker polls <code>SELECT * FROM outbox_events WHERE status = 'PENDING'</code> and sends to Kafka, then marks sent. (Drawback: polling latency, DB CPU load, table lock contention).
+<br>• <strong>Approach 2 (Log-based CDC with Debezium):</strong> Debezium tails PostgreSQL Write-Ahead Log (WAL) directly. Zero application polling overhead, sub-millisecond event streaming to Kafka, guarantees at-least-once delivery.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Entity
+@Table(name = &quot;outbox_events&quot;)
+public class OutboxEvent {
+    @Id
+    private UUID id = UUID.randomUUID();
+    private String aggregateType;
+    private String aggregateId;
+    private String eventType;
+    @Column(columnDefinition = &quot;jsonb&quot;)
+    private String payload;
+    private Instant createdAt = Instant.now();
+}
+
+@Service
+public class OrderService {
+    @Transactional
+    public Order createOrder(OrderRequest req) {
+        Order order = orderRepo.save(new Order(req));
+        OutboxEvent event = new OutboxEvent(&quot;ORDER&quot;, order.getId().toString(), 
+            &quot;OrderCreated&quot;, objectMapper.writeValueAsString(order));
+        outboxRepo.save(event);
+        return order;
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Puts kafkaTemplate.send() inside @Transactional or inside a try-catch block, falsely assuming Spring will rollback Kafka messages on DB exception.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies the Dual-Write impossibility, designs the Outbox table within the ACID transaction boundary, and contrasts Polling Publisher vs WAL-based Debezium CDC.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 6: API Lifecycle &amp; Contract Evolution -->
+                <div class="question-card" id="q-6" data-keywords="api versioning uri path header content negotiation breaking changes sunset expand contract">
+                    <div class="card-header">
+                        <span class="concept-badge">API Lifecycle &amp; Contract Evolution</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                API Versioning strategies (URI path, Header, Media Type negotiation), Expand-and-Contract schema evolution, Tolerant Reader pattern, and deprecation lifecycle headers (<code>Sunset</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A user profile API needs to split the single field <code>fullName</code> into two distinct fields: <code>firstName</code> and <code>lastName</code>. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> What are the architectural trade-offs between URI path versioning (<code>/v1/users</code> vs <code>/v2/users</code>) versus Media Type Content Negotiation (<code>Accept: application/vnd.company.v2+json</code>)?
+<br>
+<strong>Part B:</strong> Mobile app clients cannot be forced to update immediately, and older versions will continue calling the API for up to 18 months. How do you design an <strong>Expand and Contract</strong> pattern to evolve the API with zero downtime?
+<br>
+<strong>Part C:</strong> What standard HTTP headers should be returned to programmatically inform API consumers that an endpoint or field is deprecated and will be decommissioned?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'UserProfileResponse.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">public class UserProfileResponse {
+    private Long id;
+    private String fullName;
+    private String email;
+    public UserProfileResponse(Long id, String fullName, String email) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+    }
+    public Long getId() { return id; }
+    public String getFullName() { return fullName; }
+    public String getEmail() { return email; }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 6, 1, 'API Versioning, Expand-and-Contract schema migration, and HTTP Sunset deprecation headers')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 6, 2, 'API Versioning, Expand-and-Contract schema migration, and HTTP Sunset deprecation headers')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 6, 3, 'API Versioning, Expand-and-Contract schema migration, and HTTP Sunset deprecation headers')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 6, 4, 'API Versioning, Expand-and-Contract schema migration, and HTTP Sunset deprecation headers')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (URI Path vs Media Type Versioning):</strong>
+<br>• <strong>URI Path (<code>/api/v1/users</code>):</strong>
+<br><em>Pros:</em> Explicit, easily cached by CDNs and reverse proxies, visible in browser URL and API documentation.
+<br><em>Cons:</em> Violates strict REST purism (a resource should have a single canonical URI; format/version is a representation).
+<br>• <strong>Media Type / Header (<code>Accept: application/vnd.mycorp.user.v2+json</code>):</strong>
+<br><em>Pros:</em> RESTful, keeps URI space clean, enables fine-grained content negotiation.
+<br><em>Cons:</em> Difficult to test in browser, breaks naive proxy caching (requires <code>Vary: Accept</code>), harder for mobile client teams to configure.
+<br><br>
+<strong>Part B (Expand and Contract Pattern):</strong>
+<br>1. <strong>Phase 1 (Expand):</strong> Add new fields <code>firstName</code> and <code>lastName</code> to the DTO without removing <code>fullName</code>. Populate both in the backend. Old clients continue reading <code>fullName</code>; new clients read the split fields.
+<br>2. <strong>Phase 2 (Migrate):</strong> Transition consumers to the new fields over the grace period. Ensure consumers use <strong>Tolerant Reader</strong> (ignoring unknown JSON fields).
+<br>3. <strong>Phase 3 (Contract):</strong> After deprecation notice, remove <code>fullName</code>.
+<br><br>
+<strong>Part C (RFC 8594 Sunset & Deprecation Headers):</strong>
+<br>• <code>Deprecation: @1735689600</code> (indicates when the API was deprecated).
+<br>• <code>Sunset: Tue, 01 Dec 2026 00:00:00 GMT</code> (formal RFC 8594 header specifying the exact date the endpoint will be permanently terminated).
+<br>• <code>Link: &lt;https://api.mycorp.com/docs/v2-migration&gt;; rel="deprecation"</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EvolvingUserResponse {
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String fullName;
+
+    public EvolvingUserResponse(Long id, String first, String last) {
+        this.id = id;
+        this.firstName = first;
+        this.lastName = last;
+        this.fullName = first + &quot; &quot; + last;
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Changes the fields immediately or creates a completely separate parallel microservice clone just to rename a JSON property.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Contrasts URI vs Content-Negotiation caching impacts, designs a 3-stage Expand-and-Contract lifecycle with Tolerant Readers, and integrates RFC 8594 Sunset headers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 7: API Gateway &amp; Traffic Control -->
+                <div class="question-card" id="q-7" data-keywords="rate limiting token bucket leaky bucket sliding window redis lua script race condition 429">
+                    <div class="card-header">
+                        <span class="concept-badge">API Gateway &amp; Traffic Control</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Distributed Rate Limiting algorithms (Token Bucket, Leaky Bucket, Sliding Window Log), atomic Redis Lua scripting, handling microsecond race conditions, and HTTP 429 <code>Retry-After</code> headers.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A public API gateway protects microservices from DDoS and quota abuse by enforcing 100 requests per minute per API key. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Explain why the two-step Redis operations in the code snippet fail under concurrent traffic and allow malicious clients to exceed the quota.
+<br>
+<strong>Part B:</strong> Compare the <strong>Token Bucket</strong> algorithm against the <strong>Fixed Window Counter</strong> algorithm. What is the boundary burst problem in Fixed Window?
+<br>
+<strong>Part C:</strong> How do you write an atomic Redis Lua script to implement a sliding window rate limiter, and what standard HTTP headers must accompany an HTTP 429 response?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'NaiveRateLimitFilter.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">@Component
+public class NaiveRateLimitFilter implements Filter {
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+            throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        String apiKey = req.getHeader(&quot;X-API-KEY&quot;);
+        String currentCount = redisTemplate.opsForValue().get(&quot;ratelimit:&quot; + apiKey);
+        if (currentCount != null &amp;&amp; Integer.parseInt(currentCount) &gt;= 100) {
+            res.setStatus(429);
+            res.getWriter().write(&quot;Too Many Requests&quot;);
+            return;
+        }
+        redisTemplate.opsForValue().increment(&quot;ratelimit:&quot; + apiKey);
+        redisTemplate.expire(&quot;ratelimit:&quot; + apiKey, Duration.ofMinutes(1));
+        chain.doFilter(request, response);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 7, 1, 'Distributed Rate Limiting, atomic Redis Lua script execution, and Token Bucket algorithm')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 7, 2, 'Distributed Rate Limiting, atomic Redis Lua script execution, and Token Bucket algorithm')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 7, 3, 'Distributed Rate Limiting, atomic Redis Lua script execution, and Token Bucket algorithm')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 7, 4, 'Distributed Rate Limiting, atomic Redis Lua script execution, and Token Bucket algorithm')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Race Conditions in Naive Rate Limiting):</strong>
+<br>1. <strong>TOCTOU Race:</strong> If 50 concurrent requests arrive simultaneously, all 50 call <code>get()</code> when count is 99. All 50 pass the <code>< 100</code> check, resulting in 149 requests processed.
+<br>2. <strong>Key Expiration Reset Race:</strong> Every request calls <code>expire()</code>, resetting the TTL to 1 minute from the latest request! An active user will never have their window reset and will be locked out permanently.
+<br><br>
+<strong>Part B (Boundary Burst Problem vs Token Bucket):</strong>
+<br>• <strong>Fixed Window Flaw:</strong> If quota is 100 req/min, a user can send 100 requests at 10:00:59 and another 100 requests at 10:01:01. In that 2-second span, 200 requests pass &mdash; a 2x burst that can crash backend databases.
+<br>• <strong>Token Bucket:</strong> Tokens refill smoothly at a constant rate (e.g. 1.66 tokens/sec) up to bucket capacity (100). Accommodates brief bursts without exceeding configured throughput.
+<br><br>
+<strong>Part C (Atomic Redis Lua Script & Standard Headers):</strong>
+<br>By executing within a Redis Lua script, the sliding window check, increment, and expiration execute <strong>atomically</strong> on the single-threaded Redis engine without client-server network roundtrips.
+<br>Standard headers returned on 429:
+<br>• <code>X-RateLimit-Limit: 100</code>
+<br>• <code>X-RateLimit-Remaining: 0</code>
+<br>• <code>X-RateLimit-Reset: 1735689660</code> (epoch seconds)
+<br>• <code>Retry-After: 42</code> (seconds until retry permitted).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>-- Redis Lua Script for Sliding Window Rate Limiter
+local key = KEYS[1]
+local now = tonumber(ARGV[1])
+local window = tonumber(ARGV[2])
+local limit = tonumber(ARGV[3])
+
+redis.call(&#x27;ZREMRANGEBYSCORE&#x27;, key, 0, now - window)
+local current = redis.call(&#x27;ZCARD&#x27;, key)
+
+if current &lt; limit then
+    redis.call(&#x27;ZADD&#x27;, key, now, now)
+    redis.call(&#x27;EXPIRE&#x27;, key, math.ceil(window / 1000))
+    return 1
+else
+    return 0
+end</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses an in-memory HashMap/AtomicInteger (useless across multiple load-balanced pods) or fails to see the race condition between Redis get, increment, and expire.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies the multi-command race condition, diagrams the 2x boundary burst flaw of fixed windows, writes atomic Redis Lua scripts with sorted sets (ZSET), and supplies RFC rate-limiting headers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 8: High-Performance RPC &amp; Protocols -->
+                <div class="question-card" id="q-8" data-keywords="grpc protobuf rest json http2 multiplexing binary serialization schema evolution">
+                    <div class="card-header">
+                        <span class="concept-badge">High-Performance RPC &amp; Protocols</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                High-performance inter-service communication, gRPC over HTTP/2 vs REST over HTTP/1.1, binary Protocol Buffers serialization, multiplexing, and bidirectional streaming.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An IoT microservices backend ingests sensor metrics and dispatches internal calculations between 150 backend services. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Why does REST over HTTP/1.1 with JSON cause CPU and network bottlenecks at millions of requests per second compared to gRPC with Protocol Buffers?
+<br>
+<strong>Part B:</strong> How does HTTP/2 multiplexing eliminate Head-of-Line (HoL) blocking at the application transport layer, and what is the difference between TCP HoL blocking and HTTP/1.1 HoL blocking?
+<br>
+<strong>Part C:</strong> How does Protobuf achieve backward and forward schema compatibility without breaking deployed clients when new fields are added or existing fields are deprecated?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'TelemetryIngestController.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">@RestController
+@RequestMapping(&quot;/api/v1/telemetry&quot;)
+public class TelemetryIngestController {
+    @Autowired
+    private RestTemplate restTemplate;
+    @PostMapping(&quot;/stream&quot;)
+    public ResponseEntity&lt;Void&gt; receiveReading(@RequestBody SensorReadingPayload payload) {
+        restTemplate.postForLocation(&quot;http://internal-compute/calc&quot;, payload);
+        return ResponseEntity.accepted().build();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 8, 1, 'gRPC vs REST, Protobuf binary encoding efficiency, and HTTP/2 multiplexing')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 8, 2, 'gRPC vs REST, Protobuf binary encoding efficiency, and HTTP/2 multiplexing')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 8, 3, 'gRPC vs REST, Protobuf binary encoding efficiency, and HTTP/2 multiplexing')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 8, 4, 'gRPC vs REST, Protobuf binary encoding efficiency, and HTTP/2 multiplexing')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (JSON & HTTP/1.1 Inefficiencies):</strong>
+<br>• <strong>Text Parsing CPU Overhead:</strong> JSON serialization and deserialization (Jackson) involves heavy string parsing, reflection, and character encoding, consuming 4-8x more CPU cycles than binary Protobuf.
+<br>• <strong>Wire Size:</strong> JSON payload includes repetitive ASCII field names (e.g. <code>"sensorIdentifier"</code>) on every packet. Protobuf uses compact tag-length-value binary encoding (varints).
+<br>• <strong>Socket Thrashing:</strong> HTTP/1.1 requires one TCP connection per concurrent in-flight request (or connection keep-alive queuing).
+<br><br>
+<strong>Part B (Multiplexing & Head-of-Line Blocking):</strong>
+<br>• <strong>HTTP/1.1 HoL Blocking:</strong> A client can only send one request at a time per TCP connection; subsequent requests must wait in line until the first response arrives.
+<br>• <strong>HTTP/2 Multiplexing:</strong> Binary streams are interleaved as independent frames over a <strong>single persistent TCP connection</strong>. Multiple requests and responses fly concurrently without blocking each other.
+<br>• <em>Note:</em> TCP HoL blocking can still occur at the kernel packet loss level (fixed in HTTP/3 QUIC over UDP).
+<br><br>
+<strong>Part C (Protobuf Field Tag Compatibility Rules):</strong>
+<br>• Protobuf identifies fields by <strong>numeric field tags</strong> (e.g., <code>string device_id = 1;</code>), never by variable name.
+<br>• When adding fields, allocate new tag numbers. Old clients encountering new tags safely skip them.
+<br>• <strong>Never change existing tag numbers</strong> or data types. Deprecated fields are marked <code>reserved</code> to prevent reuse.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>syntax = &quot;proto3&quot;;
+package telemetry;
+
+message SensorReading {
+    int64 timestamp = 1;
+    string device_id = 2;
+    double temperature = 3;
+    double pressure = 4;
+    reserved 5, 6; // Reserved retired tags
+}
+
+service TelemetryComputeService {
+    rpc StreamReadings (stream SensorReading) returns (ComputeSummary);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests compressing JSON with Gzip or adding more Tomcat threads, without understanding socket exhaustion, HTTP/1.1 pipeline stalls, or binary serialization gains.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Contrasts JSON reflection overhead with Protobuf varint binary parsing, explains HTTP/2 binary frame multiplexing, and outlines Protobuf field tag backwards compatibility rules.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 9: Configuration &amp; Cloud Native Operations -->
+                <div class="question-card" id="q-9" data-keywords="refreshscope spring cloud config actuator refresh dynamic configuration vault">
+                    <div class="card-header">
+                        <span class="concept-badge">Configuration &amp; Cloud Native Operations</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Runtime configuration reloading without pod restarts, Spring Cloud Config / HashiCorp Vault, <code>@RefreshScope</code> proxy mechanics, and thread-safe dynamic property updates.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A microservice needs to dynamically reload feature toggles and database connection timeouts fetched from HashiCorp Vault or Git without restarting the Kubernetes pods. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Why does modifying <code>payment.gateway.timeoutMs</code> in the config server fail to take effect in <code>PaymentClientService</code> even after triggering <code>POST /actuator/refresh</code>?
+<br>
+<strong>Part B:</strong> Explain the internal lifecycle and proxy mechanics of Spring's <code>@RefreshScope</code>. What happens to active threads calling a bean when a refresh event is triggered?
+<br>
+<strong>Part C:</strong> What are the risks of using <code>@RefreshScope</code> on beans that manage stateful thread pools or database connection pools (such as HikariCP)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'PaymentClientService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">@Service
+public class PaymentClientService {
+    @Value(&quot;${payment.gateway.timeoutMs:3000}&quot;)
+    private int timeoutMs;
+    @Value(&quot;${feature.enableInstantSettlement:false}&quot;)
+    private boolean instantSettlement;
+    public void processPayment(PaymentRequest req) {
+        if (instantSettlement) {
+            executeInstant(req, timeoutMs);
+        } else {
+            executeStandard(req);
+        }
+    }
+    private void executeInstant(PaymentRequest req, int timeout) {}
+    private void executeStandard(PaymentRequest req) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 9, 1, '@RefreshScope proxy lifecycle, runtime config reload, and connection pool risks')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 9, 2, '@RefreshScope proxy lifecycle, runtime config reload, and connection pool risks')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 9, 3, '@RefreshScope proxy lifecycle, runtime config reload, and connection pool risks')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 9, 4, '@RefreshScope proxy lifecycle, runtime config reload, and connection pool risks')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Singleton Bean Initialization Immobility):</strong>
+<br>Spring beans are <strong>singletons</strong> by default. During container startup, <code>@Value</code> properties are resolved and injected into the fields once.
+<br>When <code>/actuator/refresh</code> is called, the <code>Environment</code> properties in memory are updated, but already instantiated singleton beans are <strong>never reinjected</strong>. Their fields remain permanently frozen with initial startup values.
+<br><br>
+<strong>Part B (@RefreshScope CGLIB Proxy Mechanics):</strong>
+<br>• When a class is annotated with <code>@RefreshScope</code>, Spring wraps it in a CGLIB lazy proxy.
+<br>• The proxy maintains a target bean cache. When client code calls a method on the proxy, it fetches the real bean instance from <code>GenericScope</code>.
+<br>• When <code>/actuator/refresh</code> triggers a <code>RefreshEvent</code>, <code>RefreshScope.destroy()</code> clears the bean cache.
+<br>• On the very next method invocation, the proxy detects a cache miss, reinstantiates the bean, and reinjects the fresh properties from the updated <code>Environment</code>.
+<br><br>
+<strong>Part C (Risks with Pools and Stateful Resources):</strong>
+<br>Reinstantiating a bean holding a database connection pool (HikariCP) or an Executor thread pool destroys the underlying sockets and worker threads. In-flight transactions can be abruptly aborted with <code>SocketException</code>. Dynamic reload should only be applied to stateless configurations or bound via <code>@ConfigurationProperties</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Service
+@RefreshScope
+public class PaymentClientService {
+
+    @Autowired
+    private PaymentProperties props;
+
+    public void processPayment(PaymentRequest req) {
+        if (props.isInstantSettlement()) {
+            executeInstant(req, props.getTimeoutMs());
+        } else {
+            executeStandard(req);
+        }
+    }
+}
+
+@ConfigurationProperties(prefix = &quot;payment.gateway&quot;)
+public class PaymentProperties {
+    private int timeoutMs = 3000;
+    private boolean instantSettlement = false;
+    // getters and setters
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes @Value updates automatically at runtime or recommends restarting the entire Kubernetes deployment to change a feature flag.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains CGLIB proxy target destruction on RefreshEvent, warns against placing @RefreshScope on connection pools, and advocates @ConfigurationProperties binding.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 10: Distributed Data &amp; Read Optimization -->
+                <div class="question-card" id="q-10" data-keywords="cqrs read your own writes eventual consistency elasticsearch event sourcing lag">
+                    <div class="card-header">
+                        <span class="concept-badge">Distributed Data &amp; Read Optimization</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Command Query Responsibility Segregation (CQRS), dual datastores (RDBMS write vs Elasticsearch/Redis read), replication lag, and guaranteeing Read-Your-Own-Writes consistency.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a high-scale e-commerce platform, write commands persist orders into PostgreSQL, while search queries hit an optimized Elasticsearch cluster synced asynchronously via Kafka. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> A customer completes an order and is immediately redirected to the "Recent Orders" page. The page displays "No Orders Found!" because of a 300ms Kafka-to-Elasticsearch replication lag. What is this user experience anomaly called?
+<br>
+<strong>Part B:</strong> What are three architectural strategies to guarantee <strong>Read-Your-Own-Writes</strong> consistency in an eventually consistent CQRS system without crippling read performance?
+<br>
+<strong>Part C:</strong> Under what conditions does the complexity of CQRS outweigh its benefits? When should an architect reject CQRS in favor of a unified relational database?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'OrderCommandQueryController.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">@RestController
+@RequestMapping(&quot;/api/v1/orders&quot;)
+public class OrderCommandQueryController {
+    @Autowired
+    private OrderCommandService commandService;
+    @Autowired
+    private OrderElasticsearchRepository searchRepo;
+    @PostMapping
+    public ResponseEntity&lt;OrderCreatedResponse&gt; placeOrder(@RequestBody OrderRequest req) {
+        Long orderId = commandService.createOrder(req);
+        return ResponseEntity.ok(new OrderCreatedResponse(orderId));
+    }
+    @GetMapping(&quot;/user/{userId}&quot;)
+    public ResponseEntity&lt;List&lt;OrderDocument&gt;&gt; getCustomerOrders(@PathVariable String userId) {
+        List&lt;OrderDocument&gt; orders = searchRepo.findByUserIdOrderByDateDesc(userId);
+        return ResponseEntity.ok(orders);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 10, 1, 'CQRS architecture, eventual consistency replication lag, and Read-Your-Own-Writes solutions')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 10, 2, 'CQRS architecture, eventual consistency replication lag, and Read-Your-Own-Writes solutions')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 10, 3, 'CQRS architecture, eventual consistency replication lag, and Read-Your-Own-Writes solutions')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 10, 4, 'CQRS architecture, eventual consistency replication lag, and Read-Your-Own-Writes solutions')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Replication Lag & Inconsistent Read Anomaly):</strong>
+<br>This is the classic <strong>Eventual Consistency Read-After-Write Anomaly</strong> (or lack of Read-Your-Own-Writes guarantee).
+<br>Because the asynchronous pipeline (PostgreSQL &rarr; Outbox &rarr; Kafka &rarr; Consumer &rarr; Elasticsearch) takes 100&ndash;500ms to index, a rapid user redirect hits an outdated search index replica before synchronization finishes.
+<br><br>
+<strong>Part B (Architectural Strategies for Read-Your-Own-Writes):</strong>
+<br>1. <strong>Session/Version Token Pinning:</strong> Return an updated transaction version ID or timestamp in the POST response. The client passes this token on GET. If the read replica has not caught up to this version, the query routes temporarily to the <strong>primary PostgreSQL database</strong>.
+<br>2. <strong>Time-Window Primary Routing:</strong> If the user modified records within the last $N$ seconds (tracked via Redis or client cookies), direct their personal dashboard reads to PostgreSQL; all other users and broad searches read from Elasticsearch.
+<br>3. <strong>Optimistic Client-Side State:</strong> Immediately inject the newly created order into the client UI state (Redux/Angular Signal) on HTTP 200, bypassing the immediate read query entirely.
+<br><br>
+<strong>Part C (When to Reject CQRS):</strong>
+<br>Reject CQRS if the domain has low read-to-write ratio (1:1), simple CRUD queries, small datasets, or strict real-time consistency requirements across all users. Adding separate write/read stores introduces event loss risks, schema sync overhead, and operational maintenance.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@GetMapping(&quot;/user/{userId}&quot;)
+public ResponseEntity&lt;List&lt;OrderDTO&gt;&gt; getCustomerOrders(
+        @PathVariable String userId,
+        @RequestHeader(value = &quot;X-Recent-Write-Time&quot;, required = false) Long lastWriteTime) {
+
+    long threshold = System.currentTimeMillis() - 5000; // 5 second grace window
+    if (lastWriteTime != null &amp;&amp; lastWriteTime &gt; threshold) {
+        return ResponseEntity.ok(orderPostgresService.findByUserId(userId));
+    }
+    return ResponseEntity.ok(orderSearchService.findByUserId(userId));
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests making the write method wait (Thread.sleep(500)) or synchronously writes to both PostgreSQL and Elasticsearch in the HTTP request thread.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies eventual consistency read-after-write hazards, implements version token or time-windowed routing to primary datastore, and evaluates CQRS complexity trade-offs.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 11: Microservices Security &amp; Identity -->
+                <div class="question-card" id="q-11" data-keywords="oauth2 jwt jwk token relay api gateway authorization header mtls zero trust">
+                    <div class="card-header">
+                        <span class="concept-badge">Microservices Security &amp; Identity</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Microservices security architecture, OAuth 2.0 / OIDC Token Relay pattern via API Gateway, stateless JWT validation vs JWK Set caching, and downstream service-to-service zero-trust identity.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a microservices ecosystem, client requests enter via Spring Cloud Gateway and call Microservice A, which calls Microservice B. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Microservice A accepts incoming user requests, but when it invokes Microservice B via <code>WebClient</code>, Microservice B rejects the call with <code>HTTP 401 Unauthorized</code>. Why does this happen, and how does the <strong>Token Relay Pattern</strong> solve it?
+<br>
+<strong>Part B:</strong> What is the danger of downstream microservices blindly calling the Identity Provider (IdP) <code>/oauth/check_token</code> or re-downloading JWKs on every single internal HTTP request? How should JWK caching and rotation be handled?
+<br>
+<strong>Part C:</strong> If Microservice A strips the user's JWT and passes plain headers like <code>X-User-Id: 1042</code> to internal microservices, what security vulnerability does this introduce?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'OrderToInventoryClient.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">@Service
+public class OrderToInventoryClient {
+    @Autowired
+    private WebClient webClient;
+    public InventoryStatus checkStock(String sku) {
+        return webClient.get()
+            .uri(&quot;http://inventory-service/api/stock/{sku}&quot;, sku)
+            .retrieve()
+            .bodyToMono(InventoryStatus.class)
+            .block();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 11, 1, 'OAuth2 Token Relay pattern, JWK caching, and internal service identity propagation')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 11, 2, 'OAuth2 Token Relay pattern, JWK caching, and internal service identity propagation')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 11, 3, 'OAuth2 Token Relay pattern, JWK caching, and internal service identity propagation')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 11, 4, 'OAuth2 Token Relay pattern, JWK caching, and internal service identity propagation')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Header Dropping Across Network Hops):</strong>
+<br>• By default, <code>WebClient</code> or <code>RestTemplate</code> does not inherit headers from the incoming Servlet/Reactive request.
+<br>• The <code>Authorization: Bearer &lt;JWT&gt;</code> header is dropped. When Microservice B receives the request with no Authorization header, its Spring Security filter rejects it with 401 Unauthorized.
+<br>• <strong>Token Relay Pattern:</strong> An interceptor or filter extracts the active OAuth2 token from the SecurityContext and attaches it to the outgoing HTTP client headers.
+<br><br>
+<strong>Part B (IdP Overload & JWK Set Caching):</strong>
+<br>• Downstream microservices must <strong>never</strong> make synchronous network calls to the IdP to validate stateless JWTs for every request; doing so turns the IdP into a catastrophic bottleneck and single point of failure.
+<br>• Microservices should validate JWT signatures locally using the IdP's public keys fetched via <code>/.well-known/jwks.json</code>.
+<br>• Keys are cached in memory with a TTL (e.g. 24 hours). If an unknown key ID (<code>kid</code>) is encountered, the cache initiates a single refresh to support key rotation without breaking existing tokens.
+<br><br>
+<strong>Part C (Header Spoofing & Broken Object Level Authorization):</strong>
+<br>Passing raw unauthenticated headers like <code>X-User-Id</code> without cryptographic signatures allows any compromised service, container, or malicious insider on the private network to spoof any user ID, leading to massive privilege escalation and data theft.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Bean
+public WebClient webClient(ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2) {
+    return WebClient.builder()
+        .apply(oauth2.oauth2Configuration())
+        .filter((request, next) -&gt; {
+            ServletRequestAttributes attrs = (ServletRequestAttributes) 
+                RequestContextHolder.getRequestAttributes();
+            if (attrs != null) {
+                String token = attrs.getRequest().getHeader(&quot;Authorization&quot;);
+                ClientRequest newReq = ClientRequest.from(request)
+                    .header(&quot;Authorization&quot;, token).build();
+                return next.exchange(newReq);
+            }
+            return next.exchange(request);
+        }).build();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Passes unverified user ID plaintext headers or suggests calling the IdP introspection endpoint synchronously on every internal hop.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Configures Token Relay filter across internal clients, validates JWT signatures locally with cached JWK Sets, and enforces Zero-Trust mTLS between internal pods.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 12: Reactive Systems &amp; Flow Control -->
+                <div class="question-card" id="q-12" data-keywords="reactive backpressure project reactor webflux flux mono onbackpressurebuffer outofmemoryerror">
+                    <div class="card-header">
+                        <span class="concept-badge">Reactive Systems &amp; Flow Control</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Reactive Streams specification, backpressure flow control (<code>onBackpressureBuffer</code>, <code>onBackpressureDrop</code>), demand signaling via <code>Subscription.request(n)</code>, and memory overflow mitigation.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A financial market ticker microservice consumes a high-frequency real-time stock pricing feed emitting 50,000 updates/sec and streams it to client consumers. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> The downstream client writes quotes to a disk archive at only 5,000 records/sec. Within 2 minutes, the streaming microservice crashes with <code>java.lang.OutOfMemoryError: Java heap space</code>. Explain how the absence of backpressure caused this crash.
+<br>
+<strong>Part B:</strong> How does the Reactive Streams specification solve this problem through <strong>Demand Signaling</strong> (<code>request(n)</code>)?
+<br>
+<strong>Part C:</strong> Compare the architectural trade-offs of <code>onBackpressureDrop()</code>, <code>onBackpressureBuffer(maxSize)</code>, and <code>sample(duration)</code>. Which strategy is appropriate for financial real-time dashboards?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'MarketDataStreamService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">@Service
+public class MarketDataStreamService {
+    @Autowired
+    private MarketDataProvider externalFeed;
+    public Flux&lt;StockQuote&gt; streamQuotes() {
+        return Flux.create(emitter -&gt; {
+            externalFeed.registerListener(quote -&gt; {
+                emitter.next(quote);
+            });
+        });
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 12, 1, 'Reactive Streams backpressure, demand signaling request(n), and flow control strategies')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 12, 2, 'Reactive Streams backpressure, demand signaling request(n), and flow control strategies')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 12, 3, 'Reactive Streams backpressure, demand signaling request(n), and flow control strategies')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 12, 4, 'Reactive Streams backpressure, demand signaling request(n), and flow control strategies')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Unbounded In-Memory Accumulation):</strong>
+<br>• The publisher generates 50,000 objects per second while the consumer can only drain 5,000 per second.
+<br>• <code>Flux.create()</code> by default uses an <strong>unbounded internal queue buffer</strong>.
+<br>• In just 60 seconds, $45,000 \times 60 = 2,700,000$ large Java objects accumulate in JVM Young/Old Gen memory. The GC goes into full stop-the-world cycles, throughput collapses, and the process dies of <code>OutOfMemoryError</code>.
+<br><br>
+<strong>Part B (Demand Signaling via Subscription.request(n)):</strong>
+<br>• Reactive Streams inverts flow control: the <strong>Subscriber dictates the pace</strong> by calling <code>subscription.request(n)</code>.
+<br>• The Publisher is not allowed to emit more than $n$ items until the Subscriber explicitly demands more.
+<br>• If the data source is hot (hardware sensors, raw sockets), backpressure tells the intermediary layer how to discard, sample, or buffer items gracefully.
+<br><br>
+<strong>Part C (Backpressure Strategies Comparison):</strong>
+<br>• <code>onBackpressureBuffer(size, BufferOverflowStrategy.DROP_OLDEST)</code>: Retains up to $N$ latest quotes, prevents memory exhaustion.
+<br>• <code>onBackpressureDrop()</code>: Discards quotes immediately if consumer is saturated.
+<br>• <code>sample(Duration.ofMillis(100))</code>: For financial dashboards, human eyes cannot see 50,000 updates/sec; sampling emits the most recent quote every 100ms, slashing load by 99% while preserving freshest price.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Service
+public class ResilientMarketStream {
+
+    public Flux&lt;StockQuote&gt; streamSafeQuotes() {
+        return Flux.create(this::registerFeed, FluxSink.OverflowStrategy.DROP)
+            .sample(Duration.ofMillis(100))
+            .onBackpressureBuffer(1000, 
+                dropped -&gt; log.warn(&quot;Dropped stale quote for: {}&quot;, dropped.getSymbol()),
+                BufferOverflowStrategy.DROP_OLDEST);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests increasing JVM heap with -Xmx16g or switching to a standard Java BlockingQueue, missing the fundamental push-vs-pull flow mismatch.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Reactive Streams pull-based demand signaling, diagnoses unbounded Flux.create memory buffers, and applies sampling and bounded buffer overflow policies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 13: Edge Architecture &amp; Routing -->
+                <div class="question-card" id="q-13" data-keywords="api gateway bff backend for frontend spring cloud gateway esb single point of failure">
+                    <div class="card-header">
+                        <span class="concept-badge">Edge Architecture &amp; Routing</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                API Gateway design, Backend-For-Frontend (BFF) pattern, non-blocking routing engines (Netty), avoiding the Enterprise Service Bus (ESB) anti-pattern, and cross-cutting edge filters.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise migrates from a monolith to microservices and builds a single centralized Spring Cloud Gateway. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Over time, the centralized API Gateway team has implemented JSON payload aggregation, customer eligibility calculation, and database lookups directly inside custom Gateway Filters. Why is this considered a dangerous <strong>ESB (Enterprise Service Bus) anti-pattern</strong>?
+<br>
+<strong>Part B:</strong> What is the <strong>Backend-For-Frontend (BFF)</strong> pattern, and why is having distinct BFFs for Mobile Clients vs Web Single-Page Applications (SPAs) preferable to a one-size-fits-all API Gateway?
+<br>
+<strong>Part C:</strong> What specific responsibilities belong strictly at the Edge Gateway layer versus internal downstream domain services?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'HeavyGatewayFilter.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">@Component
+public class HeavyGatewayFilter implements GlobalFilter {
+    @Autowired
+    private RestTemplate restTemplate;
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        String path = exchange.getRequest().getURI().getPath();
+        if (path.startsWith(&quot;/api/checkout&quot;)) {
+            CustomerCredit credit = restTemplate.getForObject(&quot;http://credit-svc/api/calc&quot;, CustomerCredit.class);
+            if (credit.getScore() &lt; 600) {
+                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                return exchange.getResponse().setComplete();
+            }
+        }
+        return chain.filter(exchange);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 13, 1, 'API Gateway architecture, BFF pattern, and ESB anti-pattern prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 13, 2, 'API Gateway architecture, BFF pattern, and ESB anti-pattern prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 13, 3, 'API Gateway architecture, BFF pattern, and ESB anti-pattern prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 13, 4, 'API Gateway architecture, BFF pattern, and ESB anti-pattern prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The ESB Anti-Pattern & Organizational Bottleneck):</strong>
+<br>• <strong>Blocking Netty Event Loop:</strong> Spring Cloud Gateway runs on an asynchronous non-blocking Netty engine. Using blocking <code>RestTemplate</code> inside a Gateway filter blocks Netty worker threads, crippling routing performance for all endpoints.
+<br>• <strong>Coupling & Monolithic Rebirth:</strong> Encoding domain business rules into the gateway turns it into a "smart pipe" (ESB). The gateway team becomes a bottleneck for every feature release across all domain teams.
+<br>• <strong>Blast Radius:</strong> A bug in checkout business logic can crash the gateway, taking down login, search, and the entire public infrastructure.
+<br><br>
+<strong>Part B (The Backend-For-Frontend Pattern):</strong>
+<br>• Mobile clients require minimal JSON wire size, aggressive payload trimming, and batched endpoints to save cellular battery and bandwidth.
+<br>• Web desktop clients have high bandwidth and need rich, multi-faceted data.
+<br>• BFF creates dedicated, lightweight aggregation layers owned by the specific UI teams (e.g., <code>Mobile-BFF</code>, <code>Web-BFF</code>) rather than polluting domain services or the core gateway.
+<br><br>
+<strong>Part C (Gateway Responsibilities Matrix):</strong>
+<br>• <em>Belongs in Gateway:</em> SSL termination, CORS, DDoS rate limiting, dynamic routing, edge JWT authentication, global request ID generation.
+<br>• <em>Belongs in Domain/BFF:</em> Business validation, domain orchestration, payload aggregation, database access.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>// Clean Spring Cloud Gateway Configuration
+@Configuration
+public class GatewayRoutesConfig {
+
+    @Bean
+    public RouteLocator cleanRoutes(RouteLocatorBuilder builder) {
+        return builder.routes()
+            .route(&quot;mobile_bff&quot;, r -&gt; r.path(&quot;/mobile/**&quot;)
+                .filters(f -&gt; f.stripPrefix(1)
+                               .requestRateLimiter(c -&gt; c.setRateLimiter(redisLimiter())))
+                .uri(&quot;lb://MOBILE-BFF-SERVICE&quot;))
+            .route(&quot;web_bff&quot;, r -&gt; r.path(&quot;/web/**&quot;)
+                .filters(f -&gt; f.stripPrefix(1))
+                .uri(&quot;lb://WEB-BFF-SERVICE&quot;))
+            .build();
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Places heavy business logic, database queries, and blocking HTTP calls inside the API Gateway, recreating a brittle Enterprise Service Bus.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Maintains &#x27;Dumb Pipes, Smart Endpoints&#x27;, prevents Netty event-loop blocking, articulates the BFF architectural model, and segregates edge concerns from domain logic.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 14: Testing &amp; Contract Verification -->
+                <div class="question-card" id="q-14" data-keywords="contract testing pact spring cloud contract consumer provider breaking changes ci cd">
+                    <div class="card-header">
+                        <span class="concept-badge">Testing &amp; Contract Verification</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Consumer-Driven Contract Testing (Pact / Spring Cloud Contract), preventing breaking API regressions, verifying provider expectations in CI/CD, and eliminating fragile end-to-end integration environments.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Order Service (Consumer) consumes the Customer Service (Provider) API. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Customer Service refactors its internal model and renames the field <code>userId</code> to <code>accountId</code>. All unit tests in both repositories pass with 100% success. Why did production break immediately upon deployment?
+<br>
+<strong>Part B:</strong> Why are full end-to-end (E2E) testing environments across 50 deployed microservices considered slow, expensive, and unreliable for verifying API compatibility?
+<br>
+<strong>Part C:</strong> How does <strong>Consumer-Driven Contract Testing</strong> with Pact work? Explain the role of the Pact file, the Pact Broker, and how provider verification stops broken deployments in CI/CD.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'OrderCustomerClient.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">@Service
+public class OrderCustomerClient {
+    @Autowired
+    private RestTemplate restTemplate;
+    public CustomerDetails fetchCustomer(Long customerId) {
+        return restTemplate.getForObject(
+            &quot;http://customer-service/api/customers/&quot; + customerId, 
+            CustomerDetails.class
+        );
+    }
+}
+public class CustomerDetails {
+    private Long userId;
+    private String tier;
+    private String email;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 14, 1, 'Consumer-Driven Contract Testing, Pact Broker, and breaking API change detection')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 14, 2, 'Consumer-Driven Contract Testing, Pact Broker, and breaking API change detection')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 14, 3, 'Consumer-Driven Contract Testing, Pact Broker, and breaking API change detection')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 14, 4, 'Consumer-Driven Contract Testing, Pact Broker, and breaking API change detection')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Static Mocking Trap):</strong>
+<br>In microservice testing, Consumer unit tests use mocked HTTP servers (WireMock) returning hard-coded static JSON.
+<br>Provider unit tests mock their database and return their new entity.
+<br>Both builds pass independently in isolation because neither tests against the other's real contract. When deployed to production, the Consumer deserializes <code>userId</code> as <code>null</code>, triggering <code>NullPointerException</code>.
+<br><br>
+<strong>Part B (Why Full E2E Environments Fail at Scale):</strong>
+<br>• <strong>Flakiness:</strong> 50 microservices running concurrently suffer intermittent network blips, database state pollution, and deployment races.
+<br>• <strong>Slow CI/CD:</strong> Deploying 50 containers to execute tests takes hours, stalling pull request velocity.
+<br>• <strong>Environment Drift:</strong> Test environments rarely mirror production versions accurately.
+<br><br>
+<strong>Part C (Consumer-Driven Contract Testing Workflow):</strong>
+<br>1. <strong>Consumer defines expectation:</strong> Order Service writes a test specifying exact requests it makes and minimal response fields it requires (Pact specification).
+<br>2. <strong>Pact generation & publication:</strong> Test generates a JSON contract file, published to a central <strong>Pact Broker</strong>.
+<br>3. <strong>Provider Verification in CI:</strong> When Customer Service runs its CI pipeline, it downloads the consumer contracts and replays real HTTP calls against its controllers. If <code>userId</code> is missing, provider build fails immediately &mdash; before deployment!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>// Consumer Pact Test
+@Pact(consumer = &quot;OrderService&quot;, provider = &quot;CustomerService&quot;)
+public V4Pact createCustomerPact(PactDslWithProvider builder) {
+    return builder
+        .given(&quot;Customer 101 exists&quot;)
+        .uponReceiving(&quot;A request for customer details&quot;)
+        .path(&quot;/api/customers/101&quot;)
+        .method(&quot;GET&quot;)
+        .willRespondWith()
+        .status(200)
+        .body(new PactDslJsonBody()
+            .integerType(&quot;userId&quot;, 101)
+            .stringType(&quot;tier&quot;, &quot;GOLD&quot;)
+            .stringType(&quot;email&quot;, &quot;alice@corp.com&quot;))
+        .toPact(V4Pact.class);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Advocates for a dedicated shared staging environment with all 50 services deployed or relies on brittle manual Postman smoke tests.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains why isolated mocks mask breaking schema drifts, contrasts E2E flakiness with contract testing, and describes the Pact Broker verification pipeline in CI/CD.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 15: Service Discovery &amp; Topology -->
+                <div class="question-card" id="q-15" data-keywords="service discovery eureka consul spring cloud loadbalancer client side load balancing stale cache">
+                    <div class="card-header">
+                        <span class="concept-badge">Service Discovery &amp; Topology</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Service Discovery (Eureka, Consul, K8s CoreDNS), Client-Side Load Balancing (Spring Cloud LoadBalancer), heartbeat lease evictions, and stale cache race conditions.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a high-throughput microservices architecture, Service A calls Service B using Spring Cloud LoadBalancer and Eureka/Consul. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> During a rolling deployment, an old pod of Service B is terminated by Kubernetes. For the next 30 seconds, 5% of requests from Service A fail with <code>ConnectException: Connection refused</code>. Why does this stale routing window occur?
+<br>
+<strong>Part B:</strong> What are the pros and cons of Client-Side Load Balancing (Spring Cloud LoadBalancer) versus Server-Side Load Balancing (AWS Application Load Balancer / Nginx)?
+<br>
+<strong>Part C:</strong> How do you eliminate the stale pod routing window during rolling deployments using Kubernetes readiness probes, preStop lifecycle hooks, and client-side retry policies?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'LoadBalancedClientConfig.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">@Configuration
+public class LoadBalancedClientConfig {
+    @Bean
+    @LoadBalanced
+    public WebClient.Builder loadBalancedWebClientBuilder() {
+        return WebClient.builder();
+    }
+}
+@Service
+public class OrderDispatcherService {
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+    public void dispatch(OrderNotification notification) {
+        webClientBuilder.build()
+            .post()
+            .uri(&quot;http://notification-service/api/notify&quot;)
+            .bodyValue(notification)
+            .retrieve()
+            .toBodilessEntity()
+            .block();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 15, 1, 'Service discovery stale cache eviction, client-side load balancing, and zero-downtime rolling deploys')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 15, 2, 'Service discovery stale cache eviction, client-side load balancing, and zero-downtime rolling deploys')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 15, 3, 'Service discovery stale cache eviction, client-side load balancing, and zero-downtime rolling deploys')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 15, 4, 'Service discovery stale cache eviction, client-side load balancing, and zero-downtime rolling deploys')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Multi-Tier Cache Invalidation Lag):</strong>
+<br>A stale routing window happens due to compound cache expiration delays:
+<br>1. Service B terminates, but Eureka/Consul server only evicts it after missing heartbeats (default 30&ndash;90 seconds).
+<br>2. Service A caches the Eureka server registry locally and only refreshes every 30 seconds.
+<br>3. Until Service A's local cache expires, Spring Cloud LoadBalancer continues routing round-robin requests to the dead pod's dead IP address.
+<br><br>
+<strong>Part B (Client-Side vs Server-Side Load Balancing):</strong>
+<br>• <strong>Client-Side (Spring Cloud LoadBalancer):</strong>
+<br><em>Pros:</em> Direct pod-to-pod networking (zero intermediate network hop, lower latency), smart application-aware routing algorithms.
+<br><em>Cons:</em> Language-dependent libraries, requires local discovery cache management, client library maintenance.
+<br>• <strong>Server-Side (ALB / Envoy):</strong>
+<br><em>Pros:</em> Polyglot, language-agnostic, centralized TLS/health management.
+<br><em>Cons:</em> Extra network hop, higher infrastructure cost, potential central bottleneck.
+<br><br>
+<strong>Part C (Eliminating the Stale Window):</strong>
+<br>1. <strong>Kubernetes preStop Hook:</strong> Add <code>sleep 15</code> in pod <code>preStop</code> so pod deregisters from endpoints before Kubernetes sends SIGTERM to the application.
+<br>2. <strong>Readiness Probe:</strong> Fail readiness probe before shutdown.
+<br>3. <strong>Client-Side Retry Policy:</strong> Configure Spring Cloud LoadBalancer with automatic retry on <code>ConnectException</code> to immediately re-route to an alternate instance.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code># Kubernetes Deployment preStop hook
+spec:
+  containers:
+  - name: notification-service
+    lifecycle:
+      preStop:
+        exec:
+          command: [&quot;/bin/sh&quot;, &quot;-c&quot;, &quot;sleep 15&quot;]
+
+# Spring Retry Configuration
+spring:
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+        retry-on-next-instance: 1</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests completely disabling caching in Service Discovery (which will crash Eureka/Consul under heavy traffic with millions of registry requests).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Pinpoints the multi-tiered cache invalidation delay, compares Client-Side vs Server-Side proxy trade-offs, and aligns Kubernetes preStop hooks with client-side retry policies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 16: Messaging &amp; Asynchronous Resilience -->
+                <div class="question-card" id="q-16" data-keywords="dead letter queue dlq poison pill kafka retry storm exponential backoff jitter non blocking retry">
+                    <div class="card-header">
+                        <span class="concept-badge">Messaging &amp; Asynchronous Resilience</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Dead Letter Queues (DLQ), poison pill handling in Kafka consumers, avoiding partition-blocking retries, exponential backoff with full jitter, and non-blocking retry topics.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A billing microservice consumes payment events from an Apache Kafka partition. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> A malformed event with corrupted JSON (a "poison pill") arrives on partition 0. What happens to the consumer under the default Spring Kafka / Kafka listener error handling? How does this block all subsequent valid payments?
+<br>
+<strong>Part B:</strong> If 1,000 consumers encounter a transient third-party outage and all retry simultaneously on a fixed 1-second timer, explain what a <strong>Retry Storm</strong> (Thundering Herd) is and how <strong>Exponential Backoff with Full Jitter</strong> mitigates it.
+<br>
+<strong>Part C:</strong> Describe how to implement <strong>Non-Blocking Retry Topics</strong> in Spring Kafka (e.g. <code>topic-order-retry-10s</code>, <code>topic-order-dlt</code>) so that slow or retried messages do not block head-of-line processing for other customers.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'BillingEventConsumer.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">@Component
+public class BillingEventConsumer {
+    @Autowired
+    private BillingProcessor processor;
+    @KafkaListener(topics = &quot;billing-events&quot;, groupId = &quot;billing-group&quot;)
+    public void consume(ConsumerRecord&lt;String, String&gt; record) {
+        BillingEvent event = JsonUtil.deserialize(record.value(), BillingEvent.class);
+        processor.process(event);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 16, 1, 'Dead Letter Queues (DLQ), Kafka poison pill recovery, and non-blocking retry topics')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 16, 2, 'Dead Letter Queues (DLQ), Kafka poison pill recovery, and non-blocking retry topics')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 16, 3, 'Dead Letter Queues (DLQ), Kafka poison pill recovery, and non-blocking retry topics')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 16, 4, 'Dead Letter Queues (DLQ), Kafka poison pill recovery, and non-blocking retry topics')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Poison Pill & Head-of-Line Partition Lock):</strong>
+<br>• Kafka partitions maintain an ordered offset. An offset is only committed when a record is successfully processed.
+<br>• When <code>deserialize()</code> throws an unhandled exception, Kafka's default listener attempts to re-read the exact same offset.
+<br>• Because the message is permanently corrupt, it will fail every retry forever.
+<br>• As a result, the consumer partition is <strong>completely halted</strong>. All subsequent valid customer transactions behind that offset on the same partition are blocked indefinitely.
+<br><br>
+<strong>Part B (Retry Storms & Full Jitter):</strong>
+<br>• When downstream dependencies experience transient failures, thousands of worker threads retrying at fixed synchronized intervals (e.g., exactly every 2 seconds) produce massive synchronized spikes of traffic, crushing the recovering downstream service.
+<br>• <strong>Full Jitter Formula:</strong> <code>Sleep = random(0, min(max_sleep, base * 2 ^ attempt))</code>
+<br>• Jitter smooths the retry distribution evenly across time, eliminating synchronized thundering herd spikes.
+<br><br>
+<strong>Part C (Non-Blocking Retry Topics via @RetryableTopic):</strong>
+<br>• If a message fails, instead of pausing the main partition, forward the message to a delayed retry topic (e.g. <code>billing-events-retry-10s</code>) and commit the main offset.
+<br>• Healthy messages on the main partition continue flowing with zero latency.
+<br>• After max attempts, forward the message to the Dead Letter Topic (DLT) for engineering triage and alerting.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Component
+public class ResilientBillingConsumer {
+
+    @RetryableTopic(
+        attempts = &quot;4&quot;,
+        backoff = @Backoff(delay = 1000, multiplier = 2.0, maxDelay = 10000, random = true),
+        dltStrategy = DltStrategy.FAIL_ON_ERROR,
+        include = { TransientApiException.class }
+    )
+    @KafkaListener(topics = &quot;billing-events&quot;, groupId = &quot;billing-group&quot;)
+    public void consume(BillingEvent event) {
+        processor.process(event);
+    }
+
+    @DltHandler
+    public void handleDlt(BillingEvent event, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+        log.error(&quot;Event permanently failed and routed to DLT: {}&quot;, event);
+        alertManager.notifyOnCall(event);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Catches the exception and swallows it (silent message loss) or enters an infinite retry loop that freezes the entire Kafka partition.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses Head-of-Line partition blocking, applies exponential backoff with full jitter, configures @RetryableTopic for non-blocking retry topics, and establishes Dead Letter Topic alerting.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 17: Fault Isolation &amp; Resource Management -->
+                <div class="question-card" id="q-17" data-keywords="bulkhead pattern resource isolation thread pool semaphore cataclysmic failure tomcat">
+                    <div class="card-header">
+                        <span class="concept-badge">Fault Isolation &amp; Resource Management</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The Bulkhead Pattern, preventing single-dependency failure from consuming shared JVM resources, Thread Pool Isolation vs Semaphore Isolation, and protecting critical revenue paths.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A single monolithic Spring Boot microservice handles both high-frequency Order Placement and long-running PDF Invoice Generation. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> At the end of the month, corporate users request 300 large PDF invoices simultaneously. Within seconds, customer order placement (<code>/api/orders</code>) grinds to a halt and times out, even though the order database is completely healthy. Explain why.
+<br>
+<strong>Part B:</strong> Compare <strong>Thread Pool Isolation</strong> versus <strong>Semaphore Isolation</strong> in implementing the Bulkhead pattern. What are the CPU and memory trade-offs?
+<br>
+<strong>Part C:</strong> How do you configure a Resilience4j Bulkhead to guarantee that slow PDF generation requests can never consume more than 10 concurrent slots, leaving the remaining 190 server threads for customer orders?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'OrderAndInvoiceService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">@RestController
+@RequestMapping(&quot;/api&quot;)
+public class OrderAndInvoiceService {
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private PdfGeneratorService pdfService;
+    @PostMapping(&quot;/orders&quot;)
+    public ResponseEntity&lt;OrderResult&gt; placeOrder(@RequestBody OrderCommand cmd) {
+        return ResponseEntity.ok(orderService.submit(cmd));
+    }
+    @GetMapping(&quot;/invoices/{id}/download&quot;)
+    public ResponseEntity&lt;byte[]&gt; downloadInvoice(@PathVariable String id) {
+        byte[] pdf = pdfService.generateHeavyReport(id);
+        return ResponseEntity.ok(pdf);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 17, 1, 'Bulkhead Pattern, Thread Pool vs Semaphore isolation, and thread starvation prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 17, 2, 'Bulkhead Pattern, Thread Pool vs Semaphore isolation, and thread starvation prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 17, 3, 'Bulkhead Pattern, Thread Pool vs Semaphore isolation, and thread starvation prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 17, 4, 'Bulkhead Pattern, Thread Pool vs Semaphore isolation, and thread starvation prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Unbounded Resource Contention in Shared Thread Pool):</strong>
+<br>• Tomcat handles all incoming HTTP requests via a single shared thread pool (default 200 threads).
+<br>• When 200 users hit <code>/invoices/download</code>, all 200 worker threads become blocked performing heavy CPU rendering and I/O for 15 seconds.
+<br>• When a high-priority customer calls <code>/orders</code> (which takes only 20ms), there are <strong>zero free threads</strong> available in the pool. The order request waits in the operating system socket backlog until it times out.
+<br><br>
+<strong>Part B (Thread Pool vs Semaphore Isolation):</strong>
+<br>• <strong>Thread Pool Bulkhead:</strong>
+<br>Executes task on a separate dedicated thread pool.
+<br><em>Pros:</em> Supports asynchronous execution and hard timeouts (thread interruption).
+<br><em>Cons:</em> High memory overhead per thread (1MB stack) and CPU context switching overhead.
+<br>• <strong>Semaphore Bulkhead:</strong>
+<br>Limits concurrent callers using an atomic counter on the calling thread.
+<br><em>Pros:</em> Extremely fast, zero context switching overhead, sub-microsecond latency.
+<br><em>Cons:</em> Executes on the caller's thread; cannot enforce hard preemptive timeouts.
+<br><br>
+<strong>Part C (Resilience4j Bulkhead Configuration):</strong>
+<br>Apply <code>@Bulkhead(name = "pdfBulkhead", type = Bulkhead.Type.SEMAPHORE)</code> with <code>maxConcurrentCalls = 10</code>. The 11th concurrent caller is immediately rejected with HTTP 429 or queued with a strict maxWaitDuration (e.g. 50ms).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>// application.yml Resilience4j Bulkhead
+resilience4j:
+  bulkhead:
+    instances:
+      pdfReport:
+        maxConcurrentCalls: 10
+        maxWaitDuration: 10ms
+
+// Controller
+@GetMapping(&quot;/invoices/{id}/download&quot;)
+@Bulkhead(name = &quot;pdfReport&quot;, fallbackMethod = &quot;reportBusyFallback&quot;)
+public ResponseEntity&lt;byte[]&gt; downloadInvoice(@PathVariable String id) {
+    return ResponseEntity.ok(pdfService.generateHeavyReport(id));
+}
+
+public ResponseEntity&lt;byte[]&gt; reportBusyFallback(String id, BulkheadFullException ex) {
+    return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+        .header(&quot;Retry-After&quot;, &quot;30&quot;).body(null);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests increasing server.tomcat.threads.max from 200 to 2,000, worsening CPU context switching and accelerating OutOfMemoryError.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains thread starvation across disparate workloads, compares Thread Pool vs Semaphore isolation mechanics, and configures bounded Bulkheads to protect critical revenue endpoints.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 18: Infrastructure &amp; Service Mesh -->
+                <div class="question-card" id="q-18" data-keywords="service mesh istio envoy mtls spiffe zero trust authorization policy sidecar">
+                    <div class="card-header">
+                        <span class="concept-badge">Infrastructure &amp; Service Mesh</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Service Mesh architecture (Istio / Envoy), Zero-Trust security model, transparent mutual TLS (mTLS) with SPIFFE/SPIRE cryptographic identities, and L7 AuthorizationPolicies.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise deploys 80 microservices onto an Amazon EKS (Kubernetes) cluster. Look at the architecture and code snippet.
+<br><br>
+<strong>Part A:</strong> Historically, teams assumed internal cluster network traffic (pod-to-pod) was secure and communicated via plaintext HTTP. What attack vectors exist in a shared Kubernetes cluster under this flawed assumption?
+<br>
+<strong>Part B:</strong> How does a <strong>Service Mesh</strong> (like Istio using Envoy sidecar proxies) implement automatic mutual TLS (mTLS) without requiring a single line of security code inside the Java application?
+<br>
+<strong>Part C:</strong> How do SPIFFE IDs and Istio <code>AuthorizationPolicy</code> enable fine-grained Zero-Trust access control (e.g. allowing Payment Service to call Billing Service, while blocking Marketing Service)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'InternalOrderClient.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">@Service
+public class InternalOrderClient {
+    @Autowired
+    private RestTemplate restTemplate;
+    public void invokePayment(PaymentCommand cmd) {
+        String url = &quot;http://payment-service.default.svc.cluster.local:8080/charge&quot;;
+        restTemplate.postForLocation(url, cmd);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 18, 1, 'Service Mesh architecture, Istio Envoy sidecars, and Zero-Trust mTLS with SPIFFE IDs')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 18, 2, 'Service Mesh architecture, Istio Envoy sidecars, and Zero-Trust mTLS with SPIFFE IDs')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 18, 3, 'Service Mesh architecture, Istio Envoy sidecars, and Zero-Trust mTLS with SPIFFE IDs')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 18, 4, 'Service Mesh architecture, Istio Envoy sidecars, and Zero-Trust mTLS with SPIFFE IDs')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Fallacy of the Perimeter Defense):</strong>
+<br>• <strong>Packet Sniffing:</strong> Pods on the same Kubernetes worker node share network namespaces/bridges. A compromised container running <code>tcpdump</code> can capture unencrypted traffic containing JWTs, passwords, and PII.
+<br>• <strong>Lateral Movement:</strong> An attacker compromising a vulnerable frontend pod (e.g., via Log4Shell or SSRF) can pivot laterally across the cluster and invoke any internal database or payment endpoint without authentication.
+<br><br>
+<strong>Part B (Transparent Sidecar mTLS via Envoy & iptables):</strong>
+<br>• Istio injects an <strong>Envoy sidecar container</strong> into every application pod.
+<br>• <code>iptables</code> rules transparently redirect all inbound and outbound TCP traffic to the local Envoy proxy (port 15001/15006).
+<br>• The Java application continues speaking plain HTTP locally to <code>localhost</code>.
+<br>• Envoy negotiates an mTLS handshake with the destination pod's Envoy proxy, using short-lived x509 certificates automatically issued and rotated by Istio's control plane (Istiod).
+<br><br>
+<strong>Part C (SPIFFE Identity & L7 AuthorizationPolicy):</strong>
+<br>• Every pod receives a <strong>SPIFFE ID</strong> embedded in its certificate SAN: <code>spiffe://cluster.local/ns/prod/sa/payment-service-sa</code>.
+<br>• Istio's <code>AuthorizationPolicy</code> evaluates this cryptographic identity at Layer 7:
+<br>It permits requests to <code>payment-service</code> ONLY if the caller's SPIFFE principal matches <code>order-service-sa</code>, rejecting all other pods with HTTP 403.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: payment-access-policy
+  namespace: prod
+spec:
+  selector:
+    matchLabels:
+      app: payment-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: [&quot;cluster.local/ns/prod/sa/order-service-sa&quot;]
+    to:
+    - operation:
+        methods: [&quot;POST&quot;]
+        paths: [&quot;/charge&quot;]</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests managing SSL certificates in Java keystores (JKS) manually in each microservice or relies entirely on Kubernetes private IP isolation.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates lateral movement risks in Kubernetes, explains transparent Envoy iptables interception, diagrams mTLS certificate issuance, and configures SPIFFE-based AuthorizationPolicies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 19: API Standards &amp; REST Ergonomics -->
+                <div class="question-card" id="q-19" data-keywords="rfc 7807 problem details error handling 422 409 400 rest anti patterns spring boot 3">
+                    <div class="card-header">
+                        <span class="concept-badge">API Standards &amp; REST Ergonomics</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Standardized REST API error handling via <strong>RFC 7807 (Problem Details for HTTP APIs)</strong>, semantic status code distinctions (400 vs 409 vs 422), and Spring Boot 3 ProblemDetail integration.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A public API returns error responses across different microservices. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Explain why returning <code>HTTP 200 OK</code> with a body containing <code>{"status": "ERROR", "code": 500}</code> is a severe REST anti-pattern that breaks HTTP caches, API gateways, and client circuit breakers.
+<br>
+<strong>Part B:</strong> What is the standard structure of an <strong>RFC 7807</strong> Problem Details response? Explain the role of <code>type</code>, <code>title</code>, <code>status</code>, <code>detail</code>, and <code>instance</code>.
+<br>
+<strong>Part C:</strong> Distinguish the semantic differences between <strong>400 Bad Request</strong>, <strong>409 Conflict</strong>, and <strong>422 Unprocessable Entity</strong>. Which status code should be returned when a balance is insufficient to complete a transfer?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'LegacyErrorResponse.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">@RestController
+@RequestMapping(&quot;/api/accounts&quot;)
+public class AccountController {
+    @PostMapping(&quot;/{id}/debit&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; debit(
+            @PathVariable Long id, @RequestBody DebitRequest request) {
+        if (request.getAmount() &lt;= 0) {
+            Map&lt;String, Object&gt; err = new HashMap&lt;&gt;();
+            err.put(&quot;success&quot;, false);
+            err.put(&quot;errorCode&quot;, &quot;INVALID_AMOUNT&quot;);
+            err.put(&quot;message&quot;, &quot;Amount must be positive&quot;);
+            return ResponseEntity.ok(err);
+        }
+        return ResponseEntity.ok(Map.of(&quot;success&quot;, true));
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 19, 1, 'RFC 7807 Problem Details, HTTP status code ergonomics, and REST error standards')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 19, 2, 'RFC 7807 Problem Details, HTTP status code ergonomics, and REST error standards')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 19, 3, 'RFC 7807 Problem Details, HTTP status code ergonomics, and REST error standards')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 19, 4, 'RFC 7807 Problem Details, HTTP status code ergonomics, and REST error standards')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The HTTP 200 OK Error Anti-Pattern):</strong>
+<br>• <strong>Broken Edge Caching:</strong> CDNs and reverse proxies cache HTTP 200 responses, causing an error returned to one user to potentially be served to subsequent users.
+<br>• <strong>Blind Circuit Breakers:</strong> Resilience4j, Envoy, and AWS ALBs evaluate HTTP response codes. A 200 status is counted as a successful call, meaning failing backends never trigger circuit breakers or automated alarm triggers.
+<br>• <strong>Client Deserialization Failures:</strong> Standard client SDKs expect domain response schemas on 200 and throw deserialization crashes when receiving unexpected error payloads.
+<br><br>
+<strong>Part B (RFC 7807 Specification Standard):</strong>
+<br>Media Type: <code>application/problem+json</code>
+<br>• <code>type</code>: A URI reference identifying the problem type (e.g. <code>https://api.mycorp.com/errors/insufficient-funds</code>).
+<br>• <code>title</code>: Short, human-readable summary that does not change between occurrences.
+<br>• <code>status</code>: The HTTP status code generated by origin server.
+<br>• <code>detail</code>: Human-readable explanation specific to this occurrence.
+<br>• <code>instance</code>: A URI reference identifying the specific occurrence/request ID.
+<br><br>
+<strong>Part C (Semantic Status Code Distinctions):</strong>
+<br>• <strong>400 Bad Request:</strong> Malformed syntax, invalid JSON formatting, or unparseable headers.
+<br>• <strong>409 Conflict:</strong> Concurrency conflicts, optimistic locking version mismatch, or duplicate unique keys.
+<br>• <strong>422 Unprocessable Entity:</strong> Syntactically valid JSON, but business logic validation fails (e.g. Insufficient account balance).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ProblemDetail handleInsufficientFunds(
+            InsufficientBalanceException ex, HttpServletRequest req) {
+        
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+            HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
+        problem.setType(URI.create(&quot;https://api.bank.com/errors/insufficient-funds&quot;));
+        problem.setTitle(&quot;Insufficient Account Balance&quot;);
+        problem.setProperty(&quot;currentBalance&quot;, ex.getBalance());
+        problem.setProperty(&quot;requestedAmount&quot;, ex.getRequestedAmount());
+        problem.setInstance(URI.create(req.getRequestURI()));
+        return problem;
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Returns 200 OK with custom status flags or throws generic 500 Internal Server Errors with raw stack traces exposed to clients.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Critiques HTTP 200 anti-patterns on edge infrastructure, standardizes on RFC 7807 ProblemDetail, and precisely distinguishes 400 vs 409 vs 422 semantic usages.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 20: High Availability &amp; Multi-Region DR -->
+                <div class="question-card" id="q-20" data-keywords="active active multi region disaster recovery rpo rto split brain crdt route53">
+                    <div class="card-header">
+                        <span class="concept-badge">High Availability &amp; Multi-Region DR</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Multi-Region Active-Active microservices architecture, RPO (Recovery Point Objective) vs RTO (Recovery Time Objective), asynchronous cross-region data replication lag, and conflict resolution (CRDTs).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A global tier-1 retail bank requires an Active-Active deployment across two AWS regions (<code>us-east-1</code> and <code>us-west-2</code>) with RPO < 1 second and RTO < 5 seconds. Look at the architecture snippet.
+<br><br>
+<strong>Part A:</strong> Define <strong>RPO (Recovery Point Objective)</strong> and <strong>RTO (Recovery Time Objective)</strong> in the context of a catastrophic regional cloud outage.
+<br>
+<strong>Part B:</strong> If both regions accept writes concurrently for the same user account with asynchronous database replication (500ms cross-country latency), what happens during a network partition (Split-Brain)?
+<br>
+<strong>Part C:</strong> Detail two production architectural patterns to make Active-Active viable: <strong>Regional Data Pinning (User Home Region)</strong> and <strong>Conflict-Free Replicated Data Types (CRDTs)</strong>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'MultiRegionAccountRouting.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">public class MultiRegionAccountRouting {
+    public void routeUserTransaction(TransactionCommand cmd) {
+        String primaryRegion = cmd.getPreferredRegion();
+        executeOnDatabase(cmd, primaryRegion);
+    }
+    private void executeOnDatabase(TransactionCommand cmd, String region) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('rest', 20, 1, 'Multi-Region Active-Active DR, RPO/RTO objectives, and cross-region write conflict resolution')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('rest', 20, 2, 'Multi-Region Active-Active DR, RPO/RTO objectives, and cross-region write conflict resolution')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('rest', 20, 3, 'Multi-Region Active-Active DR, RPO/RTO objectives, and cross-region write conflict resolution')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('rest', 20, 4, 'Multi-Region Active-Active DR, RPO/RTO objectives, and cross-region write conflict resolution')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (RPO vs RTO):</strong>
+<br>• <strong>RPO (Recovery Point Objective):</strong> The maximum acceptable data loss measured in time. (RPO = 1s means you cannot lose more than 1 second of committed transactions).
+<br>• <strong>RTO (Recovery Time Objective):</strong> The maximum acceptable downtime before the service is fully restored. (RTO = 5s means failover must restore operational traffic within 5 seconds).
+<br><br>
+<strong>Part B (The CAP Theorem & Split-Brain Hazard):</strong>
+<br>According to the CAP Theorem, across a wide-area network partition ($P$), a distributed system must choose between Consistency ($C$) and Availability ($A$).
+<br>If both regions allow concurrent writes with asynchronous replication:
+<br>1. Conflicting writes occur (Last-Write-Wins overwrites data silently).
+<br>2. Account balances can be double-spent in two regions simultaneously before replication catches up.
+<br>3. When the partition heals, reconciling diverged relational database states requires complex manual reconciliation.
+<br><br>
+<strong>Part C (Architectural Mitigation Strategies):</strong>
+<br>1. <strong>User Pinning (Home Region Partitioning):</strong> Users are cryptographically or geographically assigned to a primary home region (e.g. based on Account ID modulo or residence). All write transactions for User X are routed strictly to their home region. In disaster failover, traffic shifts to the standby region only after fencing old writes.
+<br>2. <strong>CRDTs (Conflict-Free Replicated Data Types):</strong> For collaborative or counter-based services (e.g. shopping carts, inventory counters), use State-based or Operation-based CRDTs where operations are mathematically commutative and converge automatically without locks.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Java / Config</span></div>
+                                <pre><code>@Component
+public class RegionAwareRoutingFilter implements Filter {
+
+    @Value(&quot;${cloud.aws.region.current}&quot;)
+    private String currentRegion;
+
+    @Autowired
+    private UserRegionLocator regionLocator;
+
+    public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) {
+        String accountId = req.getHeader(&quot;X-Account-Id&quot;);
+        String homeRegion = regionLocator.determineHomeRegion(accountId);
+
+        if (!currentRegion.equals(homeRegion)) {
+            // Forward write request to user&#x27;s canonical Home Region
+            res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+            res.setHeader(&quot;Location&quot;, &quot;https://&quot; + homeRegion + &quot;.bank.com&quot; + req.getRequestURI());
+            return;
+        }
+        chain.doFilter(req, res);
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes database replication across continents is instantaneous or suggests synchronous two-phase commit over 3,000 miles (which adds 100ms+ network latency to every single write).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Defines RPO/RTO rigorously, applies the CAP theorem to cross-region partitions, designs User Home Region pinning, and utilizes CRDTs for commutative data convergence.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card modal-code-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Snippet</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Code</span>
+                        <span class="code-lang">Java / Config</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('rest');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

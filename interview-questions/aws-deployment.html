@@ -1,0 +1,2569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Deployment & Cloud Architecture Interview Suite | EC2, Lambda & CloudOps</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link active"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>☁️ AWS Deployment & Cloud Architecture (EC2 & Lambda)</h1>
+            <p>20 Architectural questions covering VPC CIDR calculations, NAT Gateways, Security Groups vs NACLs, S3 Lifecycle, Lambda SnapStart (CRaC), RDS Proxy, EC2 Auto Scaling, IAM Least Privilege, SQS FIFO, and Multi-Region Disaster Recovery.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>☁️ Skill: AWS Deployment & Cloud Architecture</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('aws')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search AWS topics (e.g. vpc cidr, nat gateway, security group, nacl, s3, snapstart, rds proxy, ec2 autoscaling, sqs fifo, iam, route53)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+                <!-- QUESTION 1: VPC &amp; IP Address Management -->
+                <div class="question-card" id="q-1" data-keywords="vpc cidr block reserved ip subnet 16 28 ip exhaustion autoscaling">
+                    <div class="card-header">
+                        <span class="concept-badge">VPC &amp; IP Address Management</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS VPC CIDR block constraints (/16 to /28), subnet allocation mathematics, the 5 AWS-reserved IP addresses per subnet, and preventing IP exhaustion under autoscaling.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A cloud engineering team provisions a dedicated microservices subnet using Terraform with a <code>/28</code> CIDR block. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> How many total IPv4 addresses exist in a <code>/28</code> subnet, and exactly how many are usable by EC2 instances, Lambda ENIs, or containers? List the 5 addresses reserved by AWS and their dedicated networking purposes.
+<br>
+<strong>Part B:</strong> During a traffic surge, the Auto Scaling Group fails to launch new instances, and Lambda functions in the VPC fail with <code>EC2ThrottledException</code>. Explain why a <code>/28</code> block is an anti-pattern for production microservices.
+<br>
+<strong>Part C:</strong> Can an existing VPC CIDR block be modified or expanded after creation? How does AWS Secondary CIDR allocation solve IP exhaustion without tearing down the VPC?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'vpc-subnet.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">resource &quot;aws_vpc&quot; &quot;app_vpc&quot; {
+  cidr_block           = &quot;10.0.0.0/16&quot;
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+}
+resource &quot;aws_subnet&quot; &quot;service_subnet_az1&quot; {
+  vpc_id            = aws_vpc.app_vpc.id
+  cidr_block        = &quot;10.0.1.0/28&quot;
+  availability_zone = &quot;us-east-1a&quot;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 1, 1, 'VPC CIDR calculation, 5 AWS reserved IPs, and secondary CIDR scaling')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 1, 2, 'VPC CIDR calculation, 5 AWS reserved IPs, and secondary CIDR scaling')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 1, 3, 'VPC CIDR calculation, 5 AWS reserved IPs, and secondary CIDR scaling')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 1, 4, 'VPC CIDR calculation, 5 AWS reserved IPs, and secondary CIDR scaling')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Math of IPv4 Subnets & The 5 Reserved Addresses):</strong>
+<br>A <code>/28</code> subnet has $2^{(32 - 28)} = 2^4 = 16$ total IPv4 addresses.
+<br>However, AWS reserves exactly <strong>5 IP addresses</strong> in every subnet:
+<br>1. <code>10.0.1.0</code>: Network address (first address).
+<br>2. <code>10.0.1.1</code>: Reserved by AWS for the VPC default router.
+<br>3. <code>10.0.1.2</code>: Reserved by AWS for the DNS resolver (AmazonProvidedDNS).
+<br>4. <code>10.0.1.3</code>: Reserved by AWS for future internal use.
+<br>5. <code>10.0.1.15</code>: Network broadcast address (AWS does not support broadcast, but reserves it).
+<br>Usable IPs: $16 - 5 =$ <strong>only 11 usable IP addresses!</strong>
+<br><br>
+<strong>Part B (Why /28 Causes Outages Under Autoscaling):</strong>
+<br>Each EC2 instance, Application Load Balancer ENI node, RDS endpoint, and Lambda VPC ENI consumes private IP addresses from the subnet.
+<br>With only 11 usable IPs, if 2 ALBs and 5 EC2 instances are active, only 4 IPs remain. Any sudden spike in auto-scaling or rolling deployments triggers immediate <code>IP exhaustion</code>, preventing new pods/instances from launching.
+<br><br>
+<strong>Part C (Secondary CIDR Blocks):</strong>
+<br>While you cannot alter an existing subnet's CIDR boundaries in place, AWS allows you to associate <strong>Secondary CIDR blocks</strong> (e.g. <code>100.64.0.0/16</code> carrier-grade NAT or additional <code>10.1.0.0/16</code>) to an existing VPC. You can then provision fresh, larger subnets (e.g. <code>/22</code> with 1,019 usable IPs) without rebuilding the VPC.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_subnet&quot; &quot;service_subnet_az1&quot; {
+  vpc_id            = aws_vpc.app_vpc.id
+  cidr_block        = &quot;10.0.4.0/22&quot; # 1,024 IPs (1,019 usable)
+  availability_zone = &quot;us-east-1a&quot;
+
+  tags = {
+    Name = &quot;prod-microservices-az1&quot;
+    Tier = &quot;Private&quot;
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Calculates 16 usable IPs (forgetting standard broadcast/network rules and unaware of AWS&#x27;s 5 reserved addresses) and does not realize ALBs and Lambdas consume subnet IPs.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Accurately lists the 5 AWS reserved addresses by offset, identifies the IP exhaustion bottleneck for ALBs and rolling deployments, and designs properly sized /20-/22 subnets with secondary CIDRs.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2: VPC Routing &amp; Egress Architecture -->
+                <div class="question-card" id="q-2" data-keywords="public subnet private subnet nat gateway internet gateway route table single az multi az">
+                    <div class="card-header">
+                        <span class="concept-badge">VPC Routing &amp; Egress Architecture</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Multi-tier VPC network topology, Public vs Private subnets, Route Table associations, Internet Gateways (IGW), NAT Gateways vs NAT Instances, and Multi-AZ high availability.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A private microservice running on EC2 needs to call an external third-party payment gateway over HTTPS. Look at the Terraform snippet.
+<br><br>
+<strong>Part A:</strong> EC2 instances in <code>app_private_subnet</code> cannot connect to the payment gateway; all outbound HTTPS requests time out. Explain the routing flaw in the route table configuration.
+<br>
+<strong>Part B:</strong> Compare a managed <strong>AWS NAT Gateway</strong> versus a self-managed <strong>NAT Instance</strong> across throughput scaling, high availability, patching overhead, and security groups.
+<br>
+<strong>Part C:</strong> If you deploy a single NAT Gateway in Availability Zone A, and an EC2 instance in Availability Zone B routes outbound traffic through it, what are the two major architectural liabilities (Availability & Cost)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'vpc-routing.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">resource &quot;aws_route_table&quot; &quot;private_rt&quot; {
+  vpc_id = aws_vpc.app_vpc.id
+  route {
+    cidr_block     = &quot;0.0.0.0/0&quot;
+    nat_gateway_id = aws_nat_gateway.nat_gw.id
+  }
+}
+resource &quot;aws_nat_gateway&quot; &quot;nat_gw&quot; {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.app_private_subnet.id
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 2, 1, 'Public/Private subnets, NAT Gateway placement, route table configuration, and multi-AZ egress')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 2, 2, 'Public/Private subnets, NAT Gateway placement, route table configuration, and multi-AZ egress')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 2, 3, 'Public/Private subnets, NAT Gateway placement, route table configuration, and multi-AZ egress')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 2, 4, 'Public/Private subnets, NAT Gateway placement, route table configuration, and multi-AZ egress')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Circular Routing Deadlock):</strong>
+<br>In the Terraform snippet, <code>aws_nat_gateway.nat_gw</code> is deployed inside <code>aws_subnet.app_private_subnet</code>.
+<br>• A NAT Gateway <strong>must always be located inside a PUBLIC subnet</strong> that has a direct route to an Internet Gateway (<code>igw</code>).
+<br>• Because the NAT Gateway itself is in a private subnet with no path to the Internet, outbound packets loop into the NAT Gateway and die, causing immediate connection timeouts.
+<br><br>
+<strong>Part B (NAT Gateway vs NAT Instance):</strong>
+<br>• <strong>NAT Gateway (AWS Managed):</strong> Auto-scales up to 45 Gbps bandwidth, zero OS patching or maintenance, native AWS monitoring, fully managed hardware redundancy. (Cannot attach Security Groups; acts strictly on subnet routing).
+<br>• <strong>NAT Instance (EC2 based):</strong> Limited by EC2 instance size and network burst limits, requires manual script/software patching, requires disabling Source/Destination checks, no automatic failover unless custom failover scripts are deployed.
+<br><br>
+<strong>Part C (Single NAT Gateway Cross-AZ Liabilities):</strong>
+<br>1. <strong>Single Point of Failure:</strong> If Availability Zone A suffers an outage, private subnets in AZ B and AZ C completely lose all outbound internet and payment connectivity.
+<br>2. <strong>Cross-AZ Data Transfer Costs:</strong> AWS charges for inter-AZ data transfer ($0.01/GB). Routing gigabytes of outbound API traffic across AZ boundaries significantly inflates cloud bills. Best practice: Deploy one NAT Gateway per Availability Zone.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_nat_gateway&quot; &quot;nat_az1&quot; {
+  allocation_id = aws_eip.nat_az1_eip.id
+  subnet_id     = aws_subnet.public_subnet_az1.id # Placed in PUBLIC subnet
+  depends_on    = [aws_internet_gateway.igw]
+}
+
+resource &quot;aws_route_table&quot; &quot;private_az1_rt&quot; {
+  vpc_id = aws_vpc.app_vpc.id
+  route {
+    cidr_block     = &quot;0.0.0.0/0&quot;
+    nat_gateway_id = aws_nat_gateway.nat_az1.id
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Places the NAT Gateway in the private subnet or recommends attaching an Internet Gateway directly to the private subnet (destroying network isolation).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses the public subnet requirement for NAT Gateways, articulates multi-AZ redundancy to avoid cross-AZ egress costs and single-point-of-failure risks, and utilizes VPC Endpoints for S3/DynamoDB.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3: Network Security &amp; Defense-in-Depth -->
+                <div class="question-card" id="q-3" data-keywords="security group nacl stateful stateless ephemeral ports 1024 65535 defense in depth">
+                    <div class="card-header">
+                        <span class="concept-badge">Network Security &amp; Defense-in-Depth</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Security Groups (stateful, instance-level) versus Network Access Control Lists (NACLs - stateless, subnet-level), rule evaluation order, and ephemeral port requirements.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A security engineer locks down a VPC subnet by modifying its Network ACL (NACL). Look at the Terraform configuration.
+<br><br>
+<strong>Part A:</strong> Inbound HTTPS traffic (port 443) is explicitly permitted in the NACL, but external clients connecting to the web servers report total connection timeouts. Why does this happen in a stateless NACL?
+<br>
+<strong>Part B:</strong> What are <strong>ephemeral ports</strong>, what range do they occupy on Linux/AWS systems, and how must outbound NACL rules be configured to allow return traffic?
+<br>
+<strong>Part C:</strong> Contrast the fundamental security and architectural differences between <strong>Security Groups</strong> and <strong>Network ACLs</strong> across state tracking, scope, and rule evaluation.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'nacl-rules.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">resource &quot;aws_network_acl_rule&quot; &quot;inbound_https&quot; {
+  network_acl_id = aws_network_acl.web_nacl.id
+  rule_number    = 100
+  egress         = false
+  protocol       = &quot;tcp&quot;
+  rule_action    = &quot;allow&quot;
+  cidr_block     = &quot;0.0.0.0/0&quot;
+  from_port      = 443
+  to_port        = 443
+}
+resource &quot;aws_network_acl_rule&quot; &quot;outbound_default&quot; {
+  network_acl_id = aws_network_acl.web_nacl.id
+  rule_number    = 100
+  egress         = true
+  rule_action    = &quot;deny&quot;
+  cidr_block     = &quot;0.0.0.0/0&quot;
+  protocol       = &quot;-1&quot;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 3, 1, 'Security Groups vs NACLs, stateful connection tracking, and ephemeral port ranges')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 3, 2, 'Security Groups vs NACLs, stateful connection tracking, and ephemeral port ranges')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 3, 3, 'Security Groups vs NACLs, stateful connection tracking, and ephemeral port ranges')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 3, 4, 'Security Groups vs NACLs, stateful connection tracking, and ephemeral port ranges')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Stateless NACLs & Blocked Response Packets):</strong>
+<br>• Network ACLs are <strong>strictly stateless</strong>: they do not remember active inbound connections.
+<br>• When a client initiates an HTTPS handshake on port 443, the inbound packet is allowed by Rule 100.
+<br>• However, the web server's TCP ACK / response packet must be sent back to the client's temporary source port (an ephemeral port).
+<br>• Because the outbound NACL rule is configured to <strong>DENY all traffic</strong> (Rule 100 egress deny), the server's response packet is silently dropped at the subnet boundary. The client times out.
+<br><br>
+<strong>Part B (Ephemeral Ports Specification):</strong>
+<br>When a client opens an outbound TCP socket to port 443, the client operating system selects an arbitrary high-numbered port from the <strong>ephemeral port range</strong>:
+<br>• Linux kernels / AWS NAT Gateways: <code>1024 - 65535</code> (or <code>32768 - 60999</code>).
+<br>To allow return traffic in a stateless NACL, you must configure an outbound rule allowing TCP traffic to destination ports <code>1024 - 65535</code> for <code>0.0.0.0/0</code>.
+<br><br>
+<strong>Part C (Security Groups vs NACLs Comparison Matrix):</strong>
+<br>• <strong>State:</strong> Security Groups are <em>stateful</em> (if inbound is allowed, outbound return traffic is automatically allowed regardless of outbound rules). NACLs are <em>stateless</em>.
+<br>• <strong>Scope:</strong> SGs apply at the Elastic Network Interface (ENI / instance) level; NACLs apply at the subnet boundary.
+<br>• <strong>Rules:</strong> SGs only support <em>allow</em> rules; NACLs support both <em>allow</em> and <em>deny</em> rules evaluated in numerical order.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_network_acl_rule&quot; &quot;outbound_ephemeral&quot; {
+  network_acl_id = aws_network_acl.web_nacl.id
+  rule_number    = 100
+  egress         = true
+  protocol       = &quot;tcp&quot;
+  rule_action    = &quot;allow&quot;
+  cidr_block     = &quot;0.0.0.0/0&quot;
+  from_port      = 1024
+  to_port        = 65535
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks Security Groups and NACLs are identical firewalls or cannot explain why response packets require an explicit outbound rule in a NACL.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates the stateful vs stateless tracking mechanisms, identifies the client ephemeral port return path, and designs layered defense-in-depth using both SGs and NACLs.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 4: Object Storage &amp; Cost Optimization -->
+                <div class="question-card" id="q-4" data-keywords="s3 storage classes lifecycle policy multipart upload abort glacier intelligent tiering">
+                    <div class="card-header">
+                        <span class="concept-badge">Object Storage &amp; Cost Optimization</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Amazon S3 storage tiering (Standard, Intelligent-Tiering, Glacier Flexible, Glacier Deep Archive), lifecycle transition rules, and preventing orphan multipart upload billing.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise uploads large PDF invoices and media assets to Amazon S3. Over time, monthly storage costs surge to $12,000/month despite only 2 TB of active files visible in the S3 console. Look at the configuration snippet.
+<br><br>
+<strong>Part A:</strong> Thousands of multi-gigabyte uploads failed halfway due to client disconnections. Why are these failed uploads continuing to be billed indefinitely, and why are they invisible in standard S3 bucket object listings?
+<br>
+<strong>Part B:</strong> What S3 Lifecycle rule must be configured to automatically purge failed multipart uploads and recover storage costs?
+<br>
+<strong>Part C:</strong> Compare <strong>S3 Intelligent-Tiering</strong> against manually managed lifecycle transition rules (Standard &rarr; Standard-IA &rarr; Glacier Deep Archive). Under what file size and access patterns does Intelligent-Tiering become uneconomical?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 's3-bucket-lifecycle.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">resource &quot;aws_s3_bucket&quot; &quot;invoice_bucket&quot; {
+  bucket = &quot;enterprise-customer-invoices&quot;
+}
+resource &quot;aws_s3_bucket_lifecycle_configuration&quot; &quot;invoice_lifecycle&quot; {
+  bucket = aws_s3_bucket.invoice_bucket.id
+  rule {
+    id     = &quot;archive-old-invoices&quot;
+    status = &quot;Enabled&quot;
+    transition {
+      days          = 90
+      storage_class = &quot;GLACIER&quot;
+    }
+    expiration {
+      days = 365
+    }
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 4, 1, 'S3 storage classes, abort incomplete multipart uploads, and lifecycle cost optimization')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 4, 2, 'S3 storage classes, abort incomplete multipart uploads, and lifecycle cost optimization')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 4, 3, 'S3 storage classes, abort incomplete multipart uploads, and lifecycle cost optimization')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 4, 4, 'S3 storage classes, abort incomplete multipart uploads, and lifecycle cost optimization')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Invisible Multipart Upload Leak):</strong>
+<br>• When uploading files > 100MB via the S3 Multipart Upload API, S3 splits the payload into multiple parts.
+<br>• If an upload aborts or disconnects, the uploaded parts remain stored in S3 <strong>indefinitely</strong>.
+<br>• These orphan parts <strong>do not appear</strong> as objects in standard <code>s3:ListObjectsV2</code> API calls or console views, but AWS bills them at standard S3 storage rates ($0.023/GB/month). Over months, orphaned multi-part chunks accumulate terabytes of zombie data.
+<br><br>
+<strong>Part B (AbortIncompleteMultipartUpload Lifecycle Rule):</strong>
+<br>Configure an explicit lifecycle rule using <code>abort_incomplete_multipart_upload</code> specifying <code>days_after_initiation = 7</code>.
+<br>S3 will automatically delete any initiated multipart upload parts that fail to finalize within 7 days, reclaiming 100% of the leaked storage.
+<br><br>
+<strong>Part C (S3 Intelligent-Tiering Trade-offs):</strong>
+<br>• <strong>Pros:</strong> Automatically moves objects between Frequent, Infrequent (30 days), and Archive Instant (90 days) tiers without retrieval fees or transition penalties.
+<br>• <strong>Liabilities:</strong>
+<br>1. <em>Monitoring Fee:</em> AWS charges a monthly per-object monitoring fee ($0.0025 per 1,000 objects).
+<br>2. <em>Small Object Overhead:</em> Objects < 128KB are never transitioned to infrequent tiers and incur the monitoring fee, making Intelligent-Tiering uneconomical for buckets with millions of tiny thumbnail or JSON files.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_s3_bucket_lifecycle_configuration&quot; &quot;invoice_lifecycle&quot; {
+  bucket = aws_s3_bucket.invoice_bucket.id
+
+  rule {
+    id     = &quot;cleanup-incomplete-uploads&quot;
+    status = &quot;Enabled&quot;
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+
+    transition {
+      days          = 90
+      storage_class = &quot;INTELLIGENT_TIERING&quot;
+    }
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Blames bucket versioning or assumes failed uploads are automatically refunded and deleted by AWS.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies the orphan multipart upload billing trap, writes the abort_incomplete_multipart_upload lifecycle rule, and evaluates the 128KB monitoring fee trade-offs of Intelligent-Tiering.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 5: Serverless Runtime &amp; Performance -->
+                <div class="question-card" id="q-5" data-keywords="lambda cold start java snapstart crac checkpoint restore firecracker microvm">
+                    <div class="card-header">
+                        <span class="concept-badge">Serverless Runtime &amp; Performance</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS Lambda JVM cold starts (2–8 seconds), Java SnapStart using Firecracker microVM snapshotting, Coordinated Restore at Checkpoint (CRaC), and snapshot state uniqueness traps.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A high-frequency payment microservice is deployed as an AWS Lambda function on Java 17 / 21. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Without optimization, the Lambda function exhibits a 6-second cold start on scaling bursts, causing client timeouts. What are the 3 distinct phases of an AWS Lambda cold start?
+<br>
+<strong>Part B:</strong> How does <strong>AWS Lambda SnapStart</strong> reduce Java cold starts from 6,000ms to under 200ms using Firecracker MicroVM snapshotting and CRaC?
+<br>
+<strong>Part C:</strong> Look at the <code>transactionSalt</code> and database connection in the code. What critical security and networking bugs occur when this function is restored from a SnapStart snapshot without CRaC lifecycle hooks?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'PaymentLambdaHandler.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">public class PaymentLambdaHandler implements RequestHandler&lt;PaymentEvent, PaymentResult&gt; {
+    private static final byte[] transactionSalt = new byte[32];
+    private static Connection dbConnection;
+    static {
+        new SecureRandom().nextBytes(transactionSalt);
+        dbConnection = DriverManager.getConnection(&quot;jdbc:postgresql:
+    }
+    @Override
+    public PaymentResult handleRequest(PaymentEvent event, Context context) {
+        return process(event, transactionSalt, dbConnection);
+    }
+    private PaymentResult process(PaymentEvent e, byte[] s, Connection c) {
+        return new PaymentResult(&quot;SUCCESS&quot;);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 5, 1, 'AWS Lambda Java SnapStart, CRaC checkpoint restore, and snapshot state uniqueness traps')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 5, 2, 'AWS Lambda Java SnapStart, CRaC checkpoint restore, and snapshot state uniqueness traps')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 5, 3, 'AWS Lambda Java SnapStart, CRaC checkpoint restore, and snapshot state uniqueness traps')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 5, 4, 'AWS Lambda Java SnapStart, CRaC checkpoint restore, and snapshot state uniqueness traps')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The 3 Phases of Lambda Cold Starts):</strong>
+<br>1. <strong>Init Phase:</strong> Spins up Firecracker MicroVM container, initializes Java runtime, downloads deployment package, runs static initializers, loads classpath classes, and constructs handler instance (takes 80% of total cold start time: 4-6 seconds for heavy Spring Boot / Quarkus).
+<br>2. <strong>Invoke Phase:</strong> Executes the <code>handleRequest()</code> handler method.
+<br>3. <strong>Shutdown Phase:</strong> Terminates the runtime.
+<br><br>
+<strong>Part B (How SnapStart & CRaC Work):</strong>
+<br>• During deployment/version publishing, AWS initializes the function, loads classes, and runs static blocks.
+<br>• AWS takes a memory and disk <strong>snapshot of the running Firecracker microVM</strong> and caches it in a multi-tier cache.
+<br>• When a cold start invocation occurs, AWS skips the JVM bootstrap and memory-maps the snapshot directly into RAM in <strong>sub-200ms</strong>.
+<br><br>
+<strong>Part C (Snapshot Uniqueness & Stale Socket Traps):</strong>
+<br>1. <strong>Broken Cryptographic Uniqueness:</strong> Because <code>transactionSalt</code> is initialized in <code>static {}</code>, the exact same random bytes are baked into the snapshot. 1,000 concurrent Lambda instances will share the <strong>identical cryptographic salt</strong>!
+<br>2. <strong>Dead Sockets:</strong> The TCP connection to PostgreSQL was established during snapshot creation. Upon restoration minutes later, the remote database has timed out the connection, causing <code>SocketException: Broken pipe</code> on invocations.
+<br><strong>Fix:</strong> Implement CRaC <code>Resource</code> (<code>afterRestore</code>) to reseed randomness and re-establish network sockets.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>public class SafePaymentHandler implements RequestHandler&lt;PaymentEvent, PaymentResult&gt;, Resource {
+
+    private byte[] salt;
+
+    public SafePaymentHandler() {
+        Core.getGlobalContext().register(this);
+        refresh();
+    }
+
+    @Override
+    public void afterRestore(org.crac.Context context) {
+        refresh(); // Regenerate random salt and reconnect DB upon VM restore
+    }
+
+    private void refresh() {
+        this.salt = new byte[32];
+        new SecureRandom().nextBytes(this.salt);
+    }
+
+    @Override public void beforeCheckpoint(org.crac.Context context) {}
+    @Override public PaymentResult handleRequest(PaymentEvent e, Context ctx) { return null; }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests increasing Lambda memory to 10GB or setting up a scheduled ping every 5 minutes (which only keeps 1 container warm, failing under scaling bursts).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Firecracker VM snapshot restoration, diagnoses the snapshot uniqueness trap for SecureRandom, and implements CRaC Resource lifecycle hooks to refresh state upon restoration.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 6: Serverless Data &amp; Connection Management -->
+                <div class="question-card" id="q-6" data-keywords="rds proxy lambda connection pooling max connections database exhaustion postgresql">
+                    <div class="card-header">
+                        <span class="concept-badge">Serverless Data &amp; Connection Management</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Serverless relational database connection bottlenecks, Lambda concurrency bursts exhausting PostgreSQL/MySQL <code>max_connections</code>, and RDS Proxy connection multiplexing.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A serverless order processing system processes black-Friday traffic bursts using AWS Lambda and Amazon Aurora PostgreSQL. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> During a flash sale, Lambda concurrency surges from 10 to 1,200 instances within 15 seconds. The database crashes with <code>FATAL: remaining connection slots are reserved for non-replication superuser connections</code>. Why does standard connection pooling (HikariCP) fail in serverless architectures?
+<br>
+<strong>Part B:</strong> How does <strong>AWS RDS Proxy</strong> solve this problem through connection multiplexing and queuing?
+<br>
+<strong>Part C:</strong> What is RDS Proxy <strong>Connection Pinning</strong>? List two common Java / SQL practices that cause pinning and prevent RDS Proxy from multiplexing connections.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'OrderDatabaseHandler.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">public class OrderDatabaseHandler implements RequestHandler&lt;OrderEvent, String&gt; {
+    private static final HikariDataSource dataSource;
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(&quot;jdbc:postgresql:
+        config.setMaximumPoolSize(10);
+        dataSource = new HikariDataSource(config);
+    }
+    @Override
+    public String handleRequest(OrderEvent event, Context context) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(&quot;INSERT INTO orders VALUES (?)&quot;)) {
+            ps.setString(1, event.getOrderId());
+            ps.executeUpdate();
+            return &quot;SAVED&quot;;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 6, 1, 'RDS Proxy connection multiplexing, serverless connection exhaustion, and pinning traps')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 6, 2, 'RDS Proxy connection multiplexing, serverless connection exhaustion, and pinning traps')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 6, 3, 'RDS Proxy connection multiplexing, serverless connection exhaustion, and pinning traps')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 6, 4, 'RDS Proxy connection multiplexing, serverless connection exhaustion, and pinning traps')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Why HikariCP Collapses in Serverless):</strong>
+<br>• In standard container/EC2 deployments, a few long-lived instances share a centralized connection pool.
+<br>• In AWS Lambda, each concurrent execution runs in an <strong>isolated execution environment</strong>.
+<br>• If 1,200 Lambda instances spin up, each running HikariCP with <code>maximumPoolSize = 10</code>, Lambda attempts to open $1,200 \times 10 = 12,000$ active TCP connections to PostgreSQL!
+<br>• PostgreSQL allocates 5–10MB of RAM per connection and defaults to <code>max_connections = 100 - 500</code>. Memory is exhausted, database CPU spikes to 100%, and the engine crashes.
+<br><br>
+<strong>Part B (RDS Proxy Multiplexing Architecture):</strong>
+<br>• RDS Proxy sits between Lambda and Aurora as a managed, highly available proxy layer.
+<br>• Lambda functions connect to RDS Proxy via fast local VPC connections.
+<br>• RDS Proxy maintains a small, fixed pool of persistent connections (e.g. 50 connections) to the Aurora database and <strong>multiplexes (borrows and returns) connections at the individual transaction level</strong>.
+<br>• If thousands of Lambdas make rapid queries, RDS Proxy queues incoming requests and drains them through the healthy 50 connections without overloading the DB.
+<br><br>
+<strong>Part C (Connection Pinning Traps):</strong>
+<br>Pinning occurs when a client session executes an operation that binds the physical database connection to that specific client until the session ends, disabling multiplexing:
+<br>1. Using PostgreSQL temporary tables (e.g. <code>CREATE TEMP TABLE ...</code>).
+<br>2. Changing session state / transaction isolation level without resetting (e.g. <code>SET search_path</code>, <code>SET TIME ZONE</code>).
+<br>3. Prepared statements that are not closed or formatted for proxy caching.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>// Connect to RDS Proxy Endpoint instead of Direct Cluster
+String rdsProxyUrl = &quot;jdbc:postgresql://orders-proxy.proxy-xxxx.us-east-1.rds.amazonaws.com:5432/orders&quot;;
+
+HikariConfig config = new HikariConfig();
+config.setJdbcUrl(rdsProxyUrl);
+config.setMaximumPoolSize(1); // Set pool size to 1 in Lambda when using RDS Proxy
+config.setInitializationFailTimeout(0);</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests increasing PostgreSQL max_connections to 20,000 (which will cause the database to crash with OutOfMemory on startup).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains why shared pools fail across isolated Lambda containers, implements RDS Proxy connection multiplexing, sets Lambda pool size to 1, and avoids connection pinning traps.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 7: Compute Scaling &amp; Elasticity -->
+                <div class="question-card" id="q-7" data-keywords="ec2 auto scaling target tracking step scaling cooldown thrashing warm up">
+                    <div class="card-header">
+                        <span class="concept-badge">Compute Scaling &amp; Elasticity</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                EC2 Auto Scaling Groups (ASG), Target Tracking Scaling Policies vs Step Scaling, instance warmup periods, default cooldowns, and preventing scaling thrashing (flapping).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce backend running on EC2 instances experiences massive traffic fluctuations. Look at the CloudFormation / Terraform snippet.
+<br><br>
+<strong>Part A:</strong> The Auto Scaling Group is configured with a Simple Scaling policy based on CPU utilization > 70% with a 0-second cooldown. When traffic spikes, the cluster scales from 4 to 40 instances, and then 3 minutes later scales down to 4 instances, repeating in a continuous loop. What is this phenomenon called, and what causes it?
+<br>
+<strong>Part B:</strong> Compare <strong>Target Tracking Scaling Policies</strong> against <strong>Step Scaling Policies</strong>. Which is preferred for tracking an ALB metric like <code>ALBRequestCountPerTarget</code>?
+<br>
+<strong>Part C:</strong> What is the purpose of the <strong>Instance Warmup Period</strong>, and how does it prevent premature over-provisioning while newly launched Java Spring Boot instances are booting?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'asg-policy.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">resource &quot;aws_autoscaling_policy&quot; &quot;flapping_cpu_policy&quot; {
+  name                   = &quot;cpu-simple-policy&quot;
+  scaling_adjustment     = 5
+  adjustment_type        = &quot;ChangeInCapacity&quot;
+  cooldown               = 0
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+}
+resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;cpu_high&quot; {
+  alarm_name          = &quot;cpu-utilization-high&quot;
+  comparison_operator = &quot;GreaterThanOrEqualToThreshold&quot;
+  evaluation_periods  = 1
+  metric_name         = &quot;CPUUtilization&quot;
+  namespace           = &quot;AWS/EC2&quot;
+  period              = 60
+  statistic           = &quot;Average&quot;
+  threshold           = 70
+  alarm_actions       = [aws_autoscaling_policy.flapping_cpu_policy.arn]
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 7, 1, 'EC2 Auto Scaling, Target Tracking vs Step Scaling, cooldowns, and scaling flapping prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 7, 2, 'EC2 Auto Scaling, Target Tracking vs Step Scaling, cooldowns, and scaling flapping prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 7, 3, 'EC2 Auto Scaling, Target Tracking vs Step Scaling, cooldowns, and scaling flapping prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 7, 4, 'EC2 Auto Scaling, Target Tracking vs Step Scaling, cooldowns, and scaling flapping prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Scaling Thrashing / Flapping):</strong>
+<br>This phenomenon is called <strong>Scaling Flapping (Thrashing)</strong>:
+<br>• When CPU reaches 70%, the alarm fires and triggers the policy to add 5 instances.
+<br>• Because <code>cooldown = 0</code>, the alarm evaluates again on the next 60s period before newly added instances have finished booting and taking load.
+<br>• The alarm triggers again and again, scaling capacity up to 40 instances.
+<br>• Once all 40 instances boot, aggregate CPU utilization plummets to 5%, triggering an immediate aggressive scale-down back to 4 instances.
+<br>• The cycle repeats infinitely, destabilizing the application and driving up EC2 compute costs.
+<br><br>
+<strong>Part B (Target Tracking vs Step Scaling):</strong>
+<br>• <strong>Target Tracking:</strong> Works like a home thermostat. You specify the target value (e.g. <code>ALBRequestCountPerTarget = 1000</code> or <code>CPU = 60%</code>). AWS automatically adds or removes capacity proportional to the deviation. It is the gold standard for ALB request metrics.
+<br>• <strong>Step Scaling:</strong> Applies varying adjustments based on the size of the breach (e.g. +10% if CPU 70-80%, +30% if CPU > 85%).
+<br><br>
+<strong>Part C (Instance Warmup Period):</strong>
+<br>A Java Spring Boot application can take 60–120 seconds to boot the JVM, warm up JIT, and pass health checks.
+<br>The <strong>Instance Warmup Period</strong> tells the ASG to ignore newly launched instances in metric calculations until the warmup period expires, preventing premature extra scaling actions.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_autoscaling_policy&quot; &quot;target_tracking_alb&quot; {
+  name                   = &quot;alb-requests-target-tracking&quot;
+  policy_type            = &quot;TargetTrackingScaling&quot;
+  autoscaling_group_name = aws_autoscaling_group.app_asg.name
+  estimated_instance_warmup = 180 # 3 minutes for Java JVM boot
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = &quot;ALBRequestCountPerTarget&quot;
+      resource_label         = &quot;${aws_lb.app_alb.arn_suffix}/${aws_lb_target_group.app_tg.arn_suffix}&quot;
+    }
+    target_value = 1200.0
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Configures simple scaling with 0 cooldown or recommends turning off autoscaling and statically provisioning 50 EC2 instances permanently.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses scaling thrashing/flapping, explains Target Tracking mathematical proportionality, and configures estimated_instance_warmup for JVM startup times.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 8: Load Balancing &amp; Traffic Management -->
+                <div class="question-card" id="q-8" data-keywords="alb nlb target group connection draining deregistration delay health checks 502">
+                    <div class="card-header">
+                        <span class="concept-badge">Load Balancing &amp; Traffic Management</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Application Load Balancer (ALB) Layer 7 routing, Target Groups, Connection Draining (Deregistration Delay), health check tuning, and zero-downtime rolling deployments.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce API runs behind an Application Load Balancer. Look at the Target Group configuration snippet.
+<br><br>
+<strong>Part A:</strong> During rolling deployments, users encounter intermittent <code>HTTP 502 Bad Gateway</code> errors for 15–30 seconds. Explain how an improperly configured <strong>Deregistration Delay (Connection Draining)</strong> causes in-flight requests to be severed.
+<br>
+<strong>Part B:</strong> What happens if the health check interval is 30 seconds with <code>HealthyThreshold = 5</code>, and an instance takes 45 seconds to boot its Spring context?
+<br>
+<strong>Part C:</strong> Compare an <strong>Application Load Balancer (ALB)</strong> against a <strong>Network Load Balancer (NLB)</strong>. When is an NLB strictly required over an ALB?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'alb-target-group.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">resource &quot;aws_lb_target_group&quot; &quot;api_tg&quot; {
+  name                 = &quot;api-production-tg&quot;
+  port                 = 8080
+  protocol             = &quot;HTTP&quot;
+  vpc_id               = aws_vpc.app_vpc.id
+  deregistration_delay = 0
+  health_check {
+    path                = &quot;/actuator/health&quot;
+    protocol            = &quot;HTTP&quot;
+    interval            = 5
+    timeout             = 2
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 8, 1, 'ALB connection draining, health check thresholds, and ALB vs NLB trade-offs')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 8, 2, 'ALB connection draining, health check thresholds, and ALB vs NLB trade-offs')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 8, 3, 'ALB connection draining, health check thresholds, and ALB vs NLB trade-offs')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 8, 4, 'ALB connection draining, health check thresholds, and ALB vs NLB trade-offs')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Deregistration Delay & The 502 Drop):</strong>
+<br>• When an instance is terminated by autoscaling or a deployment script, the ALB sets its state to <code>draining</code>.
+<br>• In the configuration snippet, <code>deregistration_delay = 0</code>.
+<br>• Setting delay to 0 causes the ALB to <strong>immediately sever active in-flight TCP connections</strong> and send TCP RST packets while requests are still being processed.
+<br>• The ALB immediately returns <strong>HTTP 502 Bad Gateway</strong> to clients.
+<br><strong>Fix:</strong> Configure <code>deregistration_delay</code> to 30–60 seconds, allowing active requests to finish while stopping new traffic.
+<br><br>
+<strong>Part B (Health Check Lag on Boot):</strong>
+<br>If <code>HealthyThreshold = 5</code> with an interval of 30 seconds, an instance requires $5 \times 30 = 150$ seconds (2.5 minutes) of consecutive passes before the ALB marks it healthy.
+<br>If deployment scripts wait only 60 seconds before killing the old instance, the old instance is terminated while the new instance is still warming up &mdash; leaving <strong>zero healthy targets</strong> in the target group!
+<br><br>
+<strong>Part C (ALB vs NLB Selection):</strong>
+<br>• <strong>ALB (Layer 7):</strong> Content-based routing (HTTP path, headers, query params), TLS termination, WebSocket support.
+<br>• <strong>NLB (Layer 4):</strong> Extreme performance (millions of RPS with microsecond latency), static / Elastic IP addresses per subnet, TCP/UDP pass-through, and private link integration.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_lb_target_group&quot; &quot;api_tg&quot; {
+  name                 = &quot;api-production-tg&quot;
+  port                 = 8080
+  protocol             = &quot;HTTP&quot;
+  vpc_id               = aws_vpc.app_vpc.id
+  deregistration_delay = 30 # Grace period for in-flight requests
+
+  health_check {
+    path                = &quot;/actuator/health&quot;
+    interval            = 10
+    timeout             = 4
+    healthy_threshold   = 2 # Fast promotion to healthy
+    unhealthy_threshold = 3
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Blames Spring Boot or Tomcat for the 502 errors, unaware of the ALB connection draining deregistration delay setting.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Tunes deregistration delay to match p99 API latencies, calculates health check propagation math, and articulates L4 vs L7 architectural selection criteria.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 9: Cloud Security &amp; Identity Governance -->
+                <div class="question-card" id="q-9" data-keywords="iam least privilege instance profile assume role sts imdsv2 credentials blast radius">
+                    <div class="card-header">
+                        <span class="concept-badge">Cloud Security &amp; Identity Governance</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                IAM security governance, eliminating static credentials, EC2 Instance Profiles, AWS STS <code>AssumeRole</code>, IMDSv2 protection against SSRF, and Permission Boundaries.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer connects an EC2 backend to Amazon S3 and Amazon SQS. Look at the application configuration snippet.
+<br><br>
+<strong>Part A:</strong> Why is hardcoding AWS Access Keys in <code>application.properties</code> or environment variables considered a catastrophic cloud security vulnerability?
+<br>
+<strong>Part B:</strong> How do <strong>EC2 Instance Profiles</strong> and IAM Roles work mechanically to provide temporary, automatically rotated credentials via the Instance Metadata Service (IMDS)?
+<br>
+<strong>Part C:</strong> What is an <strong>SSRF (Server-Side Request Forgery)</strong> attack against IMDSv1, and how does <strong>IMDSv2</strong> use session-oriented tokens (<code>X-aws-ec2-metadata-token</code>) with hop-limit enforcement to defeat it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'application.properties')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">cloud.aws.credentials.access-key=AKIAIOSFODNN7EXAMPLE
+cloud.aws.credentials.secret-key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+cloud.aws.region.static=us-east-1
+cloud.aws.s3.bucket=company-finance-documents</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 9, 1, 'IAM Instance Profiles, STS temporary credentials, and IMDSv2 SSRF mitigation')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 9, 2, 'IAM Instance Profiles, STS temporary credentials, and IMDSv2 SSRF mitigation')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 9, 3, 'IAM Instance Profiles, STS temporary credentials, and IMDSv2 SSRF mitigation')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 9, 4, 'IAM Instance Profiles, STS temporary credentials, and IMDSv2 SSRF mitigation')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Danger of Static Access Keys):</strong>
+<br>• Static keys (<code>AKIA...</code>) never expire unless manually rotated.
+<br>• They frequently leak into git repositories, container images, build logs, and third-party APM tools.
+<br>• If compromised, attackers obtain permanent remote access to company infrastructure from anywhere in the world until keys are manually deleted.
+<br><br>
+<strong>Part B (EC2 Instance Profile & STS Rotation):</strong>
+<br>• An IAM Role with specific least-privilege permissions is attached to an EC2 <strong>Instance Profile</strong>.
+<br>• The AWS SDK automatically requests short-lived temporary security credentials from the local <strong>Instance Metadata Service (IMDS)</strong> at <code>http://169.254.169.254/latest/meta-data/iam/security-credentials/</code>.
+<br>• AWS Security Token Service (STS) issues credentials valid for only 6 hours and rotates them automatically without application interruption.
+<br><br>
+<strong>Part C (IMDSv1 SSRF Vulnerability vs IMDSv2 Protection):</strong>
+<br>• <strong>IMDSv1 Flaw:</strong> Any SSRF vulnerability in the web application (e.g. <code>/preview?url=http://169.254.169.254/...</code>) allowed an attacker to make a simple HTTP GET request to read the EC2 instance role credentials.
+<br>• <strong>IMDSv2 Defense:</strong> Requires a <code>PUT</code> request with header <code>X-aws-ec2-metadata-token-ttl-seconds: 21600</code> to obtain a secret session token, and sets the IP packet <strong>TTL / hop limit to 1</strong> so container proxies or forwarded requests cannot escape the local OS.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_iam_role&quot; &quot;app_role&quot; {
+  name = &quot;prod-invoice-processor-role&quot;
+
+  assume_role_policy = jsonencode({
+    Version = &quot;2012-10-17&quot;
+    Statement = [{
+      Action    = &quot;sts:AssumeRole&quot;
+      Effect    = &quot;Allow&quot;
+      Principal = { Service = &quot;ec2.amazonaws.com&quot; }
+    }]
+  })
+}
+
+resource &quot;aws_instance&quot; &quot;app_server&quot; {
+  ami                  = &quot;ami-0c55b159cbfafe1f0&quot;
+  instance_type        = &quot;t3.medium&quot;
+  iam_instance_profile = aws_iam_instance_profile.app_profile.name
+
+  metadata_options {
+    http_endpoint = &quot;enabled&quot;
+    http_tokens   = &quot;required&quot; # Enforce IMDSv2
+    http_put_response_hop_limit = 1
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests storing access keys in Kubernetes secrets or environment variables, unaware of EC2 Instance Profiles or IMDSv2 security protections.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Eliminates static credentials completely, explains STS temporary credential rotation, and enforces IMDSv2 token headers with hop-limit 1 against SSRF exploits.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 10: Asynchronous Messaging &amp; Queueing -->
+                <div class="question-card" id="q-10" data-keywords="sqs fifo standard deduplication message group id throughput order processing">
+                    <div class="card-header">
+                        <span class="concept-badge">Asynchronous Messaging &amp; Queueing</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Amazon SQS Standard (unlimited throughput, at-least-once) vs SQS FIFO (exactly-once processing, ordering, 300 msg/s ceiling), <code>MessageGroupId</code> partitioning, and deduplication IDs.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A financial transactions microservice processes trade executions via Amazon SQS. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> The team implements an SQS FIFO queue with <code>MessageGroupId = "TRADES"</code> hardcoded for all messages. In production, throughput peaks at 300 messages/sec and massive backlogs form. Why did this bottleneck occur?
+<br>
+<strong>Part B:</strong> How does SQS FIFO use <strong>Message Group ID</strong> to achieve high parallel throughput while still guaranteeing strict order preservation for individual accounts?
+<br>
+<strong>Part C:</strong> What is the difference between content-based deduplication (SHA-256 hash) and passing an explicit <code>MessageDeduplicationId</code>? What is the duration of the SQS deduplication window?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'TradeProducerService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">@Service
+public class TradeProducerService {
+    @Autowired
+    private SqsTemplate sqsTemplate;
+    public void publishTrade(TradeExecution trade) {
+        SendMessageRequest request = SendMessageRequest.builder()
+            .queueUrl(&quot;https://sqs.us-east-1.amazonaws.com/12345/trades.fifo&quot;)
+            .messageBody(JsonUtil.toJson(trade))
+            .messageGroupId(&quot;TRADES&quot;)
+            .messageDeduplicationId(trade.getTradeId())
+            .build();
+        sqsTemplate.send(request);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 10, 1, 'SQS FIFO vs Standard, MessageGroupId partitioning, and deduplication windows')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 10, 2, 'SQS FIFO vs Standard, MessageGroupId partitioning, and deduplication windows')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 10, 3, 'SQS FIFO vs Standard, MessageGroupId partitioning, and deduplication windows')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 10, 4, 'SQS FIFO vs Standard, MessageGroupId partitioning, and deduplication windows')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Single Message Group Bottleneck):</strong>
+<br>• SQS FIFO guarantees strict sequential processing <strong>per Message Group ID</strong>.
+<br>• A single message group can only be processed by one consumer thread at a time to preserve order.
+<br>• SQS FIFO has a hard throughput limit of <strong>300 transactions/second</strong> (or 3,000 with batching) per message group.
+<br>• By hardcoding <code>messageGroupId("TRADES")</code>, all trades across all global customers are serialized into a single queue channel. Only one consumer can process at a time, throttling the entire platform.
+<br><br>
+<strong>Part B (Partitioning via Dynamic MessageGroupId):</strong>
+<br>• Instead of a global constant, partition by the logical entity that requires strict ordering (e.g. <code>trade.getAccountId()</code> or <code>trade.getPortfolioId()</code>).
+<br>• Different accounts execute concurrently across hundreds of consumer threads in parallel.
+<br>• Trades within Account 101 are guaranteed strictly in order; trades for Account 202 process in parallel with zero contention.
+<br><br>
+<strong>Part C (Deduplication Mechanics & 5-Minute Window):</strong>
+<br>• SQS FIFO enforces a <strong>5-minute deduplication interval</strong>.
+<br>• If a message with the same <code>MessageDeduplicationId</code> is published within 5 minutes, SQS accepts the call (returns HTTP 200) but <strong>does not deliver</strong> the duplicate message.
+<br>• Explicit deduplication ID is preferred over content hashing because it allows identifying business transactions even if timestamps or metadata change.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>public void publishTrade(TradeExecution trade) {
+    SendMessageRequest request = SendMessageRequest.builder()
+        .queueUrl(tradesFifoQueueUrl)
+        .messageBody(JsonUtil.toJson(trade))
+        .messageGroupId(&quot;ACCOUNT-&quot; + trade.getAccountId()) # Partition by customer
+        .messageDeduplicationId(trade.getTradeId())       # Business idempotency ID
+        .build();
+
+    sqsClient.sendMessage(request);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes SQS FIFO can never scale beyond 300 msgs/sec globally or suggests switching to SQS Standard (causing out-of-order execution and financial account corruption).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Partitions MessageGroupId by account/tenant ID for horizontal consumer scaling, details the 5-minute deduplication window, and tunes batching to achieve 3,000+ msg/sec.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 11: Secrets Management &amp; Rotation -->
+                <div class="question-card" id="q-11" data-keywords="secrets manager parameter store ssm rotation lambda rate limit throttling caching">
+                    <div class="card-header">
+                        <span class="concept-badge">Secrets Management &amp; Rotation</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS Secrets Manager versus SSM Parameter Store, automatic database password rotation via Lambda, and client-side secret caching to prevent API rate limit exhaustion.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A microservice running on EC2 connects to an RDS database and retrieves credentials from AWS Secrets Manager. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Under peak traffic (5,000 requests/sec), the service begins throwing <code>ThrottlingException: Rate exceeded</code> from AWS Secrets Manager, and AWS invoices reflect thousands of dollars in Secrets Manager API costs. Explain the architectural flaw.
+<br>
+<strong>Part B:</strong> Compare <strong>AWS Secrets Manager</strong> against <strong>SSM Parameter Store (Standard & Advanced)</strong> across cost, automatic rotation, and cross-account access.
+<br>
+<strong>Part C:</strong> Describe the 4-step execution lifecycle of an AWS Lambda secret rotation function (<code>createSecret</code>, <code>setSecret</code>, <code>testSecret</code>, <code>finishSecret</code>). How does it prevent service downtime during password updates?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'DatabaseConnectionService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">@Service
+public class DatabaseConnectionService {
+    @Autowired
+    private AWSSecretsManager secretsClient;
+    public Connection getConnection() throws SQLException {
+        GetSecretValueRequest req = new GetSecretValueRequest().withSecretId(&quot;prod/rds/mysql&quot;);
+        GetSecretValueResult result = secretsClient.getSecretValue(req);
+        DbCredentials creds = JsonUtil.parse(result.getSecretString(), DbCredentials.class);
+        return DriverManager.getConnection(creds.getUrl(), creds.getUser(), creds.getPassword());
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 11, 1, 'Secrets Manager vs Parameter Store, client-side secret caching, and 4-step Lambda rotation')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 11, 2, 'Secrets Manager vs Parameter Store, client-side secret caching, and 4-step Lambda rotation')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 11, 3, 'Secrets Manager vs Parameter Store, client-side secret caching, and 4-step Lambda rotation')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 11, 4, 'Secrets Manager vs Parameter Store, client-side secret caching, and 4-step Lambda rotation')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Synchronous Remote API Anti-Pattern):</strong>
+<br>• AWS Secrets Manager is a remote web service with hard API rate limits (default: 10,000 requests/sec shared across an account) and bills <strong>$0.05 per 10,000 API calls</strong>.
+<br>• Calling <code>getSecretValue()</code> on every single HTTP request adds 20–50ms of network latency per transaction, burns through AWS API rate limits, and racks up massive unnecessary bills.
+<br>• <strong>Fix:</strong> Secrets must be cached in memory using a client-side caching library (like <code>aws-secretsmanager-caching-java</code>) with a TTL (e.g. 1 hour).
+<br><br>
+<strong>Part B (Secrets Manager vs SSM Parameter Store):</strong>
+<br>• <strong>Parameter Store:</strong> Standard parameters are <strong>free</strong> ($0/parameter), max 4KB size, supports KMS encryption. Advanced parameters cost $0.05/month, up to 8KB size. Does not have native automated rotation.
+<br>• <strong>Secrets Manager:</strong> $0.40/secret/month. Natively integrates with AWS Lambda for automatic credential rotation (RDS, DocumentDB, Redshift), and enables cross-account secret sharing easily.
+<br><br>
+<strong>Part C (The 4-Step Rotation Lifecycle):</strong>
+<br>1. <code>createSecret</code>: Generates a new random password and stores it in Secrets Manager under the <code>AWSPENDING</code> version stage.
+<br>2. <code>setSecret</code>: Connects to the database and alters the user's password to the new pending password.
+<br>3. <code>testSecret</code>: Tests connecting to the database using the <code>AWSPENDING</code> password.
+<br>4. <code>finishSecret</code>: Moves the <code>AWSPENDING</code> label to <code>AWSCURRENT</code>. Old connections continue running; new connections read the updated secret.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>// In-Memory Secret Caching using AWS SDK Caching Component
+SecretCache cache = new SecretCache();
+
+public Connection getConnection() {
+    // Reads from memory; automatically refreshes when expired
+    String secretJson = cache.getSecretString(&quot;prod/rds/mysql&quot;);
+    DbCredentials creds = JsonUtil.parse(secretJson, DbCredentials.class);
+    return dataSourcePool.getConnection();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Calls getSecretValue() directly in business methods or suggests hardcoding secrets in application configs to avoid the API cost.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Implements local in-memory caching with TTL, contrasts Parameter Store free tier vs Secrets Manager, and details the 4-step AWSPENDING to AWSCURRENT rotation state machine.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 12: NoSQL Architecture &amp; High Throughput -->
+                <div class="question-card" id="q-12" data-keywords="dynamodb partition key hot partition throttling gsi write sharding salting">
+                    <div class="card-header">
+                        <span class="concept-badge">NoSQL Architecture &amp; High Throughput</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Amazon DynamoDB partition key hashing, storage partition limits (1,000 WCU / 3,000 RCU per physical partition), hot partition throttling, and write sharding (salting).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce platform uses Amazon DynamoDB to record order events. Look at the table schema and query snippet.
+<br><br>
+<strong>Part A:</strong> The table is provisioned with 10,000 Write Capacity Units (WCUs). During a flash sale, write traffic is only 1,500 requests/sec, but DynamoDB returns <code>ProvisionedThroughputExceededException</code> and throttles requests. Explain how the partition key design caused a <strong>Hot Partition</strong>.
+<br>
+<strong>Part B:</strong> What are the hard physical throughput and storage limits of an individual DynamoDB storage partition?
+<br>
+<strong>Part C:</strong> How does <strong>Write Sharding (Partition Salting)</strong> solve hot partitions for high-throughput write workloads?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'DynamoDbOrderRepository.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">public void saveOrderEvent(OrderEvent event) {
+    Item item = new Item()
+        .withPrimaryKey(&quot;Status&quot;, event.getStatus(), &quot;Timestamp&quot;, event.getTimestamp())
+        .withString(&quot;OrderId&quot;, event.getOrderId())
+        .withDouble(&quot;Amount&quot;, event.getAmount());
+    table.putItem(item);
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 12, 1, 'DynamoDB partition key design, hot partition throttling, and write sharding (salting)')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 12, 2, 'DynamoDB partition key design, hot partition throttling, and write sharding (salting)')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 12, 3, 'DynamoDB partition key design, hot partition throttling, and write sharding (salting)')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 12, 4, 'DynamoDB partition key design, hot partition throttling, and write sharding (salting)')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Hot Partition Bottleneck):</strong>
+<br>• DynamoDB hashes the partition key to assign items to underlying physical storage partitions.
+<br>• The table uses <code>Status</code> ("PENDING") as the partition key.
+<br>• During a flash sale, 100% of newly created orders have status = "PENDING".
+<br>• Therefore, <strong>all 1,500 writes hit the exact same physical partition</strong>.
+<br>• Even though the total table capacity is 10,000 WCU, an individual partition cannot exceed its hard limits, so DynamoDB aggressively throttles writes.
+<br><br>
+<strong>Part B (Physical Partition Limits):</strong>
+<br>Every physical DynamoDB partition has strict internal limits:
+<br>• Max <strong>1,000 WCUs</strong> (Write Capacity Units).
+<br>• Max <strong>3,000 RCUs</strong> (Read Capacity Units).
+<br>• Max <strong>10 GB</strong> of data storage.
+<br>When total table capacity or size exceeds these thresholds, DynamoDB automatically splits partitions, dividing total provisioned capacity evenly across all partitions.
+<br><br>
+<strong>Part C (Write Sharding / Salting Solution):</strong>
+<br>Append a calculated or random suffix (salt) to the partition key (e.g. <code>PENDING_0</code> through <code>PENDING_9</code>).
+<br>Writes are distributed evenly across 10 distinct physical partitions, multiplying throughput capacity by 10x ($10 \times 1,000 = 10,000$ WCU).
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>public void saveOrderEventSharded(OrderEvent event) {
+    // Distribute across 10 shards (0-9)
+    int shardId = ThreadLocalRandom.current().nextInt(10);
+    String shardedPartitionKey = event.getStatus() + &quot;_&quot; + shardId;
+
+    Item item = new Item()
+        .withPrimaryKey(&quot;StatusShard&quot;, shardedPartitionKey, &quot;Timestamp&quot;, event.getTimestamp())
+        .withString(&quot;OrderId&quot;, event.getOrderId());
+
+    table.putItem(item);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends switching to On-Demand capacity or paying for 50,000 WCUs (which will still throttle on the single hot partition).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies low-cardinality partition keys, cites the 1,000 WCU / 10GB physical partition limit, and implements write sharding (salting) with parallel scatter-gather queries.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 13: API Management &amp; Edge Gateways -->
+                <div class="question-card" id="q-13" data-keywords="api gateway throttling token bucket lambda authorizer usage plan caching">
+                    <div class="card-header">
+                        <span class="concept-badge">API Management &amp; Edge Gateways</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Amazon API Gateway Token Bucket rate limiting, account-level burst limits, Usage Plans, and caching Lambda Authorizer evaluation results.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A public REST API is hosted on Amazon API Gateway fronting an AWS Lambda backend with a custom Lambda Token Authorizer. Look at the configuration snippet.
+<br><br>
+<strong>Part A:</strong> Explain how API Gateway enforces rate limiting using the <strong>Token Bucket algorithm</strong>. What is the difference between the Rate limit (e.g. 5,000 req/sec) and the Burst limit (e.g. 10,000 requests)?
+<br>
+<strong>Part B:</strong> In production, API latency spikes by 150ms on every single request, and costs explode. Inspection reveals that the Lambda Authorizer is being invoked for every single endpoint call. Why is authorizer result caching critical?
+<br>
+<strong>Part C:</strong> Compare an <strong>API Gateway REST API</strong> against an <strong>API Gateway HTTP API</strong>. Under what conditions should you choose HTTP API for modern microservices?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'api-gateway-authorizer.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">resource &quot;aws_api_gateway_authorizer&quot; &quot;jwt_authorizer&quot; {
+  name                   = &quot;custom-jwt-authorizer&quot;
+  rest_api_id            = aws_api_gateway_rest_api.app_api.id
+  authorizer_uri         = aws_lambda_function.authorizer_lambda.invoke_arn
+  authorizer_result_ttl_in_seconds = 0
+  type                   = &quot;TOKEN&quot;
+  identity_source        = &quot;method.request.header.Authorization&quot;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 13, 1, 'API Gateway Token Bucket throttling, Lambda Authorizer caching, and REST vs HTTP APIs')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 13, 2, 'API Gateway Token Bucket throttling, Lambda Authorizer caching, and REST vs HTTP APIs')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 13, 3, 'API Gateway Token Bucket throttling, Lambda Authorizer caching, and REST vs HTTP APIs')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 13, 4, 'API Gateway Token Bucket throttling, Lambda Authorizer caching, and REST vs HTTP APIs')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Token Bucket Rate vs Burst):</strong>
+<br>• <strong>Rate Limit:</strong> The steady-state rate at which tokens are added to the bucket (e.g., 5,000 tokens/second). Represents the continuous sustained capacity.
+<br>• <strong>Burst Limit:</strong> The total capacity of the bucket (e.g., 10,000 tokens). Allows sudden microsecond bursts of traffic without throwing HTTP 429 errors.
+<br>• If a burst of 8,000 requests arrives in 100ms, the bucket drains immediately. The 8,001st request is throttled with <code>HTTP 429 Too Many Requests</code> until tokens refill.
+<br><br>
+<strong>Part B (Lambda Authorizer Caching TTL):</strong>
+<br>• When <code>authorizer_result_ttl_in_seconds = 0</code>, API Gateway invokes the Authorizer Lambda function on <strong>every single incoming HTTP request</strong>.
+<br>• This doubles Lambda execution costs, adds 50–150ms of extra latency per hop, and risks exhausting account Lambda concurrency limits.
+<br><strong>Fix:</strong> Set <code>authorizer_result_ttl_in_seconds = 300</code> (5 minutes). API Gateway caches the generated IAM policy keyed by the Authorization header, validating subsequent calls at the edge in sub-millisecond time.
+<br><br>
+<strong>Part C (REST API vs HTTP API):</strong>
+<br>• <strong>HTTP API:</strong> Up to 70% cheaper ($1.00/million vs $3.50/million), lower latency, native OIDC/OAuth2 JWT validation at edge without custom Lambda. Ideal for cloud-native microservices.
+<br>• <strong>REST API:</strong> Required if you need API Keys, Usage Plans, Request Validation, WAF integration, or SOAP/XML transformations.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_api_gateway_authorizer&quot; &quot;jwt_authorizer&quot; {
+  name                             = &quot;custom-jwt-authorizer&quot;
+  rest_api_id                      = aws_api_gateway_rest_api.app_api.id
+  authorizer_uri                   = aws_lambda_function.authorizer_lambda.invoke_arn
+  authorizer_result_ttl_in_seconds = 300 # Cache policy for 5 minutes
+  type                             = &quot;TOKEN&quot;
+  identity_source                  = &quot;method.request.header.Authorization&quot;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Disables authorizer caching completely due to fear of stale user roles or cannot explain the difference between burst and steady-state rate limits.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Configures Token Bucket rate and burst parameters, enables 300s authorizer policy caching, and compares HTTP API vs REST API cost and latency profiles.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 14: CI/CD &amp; Zero-Downtime Rollouts -->
+                <div class="question-card" id="q-14" data-keywords="codedeploy blue green canary linear traffic shifting alb target group rollback">
+                    <div class="card-header">
+                        <span class="concept-badge">CI/CD &amp; Zero-Downtime Rollouts</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS CodeDeploy deployment strategies, Canary vs Linear traffic shifting, ALB weighted target groups, and automated CloudWatch rollback alarms.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A continuous deployment pipeline uses AWS CodeDeploy to release updates to an auto-scaled EC2 cluster behind an Application Load Balancer. Look at the CodeDeploy configuration snippet.
+<br><br>
+<strong>Part A:</strong> Contrast an <strong>In-Place Deployment</strong> against a <strong>Blue/Green Deployment</strong> across rollback speed, infrastructure cost, and downtime risk.
+<br>
+<strong>Part B:</strong> What is the difference between <code>CodeDeployDefault.Canary10Percent5Minutes</code> and <code>CodeDeployDefault.Linear10PercentEvery1Minute</code>?
+<br>
+<strong>Part C:</strong> How do CloudWatch Alarms and ALB Weighted Target Groups collaborate during traffic shifting to execute an automatic zero-downtime rollback if error rates breach 1%?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'codedeploy-deployment.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">resource &quot;aws_codedeploy_deployment_group&quot; &quot;app_deployment_group&quot; {
+  app_name              = aws_codedeploy_app.app.name
+  deployment_group_name = &quot;production-deployment-group&quot;
+  service_role_arn      = aws_iam_role.codedeploy_role.arn
+  deployment_config_name = &quot;CodeDeployDefault.Canary10Percent5Minutes&quot;
+  deployment_style {
+    deployment_option = &quot;WITH_TRAFFIC_CONTROL&quot;
+    deployment_type   = &quot;BLUE_GREEN&quot;
+  }
+  load_balancer_info {
+    target_group_info {
+      name = aws_lb_target_group.target_group_blue.name
+    }
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 14, 1, 'AWS CodeDeploy Blue/Green vs Canary deployments, weighted target groups, and alarm rollbacks')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 14, 2, 'AWS CodeDeploy Blue/Green vs Canary deployments, weighted target groups, and alarm rollbacks')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 14, 3, 'AWS CodeDeploy Blue/Green vs Canary deployments, weighted target groups, and alarm rollbacks')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 14, 4, 'AWS CodeDeploy Blue/Green vs Canary deployments, weighted target groups, and alarm rollbacks')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (In-Place vs Blue/Green Comparison):</strong>
+<br>• <strong>In-Place Deployment:</strong> Stops application on existing instances, updates code, and restarts.
+<br><em>Pros:</em> Zero extra infrastructure cost.
+<br><em>Cons:</em> Reduces cluster capacity during deploy; rollback requires redeploying old code (slow, 5–15 mins downtime risk).
+<br>• <strong>Blue/Green Deployment:</strong> Provisions a brand-new identical Green fleet alongside the active Blue fleet.
+<br><em>Pros:</em> Zero downtime; instant rollback by shifting load balancer back to Blue fleet in seconds.
+<br><em>Cons:</em> Temporarily doubles compute costs during deployment.
+<br><br>
+<strong>Part B (Canary vs Linear Traffic Shifting):</strong>
+<br>• <code>Canary10Percent5Minutes</code>: Shifts exactly 10% of traffic to the Green fleet for 5 minutes. If no alarms fire, the remaining 90% shifts immediately in one step.
+<br>• <code>Linear10PercentEvery1Minute</code>: Shifts 10% of traffic every minute gradually (10%, 20%, 30%... 100%), taking 10 minutes total. Ideal for large fleets to detect subtle memory leaks.
+<br><br>
+<strong>Part C (Automated Rollback Integration):</strong>
+<br>CodeDeploy shifts traffic by adjusting ALB Weighted Target Groups (e.g. Blue: 90%, Green: 10%).
+<br>A CloudWatch Alarm monitors <code>HTTPCode_Target_5XX_Count</code> on the Green Target Group. If the alarm enters <code>ALARM</code> state, CodeDeploy automatically halts the deployment, sets Green traffic weight to 0%, and shifts 100% back to Blue.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_codedeploy_deployment_group&quot; &quot;app_deployment_group&quot; {
+  # ...
+  auto_rollback_configuration {
+    enabled = true
+    events  = [&quot;DEPLOYMENT_FAILURE&quot;, &quot;DEPLOYMENT_STOP_ON_ALARM&quot;]
+  }
+
+  alarm_configuration {
+    alarms  = [aws_cloudwatch_metric_alarm.green_5xx_alarm.name]
+    enabled = true
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses in-place OneAtATime deployments without load balancer health checks, leaving the cluster in a mixed, broken state when updates fail.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Designs Blue/Green pipelines with Canary traffic shifting, hooks CloudWatch 5XX alarms for automated instant rollback, and manages ALB weighted target groups.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 15: Observability &amp; Operational Health -->
+                <div class="question-card" id="q-15" data-keywords="cloudwatch metrics percentiles p99 p95 average composite alarm alarm storm">
+                    <div class="card-header">
+                        <span class="concept-badge">Observability &amp; Operational Health</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS CloudWatch metric aggregation, why <code>Average</code> statistics mask critical tail-latency outages, percentile metrics (<code>p99</code>, <code>p99.9</code>), and CloudWatch Composite Alarms.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce API serves 10,000 requests per minute. Look at the CloudWatch Alarm configuration snippet.
+<br><br>
+<strong>Part A:</strong> During peak hours, hundreds of VIP corporate customers experience 15-second checkout hangs and timeouts, yet the CloudWatch alarm never triggers. Why does using the <strong>Average</strong> statistic mask catastrophic tail latency?
+<br>
+<strong>Part B:</strong> What is the difference between <code>p95</code>, <code>p99</code>, and <code>p99.9</code> latency statistics? How does CloudWatch calculate percentiles across distributed clusters?
+<br>
+<strong>Part C:</strong> During an Amazon RDS database failover, 40 separate CloudWatch alarms fire simultaneously across microservices, causing an <strong>Alarm Storm</strong> that overwhelms the on-call engineer. How do <strong>CloudWatch Composite Alarms</strong> prevent alarm fatigue?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'cloudwatch-alarms.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;api_latency_alarm&quot; {
+  alarm_name          = &quot;api-high-latency&quot;
+  comparison_operator = &quot;GreaterThanThreshold&quot;
+  evaluation_periods  = 1
+  metric_name         = &quot;TargetResponseTime&quot;
+  namespace           = &quot;AWS/ApplicationELB&quot;
+  period              = 60
+  statistic           = &quot;Average&quot;
+  threshold           = 2.0
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 15, 1, 'CloudWatch percentiles (p99 vs Average) and Composite Alarms for alarm storm reduction')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 15, 2, 'CloudWatch percentiles (p99 vs Average) and Composite Alarms for alarm storm reduction')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 15, 3, 'CloudWatch percentiles (p99 vs Average) and Composite Alarms for alarm storm reduction')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 15, 4, 'CloudWatch percentiles (p99 vs Average) and Composite Alarms for alarm storm reduction')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Fallacy of the Average):</strong>
+<br>• If 9,900 requests take 50ms, and 100 requests take 15,000ms (15 seconds):
+<br>• The mathematical average is: $\frac{(9900 \times 0.05) + (100 \times 15)}{10000} = \frac{495 + 1500}{10000} = 0.1995\text{s} = \mathbf{199.5\text{ms}}$.
+<br>• Because 199ms is well below the 2.0-second threshold, the alarm <strong>never triggers</strong>!
+<br>• The average statistic completely dilutes and hides the fact that 1% of your highest-value transactions are completely failing.
+<br><br>
+<strong>Part B (Percentile Latency Metrics):</strong>
+<br>• <strong>p99 (99th percentile):</strong> 99% of requests are faster than this value; exactly 1 out of 100 is slower. (Reflects the true user experience of worst-case transactions).
+<br>• <strong>p99.9 (99.9th percentile):</strong> 1 out of 1,000 requests is slower. Crucial for distributed systems where a single user request invokes 20 internal microservices.
+<br><br>
+<strong>Part C (CloudWatch Composite Alarms):</strong>
+<br>Composite Alarms use boolean logic (<code>AND</code>, <code>OR</code>, <code>NOT</code>) to combine multiple alarms.
+<br>Instead of paging the engineer with 40 individual alerts, a Composite Alarm checks:
+<br><code>ALARM(DatabaseDown) AND (ALARM(ApiLatency) OR ALARM(OrderFailures))</code>
+<br>It suppresses secondary alerts and fires a single, actionable page: <em>"Database Failover in Progress: Suppressed 39 downstream API alerts."</em>
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;api_p99_latency&quot; {
+  alarm_name          = &quot;api-p99-latency-high&quot;
+  comparison_operator = &quot;GreaterThanThreshold&quot;
+  evaluation_periods  = 2
+  metric_name         = &quot;TargetResponseTime&quot;
+  namespace           = &quot;AWS/ApplicationELB&quot;
+  period              = 60
+  extended_statistic  = &quot;p99&quot; # Monitors true tail latency
+  threshold           = 1.5   # Trigger if p99 exceeds 1.5s
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Relies entirely on Average CPU and Latency metrics, unable to explain why high-value user checkouts time out while monitoring dashboards show green.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Calculates percentile tail-latency masking math, configures p99/p99.9 extended statistics, and groups alerts into Composite Alarms to eliminate alarm fatigue.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 16: Edge Caching &amp; Content Delivery -->
+                <div class="question-card" id="q-16" data-keywords="cloudfront s3 cache invalidation oac origin access control edge functions s-maxage">
+                    <div class="card-header">
+                        <span class="concept-badge">Edge Caching &amp; Content Delivery</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Amazon CloudFront CDN caching hierarchies, Cache-Control headers (<code>max-age</code> vs <code>s-maxage</code>), Origin Access Control (OAC), and CloudFront Functions vs Lambda@Edge.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A high-traffic web application serves static assets and dynamic APIs through Amazon CloudFront. Look at the deployment script.
+<br><br>
+<strong>Part A:</strong> After every continuous integration build, a script executes <code>aws cloudfront create-invalidation --paths "/*"</code>. Why is blanket wildcard cache invalidation considered an operational anti-pattern?
+<br>
+<strong>Part B:</strong> What is the difference between <code>Cache-Control: max-age=3600</code> and <code>Cache-Control: s-maxage=86400</code>? How do you achieve instant zero-cost cache updates using asset fingerprinting?
+<br>
+<strong>Part C:</strong> Compare <strong>CloudFront Functions</strong> against <strong>Lambda@Edge</strong> across execution location, runtime restrictions, latency, and capability to make external network calls.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'deploy-frontend.sh')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">aws s3 sync ./dist s3:
+aws cloudfront create-invalidation --distribution-id E123456EXAMPLE --paths &quot;/*&quot; </div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 16, 1, 'CloudFront caching, s-maxage, asset fingerprinting, and CloudFront Functions vs Lambda@Edge')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 16, 2, 'CloudFront caching, s-maxage, asset fingerprinting, and CloudFront Functions vs Lambda@Edge')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 16, 3, 'CloudFront caching, s-maxage, asset fingerprinting, and CloudFront Functions vs Lambda@Edge')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 16, 4, 'CloudFront caching, s-maxage, asset fingerprinting, and CloudFront Functions vs Lambda@Edge')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Why Wildcard Invalidation Is an Anti-Pattern):</strong>
+<br>1. <strong>Cost:</strong> AWS provides 1,000 free invalidation paths per month; each additional path costs $0.005. Running wildcard invalidations on every commit across staging and production racks up unnecessary charges.
+<br>2. <strong>Cache Stampede:</strong> Invalidating the entire edge cache forces millions of subsequent user requests to bypass CloudFront and hit the origin S3/backend simultaneously, risking origin collapse.
+<br><br>
+<strong>Part B (Asset Fingerprinting & Caching Headers):</strong>
+<br>• <strong>Fingerprinting / Content Hashing:</strong> Build tools (Webpack, Vite) generate immutable filenames with content hashes (e.g. <code>main.7f8b9c.js</code>).
+<br>• When a file is updated, its filename changes. The new HTML loads the new URL immediately &mdash; <strong>zero cache invalidation required!</strong>
+<br>• <code>s-maxage=31536000</code>: Tells shared caches (CloudFront CDN) to cache the immutable hashed asset for 1 year.
+<br>• <code>max-age=3600</code>: Directs the end-user's browser cache.
+<br><br>
+<strong>Part C (CloudFront Functions vs Lambda@Edge):</strong>
+<br>• <strong>CloudFront Functions:</strong> Lightweight JavaScript engine running at 450+ CloudFront edge points of presence. Sub-millisecond execution, max execution time < 1ms, 2MB memory limit. Ideal for URL rewrites, header manipulation, and redirect normalization. (Cannot make external HTTP calls).
+<br>• <strong>Lambda@Edge:</strong> Full Node.js/Python runtime running at Regional Edge Caches (13 locations). Can make remote HTTP calls, access databases, and inspect body payloads. Up to 10GB memory, 30s timeout.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code># Upload immutable hashed assets with 1-year CDN cache
+aws s3 sync ./dist/assets s3://company-assets/assets \
+  --cache-control &quot;public, max-age=31536000, immutable&quot;
+
+# Upload index.html with NO-CACHE so browsers always fetch latest bundle URL
+aws s3 cp ./dist/index.html s3://company-assets/index.html \
+  --cache-control &quot;no-cache, no-store, must-revalidate&quot; </code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Executes aws cloudfront create-invalidation /* on every build or doesn&#x27;t know the difference between browser cache and CDN edge cache.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Implements immutable content-hashed asset pipelines with s-maxage headers, eliminates invalidation costs, and selects CloudFront Functions for sub-millisecond URL rewrites.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 17: DNS Architecture &amp; Global Traffic Management -->
+                <div class="question-card" id="q-17" data-keywords="route 53 dns failover latency based routing health checks ttl split brain">
+                    <div class="card-header">
+                        <span class="concept-badge">DNS Architecture &amp; Global Traffic Management</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Amazon Route 53 DNS routing policies (Latency-Based, Geo-DNS, Failover), Route 53 health checks, and DNS TTL caching dynamics during disaster recovery.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise deploys a multi-region Active-Passive disaster recovery architecture between <code>us-east-1</code> (Primary) and <code>us-west-2</code> (Secondary). Look at the Route 53 configuration snippet.
+<br><br>
+<strong>Part A:</strong> The primary region suffers a total outage. Route 53 health checks detect the failure and trigger DNS failover within 30 seconds. However, 40% of global user traffic continues attempting to connect to the dead primary region for hours. Explain why.
+<br>
+<strong>Part B:</strong> What is an <strong>Alias Record</strong> in Route 53, and why is an Alias record preferred over a standard <code>CNAME</code> record when pointing the apex zone (e.g. <code>example.com</code>) to an Application Load Balancer?
+<br>
+<strong>Part C:</strong> Compare <strong>Latency-Based Routing</strong> against <strong>Geolocation Routing</strong>. Which policy should be selected to enforce European Union GDPR data residency compliance?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'route53-failover.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">resource &quot;aws_route53_record&quot; &quot;primary_failover&quot; {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = &quot;api.company.com&quot;
+  type    = &quot;A&quot;
+  ttl     = 86400
+  failover_routing_policy {
+    type = &quot;PRIMARY&quot;
+  }
+  set_identifier = &quot;primary-us-east-1&quot;
+  health_check_id = aws_route53_health_check.primary_health.id
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 17, 1, 'Route 53 DNS failover, TTL caching impact on disaster recovery, and Alias vs CNAME records')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 17, 2, 'Route 53 DNS failover, TTL caching impact on disaster recovery, and Alias vs CNAME records')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 17, 3, 'Route 53 DNS failover, TTL caching impact on disaster recovery, and Alias vs CNAME records')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 17, 4, 'Route 53 DNS failover, TTL caching impact on disaster recovery, and Alias vs CNAME records')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (DNS TTL Caching & Stale Client Resolvers):</strong>
+<br>• The DNS record configuration sets <code>ttl = 86400</code> (24 hours).
+<br>• When clients query DNS, recursive resolvers (ISPs, Google 8.8.8.8, enterprise proxies) <strong>cache the IP address for the duration of the TTL</strong>.
+<br>• Even though Route 53 updates its authoritative nameserver within 30 seconds, millions of client machines and ISP resolvers will not query Route 53 again until their local 24-hour cache expires.
+<br><strong>Fix:</strong> For failover and dynamic endpoints, set TTL to <strong>10 to 60 seconds</strong>.
+<br><br>
+<strong>Part B (Alias Records vs CNAME at Zone Apex):</strong>
+<br>• <strong>DNS RFC 1034 Rule:</strong> A CNAME record cannot coexist with other records (like SOA or NS) at the <strong>zone apex</strong> (root domain: <code>company.com</code>).
+<br>• <strong>Alias Records:</strong> An AWS proprietary DNS extension that maps the apex domain directly to AWS resources (ALB, CloudFront, S3) using native <code>A</code> queries. Route 53 resolves the ALB IP internally with zero extra DNS hops, and queries to Alias records are completely free.
+<br><br>
+<strong>Part C (Latency-Based vs Geolocation Routing):</strong>
+<br>• <strong>Latency-Based:</strong> Routes users to the AWS region that yields the lowest network round-trip time.
+<br>• <strong>Geolocation:</strong> Routes traffic based strictly on the geographic origin of the user's IP (e.g., all traffic originating from Europe routes to Frankfurt <code>eu-central-1</code>). Geolocation is <strong>strictly required</strong> to guarantee GDPR compliance and legal data residency constraints.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_route53_record&quot; &quot;primary_failover&quot; {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = &quot;company.com&quot;
+  type    = &quot;A&quot;
+
+  alias {
+    name                   = aws_lb.primary_alb.dns_name
+    zone_id                = aws_lb.primary_alb.zone_id
+    evaluate_target_health = true # Evaluates target group health directly
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Sets high TTL (86400) on failover DNS records or tries to create a CNAME at the root apex domain.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains ISP recursive resolver caching, implements Route 53 Alias records at zone apex with target health evaluation, and enforces Geolocation routing for GDPR boundaries.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 18: Multi-Account Security &amp; IAM Governance -->
+                <div class="question-card" id="q-18" data-keywords="cross account assume role external id confused deputy sts iam trust policy">
+                    <div class="card-header">
+                        <span class="concept-badge">Multi-Account Security &amp; IAM Governance</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Multi-account AWS security governance, cross-account IAM role assumption via AWS STS, and mitigating the <strong>Confused Deputy Problem</strong> using <code>sts:ExternalId</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A multi-tenant SaaS vendor (Vendor Account A) manages AWS infrastructure on behalf of thousands of enterprise clients (Client Account B). Look at the IAM Trust Policy snippet.
+<br><br>
+<strong>Part A:</strong> What is the <strong>Confused Deputy Problem</strong> in multi-tenant AWS architectures? How can a malicious tenant trick Vendor Account A into hijacking Client Account B's cloud resources?
+<br>
+<strong>Part B:</strong> How does adding an <code>sts:ExternalId</code> condition to the IAM trust policy mathematically eliminate the Confused Deputy vulnerability?
+<br>
+<strong>Part C:</strong> Contrast <strong>Identity-Based Policies</strong> (Role Assumption) against <strong>Resource-Based Policies</strong> (S3 Bucket Policies, KMS Key Policies) for granting cross-account access.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'trust-policy.json')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Principal&quot;: {
+        &quot;AWS&quot;: &quot;arn:aws:iam::111122223333:root&quot;
+      },
+      &quot;Action&quot;: &quot;sts:AssumeRole&quot;
+    }
+  ]
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 18, 1, 'Cross-account IAM role assumption, Confused Deputy mitigation, and sts:ExternalId')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 18, 2, 'Cross-account IAM role assumption, Confused Deputy mitigation, and sts:ExternalId')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 18, 3, 'Cross-account IAM role assumption, Confused Deputy mitigation, and sts:ExternalId')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 18, 4, 'Cross-account IAM role assumption, Confused Deputy mitigation, and sts:ExternalId')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Confused Deputy Attack Scenario):</strong>
+<br>• SaaS Vendor (Account A) manages customer AWS accounts by assuming an IAM role in each customer's account.
+<br>• Customer B configures an IAM role with the trust policy above, allowing Account A to assume it.
+<br>• Malicious Customer C signs up for the SaaS service. During setup, Customer C provides Customer B's AWS Role ARN.
+<br>• When Customer C asks the SaaS service to run an action, the SaaS platform (the "deputy") blindly calls <code>sts:AssumeRole(RoleArn = Customer B's ARN)</code>.
+<br>• Because the trust policy allows Account A unconditionally, STS permits the call. Customer C now controls Customer B's entire AWS infrastructure through the confused deputy!
+<br><br>
+<strong>Part B (The sts:ExternalId Defense):</strong>
+<br>• The SaaS vendor generates a unique, cryptographically random <code>ExternalId</code> per tenant upon registration.
+<br>• Customer B configures their trust policy with:
+<br><code>"Condition": { "StringEquals": { "sts:ExternalId": "tenant-xyz-secret-uuid" } }</code>
+<br>• When assuming the role, Account A passes the specific tenant's ExternalId. Malicious Customer C cannot guess Customer B's ExternalId, and STS rejects the assumption.
+<br><br>
+<strong>Part C (Identity-Based vs Resource-Based Policies):</strong>
+<br>• <strong>Identity-Based (AssumeRole):</strong> Requires the caller to give up original IAM permissions and take on the target role's identity via STS temporary credentials.
+<br>• <strong>Resource-Based (S3 Bucket Policy):</strong> The caller retains their original identity and directly accesses the resource. The principal account does not need to assume a role.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Principal&quot;: { &quot;AWS&quot;: &quot;arn:aws:iam::111122223333:root&quot; },
+      &quot;Action&quot;: &quot;sts:AssumeRole&quot;,
+      &quot;Condition&quot;: {
+        &quot;StringEquals&quot;: {
+          &quot;sts:ExternalId&quot;: &quot;e9c4-4f81-9b12-client-uuid-778&quot;
+        }
+      }
+    }
+  ]
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Leaves IAM trust policies open to root account ARNs without conditions, unaware of cross-tenant privilege escalation.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Walks through the Confused Deputy attack vector, enforces sts:ExternalId conditions in cross-account trust policies, and compares STS role assumption with resource-based policies.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 19: Serverless Scaling &amp; Resource Allocation -->
+                <div class="question-card" id="q-19" data-keywords="lambda concurrency reserved provisioned burst limit unreserved pool 429">
+                    <div class="card-header">
+                        <span class="concept-badge">Serverless Scaling &amp; Resource Allocation</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS Lambda regional concurrency quotas (default 1,000), unreserved concurrency pool starvation, Reserved Concurrency vs Provisioned Concurrency, and burst capacity.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise runs 40 microservices on AWS Lambda within a single AWS account. Look at the architecture and configuration.
+<br><br>
+<strong>Part A:</strong> A non-critical background data ingestion Lambda spikes to 1,000 concurrent executions. Instantly, all other critical Lambda functions in the account (including payment processing and login APIs) fail with <code>HTTP 429 Too Many Requests: Rate Exceeded</code>. Explain why this account-wide starvation occurs.
+<br>
+<strong>Part B:</strong> What is <strong>Reserved Concurrency</strong>? Explain how it serves both as a guaranteed floor AND as a strict ceiling.
+<br>
+<strong>Part C:</strong> Contrast <strong>Provisioned Concurrency</strong> against <strong>Reserved Concurrency</strong>. How does Provisioned Concurrency completely eliminate cold starts for low-latency financial transactions?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'lambda-concurrency.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">resource &quot;aws_lambda_function&quot; &quot;background_ingest_lambda&quot; {
+  function_name = &quot;heavy-background-ingest&quot;
+  runtime       = &quot;java17&quot;
+  handler       = &quot;com.company.IngestHandler::handleRequest&quot;
+  memory_size   = 2048
+  timeout       = 300
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 19, 1, 'Lambda concurrency allocation, Reserved vs Provisioned concurrency, and unreserved pool exhaustion')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 19, 2, 'Lambda concurrency allocation, Reserved vs Provisioned concurrency, and unreserved pool exhaustion')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 19, 3, 'Lambda concurrency allocation, Reserved vs Provisioned concurrency, and unreserved pool exhaustion')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 19, 4, 'Lambda concurrency allocation, Reserved vs Provisioned concurrency, and unreserved pool exhaustion')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Account-Wide Concurrency Exhaustion):</strong>
+<br>• AWS accounts have a default regional concurrency limit of <strong>1,000 concurrent executions</strong> shared across all Lambda functions in the region.
+<br>• Functions without explicit configuration draw from the <strong>Unreserved Concurrency Pool</strong>.
+<br>• If a background ETL or batch job scales to 1,000 executions, it completely drains the unreserved pool.
+<br>• Any other function in the account (even a critical 10ms payment API) cannot allocate execution slots and is immediately throttled with <code>HTTP 429 Rate Exceeded</code>.
+<br><br>
+<strong>Part B (Reserved Concurrency: Floor & Ceiling):</strong>
+<br>• Allocating <code>reserved_concurrent_executions = 200</code> achieves two things:
+<br>1. <strong>Guaranteed Floor:</strong> 200 execution slots are dedicated strictly to this function; other functions cannot steal them.
+<br>2. <strong>Strict Ceiling:</strong> The function can never scale beyond 200 executions, preventing it from consuming the rest of the account's unreserved pool.
+<br><em>Note:</em> AWS requires at least 100 concurrency units to remain in the unreserved pool.
+<br><br>
+<strong>Part C (Provisioned Concurrency):</strong>
+<br>• Reserved Concurrency allocates slots, but instances still suffer initial cold starts upon invocation.
+<br>• <strong>Provisioned Concurrency:</strong> AWS pre-initializes the execution environment, boots the JVM, and loads classes in advance. Functions respond in sub-10ms with <strong>zero cold starts</strong>. It is billed per GB-second of provisioned uptime.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code>resource &quot;aws_lambda_function&quot; &quot;critical_payment_lambda&quot; {
+  function_name = &quot;payment-processor&quot;
+  # ...
+  reserved_concurrent_executions = 300 # Isolates 300 slots for payment
+}
+
+resource &quot;aws_lambda_provisioned_concurrency_config&quot; &quot;payment_warm&quot; {
+  function_name                     = aws_lambda_function.critical_payment_lambda.function_name
+  provisioned_concurrent_executions = 50 # 50 pre-warmed JVMs ready for zero-latency calls
+  qualifier                         = &quot;prod&quot;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes Lambda functions have unlimited independent scaling or leaves background batch jobs unthrottled in production.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains regional unreserved concurrency exhaustion, applies Reserved Concurrency to isolate critical microservices, and allocates Provisioned Concurrency for zero-cold-start SLAs.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 20: High Availability &amp; Multi-Region DR -->
+                <div class="question-card" id="q-20" data-keywords="disaster recovery rpo rto pilot light warm standby active active multi region aurora global">
+                    <div class="card-header">
+                        <span class="concept-badge">High Availability &amp; Multi-Region DR</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                AWS Disaster Recovery strategies (Backup & Restore, Pilot Light, Warm Standby, Multi-Region Active-Active), RPO vs RTO trade-offs, and Amazon Aurora Global Database replication.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise defines a Disaster Recovery mandate for its tier-1 payment microservices: Recovery Point Objective (RPO) < 1 minute, and Recovery Time Objective (RTO) < 15 minutes, with optimized cost. Look at the architecture diagram and script.
+<br><br>
+<strong>Part A:</strong> Define <strong>RPO</strong> and <strong>RTO</strong> in the context of an AWS regional disaster (e.g. total data center loss in <code>us-east-1</code>).
+<br>
+<strong>Part B:</strong> Evaluate the 4 standard AWS Disaster Recovery strategies: <strong>Backup & Restore</strong>, <strong>Pilot Light</strong>, <strong>Warm Standby</strong>, and <strong>Multi-Region Active-Active</strong> across cost, complexity, and RPO/RTO metrics.
+<br>
+<strong>Part C:</strong> Detail the architecture of a <strong>Pilot Light</strong> deployment using Amazon Aurora Global Database and Terraform to meet the 15-minute RTO mandate without paying for idle EC2/EKS clusters in the secondary region.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'aurora-global-dr.tf')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">resource &quot;aws_rds_global_cluster&quot; &quot;global_db&quot; {
+  global_cluster_identifier = &quot;enterprise-global-db&quot;
+  engine                    = &quot;aurora-postgresql&quot;
+  engine_version            = &quot;15.4&quot;
+  database_name             = &quot;payments&quot;
+  storage_encrypted         = true
+}
+resource &quot;aws_rds_cluster&quot; &quot;primary_cluster&quot; {
+  cluster_identifier        = &quot;aurora-primary-us-east-1&quot;
+  global_cluster_identifier = aws_rds_global_cluster.global_db.id
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('aws', 20, 1, 'AWS Disaster Recovery strategies, RPO/RTO calculations, and Pilot Light architecture with Aurora Global DB')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('aws', 20, 2, 'AWS Disaster Recovery strategies, RPO/RTO calculations, and Pilot Light architecture with Aurora Global DB')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('aws', 20, 3, 'AWS Disaster Recovery strategies, RPO/RTO calculations, and Pilot Light architecture with Aurora Global DB')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('aws', 20, 4, 'AWS Disaster Recovery strategies, RPO/RTO calculations, and Pilot Light architecture with Aurora Global DB')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (RPO vs RTO in Cloud Disaster Recovery):</strong>
+<br>• <strong>RPO (Recovery Point Objective):</strong> The maximum acceptable volume of data loss measured in time. RPO < 1 minute means after failover, data loss cannot exceed 60 seconds of transactions.
+<br>• <strong>RTO (Recovery Time Objective):</strong> The maximum allowable downtime before business operations are restored. RTO < 15 minutes means systems must be fully processing traffic in the secondary region within 15 minutes.
+<br><br>
+<strong>Part B (The 4 AWS DR Strategies Comparison):</strong>
+<br>1. <strong>Backup & Restore:</strong> Periodic snapshots to S3/Glacier. Cost: $, RTO: 24+ hours, RPO: 24 hours.
+<br>2. <strong>Pilot Light:</strong> Core data is continuously replicated; minimal core infrastructure (databases) is live; compute is launched on failover. Cost: $$, RTO: 10–15 mins, RPO: < 1 min.
+<br>3. <strong>Warm Standby:</strong> Scaled-down minimum fleet running 24/7 in secondary region, scaled out during failover. Cost: $$$, RTO: minutes, RPO: seconds.
+<br>4. <strong>Active-Active Multi-Region:</strong> Full capacity running in both regions simultaneously. Cost: $$$$, RTO: near 0, RPO: near 0.
+<br><br>
+<strong>Part C (Pilot Light Architecture Implementation):</strong>
+<br>• <strong>Database Layer:</strong> Amazon Aurora Global Database replicates storage across regions asynchronously at the storage layer with typical replication latency <strong>under 1 second</strong> (meeting RPO < 1m).
+<br>• <strong>Compute Layer:</strong> Golden AMIs and container images are replicated to the secondary region. Compute instances are <strong>not running</strong> (saving 70% of infrastructure cost).
+<br>• <strong>Failover Automation:</strong> An automated script promotes the secondary Aurora cluster to standalone master (takes 1 minute), applies Terraform to spin up ASG/EKS compute from cached images (takes 8–10 minutes), and updates Route 53 DNS (takes 1 minute), comfortably meeting RTO < 15 minutes.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">Terraform / Java / Config</span></div>
+                                <pre><code># Secondary Region Aurora Replica (Pilot Light)
+resource &quot;aws_rds_cluster&quot; &quot;secondary_cluster&quot; {
+  provider                  = aws.secondary_region # us-west-2
+  cluster_identifier        = &quot;aurora-secondary-us-west-2&quot;
+  global_cluster_identifier = aws_rds_global_cluster.global_db.id
+
+  # Compute instances in secondary region run minimal or zero nodes until promoted
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes nightly S3 snapshots meet 15-minute RTO or insists on Multi-Region Active-Active for all applications regardless of budget or complexity.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Defines RPO/RTO quantitatively, designs a cost-optimized Pilot Light architecture with Aurora Global Database (&lt;1s replication lag), and scripts automated infrastructure-as-code promotion.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card modal-code-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Snippet</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Code</span>
+                        <span class="code-lang">Terraform / Java / Config</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('aws');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

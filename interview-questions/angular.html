@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Angular Interview Suite | Signals, Change Detection & Architecture (v16-v18)</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link active"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🅰️ Modern Angular Architecture (v16–v18)</h1>
+            <p>20 Advanced Architectural questions covering Signals, ChangeDetectionStrategy.OnPush, RxJS memory leaks, Standalone Components, Zoneless execution, Deferrable Views (@defer), SSR Hydration, and Module Federation.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🅰️ Skill: Modern Angular Architecture</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('angular')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search Angular topics (e.g. signals, onpush, rxjs leaks, standalone, zoneless, defer, hydration, interceptor, forms)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+                <!-- QUESTION 1: Change Detection &amp; Performance -->
+                <div class="question-card" id="q-1" data-keywords="change detection onpush mutability reference equality zonejs markforcheck spread">
+                    <div class="card-header">
+                        <span class="concept-badge">Change Detection &amp; Performance</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                ChangeDetectionStrategy.OnPush, strict reference equality checks (<code>===</code>), object/array in-place mutability traps, and immutable state updates.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer optimizes an enterprise data grid by adding <code>changeDetection: ChangeDetectionStrategy.OnPush</code>. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> When the user clicks "Add Item", the item is pushed into the array, but the UI table fails to display the new item. Why does <code>ChangeDetectionStrategy.OnPush</code> ignore in-place array mutations like <code>items.push()</code>?
+<br>
+<strong>Part B:</strong> What three triggers cause an <code>OnPush</code> component to re-evaluate its template?
+<br>
+<strong>Part C:</strong> How do you fix this using immutable state spread operators, and what is the difference between <code>ChangeDetectorRef.detectChanges()</code> versus <code>ChangeDetectorRef.markForCheck()</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'order-list.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">@Component({
+  selector: &#x27;app-order-list&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    &lt;button (click)=&quot;addItem()&quot;&gt;Add Item&lt;/button&gt;
+    &lt;ul&gt;
+      &lt;li *ngFor=&quot;let item of items&quot;&gt;{{ item.name }}&lt;/li&gt;
+    &lt;/ul&gt;
+  `
+})
+export class OrderListComponent {
+  @Input() items: Item[] = [];
+  addItem() {
+    this.items.push({ id: Date.now(), name: &#x27;New Item&#x27; });
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 1, 1, 'ChangeDetectionStrategy.OnPush, reference equality, and markForCheck vs detectChanges')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 1, 2, 'ChangeDetectionStrategy.OnPush, reference equality, and markForCheck vs detectChanges')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 1, 3, 'ChangeDetectionStrategy.OnPush, reference equality, and markForCheck vs detectChanges')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 1, 4, 'ChangeDetectionStrategy.OnPush, reference equality, and markForCheck vs detectChanges')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Reference Equality & The Mutability Trap):</strong>
+<br>• Under default change detection, Zone.js checks every component on every asynchronous event by dirty-checking values.
+<br>• Under <code>ChangeDetectionStrategy.OnPush</code>, Angular skips the component subtree unless its <strong>inputs change by object reference</strong> (evaluated via <code>Object.is(oldVal, newVal)</code> / <code>===</code>).
+<br>• <code>this.items.push(...)</code> mutates the existing array in-place: the array memory reference remains <strong>identical</strong> (<code>oldItems === newItems</code>).
+<br>• Angular assumes nothing has changed and skips template re-rendering.
+<br><br>
+<strong>Part B (The 3 Triggers of OnPush Change Detection):</strong>
+<br>1. An <code>@Input()</code> property reference changes to a new object or primitive.
+<br>2. An event originates directly from the component itself or one of its children (e.g. <code>(click)</code>, <code>(keyup)</code>).
+<br>3. An explicit call is made to <code>ChangeDetectorRef.markForCheck()</code> (or an <code>async</code> pipe / Signal emits a new value).
+<br><br>
+<strong>Part C (Immutable Spread & markForCheck vs detectChanges):</strong>
+<br>• <strong>Fix:</strong> Create a new array reference: <code>this.items = [...this.items, newItem];</code>.
+<br>• <code>markForCheck()</code>: Marks the component and all its ancestors up to the root as dirty, requesting a pass during the <em>next</em> scheduled change detection cycle.
+<br>• <code>detectChanges()</code>: Runs change detection synchronously on the component and its children <em>immediately</em>, which can cause <code>ExpressionChangedAfterItHasBeenCheckedError</code> if abused.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>addItem() {
+  const newItem = { id: Date.now(), name: &#x27;New Item&#x27; };
+  this.items = [...this.items, newItem]; // New reference triggers OnPush
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Removes ChangeDetectionStrategy.OnPush to go back to Default change detection or injects ChangeDetectorRef and calls detectChanges() on every event.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains reference equality checking (Object.is), enforces immutable state updates with array spread, and clearly contrasts markForCheck() with detectChanges().
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2: Reactivity Architecture (v16–v18) -->
+                <div class="question-card" id="q-2" data-keywords="signals rxjs computed effect glitch free tosignal toobservable zonejs">
+                    <div class="card-header">
+                        <span class="concept-badge">Reactivity Architecture (v16–v18)</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Fine-grained reactivity with Angular Signals (<code>signal</code>, <code>computed</code>, <code>effect</code>), glitch-free synchronous dependency tracking, and interoperability with RxJS (<code>toSignal</code>, <code>toObservable</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce checkout page manages cart items, discount codes, and taxes using Angular 17/18 Signals. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> What is the core architectural difference between <strong>Angular Signals</strong> (synchronous value containers with dependency tracking) and <strong>RxJS Observables</strong> (asynchronous push-based streams)?
+<br>
+<strong>Part B:</strong> Look at the <code>computed()</code> block in the code. Why is calling <code>taxAmount.set(...)</code> inside a <code>computed()</code> strictly forbidden by the Angular compiler, throwing <code>NG0600: Writing to signals is not allowed in a computed</code>?
+<br>
+<strong>Part C:</strong> When should an architect mandate RxJS over Signals, and when should Signals replace RxJS in modern application components?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'cart-state.service.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">@Injectable({ providedIn: &#x27;root&#x27; })
+export class CartStateService {
+  cartItems = signal&lt;CartItem[]&gt;([]);
+  taxRate = signal&lt;number&gt;(0.08);
+  taxAmount = signal&lt;number&gt;(0);
+  subtotal = computed(() =&gt; {
+    return this.cartItems().reduce((acc, item) =&gt; acc + item.price, 0);
+  });
+  total = computed(() =&gt; {
+    const calcTax = this.subtotal() * this.taxRate();
+    this.taxAmount.set(calcTax);
+    return this.subtotal() + calcTax;
+  });
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 2, 1, 'Angular Signals, computed purity, side-effect elimination, and Signals vs RxJS')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 2, 2, 'Angular Signals, computed purity, side-effect elimination, and Signals vs RxJS')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 2, 3, 'Angular Signals, computed purity, side-effect elimination, and Signals vs RxJS')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 2, 4, 'Angular Signals, computed purity, side-effect elimination, and Signals vs RxJS')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Signals vs Observables Comparison):</strong>
+<br>• <strong>Signals:</strong> Synchronous state primitives with <strong>pull-based evaluation</strong> and dynamic dependency tracking. They always have a current value, execute glitch-free (eliminating diamond dependency problems), and enable fine-grained DOM updates without Zone.js.
+<br>• <strong>RxJS Observables:</strong> Push-based asynchronous streams over time. Required for complex event coordination (debouncing, race conditions, cancellation via <code>switchMap</code>, retry logic, WebSockets).
+<br><br>
+<strong>Part B (Computed Signal Purity & NG0600):</strong>
+<br>• <code>computed()</code> signals are strictly designed to be <strong>pure derivation functions</strong>.
+<br>• Writing to another signal inside a <code>computed</code> derivation introduces side effects, which can cause cyclic dependency loops and unpredictable rendering order.
+<br>• <code>taxAmount</code> should simply be another derived <code>computed()</code> signal, not a writable signal updated as a side effect.
+<br><br>
+<strong>Part C (When to Use What):</strong>
+<br>• <em>Use Signals for:</em> Synchronous UI component state, derived values, inputs, queries, and replacing Zone.js for change detection.
+<br>• <em>Use RxJS for:</em> HTTP calls, debounced search inputs, WebSocket real-time feeds, interval polling, and complex asynchronous stream composition.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@Injectable({ providedIn: &#x27;root&#x27; })
+export class CleanCartService {
+  cartItems = signal&lt;CartItem[]&gt;([]);
+  taxRate = signal&lt;number&gt;(0.08);
+
+  subtotal = computed(() =&gt; 
+    this.cartItems().reduce((acc, item) =&gt; acc + item.price, 0)
+  );
+
+  taxAmount = computed(() =&gt; this.subtotal() * this.taxRate());
+
+  total = computed(() =&gt; this.subtotal() + this.taxAmount());
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses an effect() or setTimeout to bypass the computed() mutation check, unaware of reactivity graph purity and cyclic dependency loops.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates pull-based fine-grained reactivity, refactors side-effects into pure computed derivations, and defines clean boundaries between Signals (state) and RxJS (async events).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3: Memory Management &amp; Lifecycle -->
+                <div class="question-card" id="q-3" data-keywords="rxjs subscription memory leak takeuntildestroyed destroyref async pipe closure">
+                    <div class="card-header">
+                        <span class="concept-badge">Memory Management &amp; Lifecycle</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                RxJS Observable subscription memory leaks, garbage collection retention through closures, <code>takeUntilDestroyed</code>, <code>DestroyRef</code>, and declarative <code>async</code> pipe.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A single-page dashboard navigates between multiple views. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> A user navigates back and forth between the Dashboard and Settings 20 times. Profiling in Chrome DevTools shows 20 active component instances retained in heap memory and 20 simultaneous HTTP calls on every event. Explain how this memory leak occurs.
+<br>
+<strong>Part B:</strong> How does Angular 16+ <code>takeUntilDestroyed</code> eliminate subscription leaks without requiring <code>ngOnDestroy()</code> and boilerplate <code>Subject</code> tear-downs?
+<br>
+<strong>Part C:</strong> What is the injection context requirement of <code>takeUntilDestroyed()</code>, and how do you use it if subscribing inside a lifecycle hook like <code>ngOnInit()</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'dashboard-metrics.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">@Component({
+  selector: &#x27;app-dashboard-metrics&#x27;,
+  standalone: true,
+  template: `&lt;div&gt;Live Users: {{ activeUsers }}&lt;/div&gt;`
+})
+export class DashboardMetricsComponent implements OnInit {
+  activeUsers = 0;
+  constructor(private metricsService: MetricsService) {}
+  ngOnInit() {
+    this.metricsService.userStream$.subscribe(users =&gt; {
+      this.activeUsers = users.length;
+    });
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 3, 1, 'RxJS subscription memory leaks, takeUntilDestroyed, DestroyRef, and injection contexts')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 3, 2, 'RxJS subscription memory leaks, takeUntilDestroyed, DestroyRef, and injection contexts')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 3, 3, 'RxJS subscription memory leaks, takeUntilDestroyed, DestroyRef, and injection contexts')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 3, 4, 'RxJS subscription memory leaks, takeUntilDestroyed, DestroyRef, and injection contexts')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Closure Scope Retaining Component Instances):</strong>
+<br>• <code>metricsService</code> is a singleton service that lives for the entire application lifetime.
+<br>• When <code>subscribe()</code> is called in <code>DashboardMetricsComponent</code>, the callback closure captures <code>this</code> (the component instance).
+<br>• When the user navigates away, the component view is removed from the DOM, but the singleton service retains a direct reference to the component instance in its observer list.
+<br>• The Garbage Collector <strong>cannot free the component</strong>, leading to massive memory leaks, duplicate callbacks, and stale event executions.
+<br><br>
+<strong>Part B (takeUntilDestroyed via DestroyRef):</strong>
+<br>• <code>takeUntilDestroyed</code> automatically hooks into Angular's <code>DestroyRef</code>.
+<br>• When the component or injector is destroyed, the operator automatically emits a completion signal and unregisters the subscription, releasing memory.
+<br><br>
+<strong>Part C (Injection Context Requirement):</strong>
+<br>• If called in the <code>constructor()</code>, <code>takeUntilDestroyed()</code> automatically infers the <code>DestroyRef</code> from the active injection context.
+<br>• If called in <code>ngOnInit()</code>, the constructor injection context has ended. You must explicitly inject <code>DestroyRef</code> and pass it: <code>takeUntilDestroyed(this.destroyRef)</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@Component({
+  selector: &#x27;app-dashboard-metrics&#x27;,
+  standalone: true,
+  template: `&lt;div&gt;Live Users: {{ activeUsers() }}&lt;/div&gt;`
+})
+export class DashboardMetricsComponent {
+  private metricsService = inject(MetricsService);
+
+  // Modern Approach: toSignal handles automatic subscription &amp; unsubscription
+  activeUsers = toSignal(
+    this.metricsService.userStream$.pipe(map(u =&gt; u.length)), 
+    { initialValue: 0 }
+  );
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Forgets to unsubscribe or manually creates a SubSink / ngOnDestroy unsubscribe array with heavy boilerplate.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses GC retention through singleton observer closures, uses takeUntilDestroyed with explicit DestroyRef when outside constructor, or converts to Signals via toSignal().
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 4: Component Architecture &amp; Bundling -->
+                <div class="question-card" id="q-4" data-keywords="standalone components ngmodule migration tree shaking providehttpclient lazy loading">
+                    <div class="card-header">
+                        <span class="concept-badge">Component Architecture &amp; Bundling</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Standalone components (<code>standalone: true</code>), eliminating <code>NgModule</code> overhead, standalone route lazy loading (<code>loadComponent</code>), and modern standalone bootstrap.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise application migrates a legacy architecture containing 80 <code>NgModule</code> definitions to Angular 17/18 Standalone Components. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> What were the core architectural drawbacks of the traditional <code>NgModule</code> system regarding bundle size, mental model, and dead code tree-shaking?
+<br>
+<strong>Part B:</strong> How does lazy loading change with standalone components? Compare <code>loadChildren</code> pointing to a module vs <code>loadComponent: () => import(...)</code>.
+<br>
+<strong>Part C:</strong> How do you replace legacy module-level provider imports like <code>HttpClientModule</code> and <code>RouterModule.forRoot()</code> in a standalone <code>bootstrapApplication()</code> call?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'legacy-app.module.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">@NgModule({
+  declarations: [UserProfileComponent, UserBillingComponent],
+  imports: [CommonModule, RouterModule, FormsModule, HttpClientModule],
+  exports: [UserProfileComponent]
+})
+export class UserFeatureModule {}
+const routes: Routes = [
+  {
+    path: &#x27;users&#x27;,
+    loadChildren: () =&gt; import(&#x27;./user-feature.module&#x27;).then(m =&gt; m.UserFeatureModule)
+  }
+];</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 4, 1, 'Standalone components, standalone routing, provideHttpClient, and tree-shaking')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 4, 2, 'Standalone components, standalone routing, provideHttpClient, and tree-shaking')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 4, 3, 'Standalone components, standalone routing, provideHttpClient, and tree-shaking')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 4, 4, 'Standalone components, standalone routing, provideHttpClient, and tree-shaking')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Pitfalls of NgModule):</strong>
+<br>• <strong>Tree-Shaking Barriers:</strong> In an NgModule, declaring 10 components forces the bundler to include all 10 in the module chunk, even if a route only renders one of them.
+<br>• <strong>Context Indirection:</strong> Developers had to declare components in modules and import modules into other modules, creating complex dependency graphs where unused imports were never purged.
+<br>• <strong>Mental Overhead:</strong> New developers struggled with the distinction between JavaScript ES modules (<code>import { x } from './x'</code>) and Angular <code>NgModule</code> metadata.
+<br><br>
+<strong>Part B (Fine-Grained Standalone Lazy Loading):</strong>
+<br>• Standalone components declare their exact dependencies in their own <code>imports: [...]</code> array.
+<br>• Routes use <code>loadComponent: () => import('./user-profile.component').then(c => c.UserProfileComponent)</code>.
+<br>• Webpack / esbuild splits each individual standalone component into its own independent JavaScript chunk, downloading only what is rendered.
+<br><br>
+<strong>Part C (Standalone Bootstrap & Functional Providers):</strong>
+<br>Modern Angular replaces modules with standalone provider functions:
+<br>• <code>HttpClientModule</code> &rarr; <code>provideHttpClient(withInterceptors([...]))</code>
+<br>• <code>RouterModule.forRoot(routes)</code> &rarr; <code>provideRouter(routes, withComponentInputBinding())</code>
+<br>• <code>BrowserAnimationsModule</code> &rarr; <code>provideAnimationsAsync()</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>// main.ts
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(appRoutes, withComponentInputBinding()),
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideAnimationsAsync()
+  ]
+});</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Wraps standalone components in dummy NgModules or imports entire CommonModule into every component instead of specific directives.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates esbuild tree-shaking gains, converts routing to loadComponent chunks, and replaces module imports with functional providers (provideHttpClient, provideRouter).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 5: Dependency Injection &amp; Scoping -->
+                <div class="question-card" id="q-5" data-keywords="dependency injection hierarchy providedin root element injector shadowing circular">
+                    <div class="card-header">
+                        <span class="concept-badge">Dependency Injection &amp; Scoping</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Angular Hierarchical Dependency Injection, Root vs Environment vs Element/Component Injectors, service instance shadowing, and <code>providedIn: 'root'</code> vs component <code>providers: []</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A multi-page application shares a global <code>ShoppingCartService</code>. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> In the navigation bar, the shopping cart shows 3 items. When the user opens the <code>CheckoutModalComponent</code>, the modal displays "Cart is Empty!" and items added inside the modal never appear in the navbar. Why did this state isolation bug happen?
+<br>
+<strong>Part B:</strong> Explain the multi-tier hierarchy of Angular Injectors (Platform Injector &rarr; Root Injector &rarr; Environment Injector &rarr; Element Injector).
+<br>
+<strong>Part C:</strong> When is placing a service inside a component's <code>providers: []</code> metadata intentionally desirable rather than an architectural bug?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'checkout-modal.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">@Injectable({ providedIn: &#x27;root&#x27; })
+export class ShoppingCartService {
+  items = signal&lt;string[]&gt;([]);
+}
+@Component({
+  selector: &#x27;app-checkout-modal&#x27;,
+  standalone: true,
+  providers: [ShoppingCartService],
+  template: `&lt;div&gt;Items in cart: {{ cart.items().length }}&lt;/div&gt;`
+})
+export class CheckoutModalComponent {
+  constructor(public cart: ShoppingCartService) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 5, 1, 'Angular Hierarchical DI, Element Injectors, service shadowing, and provider scoping')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 5, 2, 'Angular Hierarchical DI, Element Injectors, service shadowing, and provider scoping')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 5, 3, 'Angular Hierarchical DI, Element Injectors, service shadowing, and provider scoping')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 5, 4, 'Angular Hierarchical DI, Element Injectors, service shadowing, and provider scoping')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Element Injector Shadowing Trap):</strong>
+<br>• <code>ShoppingCartService</code> is configured with <code>providedIn: 'root'</code>, creating a single global singleton instance in the Root Injector.
+<br>• However, <code>CheckoutModalComponent</code> specifies <code>providers: [ShoppingCartService]</code> on its <code>@Component</code> decorator.
+<br>• This instructs Angular's <strong>Element Injector</strong> to instantiate a brand-new, isolated instance of <code>ShoppingCartService</code> scoped strictly to this modal component and its children.
+<br>• The modal injects the newly created empty service, shadowing the root singleton. Any modifications inside the modal affect only the shadow instance!
+<br><br>
+<strong>Part B (The Injector Tree Hierarchy):</strong>
+<br>1. <strong>Platform Injector:</strong> Singleton across multiple Angular applications on the same page (e.g. <code>DomSanitizer</code>).
+<br>2. <strong>Root Injector:</strong> Application-level singletons (<code>providedIn: 'root'</code>).
+<br>3. <strong>Environment Injector:</strong> Created by routed components or <code>createEnvironmentInjector()</code>.
+<br>4. <strong>Element Injector:</strong> Created at each DOM component/directive level. Traversed upwards until a provider is found.
+<br><br>
+<strong>Part C (When Component-Level Providers are Desirable):</strong>
+<br>Component-level providers are desired when state must be tied strictly to a component's lifecycle:
+<br>• Reusable form controls or complex wizard steps that require clean, isolated state per widget instance.
+<br>• Destroying the component automatically garbage-collects the service instance.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@Component({
+  selector: &#x27;app-checkout-modal&#x27;,
+  standalone: true,
+  // Fix: Remove providers: [ShoppingCartService] to share root singleton
+  template: `&lt;div&gt;Items in cart: {{ cart.items().length }}&lt;/div&gt;`
+})
+export class CheckoutModalComponent {
+  cart = inject(ShoppingCartService); // Resolves to Root Singleton
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Blames Angular Signals or tries to pass the entire cart service instance via @Input() from parent to child.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies Element Injector shadowing, diagrams the 4-tier injector tree, and distinguishes application singletons from lifecycle-bound widget providers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 6: Network Architecture &amp; Interceptors -->
+                <div class="question-card" id="q-6" data-keywords="http interceptor functional clone request 401 refresh token infinite loop">
+                    <div class="card-header">
+                        <span class="concept-badge">Network Architecture &amp; Interceptors</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Modern Functional HTTP Interceptors (<code>HttpInterceptorFn</code>), request immutability via <code>req.clone()</code>, refresh token replay mechanics, and preventing infinite 401 loops.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An application uses a functional HTTP interceptor to attach OAuth2 Bearer tokens and handle token refresh on 401 errors. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Why is <code>HttpRequest</code> strictly immutable in Angular, requiring developers to call <code>req.clone()</code> to modify headers?
+<br>
+<strong>Part B:</strong> In the code snippet, if the refresh token endpoint itself (<code>/auth/refresh</code>) returns an <code>HTTP 401 Unauthorized</code>, the application enters an infinite recursive loop that freezes the browser. How do you prevent this?
+<br>
+<strong>Part C:</strong> How does modern Angular configure functional interceptors with <code>provideHttpClient(withInterceptors([...]))</code>, and how is dependency injection handled inside functional interceptors without a class constructor?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'auth.interceptor.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">export const authInterceptor: HttpInterceptorFn = (req, next) =&gt; {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+  const cloned = req.clone({
+    setHeaders: { Authorization: `Bearer ${token}` }
+  });
+  return next(cloned).pipe(
+    catchError((error: HttpErrorResponse) =&gt; {
+      if (error.status === 401) {
+        return authService.refreshToken().pipe(
+          switchMap(newToken =&gt; {
+            return next(req.clone({
+              setHeaders: { Authorization: `Bearer ${newToken}` }
+            }));
+          })
+        );
+      }
+      return throwError(() =&gt; error);
+    })
+  );
+};</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 6, 1, 'HttpInterceptorFn, request cloning immutability, and 401 refresh loop prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 6, 2, 'HttpInterceptorFn, request cloning immutability, and 401 refresh loop prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 6, 3, 'HttpInterceptorFn, request cloning immutability, and 401 refresh loop prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 6, 4, 'HttpInterceptorFn, request cloning immutability, and 401 refresh loop prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (HttpRequest Immutability):</strong>
+<br>• HTTP requests are immutable because interceptors form a bidirectional pipeline.
+<br>• If an interceptor or retry mechanism needs to resend a request, it requires the <strong>pristine original request</strong>.
+<br>• Mutating the request object in-place would corrupt downstream retries, caching proxies, and cause race conditions across concurrent interceptor chains.
+<br><br>
+<strong>Part B (Preventing the 401 Infinite Loop):</strong>
+<br>• If <code>authService.refreshToken()</code> invokes the backend <code>/api/auth/refresh</code> endpoint, that request <strong>also passes through this interceptor</strong>!
+<br>• If the refresh token has expired, <code>/api/auth/refresh</code> returns 401, triggering another refresh call infinitely until the call stack or network crashes.
+<br>• <strong>Fix:</strong> Check <code>req.url.includes('/auth/refresh')</code>. If the failing request is the refresh endpoint itself, bypass refresh logic, log out the user, and redirect to login.
+<br><br>
+<strong>Part C (Functional Interceptors & inject()):</strong>
+<br>• <code>HttpInterceptorFn</code> runs inside an Angular injection context.
+<br>• You call <code>inject(ServiceName)</code> directly at the function level without needing class constructors or <code>HTTP_INTERCEPTORS</code> multi-provider tokens.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>export const authInterceptor: HttpInterceptorFn = (req, next) =&gt; {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  // Exclude refresh endpoint from interceptor retry logic
+  if (req.url.includes(&#x27;/api/auth/refresh&#x27;)) {
+    return next(req);
+  }
+
+  const authReq = req.clone({ setHeaders: { Authorization: `Bearer ${auth.token()}` } });
+
+  return next(authReq).pipe(
+    catchError((err: HttpErrorResponse) =&gt; {
+      if (err.status === 401) {
+        return auth.refreshToken().pipe(
+          switchMap(t =&gt; next(req.clone({ setHeaders: { Authorization: `Bearer ${t}` } }))),
+          catchError(refreshErr =&gt; {
+            auth.logout();
+            router.navigate([&#x27;/login&#x27;]);
+            return throwError(() =&gt; refreshErr);
+          })
+        );
+      }
+      return throwError(() =&gt; err);
+    })
+  );
+};</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Attempts to mutate req.headers directly without clone() or writes a token refresh interceptor that loops infinitely on expired refresh tokens.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains request immutability for retry safety, guards against recursive 401 refresh loops, and configures functional interceptors via inject() and provideHttpClient().
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 7: Forms &amp; Validation Architecture -->
+                <div class="question-card" id="q-7" data-keywords="typed forms reactive forms async validator debouncing switchmap valuechanges">
+                    <div class="card-header">
+                        <span class="concept-badge">Forms &amp; Validation Architecture</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Typed Reactive Forms (Angular 14+), asynchronous validators (<code>AsyncValidatorFn</code>), avoiding backend request spamming via debouncing, and <code>updateOn: 'blur'</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A user registration form validates username uniqueness against a backend database. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> As the user types "alexander", the async validator sends 9 consecutive HTTP requests to the backend for every keystroke. Explain how this keystroke spamming degrades backend database performance and how to fix it using RxJS <code>timer()</code> and <code>switchMap()</code>.
+<br>
+<strong>Part B:</strong> What is the difference between setting <code>updateOn: 'change'</code> (default) versus <code>updateOn: 'blur'</code> on form controls?
+<br>
+<strong>Part C:</strong> How do <strong>Typed Reactive Forms</strong> prevent runtime bugs compared to legacy untyped forms? What happens if you try to call <code>form.controls.nonExistentField</code> in TypeScript?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'registration-form.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">export function usernameValidator(userService: UserService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable&lt;ValidationErrors | null&gt; =&gt; {
+    return userService.checkUsername(control.value).pipe(
+      map(isTaken =&gt; isTaken ? { usernameTaken: true } : null),
+      catchError(() =&gt; of(null))
+    );
+  };
+}
+@Component({
+  selector: &#x27;app-registration&#x27;,
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  template: `&lt;input [formControl]=&quot;form.controls.username&quot;&gt;`
+})
+export class RegistrationComponent {
+  form = new FormGroup({
+    username: new FormControl(&#x27;&#x27;, {
+      asyncValidators: [usernameValidator(inject(UserService))]
+    })
+  });
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 7, 1, 'Typed Reactive Forms, async validator debouncing, and updateOn blur tuning')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 7, 2, 'Typed Reactive Forms, async validator debouncing, and updateOn blur tuning')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 7, 3, 'Typed Reactive Forms, async validator debouncing, and updateOn blur tuning')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 7, 4, 'Typed Reactive Forms, async validator debouncing, and updateOn blur tuning')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Debouncing Async Validators with timer):</strong>
+<br>• By default, <code>asyncValidators</code> execute on every single keystroke event.
+<br>• Typing rapidly fires multiple pending asynchronous HTTP requests. If network responses arrive out of order, stale responses can overwrite fresh validation states!
+<br>• <strong>Fix:</strong> Wrap the check in <code>timer(300)</code> followed by <code>switchMap()</code>. If the user types another character within 300ms, the timer is cancelled and prior pending HTTP requests are aborted.
+<br><br>
+<strong>Part B (updateOn: 'change' vs 'blur'):</strong>
+<br>• <code>updateOn: 'change'</code> (default): Emits values and runs validators on every character typed.
+<br>• <code>updateOn: 'blur'</code>: Runs validation only when the user tabs or clicks away from the input field. For heavy async database validations, setting <code>updateOn: 'blur'</code> slashes server validation requests by 90%.
+<br><br>
+<strong>Part C (Typed Reactive Forms Benefits):</strong>
+<br>• Since Angular 14, <code>FormGroup</code> and <code>FormControl</code> are strictly typed.
+<br>• <code>form.controls.nonExistentField</code> triggers a <strong>compile-time TypeScript error</strong> (<code>Property does not exist on type...</code>).
+<br>• <code>form.value</code> produces a strongly typed interface (e.g. <code>{ username: string | null }</code>), eliminating runtime <code>undefined</code> bugs.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>export function debouncedUsernameValidator(userService: UserService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable&lt;ValidationErrors | null&gt; =&gt; {
+    if (!control.value) return of(null);
+    return timer(300).pipe(
+      switchMap(() =&gt; userService.checkUsername(control.value)),
+      map(taken =&gt; taken ? { usernameTaken: true } : null),
+      catchError(() =&gt; of(null))
+    );
+  };
+}
+
+// Or configure updateOn: &#x27;blur&#x27;
+username = new FormControl(&#x27;&#x27;, {
+  updateOn: &#x27;blur&#x27;,
+  asyncValidators: [debouncedUsernameValidator(inject(UserService))]
+});</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Leaves async validators un-debounced or handles debouncing manually inside template (input) event listeners.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Implements timer/switchMap debouncing inside the AsyncValidatorFn, tunes updateOn to &#x27;blur&#x27; for expensive network validations, and leverages Typed Forms for compile-time safety.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 8: Routing &amp; Security Guards -->
+                <div class="question-card" id="q-8" data-keywords="route guards canactivate canmatch candeactivate lazy loading security bundle leak">
+                    <div class="card-header">
+                        <span class="concept-badge">Routing &amp; Security Guards</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Functional Route Guards (<code>CanActivateFn</code>, <code>CanMatchFn</code>, <code>CanDeactivateFn</code>), preventing unauthorized bundle downloads via <code>CanMatch</code>, and unsaved changes confirmation.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise portal contains an Admin Console containing sensitive business logic. Look at the routing configuration snippet.
+<br><br>
+<strong>Part A:</strong> A standard non-admin user navigates to <code>/admin</code>. The <code>canActivate</code> guard successfully blocks access and redirects to <code>/forbidden</code>. However, the browser Network tab reveals that the 5 MB <code>admin-console.js</code> chunk was already downloaded to the user's browser! Why does <code>canActivate</code> download the bundle, and how does <strong><code>canMatch</code></strong> fix this security leak?
+<br>
+<strong>Part B:</strong> How do you implement a <code>CanDeactivateFn</code> guard to prevent users from accidentally navigating away from a form with unsaved changes?
+<br>
+<strong>Part C:</strong> Contrast a Route Resolver (<code>ResolveFn</code>) against fetching data inside component <code>ngOnInit()</code>. What happens to the router transition if a resolver observable never completes?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'app.routes.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">export const routes: Routes = [
+  {
+    path: &#x27;admin&#x27;,
+    canActivate: [() =&gt; inject(AuthService).isAdmin()],
+    loadComponent: () =&gt; import(&#x27;./admin/admin-console.component&#x27;)
+      .then(m =&gt; m.AdminConsoleComponent)
+  }
+];</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 8, 1, 'CanMatch vs CanActivate bundle security, CanDeactivate guards, and Route Resolvers')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 8, 2, 'CanMatch vs CanActivate bundle security, CanDeactivate guards, and Route Resolvers')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 8, 3, 'CanMatch vs CanActivate bundle security, CanDeactivate guards, and Route Resolvers')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 8, 4, 'CanMatch vs CanActivate bundle security, CanDeactivate guards, and Route Resolvers')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The CanActivate Bundle Download Vulnerability):</strong>
+<br>• <code>canActivate</code> runs <strong>after</strong> the router has matched the route and downloaded the lazy code chunk!
+<br>• The browser downloads the entire 5 MB admin bundle before the guard evaluates. A malicious user can inspect source maps or minified JavaScript to find hidden API endpoints, algorithms, and admin secrets.
+<br>• <strong>CanMatch Defense:</strong> <code>canMatch</code> evaluates <strong>before</strong> the route is matched. If it returns false, the router does not match the route and <strong>never downloads the lazy JavaScript chunk</strong> over the network.
+<br><br>
+<strong>Part B (CanDeactivate Implementation):</strong>
+<br>• <code>CanDeactivateFn&lt;T&gt;</code> receives the active component instance.
+<br>• It checks <code>component.hasUnsavedChanges()</code>. If true, it presents a confirmation modal and returns a <code>Promise&lt;boolean&gt;</code> or <code>Observable&lt;boolean&gt;</code> based on user decision.
+<br><br>
+<strong>Part C (Route Resolvers & Stalled Navigation):</strong>
+<br>• <code>ResolveFn</code> pre-fetches data before rendering the component, preventing layout pop-in.
+<br>• However, the router navigation <strong>remains blocked in limbo</strong> until the resolver observable completes. If the backend hangs or the observable does not emit completion (like an uncompleted Subject), the user is stuck on the previous page with no feedback.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>export const routes: Routes = [
+  {
+    path: &#x27;admin&#x27;,
+    // canMatch prevents the JS bundle chunk from ever being downloaded
+    canMatch: [() =&gt; inject(AuthService).isAdmin()],
+    loadComponent: () =&gt; import(&#x27;./admin/admin-console.component&#x27;)
+      .then(m =&gt; m.AdminConsoleComponent)
+  }
+];</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses canActivate for all routes, unaware that proprietary admin JavaScript chunks are leaked to unauthorized clients.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Enforces canMatch to prevent unauthorized bundle downloading, implements CanDeactivate for dirty forms, and handles error timeouts on Route Resolvers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 9: Component Composition &amp; DOM Manipulation -->
+                <div class="question-card" id="q-9" data-keywords="content projection ng-content viewcontainerref ng-template createcomponent lifecycle">
+                    <div class="card-header">
+                        <span class="concept-badge">Component Composition &amp; DOM Manipulation</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Content Projection (<code>ng-content</code>), projected component lifecycle execution traps, template instantiation via <code>ng-template</code>, and dynamic component rendering via <code>ViewContainerRef</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A reusable modal dialog component uses multi-slot content projection. Look at the template snippet.
+<br><br>
+<strong>Part A:</strong> Look at <code>*ngIf="isOpen"</code> placed on <code>&lt;ng-content&gt;</code>. Even when the modal is closed (<code>isOpen = false</code>), the heavy chart inside <code>&lt;app-heavy-chart&gt;</code> executes its <code>ngOnInit()</code> and fetches data from the backend. Why does <code>*ngIf</code> fail on <code>&lt;ng-content&gt;</code>?
+<br>
+<strong>Part B:</strong> How does wrapping the projected content in <code>&lt;ng-template&gt;</code> solve this lifecycle issue by deferring component instantiation until the modal actually opens?
+<br>
+<strong>Part C:</strong> How do you dynamically instantiate a component at runtime using <code>ViewContainerRef.createComponent()</code>, and how do you pass inputs to it using modern <code>ComponentRef.setInput()</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'modal-dialog.component.html')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">&lt;div class=&quot;modal&quot; *ngIf=&quot;isOpen&quot;&gt;
+  &lt;div class=&quot;modal-body&quot;&gt;
+    &lt;ng-content *ngIf=&quot;isOpen&quot; select=&quot;[modal-body]&quot;&gt;&lt;/ng-content&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;app-modal-dialog [isOpen]=&quot;showModal&quot;&gt;
+  &lt;app-heavy-chart modal-body&gt;&lt;/app-heavy-chart&gt;
+&lt;/app-modal-dialog&gt;</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 9, 1, 'Content projection ng-content lifecycle traps, ng-template deferred rendering, and ViewContainerRef')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 9, 2, 'Content projection ng-content lifecycle traps, ng-template deferred rendering, and ViewContainerRef')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 9, 3, 'Content projection ng-content lifecycle traps, ng-template deferred rendering, and ViewContainerRef')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 9, 4, 'Content projection ng-content lifecycle traps, ng-template deferred rendering, and ViewContainerRef')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The ng-content Lifecycle Trap):</strong>
+<br>• <code>&lt;ng-content&gt;</code> does <strong>not produce real DOM</strong>; it is simply a placeholder marker indicating where projected nodes should be moved.
+<br>• The projected component (<code>&lt;app-heavy-chart&gt;</code>) is declared in the <strong>parent component's template</strong>.
+<br>• Therefore, the parent component instantiates <code>&lt;app-heavy-chart&gt;</code> immediately during parent rendering!
+<br>• Placing <code>*ngIf</code> on <code>&lt;ng-content&gt;</code> only hides or shows the projected DOM nodes after they have already been constructed and initialized. Its <code>ngOnInit()</code> has already executed!
+<br><br>
+<strong>Part B (Deferred Instantiation with ng-template):</strong>
+<br>• <code>&lt;ng-template&gt;</code> tells Angular: <em>"Do not instantiate this component now; compile it as a blueprint."</em>
+<br>• The modal receives a <code>TemplateRef</code> and renders it using <code>&lt;ng-container *ngTemplateOutlet="tpl"&gt;</code> only when <code>isOpen = true</code>.
+<br>• <code>ngOnInit()</code> executes only when the modal opens, saving memory and network calls.
+<br><br>
+<strong>Part C (Dynamic Creation via ViewContainerRef):</strong>
+<br>Inject <code>ViewContainerRef</code> and call <code>vcr.createComponent(DynamicComponent)</code>. In modern Angular, pass inputs using <code>compRef.setInput('propName', value)</code> to trigger OnPush change detection properly.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>&lt;!-- Parent Template uses ng-template for lazy instantiation --&gt;
+&lt;app-modal-dialog [isOpen]=&quot;showModal&quot;&gt;
+  &lt;ng-template modal-body&gt;
+    &lt;app-heavy-chart&gt;&lt;/app-heavy-chart&gt;
+  &lt;/ng-template&gt;
+&lt;/app-modal-dialog&gt;
+
+&lt;!-- Modal Component Template --&gt;
+&lt;div class=&quot;modal&quot; *ngIf=&quot;isOpen&quot;&gt;
+  &lt;ng-container *ngTemplateOutlet=&quot;bodyTemplate&quot;&gt;&lt;/ng-container&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Places *ngIf directly on &lt;ng-content&gt; and cannot explain why child component network requests fire on initial page load.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates that projected nodes are owned and initialized by the host/parent, replaces ng-content with ng-template for deferred instantiation, and uses ViewContainerRef.createComponent().
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 10: State Management Architecture -->
+                <div class="question-card" id="q-10" data-keywords="ngrx store signalstore redux effects immutability state normalization">
+                    <div class="card-header">
+                        <span class="concept-badge">State Management Architecture</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Global Redux state management (NgRx Store, Reducers, Effects) versus modern <code>@ngrx/signals</code> (SignalStore), state normalization, and Effect error resilience.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise financial portal architect evaluates state management patterns for a large development team. Look at the NgRx Effect code snippet.
+<br><br>
+<strong>Part A:</strong> In the NgRx Effect, if an HTTP call returns <code>HTTP 500</code>, the error is caught at the root level of the effect. Why does this <strong>permanently terminate the Effect stream</strong>, causing all subsequent user button clicks to be ignored?
+<br>
+<strong>Part B:</strong> How does modern <strong>NgRx SignalStore</strong> (<code>signalStore()</code> with <code>withState</code>, <code>withComputed</code>, <code>withMethods</code>) eliminate Redux boilerplate (actions, reducers, selectors) while maintaining type safety?
+<br>
+<strong>Part C:</strong> What is <strong>State Normalization</strong>, and why should nested relational data (e.g. Users with Orders with Items) be normalized by ID in client-side state?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'order.effects.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">@Injectable()
+export class OrderEffects {
+  loadOrders$ = createEffect(() =&gt;
+    this.actions$.pipe(
+      ofType(OrderActions.loadOrders),
+      switchMap(() =&gt; this.orderService.fetchOrders()),
+      map(orders =&gt; OrderActions.loadOrdersSuccess({ orders })),
+      catchError(error =&gt; of(OrderActions.loadOrdersFailure({ error })))
+    )
+  );
+  constructor(private actions$: Actions, private orderService: OrderService) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 10, 1, 'NgRx Effects stream termination, SignalStore architecture, and state normalization')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 10, 2, 'NgRx Effects stream termination, SignalStore architecture, and state normalization')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 10, 3, 'NgRx Effects stream termination, SignalStore architecture, and state normalization')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 10, 4, 'NgRx Effects stream termination, SignalStore architecture, and state normalization')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Terminated Effect Stream Disaster):</strong>
+<br>• In RxJS, when an error reaches a stream's <code>catchError()</code> operator, it emits the fallback value and <strong>completes the stream</strong>.
+<br>• Because <code>catchError</code> is placed on the outer <code>actions$</code> stream, the entire <code>loadOrders$</code> Effect completes permanently on the first HTTP failure!
+<br>• The Effect stops listening for <code>OrderActions.loadOrders</code> actions. Subsequent user clicks dispatch actions into the void.
+<br><strong>Fix:</strong> Move <code>catchError</code> inside the inner <code>switchMap()</code> pipe so only the inner HTTP observable completes on error.
+<br><br>
+<strong>Part B (NgRx SignalStore Advantages):</strong>
+<br>• Native Angular Signals integration (zero Zone.js overhead).
+<br>• No separate Actions, Reducers, Selectors, or Dispatchers needed.
+<br>• Composable building blocks: <code>withState()</code>, <code>withComputed()</code>, <code>withMethods()</code>.
+<br><br>
+<strong>Part C (State Normalization):</strong>
+<br>Storing entities in relational dictionary format (<code>entities: { [id: string]: Order }, ids: string[]</code>) prevents duplicate data anomalies. Updating an order updates one single dictionary entry without traversing deep arrays.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>// Fix: catchError must be INSIDE switchMap
+loadOrders$ = createEffect(() =&gt;
+  this.actions$.pipe(
+    ofType(OrderActions.loadOrders),
+    switchMap(() =&gt;
+      this.orderService.fetchOrders().pipe(
+        map(orders =&gt; OrderActions.loadOrdersSuccess({ orders })),
+        catchError(error =&gt; of(OrderActions.loadOrdersFailure({ error })))
+      )
+    )
+  )
+);</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Catches errors on the outer Effect stream (killing the listener) or insists on writing full global Redux boilerplate for a simple component toggle.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses outer stream completion bugs in RxJS Effects, structures inner flattening operators, and advocates for SignalStore for type-safe, lightweight state management.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 11: Runtime Internals &amp; Zoneless -->
+                <div class="question-card" id="q-11" data-keywords="zonejs monkey patch runoutsideangular zoneless angular 18 microtask macrotask">
+                    <div class="card-header">
+                        <span class="concept-badge">Runtime Internals &amp; Zoneless</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                How Zone.js monkey-patches browser asynchronous APIs, <code>ngZone.runOutsideAngular()</code>, execution frame drops, and Zoneless Angular (Angular 18+).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A high-frequency charting dashboard plots real-time financial trades on a Canvas element. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> The canvas animation triggers severe UI lag, frame rate drops from 60 FPS to 12 FPS, and high CPU usage. Explain how Zone.js monkey-patching <code>requestAnimationFrame</code> or mouse events causes this performance collapse.
+<br>
+<strong>Part B:</strong> How do you use <code>NgZone.runOutsideAngular()</code> to execute high-frequency loops without triggering Angular change detection?
+<br>
+<strong>Part C:</strong> How does <strong>Zoneless Angular (Angular 18+)</strong> work via <code>provideExperimentalZonelessChangeDetection()</code>? What replaces Zone.js to notify Angular when templates need re-rendering?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'trading-chart.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">@Component({
+  selector: &#x27;app-trading-chart&#x27;,
+  standalone: true,
+  template: `&lt;canvas #chartCanvas (mousemove)=&quot;onMouseMove($event)&quot;&gt;&lt;/canvas&gt;`
+})
+export class TradingChartComponent implements AfterViewInit {
+  @ViewChild(&#x27;chartCanvas&#x27;) canvasRef!: ElementRef&lt;HTMLCanvasElement&gt;;
+  ngAfterViewInit() {
+    this.startRenderingLoop();
+  }
+  startRenderingLoop() {
+    const render = () =&gt; {
+      this.drawCanvasFrame();
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+  }
+  onMouseMove(e: MouseEvent) {
+    this.updateCrosshair(e.clientX, e.clientY);
+  }
+  private drawCanvasFrame() {}
+  private updateCrosshair(x: number, y: number) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 11, 1, 'Zone.js monkey-patching, runOutsideAngular, and Zoneless Angular 18')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 11, 2, 'Zone.js monkey-patching, runOutsideAngular, and Zoneless Angular 18')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 11, 3, 'Zone.js monkey-patching, runOutsideAngular, and Zoneless Angular 18')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 11, 4, 'Zone.js monkey-patching, runOutsideAngular, and Zoneless Angular 18')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Zone.js Monkey-Patching Overhead):</strong>
+<br>• Zone.js intercepts all asynchronous browser APIs: <code>addEventListener</code>, <code>requestAnimationFrame</code>, <code>setTimeout</code>, and <code>fetch</code>.
+<br>• Running <code>requestAnimationFrame</code> (60 times/sec) or <code>mousemove</code> inside the Angular zone causes Zone.js to emit an <code>onMicrotaskEmpty</code> event on <strong>every single frame</strong>!
+<br>• Angular runs change detection across the entire component tree 60+ times per second, recalculating bindings and destroying rendering performance.
+<br><br>
+<strong>Part B (runOutsideAngular Solution):</strong>
+<br>Inject <code>NgZone</code> and execute the loop and listeners inside <code>this.ngZone.runOutsideAngular(() => ...)</code>.
+<br>Zone.js will ignore the events, allowing the canvas to render at a buttery 60 FPS without triggering Angular change detection passes.
+<br><br>
+<strong>Part C (Zoneless Angular in v18+):</strong>
+<br>• Zoneless completely eliminates the Zone.js monkey-patching runtime library (reducing bundle size by ~15KB).
+<br>• Instead of relying on intercepted async browser events, Angular relies on <strong>explicit scheduler notifications</strong>:
+<br>1. Signal updates (<code>signal.set()</code>).
+<br>2. <code>ChangeDetectorRef.markForCheck()</code>.
+<br>3. Template event listeners (e.g. <code>(click)</code>).
+<br>4. <code>AsyncPipe</code> emissions.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>ngAfterViewInit() {
+  this.ngZone.runOutsideAngular(() =&gt; {
+    const canvas = this.canvasRef.nativeElement;
+    canvas.addEventListener(&#x27;mousemove&#x27;, e =&gt; this.updateCrosshair(e.clientX, e.clientY));
+    
+    const render = () =&gt; {
+      this.drawCanvasFrame();
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+  });
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Blames the HTML5 Canvas API or browser performance without understanding Zone.js change detection triggers.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Zone.js async API monkey-patching, isolates high-frequency loops using runOutsideAngular(), and outlines Zoneless Angular 18 scheduler mechanics.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 12: Directive Architecture &amp; DOM Mechanics -->
+                <div class="question-card" id="q-12" data-keywords="structural directive templateRef viewcontainerref asterisk micro syntax microsyntax">
+                    <div class="card-header">
+                        <span class="concept-badge">Directive Architecture &amp; DOM Mechanics</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Custom structural directives, the asterisk (<code>*</code>) template micro-syntax desugaring, <code>TemplateRef</code> and <code>ViewContainerRef</code>, and type-safe template context.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A security team creates a role-based structural directive: <code>*appHasRole="['ADMIN', 'MANAGER']"</code>. Look at the directive implementation.
+<br><br>
+<strong>Part A:</strong> How does the Angular compiler internally desugar the asterisk micro-syntax (<code>*appHasRole="roles"</code>) into an explicit HTML element?
+<br>
+<strong>Part B:</strong> In the code snippet, if the user's roles change dynamically from User to Admin, multiple duplicate views are inserted into the DOM. Explain why.
+<br>
+<strong>Part C:</strong> How do you use the static <code>ngTemplateContextGuard</code> method to provide strongly typed IntelliSense for template variables (e.g. <code>*appHasRole="['ADMIN']; let permission = permission"</code>)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'has-role.directive.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">@Directive({
+  selector: &#x27;[appHasRole]&#x27;,
+  standalone: true
+})
+export class HasRoleDirective {
+  @Input() set appHasRole(requiredRoles: string[]) {
+    const userRoles = this.authService.getUserRoles();
+    const hasPermission = requiredRoles.some(r =&gt; userRoles.includes(r));
+    if (hasPermission) {
+      this.vcr.createEmbeddedView(this.templateRef);
+    } else {
+      this.vcr.clear();
+    }
+  }
+  constructor(
+    private templateRef: TemplateRef&lt;any&gt;,
+    private vcr: ViewContainerRef,
+    private authService: AuthService
+  ) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 12, 1, 'Structural directives, asterisk desugaring, and ViewContainerRef embedded views')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 12, 2, 'Structural directives, asterisk desugaring, and ViewContainerRef embedded views')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 12, 3, 'Structural directives, asterisk desugaring, and ViewContainerRef embedded views')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 12, 4, 'Structural directives, asterisk desugaring, and ViewContainerRef embedded views')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Asterisk Micro-Syntax Desugaring):</strong>
+<br>When Angular compiles <code>&lt;div *appHasRole="['ADMIN']"&gt;Secret Content&lt;/div&gt;</code>, it desugars the template into:
+<br><code>&lt;ng-template [appHasRole]="['ADMIN']"&gt;&lt;div&gt;Secret Content&lt;/div&gt;&lt;/ng-template&gt;</code>
+<br>The directive is attached to the <code>&lt;ng-template&gt;</code> element and receives <code>TemplateRef</code> and <code>ViewContainerRef</code> via dependency injection.
+<br><br>
+<strong>Part B (The Duplicate View Leak):</strong>
+<br>• Every time the <code>@Input()</code> setter fires, if <code>hasPermission</code> is true, it calls <code>this.vcr.createEmbeddedView()</code>.
+<br>• <code>createEmbeddedView</code> <strong>appends</strong> a new view instance to the container.
+<br>• If the setter fires multiple times while the user remains authorized, duplicate DOM trees are inserted repeatedly.
+<br>• <strong>Fix:</strong> Maintain a boolean flag <code>hasView</code>. Only call <code>createEmbeddedView()</code> if <code>!this.hasView</code>, and call <code>vcr.clear()</code> when revoking permission.
+<br><br>
+<strong>Part C (Type-Safe Context with ngTemplateContextGuard):</strong>
+<br>Declare a typed Context interface (<code>HasRoleContext</code>) and a static type-guard:
+<br><code>static ngTemplateContextGuard(dir: HasRoleDirective, ctx: any): ctx is HasRoleContext { return true; }</code>
+<br>This provides full TypeScript compiler type-checking inside the template.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>private hasView = false;
+
+@Input() set appHasRole(requiredRoles: string[]) {
+  const hasPermission = requiredRoles.some(r =&gt; this.authService.getUserRoles().includes(r));
+
+  if (hasPermission &amp;&amp; !this.hasView) {
+    this.vcr.createEmbeddedView(this.templateRef);
+    this.hasView = true;
+  } else if (!hasPermission &amp;&amp; this.hasView) {
+    this.vcr.clear();
+    this.hasView = false;
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Confuses structural directives with attribute directives or cannot explain how the asterisk (*) transforms into an ng-template.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains template micro-syntax compilation, manages ViewContainerRef view lifecycles to prevent duplicate DOM insertion, and uses ngTemplateContextGuard for typed templates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 13: SSR, Hydration &amp; Universal -->
+                <div class="question-card" id="q-13" data-keywords="ssr hydration non destructive server side rendering window localstorage isplatformbrowser">
+                    <div class="card-header">
+                        <span class="concept-badge">SSR, Hydration &amp; Universal</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Server-Side Rendering (SSR with <code>@angular/ssr</code>), Non-Destructive Hydration, avoiding direct DOM/browser API access (<code>isPlatformBrowser</code>), and <code>afterRender</code> lifecycle hooks.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An Angular 17 application enables Server-Side Rendering (SSR) and non-destructive hydration. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> During server-side pre-rendering on Node.js, the server crashes with <code>ReferenceError: window is not defined</code> or <code>localStorage is not defined</code>. Why do standard browser globals fail in SSR?
+<br>
+<strong>Part B:</strong> What is <strong>Non-Destructive Hydration</strong> in modern Angular, and how does it prevent the visual "flickering" that plagued legacy Angular Universal?
+<br>
+<strong>Part C:</strong> What is the difference between <code>afterRender()</code> / <code>afterNextRender()</code> and traditional lifecycle hooks like <code>ngOnInit()</code> during SSR?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'user-theme.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">@Component({
+  selector: &#x27;app-user-theme&#x27;,
+  standalone: true,
+  template: `&lt;div&gt;Current Theme: {{ theme }}&lt;/div&gt;`
+})
+export class UserThemeComponent implements OnInit {
+  theme = &#x27;light&#x27;;
+  ngOnInit() {
+    const saved = window.localStorage.getItem(&#x27;theme&#x27;);
+    if (saved) {
+      this.theme = saved;
+    }
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 13, 1, 'SSR Non-Destructive Hydration, isPlatformBrowser, and afterNextRender lifecycle')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 13, 2, 'SSR Non-Destructive Hydration, isPlatformBrowser, and afterNextRender lifecycle')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 13, 3, 'SSR Non-Destructive Hydration, isPlatformBrowser, and afterNextRender lifecycle')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 13, 4, 'SSR Non-Destructive Hydration, isPlatformBrowser, and afterNextRender lifecycle')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Browser Globals in Node.js Runtime):</strong>
+<br>• During SSR, Angular executes on a Node.js server to render static HTML.
+<br>• Node.js has no browser global objects: <code>window</code>, <code>document</code>, <code>localStorage</code>, <code>sessionStorage</code>, and <code>navigator</code> do not exist.
+<br>• Referencing <code>window.localStorage</code> throws an unhandled <code>ReferenceError</code> that terminates the server process.
+<br>• <strong>Fix:</strong> Guard browser-only logic with <code>isPlatformBrowser(inject(PLATFORM_ID))</code>.
+<br><br>
+<strong>Part B (Non-Destructive Hydration):</strong>
+<br>• <strong>Legacy Destructive SSR:</strong> Rendered HTML on the server. When the client bundle loaded, Angular wiped out the entire server-rendered DOM and recreated every single DOM node from scratch, causing an ugly visual flash/flicker.
+<br>• <strong>Non-Destructive Hydration:</strong> Angular scans the existing server-rendered DOM, matches components to DOM nodes, and attaches event listeners in-place without destroying or recreating elements.
+<br><br>
+<strong>Part C (afterRender & afterNextRender Lifecycle):</strong>
+<br>• <code>afterRender</code> and <code>afterNextRender</code> execute <strong>only in the browser</strong>, never on the server.
+<br>• They are the recommended Angular 17+ hooks for DOM measurements, canvas drawing, and accessing third-party browser libraries without needing platform checks.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>export class UserThemeComponent {
+  theme = &#x27;light&#x27;;
+
+  constructor() {
+    // afterNextRender runs ONLY on the browser, never on the SSR server
+    afterNextRender(() =&gt; {
+      const saved = localStorage.getItem(&#x27;theme&#x27;);
+      if (saved) this.theme = saved;
+    });
+  }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses window directly or wraps code in try-catch without understanding that SSR runs in a headless Node.js environment.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Guards against Node.js runtime crashes, explains Non-Destructive DOM Hydration node attachment, and leverages afterNextRender() for browser-only DOM operations.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 14: Compiler &amp; Template Architecture -->
+                <div class="question-card" id="q-14" data-keywords="control flow syntax if for switch track trackby performance commonmodule dom thrashing">
+                    <div class="card-header">
+                        <span class="concept-badge">Compiler &amp; Template Architecture</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Modern built-in control flow syntax (<code>@if</code>, <code>@for ... track</code>, <code>@switch</code>), eliminating <code>CommonModule</code> imports, and preventing DOM thrashing via mandatory tracking.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A real-time financial order book renders 2,000 live trades. Look at the template snippet comparing legacy vs modern control flow.
+<br><br>
+<strong>Part A:</strong> In the legacy <code>*ngFor</code> template without <code>trackBy</code>, every time the trades array is updated, all 2,000 DOM table rows are destroyed and recreated, causing massive browser lag. Why does missing <code>trackBy</code> cause DOM thrashing?
+<br>
+<strong>Part B:</strong> How does the new built-in control flow syntax (<code>@for (trade of trades; track trade.id)</code>) make tracking mandatory, and how does the Angular compiler optimize it?
+<br>
+<strong>Part C:</strong> Why does the new control flow syntax eliminate the need to import <code>CommonModule</code> (or <code>NgIf</code>/<code>NgFor</code>) into Standalone Components?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'order-book.component.html')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">&lt;tr *ngFor=&quot;let trade of trades&quot;&gt;
+  &lt;td&gt;{{ trade.id }}&lt;/td&gt;
+  &lt;td&gt;{{ trade.price }}&lt;/td&gt;
+&lt;/tr&gt;
+@for (trade of trades; track trade.id) {
+  &lt;tr&gt;
+    &lt;td&gt;{{ trade.id }}&lt;/td&gt;
+    &lt;td&gt;{{ trade.price }}&lt;/td&gt;
+  &lt;/tr&gt;
+} @empty {
+  &lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;No active trades&lt;/td&gt;&lt;/tr&gt;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 14, 1, 'Control flow syntax (@if/@for), mandatory track expressions, and DOM thrashing prevention')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 14, 2, 'Control flow syntax (@if/@for), mandatory track expressions, and DOM thrashing prevention')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 14, 3, 'Control flow syntax (@if/@for), mandatory track expressions, and DOM thrashing prevention')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 14, 4, 'Control flow syntax (@if/@for), mandatory track expressions, and DOM thrashing prevention')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (DOM Thrashing without trackBy):</strong>
+<br>• Without a tracking identifier, <code>*ngFor</code> tracks items strictly by <strong>object identity (reference)</strong>.
+<br>• When a fresh array is received from an API or immutable store, even if the trade IDs and data are identical, the object references in memory are new.
+<br>• Angular assumes all previous items were deleted and 2,000 new items were added. It tears down all 2,000 DOM nodes and inserts 2,000 fresh DOM nodes, running expensive layout, styling, and paint recalculations.
+<br><br>
+<strong>Part B (Mandatory track Expression in @for):</strong>
+<br>• Angular 17+ makes <code>track</code> a <strong>mandatory compile-time requirement</strong> in <code>@for</code>.
+<br>• The compiler enforces tracking by unique ID (e.g. <code>track trade.id</code>).
+<br>• When an updated array arrives, Angular matches existing DOM nodes by ID, reusing DOM elements and updating only the mutated text bindings with sub-millisecond efficiency.
+<br><br>
+<strong>Part C (Compiler-Level Primitives vs Directives):</strong>
+<br>• <code>*ngIf</code> and <code>*ngFor</code> were structural directives that required importing JavaScript classes from <code>@angular/common</code>.
+<br>• <code>@if</code>, <code>@for</code>, and <code>@switch</code> are built directly into the Angular template compiler grammar, requiring zero module imports and producing smaller, faster compiled JavaScript code.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@for (trade of trades(); track trade.id) {
+  &lt;tr&gt;
+    &lt;td&gt;{{ trade.id }}&lt;/td&gt;
+    &lt;td&gt;{{ trade.price | currency }}&lt;/td&gt;
+  &lt;/tr&gt;
+} @empty {
+  &lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;No active trades recorded.&lt;/td&gt;&lt;/tr&gt;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Omits trackBy in *ngFor or thinks @for is merely syntactic sugar that works identically to *ngFor under the hood.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains DOM thrashing and layout thrashing without tracking, details compiler-level AST transformation of @for, and leverages @empty blocks.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 15: Performance Optimization &amp; Code Splitting -->
+                <div class="question-card" id="q-15" data-keywords="deferrable views defer placeholder loading error on viewport on interaction prefetch">
+                    <div class="card-header">
+                        <span class="concept-badge">Performance Optimization &amp; Code Splitting</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Deferrable Views (<code>@defer</code>), template-level automated code-splitting, trigger conditions (<code>on viewport</code>, <code>on interaction</code>, <code>on idle</code>), and prefetching.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A heavy analytics dashboard embeds a complex D3 chart library (3 MB) at the bottom of the page below the fold. Look at the template snippet.
+<br><br>
+<strong>Part A:</strong> How does <strong><code>@defer</code></strong> automate code-splitting at the component template level without requiring complex route splitting or manual dynamic imports?
+<br>
+<strong>Part B:</strong> Explain the distinct roles of the four blocks: <code>@defer</code>, <code>@placeholder</code>, <code>@loading</code>, and <code>@error</code>.
+<br>
+<strong>Part C:</strong> Contrast trigger conditions: <code>on viewport</code>, <code>on interaction</code>, and <code>on idle</code>. How does combining <code>@defer (on interaction; prefetch on idle)</code> optimize user experience?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'analytics-page.component.html')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">&lt;div class=&quot;summary-section&quot;&gt;
+  &lt;h1&gt;Executive Summary&lt;/h1&gt;
+&lt;/div&gt;
+@defer (on viewport; prefetch on idle) {
+  &lt;app-heavy-d3-chart [data]=&quot;chartData&quot;&gt;&lt;/app-heavy-d3-chart&gt;
+} @placeholder (minimum 500ms) {
+  &lt;div class=&quot;chart-skeleton&quot;&gt;Scroll down to view chart...&lt;/div&gt;
+} @loading (after 100ms; minimum 500ms) {
+  &lt;div class=&quot;spinner&quot;&gt;Loading chart analytics engine...&lt;/div&gt;
+} @error {
+  &lt;div class=&quot;alert&quot;&gt;Failed to load chart bundle.&lt;/div&gt;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 15, 1, 'Deferrable views (@defer), viewport triggers, prefetching, and template code-splitting')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 15, 2, 'Deferrable views (@defer), viewport triggers, prefetching, and template code-splitting')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 15, 3, 'Deferrable views (@defer), viewport triggers, prefetching, and template code-splitting')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 15, 4, 'Deferrable views (@defer), viewport triggers, prefetching, and template code-splitting')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Template-Level Code-Splitting):</strong>
+<br>• Any components, directives, and third-party libraries used exclusively inside a <code>@defer</code> block are <strong>automatically bundled into a separate lazy JavaScript chunk</strong> by esbuild/Webpack.
+<br>• The main initial bundle downloads in milliseconds because the 3 MB D3 library is stripped out entirely.
+<br><br>
+<strong>Part B (The 4 Defer Blocks):</strong>
+<br>• <code>@defer</code>: The main content to be lazily loaded and rendered once conditions are satisfied.
+<br>• <code>@placeholder</code>: Rendered initially before loading begins. (Supports <code>minimum</code> display duration to prevent flickering).
+<br>• <code>@loading</code>: Displayed while the deferred JavaScript chunk is actively being fetched across the network.
+<br>• <code>@error</code>: Fallback UI displayed if chunk downloading fails (e.g. network disconnection).
+<br><br>
+<strong>Part C (Triggers & Prefetching):</strong>
+<br>• <code>on viewport</code>: Triggers when the placeholder enters the browser visible viewport (via IntersectionObserver).
+<br>• <code>on interaction</code>: Triggers when the user clicks or focuses on the placeholder.
+<br>• <code>on idle</code>: Triggers when the browser has finished all critical tasks and enters an idle state (via <code>requestIdleCallback</code>).
+<br>• <code>@defer (on interaction; prefetch on idle)</code>: Downloads the heavy chunk in the background while the browser is idle, so when the user actually clicks, it renders <strong>instantaneously with zero loading lag</strong>!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@defer (on viewport; prefetch on idle) {
+  &lt;app-heavy-d3-chart [data]=&quot;chartData()&quot;&gt;&lt;/app-heavy-d3-chart&gt;
+} @placeholder {
+  &lt;div class=&quot;skeleton-chart&quot;&gt;Loading preview...&lt;/div&gt;
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Bundles all heavy third-party visualization libraries into the main bundle or attempts manual dynamic imports with ngComponentOutlet.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Leverages @defer for template-level code splitting, uses IntersectionObserver viewport triggers, and pairs prefetch on idle with interaction triggers to eliminate UI delay.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 16: Frontend Security &amp; XSS Mitigation -->
+                <div class="question-card" id="q-16" data-keywords="domsanitizer xss security contexts bypasssecuritytrusthtml dompurify innerhtml">
+                    <div class="card-header">
+                        <span class="concept-badge">Frontend Security &amp; XSS Mitigation</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Angular built-in Cross-Site Scripting (XSS) prevention, context-aware escaping (HTML, Style, URL, ResourceURL), <code>DomSanitizer</code> security risks, and safe HTML sanitization via DOMPurify.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A content management system allows administrators to post formatted customer notices. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> An administrator pastes content containing <code>&lt;img src="x" onerror="stealTokens()"&gt;</code>. Why does calling <code>bypassSecurityTrustHtml()</code> expose all users to stored Cross-Site Scripting (XSS)?
+<br>
+<strong>Part B:</strong> What are Angular's 4 distinct <strong>Security Contexts</strong> (HTML, Style, URL, ResourceURL)? What does Angular automatically sanitize by default when using <code>[innerHTML]="untrustedHtml"</code>?
+<br>
+<strong>Part C:</strong> If an application genuinely needs to render rich user-submitted HTML (e.g. bold text, bullet points, links), how should an architect design a safe sanitization pipeline using <strong>DOMPurify</strong> before trusting the string?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'notice-board.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">@Component({
+  selector: &#x27;app-notice-board&#x27;,
+  standalone: true,
+  template: `&lt;div [innerHTML]=&quot;trustedContent&quot;&gt;&lt;/div&gt;`
+})
+export class NoticeBoardComponent implements OnInit {
+  @Input() rawNoticeHtml = &#x27;&#x27;;
+  trustedContent: SafeHtml = &#x27;&#x27;;
+  constructor(private sanitizer: DomSanitizer) {}
+  ngOnInit() {
+    this.trustedContent = this.sanitizer.bypassSecurityTrustHtml(this.rawNoticeHtml);
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 16, 1, 'Angular security contexts, DomSanitizer XSS vulnerabilities, and DOMPurify pipelines')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 16, 2, 'Angular security contexts, DomSanitizer XSS vulnerabilities, and DOMPurify pipelines')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 16, 3, 'Angular security contexts, DomSanitizer XSS vulnerabilities, and DOMPurify pipelines')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 16, 4, 'Angular security contexts, DomSanitizer XSS vulnerabilities, and DOMPurify pipelines')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The bypassSecurityTrust Vulnerability):</strong>
+<br>• <code>bypassSecurityTrustHtml()</code> tells Angular: <em>"Disable all internal XSS protection; I guarantee this string is safe."</em>
+<br>• If the input contains malicious payloads (like <code>&lt;script&gt;</code>, <code>&lt;img onerror=...&gt;</code>, or <code>&lt;iframe&gt;</code>), the browser executes the attacker's JavaScript in the context of the authenticated user's session.
+<br>• The attacker can steal JWTs, access session storage, or make unauthorized API calls on behalf of the victim.
+<br><br>
+<strong>Part B (Angular's 4 Security Contexts):</strong>
+<br>1. <strong>HTML:</strong> Used in <code>[innerHTML]</code>. Strips unsafe elements (<code>&lt;script&gt;</code>, <code>&lt;object&gt;</code>) and dangerous attributes (<code>onerror</code>, <code>onclick</code>).
+<br>2. <strong>Style:</strong> Used in <code>[style.xyz]</code>. Prevents CSS injection (e.g. <code>expression()</code> or background tracking URLs).
+<br>3. <strong>URL:</strong> Used in <code>&lt;a [href]&gt;</code>. Blocks <code>javascript:</code> pseudoprotocols.
+<br>4. <strong>ResourceURL:</strong> Used in <code>&lt;script [src]&gt;</code> or <code>&lt;iframe [src]&gt;</code>. Must be explicitly trusted because it executes executable code.
+<br><br>
+<strong>Part C (Safe Sanitization via DOMPurify):</strong>
+<br>Never bypass security on raw strings. Sanitize the string first with a dedicated DOM sanitization library like <strong>DOMPurify</strong>, and only then wrap it in <code>bypassSecurityTrustHtml()</code>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>import DOMPurify from &#x27;dompurify&#x27;;
+
+@Component({
+  selector: &#x27;app-notice-board&#x27;,
+  standalone: true,
+  template: `&lt;div [innerHTML]=&quot;cleanHtml&quot;&gt;&lt;/div&gt;`
+})
+export class NoticeBoardComponent {
+  private sanitizer = inject(DomSanitizer);
+
+  cleanHtml = computed(() =&gt; {
+    // 1. Sanitize with DOMPurify to strip malicious scripts/attributes
+    const clean = DOMPurify.sanitize(this.rawHtmlInput());
+    // 2. Safe to mark trusted after purification
+    return this.sanitizer.bypassSecurityTrustHtml(clean);
+  });
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses bypassSecurityTrustHtml() indiscriminately on user-generated content or thinks Angular automatically sanitizes strings passed to bypassSecurityTrustHtml().
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Angular security contexts, details DOM-based XSS vectors, and builds a two-stage sanitization pipeline using DOMPurify before trusting HTML.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 17: Styling &amp; Component Encapsulation -->
+                <div class="question-card" id="q-17" data-keywords="view encapsulation emulated shadowdom none ng-deep host global pollution">
+                    <div class="card-header">
+                        <span class="concept-badge">Styling &amp; Component Encapsulation</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Angular ViewEncapsulation modes (<code>Emulated</code>, <code>ShadowDom</code>, <code>None</code>), CSS host attribute generation, avoiding global style pollution, and migrating away from <code>::ng-deep</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A team builds a shared button component for a corporate design system. Look at the component code snippet.
+<br><br>
+<strong>Part A:</strong> A developer sets <code>encapsulation: ViewEncapsulation.None</code> to easily style an internal element. After deployment, all primary buttons across the entire multi-team enterprise portal suddenly turn hot pink! Why does <code>ViewEncapsulation.None</code> cause global stylesheet pollution?
+<br>
+<strong>Part B:</strong> How does <strong><code>ViewEncapsulation.Emulated</code></strong> (default) isolate styles using dynamically generated HTML host attributes like <code>_ngcontent-xyz</code>?
+<br>
+<strong>Part C:</strong> Why is <code>::ng-deep</code> deprecated, and how should an architect design themeable design system components using <strong>CSS Custom Properties (Variables)</strong> instead?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'custom-button.component.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">@Component({
+  selector: &#x27;app-custom-button&#x27;,
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  styles: [`
+    .btn {
+      background-color: #ff1493 !important;
+      padding: 12px 24px;
+    }
+  `],
+  template: `&lt;button class=&quot;btn&quot;&gt;&lt;ng-content&gt;&lt;/ng-content&gt;&lt;/button&gt;`
+})
+export class CustomButtonComponent {}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 17, 1, 'ViewEncapsulation modes, Emulated attribute scoping, and CSS Custom Properties')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 17, 2, 'ViewEncapsulation modes, Emulated attribute scoping, and CSS Custom Properties')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 17, 3, 'ViewEncapsulation modes, Emulated attribute scoping, and CSS Custom Properties')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 17, 4, 'ViewEncapsulation modes, Emulated attribute scoping, and CSS Custom Properties')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Global Stylesheet Pollution with None):</strong>
+<br>• Under <code>ViewEncapsulation.None</code>, Angular injects component styles directly into the global HTML <code>&lt;head&gt;</code> without any scoping or attribute prefixes.
+<br>• Rules matching general classes (like <code>.btn</code> or <code>p</code>) apply globally across the entire DOM tree, overriding styles in completely unrelated components.
+<br><br>
+<strong>Part B (How Emulated Scoping Works Internally):</strong>
+<br>• Angular's compiler parses the component's CSS rules and appends unique generated attribute selectors:
+<br><code>.btn[_ngcontent-ng-c12345] { background-color: ... }</code>
+<br>• In the template HTML, Angular automatically adds matching attributes to the elements:
+<br><code>&lt;button class="btn" _ngcontent-ng-c12345&gt;...&lt;/button&gt;</code>
+<br>• The browser's CSS engine naturally scopes the styles to only those specific elements.
+<br><br>
+<strong>Part C (Replacing ::ng-deep with CSS Custom Properties):</strong>
+<br>• <code>::ng-deep</code> punches through view encapsulation boundaries, violating component isolation and coupling parent styling to child internal DOM structures.
+<br>• <strong>Modern Solution:</strong> Expose CSS custom properties in the child component:
+<br><code>.btn { background-color: var(--button-bg, #007bff); }</code>
+<br>Parent components can override <code>--button-bg</code> cleanly without penetrating internal DOM hierarchies.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@Component({
+  selector: &#x27;app-custom-button&#x27;,
+  standalone: true,
+  encapsulation: ViewEncapsulation.Emulated, // Default: Safe Scoping
+  styles: [`
+    :host {
+      display: inline-block;
+    }
+    .btn {
+      background-color: var(--btn-color, #2563eb);
+      padding: 10px 20px;
+    }
+  `],
+  template: `&lt;button class=&quot;btn&quot;&gt;&lt;ng-content&gt;&lt;/ng-content&gt;&lt;/button&gt;`
+})
+export class CustomButtonComponent {}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Uses ViewEncapsulation.None or litters stylesheets with ::ng-deep to override child component styling.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Emulated host attribute post-processing (_ngcontent), details global stylesheet leaks, and architecturally exposes CSS custom properties for theming.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 18: Pipes &amp; Performance Ergonomics -->
+                <div class="question-card" id="q-18" data-keywords="pipes pure impure change detection memoization filtering sorting anti pattern">
+                    <div class="card-header">
+                        <span class="concept-badge">Pipes &amp; Performance Ergonomics</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Angular Custom Pipes, Pure vs Impure pipe change detection mechanics, memoization, and why filtering/sorting arrays in templates using pipes is an architectural anti-pattern.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer implements a custom search filter pipe to filter a list of 5,000 customers in a template. Look at the pipe code snippet.
+<br><br>
+<strong>Part A:</strong> The pipe is declared with <code>pure: false</code>. Whenever a user moves their mouse, types in a text box, or an HTTP polling request finishes, the browser UI freezes. Explain why <strong>Impure Pipes</strong> cause catastrophic performance degradation.
+<br>
+<strong>Part B:</strong> How does a <strong>Pure Pipe</strong> determine when to execute its <code>transform()</code> method? What happens if you pass a mutated array to a pure pipe?
+<br>
+<strong>Part C:</strong> Why does the official Angular documentation explicitly recommend <em>against</em> building filter and sort pipes? What is the architecturally sound pattern for search and filtering?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'filter-customers.pipe.ts')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">@Pipe({
+  name: &#x27;filterCustomers&#x27;,
+  pure: false,
+  standalone: true
+})
+export class FilterCustomersPipe implements PipeTransform {
+  transform(customers: Customer[], searchTerm: string): Customer[] {
+    if (!customers || !searchTerm) return customers;
+    return customers.filter(c =&gt; 
+      c.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 18, 1, 'Pure vs Impure Pipes, change detection frequency, and Signals/RxJS filtering alternatives')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 18, 2, 'Pure vs Impure Pipes, change detection frequency, and Signals/RxJS filtering alternatives')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 18, 3, 'Pure vs Impure Pipes, change detection frequency, and Signals/RxJS filtering alternatives')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 18, 4, 'Pure vs Impure Pipes, change detection frequency, and Signals/RxJS filtering alternatives')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Impure Pipe Execution Disaster):</strong>
+<br>• An <strong>Impure Pipe</strong> (<code>pure: false</code>) is executed on <strong>every single change detection cycle</strong> across the entire application, regardless of whether its input arguments changed!
+<br>• In an application with background timers, mouse events, or network calls, change detection may run 20–60 times per second.
+<br>• Filtering an array of 5,000 items 60 times a second creates millions of string allocations and garbage collection pressure, completely freezing the browser main thread.
+<br><br>
+<strong>Part B (Pure Pipe Change Detection):</strong>
+<br>• A <strong>Pure Pipe</strong> executes only when its input parameters change by <strong>primitive value or object reference</strong> (<code>===</code>).
+<br>• If you mutate an array in-place (<code>customers.push(newCustomer)</code>) without changing the array reference, a pure pipe <strong>will not re-execute</strong>, and the UI will fail to update.
+<br><br>
+<strong>Part C (The Architectural Alternative):</strong>
+<br>• Pipes in templates should strictly be used for simple formatting (Currency, Date, Uppercase).
+<br>• Filtering and sorting should be handled in the component class or state layer using <strong>Signals or RxJS</strong>:
+<br><code>filteredCustomers = computed(() => this.customers().filter(...));</code>
+<br>This guarantees execution occurs only when the search term or customer list actually changes.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>@Component({
+  selector: &#x27;app-customer-list&#x27;,
+  standalone: true,
+  template: `
+    @for (c of filteredCustomers(); track c.id) {
+      &lt;div&gt;{{ c.name }}&lt;/div&gt;
+    }
+  `
+})
+export class CustomerListComponent {
+  customers = signal&lt;Customer[]&gt;([]);
+  searchTerm = signal&lt;string&gt;(&#x27;&#x27;);
+
+  // Clean, high-performance derivation using Signals
+  filteredCustomers = computed(() =&gt; {
+    const term = this.searchTerm().toLowerCase();
+    return this.customers().filter(c =&gt; c.name.toLowerCase().includes(term));
+  });
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Sets pure: false to make a broken filter pipe update, causing massive CPU throttling across the application.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies that impure pipes execute on every change detection cycle, explains pure pipe reference checking, and moves collection filtering into computed Signals.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 19: Enterprise Micro Frontends &amp; Federation -->
+                <div class="question-card" id="q-19" data-keywords="micro frontends module federation webpack shared singletons angular core elements">
+                    <div class="card-header">
+                        <span class="concept-badge">Enterprise Micro Frontends &amp; Federation</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Angular Micro Frontends using Webpack/Vite Module Federation, sharing core libraries as singletons (<code>@angular/core</code>, <code>rxjs</code>), and framework-agnostic Angular Elements.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise migrates a large banking portal into a Micro Frontend architecture consisting of a Shell application and two remote micro-apps (Payment App and Accounts App). Look at the Webpack Module Federation snippet.
+<br><br>
+<strong>Part A:</strong> When the Shell app loads the remote Payment micro-app, the browser console throws: <code>NG0200: Circular dependency</code> and <code>Platform already exists</code>. Why does failing to declare <code>@angular/core</code> as a <strong>shared singleton</strong> cause Angular to crash at runtime?
+<br>
+<strong>Part B:</strong> What is the difference between <code>singleton: true</code> and <code>strictVersion: true</code> in Module Federation? What happens if the Shell uses Angular 17.1 and the remote app uses Angular 17.3?
+<br>
+<strong>Part C:</strong> How do <strong>Angular Elements</strong> (<code>createCustomElement</code>) allow publishing an Angular component as a standard Web Component usable by React or Vue hosts?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'webpack.config.js')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">const { shareAll, withModuleFederationPlugin } = require(&#x27;@angular-architects/module-federation/webpack&#x27;);
+module.exports = withModuleFederationPlugin({
+  name: &#x27;payment-remote&#x27;,
+  exposes: {
+    &#x27;./PaymentModule&#x27;: &#x27;./src/app/payment/payment.routes.ts&#x27;,
+  },
+  shared: {}
+});</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 19, 1, 'Module Federation, shared singletons (@angular/core), and Angular Elements Web Components')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 19, 2, 'Module Federation, shared singletons (@angular/core), and Angular Elements Web Components')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 19, 3, 'Module Federation, shared singletons (@angular/core), and Angular Elements Web Components')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 19, 4, 'Module Federation, shared singletons (@angular/core), and Angular Elements Web Components')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Multiple Angular Runtime Collision):</strong>
+<br>• Angular relies on global singletons stored in its runtime: the <code>PlatformRef</code>, the Root Injector, and Zone.js.
+<br>• If <code>@angular/core</code> is not shared as a singleton, the Shell bundles its own copy of Angular, and the remote app bundles a second copy of Angular.
+<br>• When the remote loads, it attempts to initialize a second <code>PlatformRef</code> in the same browser window, triggering fatal runtime crashes (<code>Cannot create platform when another platform exists</code>).
+<br><br>
+<strong>Part B (singleton vs strictVersion in Module Federation):</strong>
+<br>• <code>singleton: true</code>: Guarantees that only <strong>one instance</strong> of the library is loaded in memory and shared across all micro-frontends.
+<br>• <code>strictVersion: true</code>: If host and remote have mismatched semver versions (e.g. 17.1 vs 17.3), Webpack refuses to share and fails with an error.
+<br>• If <code>strictVersion: false</code> (recommended for minor version variance), Webpack picks the highest compatible version.
+<br><br>
+<strong>Part C (Angular Elements & Web Components):</strong>
+<br>• <code>createCustomElement(MyComponent, { injector })</code> bridges the Angular component into a native W3C Custom Element.
+<br>• <code>customElements.define('payment-widget', element)</code> registers it with the browser.
+<br>• A React, Vue, or vanilla JS host can render <code>&lt;payment-widget [amount]="100"&gt;&lt;/payment-widget&gt;</code> natively without knowing Angular exists.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>module.exports = withModuleFederationPlugin({
+  name: &#x27;payment-remote&#x27;,
+  exposes: {
+    &#x27;./PaymentRoutes&#x27;: &#x27;./src/app/payment/payment.routes.ts&#x27;,
+  },
+  shared: {
+    ...shareAll({ 
+      singleton: true, 
+      strictVersion: true, 
+      requiredVersion: &#x27;auto&#x27; 
+    })
+  }
+});</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Treats micro-frontends like standard iframes or fails to configure shared singletons for @angular/core and rxjs.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagnoses duplicate platform initialization collisions, configures Module Federation shared singleton contracts, and bridges components via Angular Elements.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 20: Core Web Vitals &amp; Optimization -->
+                <div class="question-card" id="q-20" data-keywords="core web vitals lcp cls inp ngoptimizedimage bundle budget devtools profiler">
+                    <div class="card-header">
+                        <span class="concept-badge">Core Web Vitals &amp; Optimization</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Optimizing Core Web Vitals in Angular (Largest Contentful Paint - LCP, Cumulative Layout Shift - CLS, Interaction to Next Paint - INP), <code>NgOptimizedImage</code>, and bundle budgets.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce portal fails Google's Core Web Vitals audit with an LCP of 6.2s, a CLS of 0.35, and an initial main bundle of 8 MB. Look at the template and configuration snippet.
+<br><br>
+<strong>Part A:</strong> How does switching raw <code>&lt;img src="..."&gt;</code> tags to the modern <strong><code>NgOptimizedImage</code> directive</strong> (<code>&lt;img ngSrc="..."&gt;</code>) eliminate Cumulative Layout Shift (CLS) and accelerate LCP?
+<br>
+<strong>Part B:</strong> What is <strong>INP (Interaction to Next Paint)</strong>, and how do long-running JavaScript execution tasks on the Angular main thread degrade INP scores?
+<br>
+<strong>Part C:</strong> How do you configure <strong>bundle budgets</strong> in <code>angular.json</code> to enforce that production initial bundles cannot exceed 500 KB, failing continuous integration builds if a developer introduces a heavy dependency?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'product-card.component.html')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">&lt;div class=&quot;product-card&quot;&gt;
+  &lt;img src=&quot;https://cdn.example.com/images/hero-laptop.jpg&quot;&gt;
+  &lt;h3&gt;Ultra Laptop Pro&lt;/h3&gt;
+&lt;/div&gt;
+&quot;budgets&quot;: [
+  {
+    &quot;type&quot;: &quot;initial&quot;,
+    &quot;maximumWarning&quot;: &quot;10mb&quot;,
+    &quot;maximumError&quot;: &quot;20mb&quot;
+  }
+]</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('angular', 20, 1, 'Core Web Vitals (LCP, CLS, INP), NgOptimizedImage, and angular.json bundle budgets')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('angular', 20, 2, 'Core Web Vitals (LCP, CLS, INP), NgOptimizedImage, and angular.json bundle budgets')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('angular', 20, 3, 'Core Web Vitals (LCP, CLS, INP), NgOptimizedImage, and angular.json bundle budgets')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('angular', 20, 4, 'Core Web Vitals (LCP, CLS, INP), NgOptimizedImage, and angular.json bundle budgets')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (NgOptimizedImage Benefits for LCP & CLS):</strong>
+<br>• <strong>CLS Elimination:</strong> <code>NgOptimizedImage</code> requires explicit <code>width</code> and <code>height</code> attributes (or <code>fill</code>), forcing the browser to allocate exact layout space before the image loads, eliminating layout shift (CLS = 0).
+<br>• <strong>LCP Optimization:</strong> Marking the hero image with the <code>priority</code> attribute automatically generates a <code>&lt;link rel="preload"&gt;</code> header in the HTML, fetching the hero image at the highest network priority.
+<br>• Automatically generates responsive <code>srcset</code> attributes to serve properly scaled WebP/AVIF images.
+<br><br>
+<strong>Part B (INP & Long Tasks):</strong>
+<br>• <strong>INP (Interaction to Next Paint):</strong> Measures user interface responsiveness from the moment a user clicks, taps, or types until the next frame is visually presented.
+<br>• Heavy synchronous computations in change detection, large loops, or un-debounced inputs block the browser's single JavaScript main thread.
+<br>• If the main thread is blocked for > 200ms, user clicks lag, resulting in an unacceptable INP score.
+<br><br>
+<strong>Part C (Enforcing Bundle Budgets in angular.json):</strong>
+<br>Set strict budgets in <code>angular.json</code> under the production configuration:
+<br><code>"maximumWarning": "300kb", "maximumError": "500kb"</code>.
+<br>If a developer imports a monolithic library (like <code>lodash</code> or <code>moment.js</code>), <code>ng build</code> throws a compile-time build error, blocking the pull request.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural / Code Solution</span><span class="code-lang">TypeScript / HTML</span></div>
+                                <pre><code>&lt;!-- Optimized Template with NgOptimizedImage --&gt;
+&lt;img [ngSrc]=&quot;product.imageUrl&quot; 
+     width=&quot;600&quot; 
+     height=&quot;400&quot; 
+     priority 
+     alt=&quot;Laptop&quot;&gt;
+
+&lt;!-- Strict angular.json Production Budget --&gt;
+&quot;budgets&quot;: [
+  {
+    &quot;type&quot;: &quot;initial&quot;,
+    &quot;maximumWarning&quot;: &quot;400kb&quot;,
+    &quot;maximumError&quot;: &quot;500kb&quot;
+  },
+  {
+    &quot;type&quot;: &quot;anyComponentStyle&quot;,
+    &quot;maximumWarning&quot;: &quot;4kb&quot;,
+    &quot;maximumError&quot;: &quot;8kb&quot;
+  }
+]</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Increases angular.json budget thresholds to 15MB to silence build warnings or leaves image dimensions undefined in templates.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Implements NgOptimizedImage with priority preloading to optimize LCP and CLS, enforces strict &lt;500KB bundle budgets in CI/CD, and audits long tasks to optimize INP.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card modal-code-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Snippet</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Code</span>
+                        <span class="code-lang">TypeScript / HTML</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('angular');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

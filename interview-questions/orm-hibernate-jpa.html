@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORM, Hibernate & JPA Interview Suite | Persistence Architecture & Performance</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link active"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🗄️ ORM, Hibernate & JPA (Hibernate 5 & 6)</h1>
+            <p>20 Architectural questions covering N+1 query triage, persistence context caching, dirty checking, locking strategies, batching, isolation levels, and HikariCP connection lifecycle.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🗄️ Skill: ORM, Hibernate & JPA</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('orm')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search ORM topics (e.g. n+1 query, dirty checking, optimistic locking, batching, lazy loading, second level cache)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+
+                <!-- QUESTION 1: The N+1 Query Problem -->
+                <div class="question-card" id="q-1" data-keywords="n+1 query join fetch entitygraph batchsize lazy loading">
+                    <div class="card-header">
+                        <span class="concept-badge">Query Performance & Optimization</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The classic Hibernate N+1 query problem, how lazy loading triggers independent SELECT queries inside loops, and trade-offs between <code>JOIN FETCH</code>, JPA <code>@EntityGraph</code>, and Hibernate <code>@BatchSize</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer writes an endpoint to display recent customer orders with order items. Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> When <code>getRecentOrders()</code> is called with 50 matching orders, how many total SQL SELECT queries are executed against the database? Explain why.
+                                <br>
+                                <strong>Part B:</strong> What is the difference between fixing this via <code>JOIN FETCH</code> in JPQL versus defining a dynamic <code>@EntityGraph</code>?
+                                <br>
+                                <strong>Part C:</strong> What happens if an entity has two separate <code>List&lt;...&gt;</code> collections and you try to <code>JOIN FETCH</code> both in the same query?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'OrderQueryService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">@Service
+public class OrderQueryService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Transactional(readOnly = true)
+    public List&lt;OrderResponse&gt; getRecentOrders() {
+        List&lt;Order&gt; orders = orderRepository.findTop50ByOrderByCreatedAtDesc();
+        return orders.stream().map(order -&gt; {
+            String customerName = order.getCustomer().getFullName();
+            int itemCount = order.getItems().size();
+            return new OrderResponse(order.getId(), customerName, itemCount);
+        }).toList();
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 1, 1, 'N+1 query triage, JOIN FETCH vs EntityGraph, and MultipleBagFetchException')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 1, 2, 'N+1 query triage, JOIN FETCH vs EntityGraph, and MultipleBagFetchException')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 1, 3, 'N+1 query triage, JOIN FETCH vs EntityGraph, and MultipleBagFetchException')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 1, 4, 'N+1 query triage, JOIN FETCH vs EntityGraph, and MultipleBagFetchException')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The 1 + 50 + 50 = 101 Query Disaster):</strong>
+                                <br>1. Initial query executes <code>SELECT * FROM orders ORDER BY created_at DESC LIMIT 50</code> (1 query).
+                                <br>2. In the loop, <code>order.getCustomer().getFullName()</code> triggers a separate <code>SELECT * FROM customers WHERE id = ?</code> for each order (50 queries).
+                                <br>3. Then <code>order.getItems().size()</code> triggers <code>SELECT * FROM order_items WHERE order_id = ?</code> for each order (another 50 queries).
+                                <br>Total: <strong>101 database queries</strong> executed sequentially across the network to render a single web page!
+                                <br><br>
+                                <strong>Part B (JOIN FETCH vs @EntityGraph):</strong>
+                                <br>• <code>JOIN FETCH</code>: Explicit in JPQL (<code>SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items</code>). Translates directly to SQL INNER/LEFT JOINs. Hard-coded in the query string.
+                                <br>• <code>@EntityGraph</code>: Standard JPA declarative graph. Allows defining fetch plans dynamically (LoadGraph vs FetchGraph) without altering JPQL syntax, permitting repository reuse across endpoints.
+                                <br><br>
+                                <strong>Part C (MultipleBagFetchException & Cartesian Product):</strong>
+                                <br>If you attempt to <code>JOIN FETCH</code> two <code>List</code> collections simultaneously, Hibernate throws <code>MultipleBagFetchException: cannot simultaneously fetch multiple bags</code>.
+                                Because lists (bags) can contain duplicates, fetching two joined collections creates a <strong>Cartesian Product</strong> of N x M duplicate rows in memory, corrupting collection size and exploding memory.
+                                <br><strong>Fix:</strong> Fetch the primary collection with <code>JOIN FETCH</code> and annotate the second collection with <code>@BatchSize(size = 25)</code>, or split into two targeted queries.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Optimized Solution</span><span class="code-lang">Java</span></div>
+                                <pre><code>public interface OrderRepository extends JpaRepository&lt;Order, Long&gt; {
+
+    @EntityGraph(attributePaths = {"customer", "items"})
+    List&lt;Order&gt; findTop50ByOrderByCreatedAtDesc();
+}
+
+// Or using @BatchSize on the entity collection:
+@OneToMany(mappedBy = "order")
+@BatchSize(size = 25) // Fetches up to 25 collections in a single 'WHERE order_id IN (?, ?, ...)'
+private List&lt;OrderItem&gt; items = new ArrayList&lt;&gt;();</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Identifies N+1 query superficially, but recommends changing association from FetchType.LAZY to FetchType.EAGER (which makes the N+1 problem permanent on every query throughout the entire application).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Rejects EAGER fetching entirely, details JOIN FETCH vs @EntityGraph, explains the Cartesian product hazard and MultipleBagFetchException, and combines query fetching with @BatchSize(size = 25).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 2: Persistence Context Scope & Dirty Checking -->
+                <div class="question-card" id="q-2" data-keywords="first level cache persistence context dirty checking read only transient update">
+                    <div class="card-header">
+                        <span class="concept-badge">Hibernate Architecture & Caching</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The Hibernate First-Level Cache (Persistence Context) lifecycle, automatic snapshot dirty checking on transaction commit, and why calling setters on managed entities issues unexpected SQL UPDATE statements.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A reporting service reads 10,000 active customer accounts inside a <code>@Transactional</code> method to calculate an in-memory risk score. Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Even though <code>accountRepository.save(account)</code> is never called anywhere in the service, upon exiting <code>evaluateRiskScores()</code>, Hibernate issues 10,000 SQL UPDATE statements to the database! Why?
+                                <br>
+                                <strong>Part B:</strong> How do you prevent Hibernate from performing dirty checking on read-only transactions, and what does <code>@Transactional(readOnly = true)</code> do under the hood in Spring & Hibernate?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'AccountRiskEvaluator.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">@Service
+public class AccountRiskEvaluator {
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Transactional
+    public void evaluateRiskScores() {
+        List&lt;Account&gt; accounts = accountRepository.findByStatus("ACTIVE");
+        for (Account account : accounts) {
+            double risk = calculateRisk(account);
+            account.setTemporaryRiskScore(risk);
+        }
+    }
+
+    private double calculateRisk(Account account) {
+        return account.getBalance().doubleValue() * 0.15;
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 2, 1, 'Persistence context dirty checking mechanics, @Transient, and readOnly=true optimization')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 2, 2, 'Persistence context dirty checking mechanics, @Transient, and readOnly=true optimization')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 2, 3, 'Persistence context dirty checking mechanics, @Transient, and readOnly=true optimization')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 2, 4, 'Persistence context dirty checking mechanics, @Transient, and readOnly=true optimization')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Automatic Dirty Checking):</strong>
+                                <br>All entities returned by <code>findByStatus()</code> inside a <code>@Transactional</code> boundary enter the <strong>Managed State</strong> in Hibernate's First-Level Cache (Persistence Context).
+                                <br>When entities are loaded, Hibernate takes an internal state snapshot. When the transaction finishes and prepares to commit, Hibernate's flush mechanism runs <strong>automatic dirty checking</strong>, comparing current field values against the original snapshot.
+                                <br>Because <code>temporaryRiskScore</code> is a persistent field mapped to a database column, mutating it via setter marks the entity as dirty. Hibernate flushes changes automatically by generating 10,000 SQL UPDATEs!
+                                <br><br>
+                                <strong>Part B (Optimizations & readOnly=true):</strong>
+                                <br>1. If <code>temporaryRiskScore</code> is in-memory only, it must be annotated with <code>@Transient</code>.
+                                <br>2. Configuring <code>@Transactional(readOnly = true)</code> instructs Hibernate to set <code>FlushMode.MANUAL</code> and configure the JDBC connection to read-only mode. In Hibernate 5 and 6, Hibernate skips taking snapshot copies for entities loaded in a read-only session, cutting memory allocation by 50% and completely disabling dirty checking!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Correct Configuration</span><span class="code-lang">Java</span></div>
+                                <pre><code>// 1. Mark in-memory calculations transient
+@Transient
+private Double temporaryRiskScore;
+
+// 2. Use readOnly = true to disable snapshot allocation and dirty checking
+@Transactional(readOnly = true)
+public void evaluateRiskScores() {
+    // ...
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks database records only update if repository.save() is explicitly invoked; does not know how Hibernate dirty checking operates.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates Persistence Context state snapshotting and flush lifecycle, explains FlushMode.MANUAL in @Transactional(readOnly = true), and identifies memory savings from omitting snapshot retention.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 3: Second-Level Cache & Query Cache -->
+                <div class="question-card" id="q-3" data-keywords="second level cache l2c query cache redis cacheable invalidation">
+                    <div class="card-header">
+                        <span class="concept-badge">Distributed Caching & Second-Level Cache</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Hibernate Second-Level Cache (L2C) entity cache vs Query Cache, why enabling L2C alone does not cache JPQL query results, and cache invalidation hazards during bulk updates.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A team configures Redis as a Hibernate Second-Level Cache using <code>@Cacheable</code> on the <code>User</code> entity. Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Calling <code>entityManager.find(User.class, 101L)</code> hits Redis cache and avoids the database. However, calling <code>userRepository.findByEmail("alice@example.com")</code> queries the SQL database on every single execution! Why does L2C fail to cache JPQL queries?
+                                <br>
+                                <strong>Part B:</strong> What is the <strong>Hibernate Query Cache</strong>, what does it store in memory, and why does any UPDATE statement to the <code>users</code> table invalidate the entire query cache region?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'UserCacheService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">@Entity
+@Table(name = "users")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
+    private String email;
+    private String fullName;
+}
+
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    Optional&lt;User&gt; findByEmail(String email);
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 3, 1, 'Hibernate Second-Level Cache (L2C) entity cache vs Query Cache and invalidation mechanics')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 3, 2, 'Hibernate Second-Level Cache (L2C) entity cache vs Query Cache and invalidation mechanics')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 3, 3, 'Hibernate Second-Level Cache (L2C) entity cache vs Query Cache and invalidation mechanics')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 3, 4, 'Hibernate Second-Level Cache (L2C) entity cache vs Query Cache and invalidation mechanics')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Entity Cache vs Query Cache):</strong>
+                                <br>Hibernate L2C (Entity Cache) is keyed strictly by <strong>Primary Key (ID)</strong>. When you query by ID (<code>find()</code> or <code>findById()</code>), Hibernate checks the L2C map with key <code>User#101</code>.
+                                <br>However, JPQL/HQL queries (such as <code>SELECT u FROM User u WHERE u.email = ?</code>) have dynamic WHERE criteria. Hibernate does not inspect the entity cache for query criteria unless the <strong>Query Cache</strong> is explicitly enabled via <code>hibernate.cache.use_query_cache=true</code> AND the query is marked with <code>@QueryHints(@QueryHint(name = "org.hibernate.cacheable", value = "true"))</code>!
+                                <br><br>
+                                <strong>Part B (Query Cache Internals & Invalidation):</strong>
+                                <br>The Query Cache does NOT store entity data! It stores a map of:
+                                <br><code>[Query String + Parameters] -&gt; List of Entity IDs [101, 102, ...]</code>.
+                                <br>When the query executes, Hibernate reads the IDs from the query cache, and then looks up each ID in the L2C entity cache.
+                                <br><strong>The Invalidation Hazard:</strong> Hibernate tracks table timestamps. The moment <em>any</em> transaction modifies, inserts, or deletes a single row in the <code>users</code> table, Hibernate invalidates the <strong>entire query cache region</strong> for that table. In write-heavy tables, the query cache has a near 0% hit rate and causes high serialization overhead.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes adding @Cacheable caches all repository queries automatically; does not know that query cache is separate from entity cache.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains that L2C is an ID-to-state dictionary, diagrams how Query Cache pairs with Entity Cache, and warns against query caching on write-heavy tables due to timestamp invalidation storms.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 4: Optimistic vs Pessimistic Locking -->
+                <div class="question-card" id="q-4" data-keywords="optimistic locking version pessimistic write deadlock select for update">
+                    <div class="card-header">
+                        <span class="concept-badge">Concurrency & Locking Strategies</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Concurrency control in high-contention systems: <code>@Version</code> optimistic locking with collision retries versus <code>LockModeType.PESSIMISTIC_WRITE</code> (<code>SELECT ... FOR UPDATE</code>) with deadlocks and timeout management.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce flash sale system decrements item stock. Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> 1,000 customers try to purchase the last 5 items concurrently. With <code>@Version</code> optimistic locking, why do 995 requests fail immediately with <code>OptimisticLockException</code>, and how should an enterprise system handle these retries?
+                                <br>
+                                <strong>Part B:</strong> If you switch to <code>LockModeType.PESSIMISTIC_WRITE</code>, what SQL is generated by the database engine (PostgreSQL/MySQL), and what critical database performance bottleneck / deadlock risks are introduced under high traffic?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'InventoryAllocationService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">@Entity
+@Table(name = "inventory")
+public class InventoryItem {
+    @Id
+    private Long id;
+    private int availableStock;
+
+    @Version
+    private Long version;
+}
+
+@Service
+public class InventoryAllocationService {
+
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
+    @Transactional
+    public void allocateStock(Long itemId, int quantity) {
+        InventoryItem item = inventoryRepository.findById(itemId).orElseThrow();
+        if (item.getAvailableStock() &lt; quantity) {
+            throw new InsufficientStockException("Out of stock");
+        }
+        item.setAvailableStock(item.getAvailableStock() - quantity);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 4, 1, 'Optimistic locking collision handling vs Pessimistic write lock deadlocks and timeouts')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 4, 2, 'Optimistic locking collision handling vs Pessimistic write lock deadlocks and timeouts')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 4, 3, 'Optimistic locking collision handling vs Pessimistic write lock deadlocks and timeouts')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 4, 4, 'Optimistic locking collision handling vs Pessimistic write lock deadlocks and timeouts')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Optimistic Locking & The High-Contention Trap):</strong>
+                                <br>When updating, Hibernate executes:
+                                <br><code>UPDATE inventory SET available_stock = ?, version = version + 1 WHERE id = ? AND version = ?</code>
+                                <br>The first thread succeeds and increments <code>version</code> to 1. The remaining 999 threads find that the row count returned by JDBC is 0 (because the version changed), and Hibernate immediately throws <code>OptimisticLockException</code> (Spring translates to <code>ObjectOptimisticLockingFailureException</code>).
+                                <br>Optimistic locking is ideal for <em>low contention</em> (infrequent concurrent edits). In high-contention flash sales, 99% of requests crash unless wrapped in exponential backoff retries (e.g. Spring <code>@Retryable</code>), which burns heavy CPU.
+                                <br><br>
+                                <strong>Part B (Pessimistic Locking & Lock Escalation):</strong>
+                                <br>Using <code>inventoryRepository.findByIdWithPessimisticWrite(itemId)</code> issues:
+                                <br><code>SELECT * FROM inventory WHERE id = ? FOR UPDATE</code>.
+                                <br>The database acquires an exclusive row-level lock. All other 999 threads are physically queued in the database engine until the holding transaction commits or rolls back.
+                                <br><strong>Risks:</strong>
+                                <br>1. <strong>Connection Starvation:</strong> 999 application threads hold open HikariCP connections while waiting on the database row lock, exhausting the pool.
+                                <br>2. <strong>Deadlocks:</strong> If two transactions lock Item A and Item B in different orders, the database aborts one with a deadlock exception.
+                                <br>3. <strong>Fix:</strong> Use <code>javax.persistence.lock.timeout</code> (e.g. <code>NOWAIT</code> or <code>SKIP LOCKED</code> in PostgreSQL) or offload flash inventory decrementing to atomic Redis <code>DECR</code> operations.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends Java synchronized block on the service method (which only works on a single JVM instance and fails completely across clustered Kubernetes replicas).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates CAS version comparison query mechanics, analyzes thread queueing and HikariCP pool exhaustion with SELECT FOR UPDATE, and specifies SKIP LOCKED or distributed atomic Redis counters.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 5: Entity Lifecycle & merge() vs persist() -->
+                <div class="question-card" id="q-5" data-keywords="entity lifecycle states transient managed detached removed merge persist identity batching">
+                    <div class="card-header">
+                        <span class="concept-badge">Entity Lifecycle & State Transitions</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The 4 JPA entity lifecycle states (Transient, Managed, Detached, Removed), why <code>repository.save()</code> on an entity with a pre-set ID invokes <code>merge()</code> causing an extra SQL SELECT, and how <code>GenerationType.IDENTITY</code> disables JDBC batching.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the batch insertion code in the snippet.
+                                <br><br>
+                                <strong>Part A:</strong> A developer creates a <code>Customer</code> object and manually calls <code>customer.setId("CUST_1001")</code> before calling <code>customerRepository.save(customer)</code>. Why does Hibernate issue an unexpected SQL <code>SELECT</code> statement before the <code>INSERT</code>?
+                                <br>
+                                <strong>Part B:</strong> What is the mechanical difference between <code>entityManager.persist()</code> and <code>entityManager.merge()</code>?
+                                <br>
+                                <strong>Part C:</strong> How do you implement <code>Persistable&lt;ID&gt;</code> to eliminate the redundant SELECT query for entities with assigned IDs?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'CustomerProvisioningService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">@Entity
+@Table(name = "customers")
+public class Customer {
+    @Id
+    private String id;
+    private String name;
+}
+
+@Service
+public class CustomerProvisioningService {
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Transactional
+    public void provisionCustomer(String customId, String name) {
+        Customer customer = new Customer();
+        customer.setId(customId);
+        customer.setName(name);
+        customerRepository.save(customer);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 5, 1, 'Entity lifecycle states, persist vs merge SELECT query penalty, and Persistable interface')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 5, 2, 'Entity lifecycle states, persist vs merge SELECT query penalty, and Persistable interface')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 5, 3, 'Entity lifecycle states, persist vs merge SELECT query penalty, and Persistable interface')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 5, 4, 'Entity lifecycle states, persist vs merge SELECT query penalty, and Persistable interface')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Redundant SELECT Trap in save()):</strong>
+                                <br>Spring Data JPA's <code>SimpleJpaRepository.save()</code> inspects the entity:
+                                <br><code>if (entityInformation.isNew(entity)) { em.persist(entity); } else { em.merge(entity); }</code>
+                                <br>By default, an entity is considered 'new' if its <code>@Id</code> is <code>null</code>.
+                                <br>Because <code>customId</code> was manually assigned, <code>getId() != null</code>. Spring Data assumes this entity already exists in the database and calls <code>em.merge(entity)</code>.
+                                <br><code>em.merge()</code> must load the current database state first to determine if an UPDATE or INSERT is needed, issuing a useless <code>SELECT ... WHERE id = 'CUST_1001'</code>!
+                                <br><br>
+                                <strong>Part B (persist vs merge):</strong>
+                                <br>• <code>persist(entity)</code>: Transitions a transient entity directly to MANAGED. Expects it to be new. Throws exception if ID exists. Does not query database first.
+                                <br>• <code>merge(entity)</code>: Copies the state of a detached entity into a newly managed entity instance returned by the call. Queries the database first if not in 1st-level cache.
+                                <br><br>
+                                <strong>Part C (The Fix: Persistable&lt;ID&gt;):</strong>
+                                <br>Implement <code>Persistable&lt;String&gt;</code> on the entity and override <code>isNew()</code>:
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Persistable Implementation</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Entity
+@Table(name = "customers")
+public class Customer implements Persistable&lt;String&gt; {
+    @Id
+    private String id;
+    private String name;
+
+    @Transient
+    private boolean isNew = true;
+
+    @Override
+    public boolean isNew() { return isNew; }
+
+    @PostLoad
+    @PostPersist
+    void markNotNew() { this.isNew = false; }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes save() always issues an INSERT statement; unaware that non-null IDs route to merge() and trigger pre-flight SELECTs.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Walks through SimpleJpaRepository.isNew() logic, contrasts persist() and merge() bytecode mechanics, and implements Persistable&lt;ID&gt; or @Version to bypass the redundant SELECT.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 6: LazyInitializationException & Open-Session-In-View Anti-Pattern -->
+                <div class="question-card" id="q-6" data-keywords="lazyinitializationexception osiv open session in view enable_lazy_load_no_trans proxy">
+                    <div class="card-header">
+                        <span class="concept-badge">Transaction Boundaries & Architecture</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The root cause of <code>LazyInitializationException</code>, the architectural dangers of <strong>Open Session in View (OSIV)</strong>, and why <code>hibernate.enable_lazy_load_no_trans=true</code> is widely considered an enterprise production anti-pattern.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A service method fetches a <code>Department</code> entity and returns it to an async task runner or REST controller. Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Why does calling <code>department.getEmployees().size()</code> inside the async thread throw:
+                                <br><code>LazyInitializationException: could not initialize proxy [Department#10] - no Session</code>?
+                                <br>
+                                <strong>Part B:</strong> A junior developer suggests fixing this by configuring <code>spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true</code> in <code>application.properties</code>. Why is this setting dangerous in production systems?
+                                <br>
+                                <strong>Part C:</strong> What is the clean architectural solution?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'DepartmentAsyncReport.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">@Service
+public class DepartmentService {
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private TaskExecutor taskExecutor;
+
+    @Transactional(readOnly = true)
+    public void generateDepartmentAuditAsync(Long departmentId) {
+        Department dept = departmentRepository.findById(departmentId).orElseThrow();
+
+        taskExecutor.execute(() -&gt; {
+            int employeeCount = dept.getEmployees().size();
+            publishAuditCount(dept.getName(), employeeCount);
+        });
+    }
+
+    private void publishAuditCount(String name, int count) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 6, 1, 'LazyInitializationException, OSIV hazards, and enable_lazy_load_no_trans anti-pattern')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 6, 2, 'LazyInitializationException, OSIV hazards, and enable_lazy_load_no_trans anti-pattern')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 6, 3, 'LazyInitializationException, OSIV hazards, and enable_lazy_load_no_trans anti-pattern')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 6, 4, 'LazyInitializationException, OSIV hazards, and enable_lazy_load_no_trans anti-pattern')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Session Lifecycle):</strong>
+                                Hibernate's lazy loading relies on bytecode proxies (e.g. ByteBuddy <code>PersistentCollection</code>). When <code>generateDepartmentAuditAsync()</code> returns, the <code>@Transactional</code> boundary closes, closing the Hibernate Session and returning the JDBC connection to HikariCP.
+                                When the worker thread executes <code>dept.getEmployees().size()</code>, the entity is in the <strong>Detached</strong> state. The uninitialized collection proxy cannot acquire a database session on the worker thread, throwing <code>LazyInitializationException</code>.
+                                <br><br>
+                                <strong>Part B (Why enable_lazy_load_no_trans is an Anti-Pattern):</strong>
+                                Setting <code>enable_lazy_load_no_trans=true</code> tells Hibernate: whenever an uninitialized proxy is touched outside a session, silently borrow a brand-new JDBC connection from the connection pool, execute the SELECT in auto-commit mode, and close the connection.
+                                Under load:
+                                <br>1. Iterating 100 detached objects opens and closes 100 independent database connections sequentially!
+                                <br>2. This exhausts the HikariCP connection pool, creating severe connection starvation and high latency.
+                                <br><br>
+                                <strong>Part C (Clean Fixes):</strong>
+                                <br>• Fetch necessary associations upfront inside the transaction using <code>JOIN FETCH</code> or <code>@EntityGraph</code>.
+                                <br>• Or project directly to a DTO (Record) inside the repository before dispatching to the async thread.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends setting `enable_lazy_load_no_trans=true` or changing the collection to `FetchType.EAGER` without realizing the connection pool starvation and performance impact.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains proxy detachment across threads, details why OSIV and `enable_lazy_load_no_trans` cause HikariCP pool exhaustion, and maps data to DTOs within the active transaction.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 7: The equals() & hashCode() Contract for JPA Entities -->
+                <div class="question-card" id="q-7" data-keywords="equals hashcode jpa entity generated id hashset contract uuid naturalid">
+                    <div class="card-header">
+                        <span class="concept-badge">Entity Identity & Collection Integrity</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The <code>equals()</code> and <code>hashCode()</code> contract for JPA entities with auto-generated surrogate keys (<code>@GeneratedValue</code>), and why mutating hash codes after database persistence corrupts <code>HashSet</code> and <code>HashMap</code> collections.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the <code>Student</code> entity and test code in the snippet.
+                                <br><br>
+                                <strong>Part A:</strong> What does <code>students.contains(s1)</code> print after saving the entity? Explain why it prints false even though <code>s1</code> was clearly added to the set!
+                                <br>
+                                <strong>Part B:</strong> What is the best-practice implementation of <code>equals()</code> and <code>hashCode()</code> for JPA entities with generated primary keys?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'StudentSetTest.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(id, student.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
+
+public class TestMain {
+    public static void main(String[] args) {
+        Set&lt;Student&gt; students = new HashSet&lt;&gt;();
+        Student s1 = new Student();
+        s1.setName("Alice");
+
+        students.add(s1);
+
+        studentRepository.save(s1);
+
+        System.out.println("Contains s1: " + students.contains(s1));
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 7, 1, 'JPA entity equals and hashCode contract with generated IDs and HashSet corruption')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 7, 2, 'JPA entity equals and hashCode contract with generated IDs and HashSet corruption')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 7, 3, 'JPA entity equals and hashCode contract with generated IDs and HashSet corruption')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 7, 4, 'JPA entity equals and hashCode contract with generated IDs and HashSet corruption')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Mutated Hash Bucket Disaster):</strong>
+                                <br>1. When <code>s1</code> is created, <code>id</code> is <code>null</code>. Its <code>hashCode()</code> is <code>Objects.hash(null) == 0</code>.
+                                <br>2. <code>students.add(s1)</code> places <code>s1</code> into bucket 0 of the <code>HashSet</code>.
+                                <br>3. When <code>studentRepository.save(s1)</code> executes, Hibernate inserts the row and assigns <code>id = 101L</code>.
+                                <br>4. Now, <code>s1.hashCode()</code> computes <code>Objects.hash(101L) == 132</code>!
+                                <br>5. When <code>students.contains(s1)</code> is evaluated, <code>HashSet</code> hashes <code>s1</code> to bucket 132. Bucket 132 is empty! The method returns <strong>false</strong>, even though the exact instance exists in bucket 0!
+                                <br><br>
+                                <strong>Part B (Best Practice):</strong>
+                                <br>• <strong>Approach 1 (Natural Business Key):</strong> Base <code>equals()</code> and <code>hashCode()</code> on an immutable business key (e.g. <code>email</code>, <code>ssn</code>, or a client-generated <code>UUID</code>).
+                                <br>• <strong>Approach 2 (Vlad Mihalcea / Hibernate Official Guideline):</strong>
+                                Return a constant fixed integer for <code>hashCode()</code> (e.g. <code>getClass().hashCode()</code>) and check <code>id != null && id.equals(other.id)</code> in <code>equals()</code>. Because all instances of <code>Student</code> share the same hash code, they always land in the same bucket, preserving HashSet integrity across all lifecycle states.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Hibernate-Safe equals and hashCode</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Student)) return false;
+    Student other = (Student) o;
+    // Proxies might have id null unless getId() is invoked!
+    return id != null && id.equals(other.getId());
+}
+
+@Override
+public int hashCode() {
+    // Return constant hashCode to ensure bucket stability across transient and managed states!
+    return getClass().hashCode();
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Generates standard IDE `equals()` and `hashCode()` using `id` without realizing that generated IDs mutate after persistence, corrupting hash-based collections.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains hashcode mutation in HashSet buckets, discusses NaturalID vs surrogate key trade-offs, warns about Hibernate proxy class comparison (`instanceof` vs `getClass()`), and uses constant hash codes or immutable UUID business keys.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 8: Bulk JPQL Mutations & 1st-Level Cache Inconsistency -->
+                <div class="question-card" id="q-8" data-keywords="jpql bulk update modifying clearautomatically flushautomatically stale data first level cache">
+                    <div class="card-header">
+                        <span class="concept-badge">JPQL Bulk Operations & Cache Consistency</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The architectural mismatch between JPQL bulk mutations (<code>@Modifying @Query("UPDATE...")</code>) and the Persistence Context, and why subsequent queries return stale data unless <code>clearAutomatically = true</code> is specified.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>AccountCreditService</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> What will <code>refreshedAccount.getBalance()</code> print? (100 or 150?) Explain why.
+                                <br>
+                                <strong>Part B:</strong> What does <code>@Modifying(clearAutomatically = true, flushAutomatically = true)</code> do, and why is <code>flushAutomatically</code> critical if entities were modified earlier in the same transaction?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'AccountCreditService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">public interface AccountRepository extends JpaRepository&lt;Account, Long&gt; {
+
+    @Modifying
+    @Query("UPDATE Account a SET a.balance = a.balance + :amount WHERE a.id = :id")
+    int creditAccount(@Param("id") Long id, @Param("amount") BigDecimal amount);
+}
+
+@Service
+public class AccountCreditService {
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Transactional
+    public void executeCredit(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow();
+
+        accountRepository.creditAccount(accountId, new BigDecimal("50"));
+
+        Account refreshedAccount = accountRepository.findById(accountId).orElseThrow();
+        System.out.println("Balance: " + refreshedAccount.getBalance());
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 8, 1, 'JPQL bulk mutations, persistence context stale state, and clearAutomatically')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 8, 2, 'JPQL bulk mutations, persistence context stale state, and clearAutomatically')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 8, 3, 'JPQL bulk mutations, persistence context stale state, and clearAutomatically')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 8, 4, 'JPQL bulk mutations, persistence context stale state, and clearAutomatically')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Stale 1st-Level Cache Trap):</strong>
+                                <br>It prints <strong>Balance: 100</strong> (NOT 150)!
+                                <br><strong>Why:</strong>
+                                <br>1. In Step 1, <code>findById()</code> loads <code>Account#1</code> into the Persistence Context (First-Level Cache) with balance = 100.
+                                <br>2. In Step 2, the <code>@Modifying</code> JPQL query executes directly against the database via JDBC. The database row updates to 150, but <strong>Hibernate's in-memory Persistence Context is completely bypassed!</strong>
+                                <br>3. In Step 3, <code>accountRepository.findById(accountId)</code> checks the First-Level Cache first. It finds <code>Account#1</code> already present with balance = 100, and immediately returns the stale in-memory reference without hitting the database!
+                                <br>4. Even worse: at transaction commit, Hibernate's dirty checking might overwrite the database 150 back to 100!
+                                <br><br>
+                                <strong>Part B (The Fix):</strong>
+                                <br>Annotate the query with:
+                                <br><code>@Modifying(clearAutomatically = true, flushAutomatically = true)</code>
+                                <br>• <code>flushAutomatically = true</code>: Flushes any pending dirty changes to DB before executing the bulk query.
+                                <br>• <code>clearAutomatically = true</code>: Clears the Persistence Context (<code>em.clear()</code>) immediately after the bulk query, forcing subsequent <code>findById()</code> calls to reload fresh data from the database.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Guesses 150 because "the update happened in the database"; unaware that 1st-level cache intercepts subsequent `findById()` calls.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains that bulk JPQL bypasses the Persistence Context, details the stale cache return, and configures `clearAutomatically = true` and `flushAutomatically = true`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 9: Bidirectional Relationships & Orphan Removal -->
+                <div class="question-card" id="q-9" data-keywords="mappedBy bidirectional relationship orphanremoval cascade foreign key null">
+                    <div class="card-header">
+                        <span class="concept-badge">Entity Associations & Relationship Ownership</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                JPA bidirectional association ownership (<code>mappedBy</code>), why the non-owning side cannot write foreign keys (causing <code>NULL</code> foreign keys), helper synchronization methods, and the mechanics of <code>orphanRemoval = true</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>Order</code> and <code>OrderItem</code> in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> In <code>createOrder()</code>, an order is saved with items. When inspected in the SQL database, <code>order_id</code> in the <code>order_items</code> table is <strong>NULL</strong>! Why did the foreign key fail to populate?
+                                <br>
+                                <strong>Part B:</strong> What is the mechanical difference between <code>CascadeType.REMOVE</code> and <code>orphanRemoval = true</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'OrderMappingEntities.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">@Entity
+@Table(name = "orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List&lt;OrderItem&gt; items = new ArrayList&lt;&gt;();
+
+    public void addItem(OrderItem item) {
+        this.items.add(item);
+    }
+}
+
+@Entity
+@Table(name = "order_items")
+public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
+}
+
+@Service
+public class OrderCheckoutService {
+    @Transactional
+    public void createOrder() {
+        Order order = new Order();
+        OrderItem item = new OrderItem();
+        order.addItem(item);
+        orderRepository.save(order);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 9, 1, 'Bidirectional association ownership mappedBy, foreign key sync, and orphanRemoval')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 9, 2, 'Bidirectional association ownership mappedBy, foreign key sync, and orphanRemoval')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 9, 3, 'Bidirectional association ownership mappedBy, foreign key sync, and orphanRemoval')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 9, 4, 'Bidirectional association ownership mappedBy, foreign key sync, and orphanRemoval')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Relationship Ownership & mappedBy):</strong>
+                                <br>In JPA, the side with <code>mappedBy</code> (the <code>@OneToMany</code> on <code>Order</code>) is the <strong>inverse (non-owning) side</strong>. It is read-only as far as the foreign key column is concerned!
+                                <br>The <strong>owning side</strong> is <code>@ManyToOne @JoinColumn(name = "order_id")</code> on <code>OrderItem</code>. Hibernate only updates the foreign key column if the relationship is set on the <strong>owning side</strong> (<code>item.setOrder(order)</code>).
+                                <br>Because <code>order.addItem(item)</code> only mutated <code>order.items</code> and never set <code>item.order</code>, Hibernate inserts <code>order_id = NULL</code>!
+                                <br><strong>Fix:</strong> Always implement bidirectional helper synchronization methods:
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Helper Synchronization Method</span><span class="code-lang">Java</span></div>
+                                <pre><code>public void addItem(OrderItem item) {
+    this.items.add(item);
+    item.setOrder(this); // Must set the owning side!
+}
+
+public void removeItem(OrderItem item) {
+    this.items.remove(item);
+    item.setOrder(null);
+}</code></pre>
+                            </div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px; margin-bottom: 8px;">
+                                <strong>Part B (CascadeType.REMOVE vs orphanRemoval = true):</strong>
+                                <br>• <code>CascadeType.REMOVE</code>: When parent <code>Order</code> is deleted, its child <code>OrderItem</code>s are also deleted. However, if you simply remove an item from the collection (<code>order.getItems().remove(0)</code>), <code>CascadeType.REMOVE</code> does <strong>NOTHING</strong>! The item remains orphaned in the database.
+                                <br>• <code>orphanRemoval = true</code>: In addition to cascading parent deletion, if an entity is removed from the collection, Hibernate automatically issues a SQL <code>DELETE FROM order_items WHERE id = ?</code> for the orphaned child.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Cannot explain why `order_id` is null; confused between which side owns the database foreign key.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Immediately identifies the missing owning-side setter, prescribes defensive bidirectional helper methods, and clearly contrasts `CascadeType.REMOVE` with `orphanRemoval`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 10: MultipleBagFetchException & Cartesian Product -->
+                <div class="question-card" id="q-10" data-keywords="multiplebagfetchexception cartesian product join fetch list set bag">
+                    <div class="card-header">
+                        <span class="concept-badge">Advanced Query Engineering</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The cause of <code>MultipleBagFetchException: cannot simultaneously fetch multiple bags</code>, the mathematics of Cartesian Product table multiplication, and how to query multiple collections cleanly.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the JPQL query in <code>PostRepository</code> in the code snippet.
+                                When the application starts up or runs this query, Hibernate crashes with:
+                                <br><code>org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags: [com.example.Post.comments, com.example.Post.tags]</code>.
+                                <br><br>
+                                <strong>Part A:</strong> What is a "bag" in Hibernate terminology, and why does Hibernate forbid simultaneous fetch joins on multiple bags?
+                                <br>
+                                <strong>Part B:</strong> If you change both collections from <code>List</code> to <code>Set</code>, the exception disappears. What hidden catastrophic performance disaster occurs in the database when executing this query on sets with 100 comments and 50 tags?
+                                <br>
+                                <strong>Part C:</strong> What is the architecturally correct way to fetch both collections?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'PostRepository.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">public interface PostRepository extends JpaRepository&lt;Post, Long&gt; {
+
+    @Query("SELECT p FROM Post p " +
+           "JOIN FETCH p.comments " +
+           "JOIN FETCH p.tags " +
+           "WHERE p.id = :id")
+    Optional&lt;Post&gt; findPostWithDetails(@Param("id") Long id);
+}
+
+@Entity
+public class Post {
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "post")
+    private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();
+
+    @OneToMany(mappedBy = "post")
+    private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 10, 1, 'MultipleBagFetchException, Cartesian product explosion, and multi-query fetching')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 10, 2, 'MultipleBagFetchException, Cartesian product explosion, and multi-query fetching')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 10, 3, 'MultipleBagFetchException, Cartesian product explosion, and multi-query fetching')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 10, 4, 'MultipleBagFetchException, Cartesian product explosion, and multi-query fetching')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Bags & Cartesian Multiplication):</strong>
+                                In Hibernate, a <code>java.util.List</code> without an <code>@OrderColumn</code> is treated as a <strong>Bag</strong> (an unordered collection that allows duplicate elements).
+                                Joining two bags in a single SQL query produces an uncontrolled <strong>Cartesian Product</strong>. If Post #1 has 100 comments and 50 tags, the SQL query returns \(100 	imes 50 = \mathbf{5,000}\) rows over the wire for a single post! Hibernate cannot determine which rows represent duplicate comments versus duplicate tags.
+                                <br><br>
+                                <strong>Part B (The Set Band-Aid Hazard):</strong>
+                                Converting both collections to <code>Set</code> bypasses the exception because sets deduplicate objects. However, the database STILL evaluates the full Cartesian product of 5,000 rows over the network, wasting database CPU, network bandwidth, and memory before in-memory deduplication occurs.
+                                <br><br>
+                                <strong>Part C (The Architectural Fix):</strong>
+                                Split the fetch into two sequential queries inside the same <code>@Transactional</code> boundary:
+                                <br>1. Query 1: <code>SELECT p FROM Post p JOIN FETCH p.comments WHERE p.id = :id</code>
+                                <br>2. Query 2: <code>SELECT p FROM Post p JOIN FETCH p.tags WHERE p.id = :id</code>
+                                <br>Hibernate's First-Level Cache merges both collections into the single managed <code>Post</code> instance with zero Cartesian multiplication! (Returns \(100 + 50 = 150\) rows instead of 5,000).
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Changes lists to sets without understanding that the Cartesian product explosion still executes in the database engine.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Calculates the \(N 	imes M\) Cartesian row penalty, rejects dual-set join fetches on large collections, and splits queries across the shared persistence context or uses `@BatchSize`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 11: JDBC Batching Failure with GenerationType.IDENTITY -->
+                <div class="question-card" id="q-11" data-keywords="jdbc batching identity sequence allocationsize insert batch_size hibernate">
+                    <div class="card-header">
+                        <span class="concept-badge">Batch Processing & Identifier Generators</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Why <code>GenerationType.IDENTITY</code> silently disables Hibernate JDBC insert batching (<code>hibernate.jdbc.batch_size</code>), and how <code>GenerationType.SEQUENCE</code> with <code>allocationSize</code> restores batch efficiency.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A data migration batch service inserts 50,000 log records.
+                                The developer configured <code>spring.jpa.properties.hibernate.jdbc.batch_size=50</code> in YAML, expecting Hibernate to send batched statements of 50 rows per network roundtrip.
+                                <br><br>
+                                However, database logs show 50,000 individual, separate single-row <code>INSERT</code> statements!
+                                <br><br>
+                                <strong>Part A:</strong> Why does <code>GenerationType.IDENTITY</code> completely disable JDBC batching in Hibernate?
+                                <br>
+                                <strong>Part B:</strong> How does <code>GenerationType.SEQUENCE</code> with <code>allocationSize=50</code> solve this at the database engine level?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'AuditLogBatchService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">@Entity
+@Table(name = "audit_logs")
+public class AuditLog {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String message;
+    private Instant createdAt;
+}
+
+@Service
+public class AuditLogBatchService {
+
+    @Autowired
+    private EntityManager entityManager;
+
+    @Transactional
+    public void insertBatch(List&lt;String&gt; messages) {
+        for (int i = 0; i &lt; messages.size(); i++) {
+            AuditLog log = new AuditLog();
+            log.setMessage(messages.get(i));
+            log.setCreatedAt(Instant.now());
+            entityManager.persist(log);
+
+            if (i > 0 && i % 50 == 0) {
+                entityManager.flush();
+                entityManager.clear();
+            }
+        }
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 11, 1, 'JDBC batching disablement with GenerationType.IDENTITY vs SEQUENCE allocationSize')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 11, 2, 'JDBC batching disablement with GenerationType.IDENTITY vs SEQUENCE allocationSize')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 11, 3, 'JDBC batching disablement with GenerationType.IDENTITY vs SEQUENCE allocationSize')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 11, 4, 'JDBC batching disablement with GenerationType.IDENTITY vs SEQUENCE allocationSize')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Why IDENTITY Disables Batching):</strong>
+                                <br>In JPA, every managed entity inside the Persistence Context MUST have a non-null primary key.
+                                <br>With <code>GenerationType.IDENTITY</code>, the primary key is generated by the database auto-increment column (e.g. MySQL <code>AUTO_INCREMENT</code> or SQL Server <code>IDENTITY</code>) <strong>only after the row is physically inserted</strong>.
+                                <br>Therefore, to obtain the generated ID, Hibernate cannot delay execution; it must physically execute the SQL <code>INSERT</code> immediately at the moment <code>persist()</code> is invoked. Because each INSERT must execute individually to fetch its generated key via JDBC <code>getGeneratedKeys()</code>, Hibernate <strong>disables JDBC batching completely</strong>!
+                                <br><br>
+                                <strong>Part B (SEQUENCE with allocationSize):</strong>
+                                <br>With <code>GenerationType.SEQUENCE</code> (supported in PostgreSQL, Oracle), Hibernate queries the sequence generator in advance.
+                                With <code>allocationSize = 50</code>, a single sequence call (<code>SELECT nextval('audit_seq')</code>) gives Hibernate a block of 50 consecutive IDs to allocate in-memory.
+                                Because all 50 entities receive IDs before database write, Hibernate queues all 50 INSERT statements and flushes them in a <strong>single JDBC batch network roundtrip</strong>.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>High-Performance Sequence Configuration</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Entity
+@Table(name = "audit_logs")
+public class AuditLog {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "audit_log_seq")
+    @SequenceGenerator(name = "audit_log_seq", sequenceName = "audit_log_seq", allocationSize = 50)
+    private Long id;
+    // ...
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes setting `hibernate.jdbc.batch_size` is all that is required; unaware of IDENTITY forcing immediate INSERT execution.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Persistence Context ID requirement, contrasts IDENTITY immediate insert vs SEQUENCE in-memory pool allocation with `allocationSize`, and configures periodic `flush()` and `clear()`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 12: Transaction Isolation Levels & Phantom Reads -->
+                <div class="question-card" id="q-12" data-keywords="transaction isolation levels read committed repeatable read serializable phantom read mvcc">
+                    <div class="card-header">
+                        <span class="concept-badge">Transaction Concurrency & Database ACID</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The 4 ANSI SQL Transaction Isolation Levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable), what phenomena they prevent (Dirty Reads, Non-Repeatable Reads, Phantom Reads), and how MVCC works in modern databases.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Consider an accounting audit service running in PostgreSQL or MySQL InnoDB. Look at the method in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Under default <code>Isolation.READ_COMMITTED</code>, Transaction 1 calculates total ledger balance with <code>SELECT SUM(amount) FROM entries</code>. While it runs, Transaction 2 inserts 100 new entries and commits. Transaction 1 executes the query again. Does Transaction 1 see the new sum? What isolation level prevents this?
+                                <br>
+                                <strong>Part B:</strong> What is a <strong>Phantom Read</strong>, and how does <strong>Multi-Version Concurrency Control (MVCC)</strong> in PostgreSQL prevent phantom reads without acquiring table-wide read locks?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'LedgerAuditService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">@Service
+public class LedgerAuditService {
+
+    @Autowired
+    private LedgerEntryRepository entryRepository;
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public boolean verifyLedgerConsistency() {
+        BigDecimal initialSum = entryRepository.calculateTotalSum();
+        
+        performLongAuditVerification();
+
+        BigDecimal secondSum = entryRepository.calculateTotalSum();
+        return initialSum.compareTo(secondSum) == 0;
+    }
+
+    private void performLongAuditVerification() {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 12, 1, 'Transaction isolation levels, dirty vs non-repeatable vs phantom reads, and MVCC')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 12, 2, 'Transaction isolation levels, dirty vs non-repeatable vs phantom reads, and MVCC')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 12, 3, 'Transaction isolation levels, dirty vs non-repeatable vs phantom reads, and MVCC')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 12, 4, 'Transaction isolation levels, dirty vs non-repeatable vs phantom reads, and MVCC')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Read Committed vs Repeatable Read):</strong>
+                                <br>Under <code>READ_COMMITTED</code>, each individual SQL query sees a fresh snapshot of all data committed up to that exact instant. When Transaction 2 commits between the two SELECT queries, Transaction 1 sees the new sum (Non-Repeatable / Phantom Read)!
+                                <br>To ensure consistent reads across the entire duration of Transaction 1, configure <code>@Transactional(isolation = Isolation.REPEATABLE_READ)</code>.
+                                <br><br>
+                                <strong>Part B (Phantom Reads & MVCC Mechanics):</strong>
+                                <br>• <strong>Phantom Read:</strong> Transaction 1 queries a range of rows (e.g. <code>WHERE status = 'PENDING'</code>). Transaction 2 inserts a new row matching that range and commits. Transaction 1 re-queries the range and observes a 'phantom' row that did not exist initially.
+                                <br>• <strong>MVCC Architecture:</strong> In PostgreSQL and MySQL InnoDB, MVCC assigns every transaction a virtual snapshot based on transaction IDs (<code>xmin</code> / <code>xmax</code> in PostgreSQL).
+                                Under Repeatable Read, the snapshot is taken at the <strong>start of the transaction</strong>. Subsequent queries only see tuple versions created before that transaction started, filtering out newly committed rows without taking blocking table locks!
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Cannot distinguish between Non-Repeatable Read and Phantom Read; believes transactions always lock rows in the database to prevent reads.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Defines the 4 ANSI isolation levels accurately, explains MVCC snapshot isolation (xmin/xmax / undo logs), and evaluates performance impacts of Serializable vs Repeatable Read.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 13: Soft Delete & Unique Constraint Collisions -->
+                <div class="question-card" id="q-13" data-keywords="soft delete sqldelete sqlrestriction where unique constraint collision index">
+                    <div class="card-header">
+                        <span class="concept-badge">Data Modeling & Deletion Architecture</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Implementing soft deletion via <code>@SQLDelete</code> and Hibernate 6 <code>@SQLRestriction</code> (or Hibernate 5 <code>@Where</code>), and resolving the <strong>Unique Constraint Collision</strong> problem on soft-deleted rows.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the <code>UserAccount</code> entity in the code snippet.
+                                A user with email <code>"john@example.com"</code> deletes their account (setting <code>deleted = true</code>).
+                                <br><br>
+                                A week later, another customer registers with <code>"john@example.com"</code>.
+                                The database rejects the registration with:
+                                <br><code>PSQLException: ERROR: duplicate key value violates unique constraint "uk_user_email"</code>!
+                                <br><br>
+                                <strong>Part A:</strong> Why does standard soft deletion break unique constraints in relational databases?
+                                <br>
+                                <strong>Part B:</strong> What are the production-grade architectural patterns to enforce unique constraints on active records only?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'UserAccountSoftDelete.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">@Entity
+@Table(name = "user_accounts", uniqueConstraints = {
+    @UniqueConstraint(name = "uk_user_email", columnNames = "email")
+})
+@SQLDelete(sql = "UPDATE user_accounts SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
+public class UserAccount {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String email;
+
+    private boolean deleted = false;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 13, 1, 'Soft deletion @SQLDelete, @SQLRestriction, and partial unique index resolution')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 13, 2, 'Soft deletion @SQLDelete, @SQLRestriction, and partial unique index resolution')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 13, 3, 'Soft deletion @SQLDelete, @SQLRestriction, and partial unique index resolution')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 13, 4, 'Soft deletion @SQLDelete, @SQLRestriction, and partial unique index resolution')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Constraint Trap):</strong>
+                                The database unique constraint <code>uk_user_email</code> enforces uniqueness across the entire table without awareness of Hibernate's <code>@SQLRestriction("deleted = false")</code>.
+                                The soft-deleted row remains in the table with <code>email = 'john@example.com'</code>, causing any new registration with the same email to crash with a unique key violation.
+                                <br><br>
+                                <strong>Part B (Production-Grade Solutions):</strong>
+                                <br>• <strong>Pattern 1 (Filtered / Partial Unique Index - Recommended for PostgreSQL):</strong>
+                                Create a conditional unique index that only indexes active rows:
+                                <br><code>CREATE UNIQUE INDEX uk_user_active_email ON user_accounts (email) WHERE deleted = false;</code>
+                                This completely solves the problem: soft-deleted rows are ignored by the index, allowing duplicate emails across deleted records!
+                                <br>• <strong>Pattern 2 (Composite Unique Key with Null/Timestamp - MySQL compatible):</strong>
+                                Replace <code>boolean deleted</code> with <code>Instant deletedAt</code> (null for active). Create a composite unique index on <code>(email, deletedAt)</code>. In MySQL, multiple rows can share identical emails as long as <code>deletedAt</code> contains unique deletion timestamps.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests checking `findByEmail` in Java code before saving, which fails under concurrent registrations due to race conditions.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Implements PostgreSQL partial unique index (`WHERE deleted = false`), contrasts with MySQL null timestamp composite indexing, and explains Hibernate 6 `@SQLRestriction` syntax.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 14: Hibernate FlushModeType.AUTO vs COMMIT -->
+                <div class="question-card" id="q-14" data-keywords="flushmodetype auto commit hibernate flush trigger sql">
+                    <div class="card-header">
+                        <span class="concept-badge">Persistence Context Flushing & Timing</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Hibernate flush timing: Understanding default <code>FlushModeType.AUTO</code>, why executing JPQL queries triggers premature SQL flushes of dirty entities, and tuning via <code>FlushModeType.COMMIT</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>PaymentProcessingService</code> in the code snippet.
+                                A developer modifies an order entity. Later in the method, they execute a SELECT query to find eligible payment gateways.
+                                <br><br>
+                                When inspecting database logs, the developer notices an unexpected SQL <code>UPDATE orders SET status = 'PROCESSING' WHERE id = 101</code> executed <strong>in the middle of the method</strong>, right before the gateway query!
+                                <br><br>
+                                <strong>Part A:</strong> Why did executing a simple <code>SELECT</code> query trigger an immediate SQL <code>UPDATE</code> flush?
+                                <br>
+                                <strong>Part B:</strong> What is <code>FlushModeType.AUTO</code>, how does Hibernate decide which queries require a flush, and when should <code>FlushModeType.COMMIT</code> be used?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'PaymentProcessingService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">@Service
+public class PaymentProcessingService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private GatewayRepository gatewayRepository;
+
+    @Transactional
+    public void processPayment(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.setStatus("PROCESSING");
+
+        List&lt;PaymentGateway&gt; gateways = gatewayRepository.findByRegion("US");
+
+        executeRemotePayment(order, gateways.get(0));
+    }
+
+    private void executeRemotePayment(Order order, PaymentGateway gateway) {}
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 14, 1, 'Hibernate FlushModeType.AUTO query flush mechanics vs COMMIT flush mode')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 14, 2, 'Hibernate FlushModeType.AUTO query flush mechanics vs COMMIT flush mode')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 14, 3, 'Hibernate FlushModeType.AUTO query flush mechanics vs COMMIT flush mode')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 14, 4, 'Hibernate FlushModeType.AUTO query flush mechanics vs COMMIT flush mode')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A & B (FlushModeType.AUTO Mechanics):</strong>
+                                By default, Hibernate uses <code>FlushModeType.AUTO</code>.
+                                Under AUTO mode, Hibernate must ensure that any subsequent query sees all in-memory changes made earlier in the same transaction.
+                                <br><br>
+                                When <code>gatewayRepository.findByRegion()</code> is called:
+                                <br>1. If Hibernate cannot prove with 100% certainty that the pending dirty entities (<code>Order</code>) have no overlap with the queried tables (or when native SQL / complex JPQL queries run), Hibernate executes a <strong>pre-query auto-flush</strong>!
+                                <br>2. It flushes all pending entity mutations to the database immediately to maintain query read consistency.
+                                <br><br>
+                                <strong>Implications:</strong>
+                                If <code>executeRemotePayment()</code> fails 5 seconds later, the order table was already updated in the database, potentially firing database triggers or acquiring row locks prematurely.
+                                <br><strong>Tuning:</strong> Configuring <code>FlushModeType.COMMIT</code> tells Hibernate to defer all flushes strictly until the transaction commit phase, avoiding mid-transaction flushes.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes Hibernate only flushes when the method returns or when `em.flush()` is called explicitly.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains `FlushModeType.AUTO` query-synchronization checks, details how dirty space overlap triggers mid-transaction writes, and knows how to configure `FlushModeType.COMMIT`.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 15: Inheritance Mapping: SINGLE_TABLE vs JOINED vs TABLE_PER_CLASS -->
+                <div class="question-card" id="q-15" data-keywords="inheritance mapping single_table joined table_per_class discriminator polymorpic">
+                    <div class="card-header">
+                        <span class="concept-badge">Domain Modeling & Inheritance Strategies</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The architectural trade-offs of JPA inheritance strategies: <code>SINGLE_TABLE</code> (sparse columns vs fast queries), <code>JOINED</code> (normalized schema vs costly multi-table joins), and <code>TABLE_PER_CLASS</code> (UNION queries).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are designing a financial payment system with an abstract <code>PaymentMethod</code> entity and three subclasses: <code>CreditCard</code>, <code>BankAccount</code>, and <code>CryptoWallet</code>. Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> What are the structural and performance trade-offs of <code>InheritanceType.SINGLE_TABLE</code> versus <code>InheritanceType.JOINED</code>?
+                                <br>
+                                <strong>Part B:</strong> In <code>SINGLE_TABLE</code>, why is it impossible to define database-level <code>NOT NULL</code> constraints on subclass-specific columns (e.g. <code>credit_card_cvv</code>)?
+                                <br>
+                                <strong>Part C:</strong> When executing a polymorphic query like <code>paymentMethodRepository.findAll()</code>, what SQL does <code>InheritanceType.JOINED</code> generate?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'PaymentInheritanceEntities.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class PaymentMethod {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String ownerName;
+}
+
+@Entity
+public class CreditCard extends PaymentMethod {
+    private String cardNumber;
+    private String cvv;
+}
+
+@Entity
+public class BankAccount extends PaymentMethod {
+    private String routingNumber;
+    private String accountNumber;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 15, 1, 'JPA inheritance strategies: SINGLE_TABLE vs JOINED and polymorphic SQL join trade-offs')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 15, 2, 'JPA inheritance strategies: SINGLE_TABLE vs JOINED and polymorphic SQL join trade-offs')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 15, 3, 'JPA inheritance strategies: SINGLE_TABLE vs JOINED and polymorphic SQL join trade-offs')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 15, 4, 'JPA inheritance strategies: SINGLE_TABLE vs JOINED and polymorphic SQL join trade-offs')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A & B (SINGLE_TABLE vs JOINED):</strong>
+                                <br>• <strong>SINGLE_TABLE (Default & Fastest Queries):</strong>
+                                All classes mapped to a single table with a <code>DTYPE</code> discriminator column.
+                                <br><em>Pros:</em> Zero joins! Polymorphic queries select from a single table with zero joins.
+                                <br><em>Cons:</em> Data normalization is lost. Subclass-specific columns (like <code>cardNumber</code>) <strong>MUST be nullable</strong> in DDL because a <code>BankAccount</code> row will have null for card fields. Schema integrity must be handled in application validation.
+                                <br><br>
+                                • <strong>JOINED (Normalized Schema):</strong>
+                                Base entity and each subclass have their own tables. Subclass tables share the primary key with the parent.
+                                <br><em>Pros:</em> Normalized DDL; columns can have <code>NOT NULL</code> constraints and foreign keys.
+                                <br><em>Cons:</em> High performance penalty on polymorphic queries!
+                                <br><br>
+                                <strong>Part C (SQL Generated by JOINED):</strong>
+                                <code>paymentMethodRepository.findAll()</code> generates a wide <code>LEFT OUTER JOIN</code> chaining every subclass table:
+                                <br><code>SELECT ... FROM payment_method p LEFT JOIN credit_card c ON p.id = c.id LEFT JOIN bank_account b ON p.id = b.id</code>.
+                                With 10 subclasses, every query executes 10 table joins, killing index efficiency.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends JOINED blindly because "normalization is always good", ignoring the severe outer-join performance penalty on polymorphic read queries.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Compares SINGLE_TABLE speed vs DDL NOT NULL loss, diagrams the multi-table LEFT JOIN penalty of JOINED, and explains discriminator column indexes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 16: Dynamic Querying: Criteria API vs Specification vs Querydsl -->
+                <div class="question-card" id="q-16" data-keywords="criteria api jpa specification querydsl dynamic queries sql injection">
+                    <div class="card-header">
+                        <span class="concept-badge">Dynamic Query Architecture & Type Safety</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Type-safe dynamic query construction: Comparing raw string concatenation (SQL injection vulnerability) with Spring Data <code>JpaSpecificationExecutor</code> and <strong>Querydsl</strong> code generation.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise search screen has 12 optional search filters (price range, categories, status, date ranges). Look at the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> Why is building dynamic JPQL queries via StringBuilder string concatenation prone to syntax bugs, SQL injection vulnerabilities, and broken parameter indexing?
+                                <br>
+                                <strong>Part B:</strong> How does Spring Data JPA's <code>Specification&lt;T&gt;</code> use the JPA Criteria API to compose predicates dynamically?
+                                <br>
+                                <strong>Part C:</strong> What advantage does <strong>Querydsl</strong> (using generated <code>QProduct</code> metadata) offer over JPA Criteria Specification?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'ProductSearchSpecification.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">public class ProductSpecifications {
+
+    public static Specification&lt;Product&gt; withFilter(ProductSearchFilter filter) {
+        return (root, query, cb) -&gt; {
+            List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();
+
+            if (filter.getName() != null) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + filter.getName().toLowerCase() + "%"));
+            }
+            if (filter.getMinPrice() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), filter.getMinPrice()));
+            }
+            if (filter.getStatus() != null) {
+                predicates.add(cb.equal(root.get("status"), filter.getStatus()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 16, 1, 'Dynamic querying: Criteria API, Spring Data JPA Specification, and Querydsl')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 16, 2, 'Dynamic querying: Criteria API, Spring Data JPA Specification, and Querydsl')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 16, 3, 'Dynamic querying: Criteria API, Spring Data JPA Specification, and Querydsl')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 16, 4, 'Dynamic querying: Criteria API, Spring Data JPA Specification, and Querydsl')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (String Concatenation Risks):</strong>
+                                Building strings requires manual whitespace handling, condition appending (<code>WHERE 1=1</code> hacks), and positional parameter mapping. String manipulation easily leads to SQL injection if untrusted inputs are concatenated directly instead of using bind parameters.
+                                <br><br>
+                                <strong>Part B (Spring Data Specification & Criteria API):</strong>
+                                Spring Data's <code>Specification&lt;T&gt;</code> encapsulates the JPA 2.0 <code>CriteriaBuilder</code> and <code>Predicate</code> model into reusable, composable functional interfaces (<code>spec1.and(spec2).or(spec3)</code>).
+                                The database generates parameterized SQL with proper bind variables, completely neutralizing SQL injection.
+                                <br><br>
+                                <strong>Part C (Querydsl vs Criteria Specification):</strong>
+                                Notice in the snippet: <code>root.get("price")</code> uses raw String literals for field names. If a refactoring renames <code>price</code> to <code>unitPrice</code>, the compiler does NOT catch this, and the application crashes at runtime!
+                                <br><strong>Querydsl</strong> generates compile-time metamodels (<code>QProduct.product.price.goe(minPrice)</code>). If property names change or types mismatch, compilation fails instantly.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Writes manual StringBuilder strings with `WHERE 1=1` and string concatenation; has no familiarity with Spring Data Specification.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Identifies lack of compile-time type safety with String-based Criteria `root.get()`, advocates Querydsl or Hibernate metamodel generator (`Product_.price`), and composes dynamic predicates cleanly.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 17: Concurrent Deadlocks & Lock Acquisition Ordering -->
+                <div class="question-card" id="q-17" data-keywords="deadlock concurrent transaction lock ordering select for update postgresql">
+                    <div class="card-header">
+                        <span class="concept-badge">Transaction Concurrency & Deadlock Prevention</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Database-level transaction deadlocks caused by asymmetric lock acquisition ordering, and how enforcing deterministic natural ID sorting eliminates cyclic wait deadlocks.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>FundTransferService</code> in the code snippet.
+                                In production during peak load, two users initiate simultaneous transfers between the exact same accounts:
+                                <br>• Thread 1 transfers $50 from Account 101 to Account 202.
+                                <br>• Thread 2 transfers $20 from Account 202 to Account 101.
+                                <br><br>
+                                One of the transactions crashes with:
+                                <br><code>PSQLException: ERROR: deadlock detected: Process 14210 waits for ShareLock on transaction 8812; Process 8812 waits for ShareLock on transaction 14210</code>.
+                                <br><br>
+                                <strong>Part A:</strong> Explain step-by-step how these two concurrent threads created a cyclic dependency deadlock in the database engine.
+                                <br>
+                                <strong>Part B:</strong> How do you fix this permanently in code without disabling row-level locking?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'FundTransferService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">@Service
+public class FundTransferService {
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Transactional
+    public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
+        Account from = accountRepository.findWithLock(fromAccountId);
+        Account to = accountRepository.findWithLock(toAccountId);
+
+        from.debit(amount);
+        to.credit(amount);
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 17, 1, 'Concurrent transaction deadlocks and deterministic lock acquisition ordering')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 17, 2, 'Concurrent transaction deadlocks and deterministic lock acquisition ordering')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 17, 3, 'Concurrent transaction deadlocks and deterministic lock acquisition ordering')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 17, 4, 'Concurrent transaction deadlocks and deterministic lock acquisition ordering')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (The Cyclic Dependency Deadlock):</strong>
+                                <br>1. Thread 1 executes <code>findWithLock(101)</code> and acquires exclusive row lock on Account 101.
+                                <br>2. Thread 2 simultaneously executes <code>findWithLock(202)</code> and acquires exclusive row lock on Account 202.
+                                <br>3. Thread 1 now executes <code>findWithLock(202)</code>: It blocks waiting for Thread 2 to release Account 202.
+                                <br>4. Thread 2 now executes <code>findWithLock(101)</code>: It blocks waiting for Thread 1 to release Account 101.
+                                <br><strong>Deadlock:</strong> Thread 1 waits for Thread 2, and Thread 2 waits for Thread 1. Neither can make progress. After <code>deadlock_timeout</code> (e.g. 1 second), PostgreSQL's deadlock detector intervenes and aborts one transaction.
+                                <br><br>
+                                <strong>Part B (The Architectural Fix: Deterministic Lock Ordering):</strong>
+                                <br>Deadlocks of this type are 100% preventable by ensuring that all transactions acquire locks in the <strong>exact same global deterministic order</strong> (e.g. sort account IDs in ascending order before locking)!
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Deadlock-Free Implementation</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Transactional
+public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
+    Long firstId = fromAccountId.compareTo(toAccountId) &lt; 0 ? fromAccountId : toAccountId;
+    Long secondId = fromAccountId.compareTo(toAccountId) &lt; 0 ? toAccountId : fromAccountId;
+
+    // Both Thread 1 and Thread 2 are guaranteed to lock Account 101 first, then 202!
+    Account firstAccount = accountRepository.findWithLock(firstId);
+    Account secondAccount = accountRepository.findWithLock(secondId);
+
+    Account from = fromAccountId.equals(firstId) ? firstAccount : secondAccount;
+    Account to = toAccountId.equals(firstId) ? firstAccount : secondAccount;
+
+    from.debit(amount);
+    to.credit(amount);
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests adding retries or setting database isolation to SERIALIZABLE (which actually increases transaction serialization rollback frequency).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Diagrams the cyclic resource lock acquisition sequence immediately and writes deterministic key ordering logic (sorting IDs) to make deadlocks mathematically impossible.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 18: Hibernate Envers Audit Logging & Performance Overhead -->
+                <div class="question-card" id="q-18" data-keywords="envers audit logging audited revision entity write amplification performance">
+                    <div class="card-header">
+                        <span class="concept-badge">Enterprise Auditing & Data Governance</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Hibernate Envers temporal audit logging (<code>@Audited</code>), write amplification penalties (doubling/tripling SQL INSERTs per transaction), revision entity tables (<code>REVINFO</code> and <code>_AUD</code>), and selective auditing optimizations.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An engineering team adds <code>@Audited</code> to the core <code>Order</code> entity for compliance. Look at the code snippet.
+                                <br><br>
+                                In production, database write IOPS triples and transaction throughput plummets by 40%.
+                                <br><br>
+                                <strong>Part A:</strong> What physical database tables and rows does Hibernate Envers create behind the scenes on every INSERT, UPDATE, and DELETE operation?
+                                <br>
+                                <strong>Part B:</strong> If an entity has a rapidly mutating counter (e.g. <code>viewCount</code> updated every 10 seconds), why does Envers cause severe database storage bloat, and how do you selectively exclude fields via <code>@NotAudited</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'AuditedOrderEntity.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">@Entity
+@Table(name = "orders")
+@Audited
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String customerId;
+    private BigDecimal totalAmount;
+
+    @NotAudited
+    private int internalTelemetryCounter;
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 18, 1, 'Hibernate Envers audit logging write amplification and selective @NotAudited optimization')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 18, 2, 'Hibernate Envers audit logging write amplification and selective @NotAudited optimization')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 18, 3, 'Hibernate Envers audit logging write amplification and selective @NotAudited optimization')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 18, 4, 'Hibernate Envers audit logging write amplification and selective @NotAudited optimization')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Write Amplification in Envers):</strong>
+                                Every transactional mutation to an <code>@Audited</code> entity generates multiple synchronous database writes:
+                                <br>1. An INSERT into the global <code>REVINFO</code> table (capturing <code>REV</code> ID and timestamp).
+                                <br>2. The standard SQL write to the production <code>orders</code> table.
+                                <br>3. An additional full-row INSERT into the historical <code>orders_AUD</code> shadow table with <code>REV</code> and <code>REVTYPE</code> (0=ADD, 1=MOD, 2=DEL).
+                                <br>For a single UPDATE, the database executes an UPDATE, a sequence nextval, and two INSERT statements with index updates across 3 separate tables!
+                                <br><br>
+                                <strong>Part B (Rapid Mutation & Selective Auditing):</strong>
+                                If a non-audited counter triggers updates, Envers records a full historical row snapshot on every single tick.
+                                Annotating fields with <code>@NotAudited</code> prevents modifications to that field from triggering new revision records.
+                                For enterprise scale, audit tables must be partitioned by year/month to prevent runaway B-tree index degradation.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Understands that `@Audited` tracks changes, but has never analyzed the underlying `REVINFO` / `_AUD` tables or measured write amplification overhead.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Details the 3-step write amplification lifecycle, analyzes table bloat and index maintenance costs on `_AUD` tables, and implements `@NotAudited` and PostgreSQL table partitioning.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 19: Hibernate 6 Semantic Query Model & Record Embeddables -->
+                <div class="question-card" id="q-19" data-keywords="hibernate 6 sqm semantic query model record embeddable jdbctypecode json">
+                    <div class="card-header">
+                        <span class="concept-badge">Modern Hibernate 6+ & Java Records</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Major architectural shifts in <strong>Hibernate 6</strong> (Spring Boot 3+): The new <strong>Semantic Query Model (SQM)</strong>, native type-safe JSON mapping with <code>@JdbcTypeCode(SqlTypes.JSON)</code>, and using immutable Java <strong>Records</strong> as <code>@Embeddable</code> components.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at the modern Hibernate 6 entity in the code snippet.
+                                <br><br>
+                                <strong>Part A:</strong> In Hibernate 5, storing JSON required heavy third-party dependencies (like Vlad Mihalcea's Hypersistence Utils) or custom UserTypes. How does Hibernate 6 natively support JSON columns using standard JPA annotations?
+                                <br>
+                                <strong>Part B:</strong> In older Hibernate versions, <code>@Embeddable</code> required mutable POJOs with no-arg constructors and setters. How does Hibernate 6 support Java <strong>Records</strong> as embeddables, and why does this guarantee deep value-object immutability?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'ModernCustomerProfile.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">@Entity
+@Table(name = "customer_profiles")
+public class CustomerProfile {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    private Address address;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private UserPreferences preferences;
+}
+
+@Embeddable
+public record Address(String street, String city, String zipCode) {}
+
+public record UserPreferences(boolean emailNotifications, String theme) {}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 19, 1, 'Hibernate 6 SQM architecture, native @JdbcTypeCode JSON, and Record embeddables')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 19, 2, 'Hibernate 6 SQM architecture, native @JdbcTypeCode JSON, and Record embeddables')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 19, 3, 'Hibernate 6 SQM architecture, native @JdbcTypeCode JSON, and Record embeddables')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 19, 4, 'Hibernate 6 SQM architecture, native @JdbcTypeCode JSON, and Record embeddables')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A (Native JSON in Hibernate 6):</strong>
+                                In Hibernate 6, the type system was rewritten from scratch.
+                                Hibernate 6 introduces <code>@JdbcTypeCode(SqlTypes.JSON)</code>.
+                                It automatically uses the Jackson <code>ObjectMapper</code> registered in the runtime context to serialize any POJO/Record to JSONB in PostgreSQL or JSON text in MySQL, with full dirty checking and deep equality comparisons without needing external libraries!
+                                <br><br>
+                                <strong>Part B (Java Records as @Embeddable):</strong>
+                                In Domain-Driven Design (DDD), an <code>@Embeddable</code> represents a <strong>Value Object</strong> (which by definition must be immutable).
+                                Historically, JPA required no-arg constructors and setters, violating immutability.
+                                Hibernate 6 uses canonical record constructors to instantiate <code>@Embeddable</code> records directly from JDBC ResultSets. Records guarantee shallow and deep immutability, eliminating bugs where developers accidentally modify embedded fields.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Unaware of Hibernate 6 features; still recommends writing custom `AttributeConverter<UserPreferences, String>` with manual JSON parsing.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains Hibernate 6 Semantic Query Model (SQM) tree compilation, native `@JdbcTypeCode(SqlTypes.JSON)` integration, and DDD value object immutability using Java Record embeddables.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 20: Connection Leasing & HikariCP Pool Starvation -->
+                <div class="question-card" id="q-20" data-keywords="hikaricp connection pool starvation transactional long running rest api lease timeout">
+                    <div class="card-header">
+                        <span class="concept-badge">Connection Pool Architecture & Performance</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The JDBC connection lease lifecycle in Spring & Hibernate, HikariCP connection pool starvation caused by long-running non-database operations (REST API / remote I/O) inside <code>@Transactional</code> boundaries, and decoupling techniques.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>OrderFulfillmentService</code> in the code snippet.
+                                HikariCP is configured with default <code>maximum-pool-size: 10</code>.
+                                The service handles 20 concurrent orders. The 3rd-party logistics REST call takes 4 seconds to respond.
+                                <br><br>
+                                Within 10 seconds, all other database operations across the entire application stall and throw:
+                                <br><code>Connection is not available, request timed out after 30000ms (HikariPool-1)</code>.
+                                <br><br>
+                                <strong>Part A:</strong> When does Spring / Hibernate actually lease a physical JDBC connection from HikariCP during a <code>@Transactional</code> method, and when is it returned to the pool?
+                                <br>
+                                <strong>Part B:</strong> Why is executing third-party REST API calls inside a <code>@Transactional</code> method considered a catastrophic architectural mistake?
+                                <br>
+                                <strong>Part C:</strong> How do you refactor this method to minimize connection holding time to under 10 milliseconds?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'OrderFulfillmentService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">@Service
+public class OrderFulfillmentService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private ShippingPartnerClient shippingClient;
+
+    @Transactional
+    public void fulfillOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.setStatus("PREPARING");
+
+        ShippingLabel label = shippingClient.generateShippingLabel(order.getShippingAddress());
+        order.setTrackingNumber(label.getTrackingCode());
+        order.setStatus("SHIPPED");
+    }
+}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('orm', 20, 1, 'HikariCP connection lease lifecycle, pool starvation, and remote I/O decoupling')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('orm', 20, 2, 'HikariCP connection lease lifecycle, pool starvation, and remote I/O decoupling')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('orm', 20, 3, 'HikariCP connection lease lifecycle, pool starvation, and remote I/O decoupling')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('orm', 20, 4, 'HikariCP connection lease lifecycle, pool starvation, and remote I/O decoupling')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A & B (The Connection Holding Disaster):</strong>
+                                As soon as the first database statement executes (<code>findById(orderId)</code>), Hibernate leases a physical JDBC connection from HikariCP.
+                                <strong>That connection is held exclusively by that thread until the entire <code>@Transactional</code> method exits!</strong>
+                                <br><br>
+                                While <code>shippingClient.generateShippingLabel(...)</code> spends 4 to 5 seconds waiting on network I/O, the physical database connection sits 100% idle, completely unavailable to any other thread in the JVM.
+                                With just 10 concurrent requests, all 10 connections in HikariCP are leased out and sitting idle!
+                                Every other request in the system (login, search, checkout) blocks waiting for a connection until it times out after 30 seconds with <code>ConnectionTimeoutException</code>.
+                                <br><br>
+                                <strong>Part C (Architectural Decoupling):</strong>
+                                Never hold open database transactions across network I/O boundaries.
+                                Isolate database mutations into distinct, short-lived transactions before and after the remote call.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Decoupled Architecture</span><span class="code-lang">Java</span></div>
+                                <pre><code>@Service
+public class OrderFulfillmentService {
+
+    @Autowired
+    private OrderTransactionService orderTxService;
+
+    @Autowired
+    private ShippingPartnerClient shippingClient;
+
+    // Non-transactional coordinator method! ZERO database connection leased during remote call.
+    public void fulfillOrder(Long orderId) {
+        // Step 1: Read address in short-lived read-only transaction (leased 2ms)
+        ShippingAddress address = orderTxService.getShippingAddress(orderId);
+
+        // Step 2: Slow remote REST call (4 seconds) - NO database connection held!
+        ShippingLabel label = shippingClient.generateShippingLabel(address);
+
+        // Step 3: Fast update in short-lived transaction (leased 3ms)
+        orderTxService.completeOrderFulfillment(orderId, label.getTrackingCode());
+    }
+}</code></pre>
+                            </div>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Recommends increasing HikariCP `maximum-pool-size` to 100 or 500 (which overwhelms the database server and crashes PostgreSQL connection limits).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains the physical JDBC connection lease lifecycle across `@Transactional`, rejects running network I/O inside database transactions, and decomposes the workflow into non-transactional orchestration with short-lived persistence transactions.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Reusable Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card modal-code-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Snippet</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Code</span>
+                        <span class="code-lang">Java / JPA</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('orm');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
