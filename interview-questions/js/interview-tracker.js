@@ -11,12 +11,14 @@ const STORAGE_KEY = 'interview_master_data_v7';
 
 const TOPIC_REGISTRY = {
     'java':         { title: 'Core Java & JVM',           shortTitle: 'Core Java & JVM',     totalQuestions: 20, page: 'java.html',               icon: '☕' },
-    'spring':       { title: 'Spring & Spring Boot',       shortTitle: 'Spring & Spring Boot', totalQuestions: 20, page: 'spring-spring-boot.html', icon: '🌱' },
+    'spring':       { title: 'Spring & Spring Boot',       shortTitle: 'Spring & Spring Boot', totalQuestions: 21, page: 'spring-spring-boot.html', icon: '🌱' },
     'orm':          { title: 'ORM, Hibernate & JPA',       shortTitle: 'ORM & Hibernate',      totalQuestions: 20,  page: 'orm-hibernate-jpa.html',  icon: '🗄️' },
     'rest':         { title: 'REST API & Microservices',   shortTitle: 'REST & Microservices', totalQuestions: 20,  page: 'rest-api-microservices.html', icon: '🌐' },
     'aws':          { title: 'AWS (Lambda & EC2)',         shortTitle: 'AWS Cloud',            totalQuestions: 20,  page: 'aws-deployment.html',     icon: '☁️' },
     'angular':      { title: 'Angular (Modern)',           shortTitle: 'Angular',              totalQuestions: 20,  page: 'angular.html',            icon: '🅰️' },
-    'architecture': { title: 'Architecture & Design',     shortTitle: 'Architecture & Design',totalQuestions: 20,  page: 'architecture-design.html',icon: '📐' }
+    'architecture': { title: 'Architecture & Design',     shortTitle: 'Architecture & Design',totalQuestions: 20,  page: 'architecture-design.html',icon: '📐' },
+    'python_core':      { title: 'Python Core & AsyncIO',      shortTitle: 'Python Core',          totalQuestions: 20, page: 'python-core.html',            icon: '🐍' },
+    'python_frameworks':{ title: 'Django, FastAPI & Flask',    shortTitle: 'Django, FastAPI & Flask', totalQuestions: 20, page: 'python-web-frameworks.html', icon: '🚀' }
 };
 
 // 1-4 Rating Configuration (used internally for scoring)
@@ -191,6 +193,12 @@ function updateQuestionRatingUI(qId, activeRating) {
     if (card) {
         card.style.borderColor = activeRating >= 3 ? '#4ade80' : activeRating === 2 ? '#fb923c' : '#fca5a5';
     }
+
+    // Mark corresponding quick-jump chip as rated
+    const jumpChip = document.getElementById('jump-chip-' + qId);
+    if (jumpChip) {
+        jumpChip.classList.add('rated');
+    }
 }
 
 function updateTopicHeaderUI(topicKey) {
@@ -217,8 +225,39 @@ function updateTopicHeaderUI(topicKey) {
 }
 
 /* ─────────────────────────────────────────────────────
-   TOPIC PAGE INITIALIZATION
+   TOPIC PAGE INITIALIZATION & NAVIGATION SHORTCUTS
 ───────────────────────────────────────────────────── */
+function scrollToQuestion(qId) {
+    const card = document.getElementById('q-' + qId);
+    if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        card.classList.remove('highlight-pulse');
+        void card.offsetWidth; // Trigger DOM reflow to restart animation
+        card.classList.add('highlight-pulse');
+    }
+}
+
+function initBackToTop() {
+    let btn = document.getElementById('backToTopBtn');
+    if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'backToTopBtn';
+        btn.className = 'back-to-top-btn';
+        btn.innerHTML = '▲';
+        btn.setAttribute('aria-label', 'Scroll back to top');
+        btn.title = 'Back to top of questions';
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.appendChild(btn);
+    }
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 350) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+}
+
 function initTopicPage(topicKey) {
     window.currentTopicKey = topicKey;
     const data = getAllData();
@@ -229,6 +268,7 @@ function initTopicPage(topicKey) {
     }
 
     updateTopicHeaderUI(topicKey);
+    initBackToTop();
 }
 
 function resetSkillData(topicKey) {
@@ -246,6 +286,7 @@ function resetSkillData(topicKey) {
         el.className = 'q-score-display';
     });
     document.querySelectorAll('.question-card').forEach(c => c.style.borderColor = '');
+    document.querySelectorAll('.jump-chip').forEach(c => c.classList.remove('rated'));
 
     updateTopicHeaderUI(topicKey);
 }

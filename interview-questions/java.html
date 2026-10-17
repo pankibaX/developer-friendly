@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link active"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -75,7 +77,37 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search topics (e.g. garbage collection, post java 8, hashmap treeify, streams, generics, records, volatile)..." onkeyup="filterQuestions()">
             </div>
 
-            <div id="questionsContainer">
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Collections & Core Java">Q1: Collections & Core</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Generics & Type Safety">Q2: Generics & Safety</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Tricky Streams & Pipeline Lifecycle">Q3: Tricky Streams Lifecycle</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Tricky Streams & Performance">Q4: Streams Performance</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Modern Java (Java 16+) & Records">Q5: Records & Pattern Matching</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Concurrency & JMM">Q6: Concurrency & JMM</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Modern Java 21+ & Virtual Threads">Q7: Virtual Threads</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Memory & Web Containers">Q8: Web Memory & Metaspace</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Collections & Iteration">Q9: Collections & Iteration</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Language Fundamentals & Autoboxing">Q10: Autoboxing & Cache</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Functional Programming & Java 8+">Q11: Functional Interfaces</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Streams & Data Aggregation">Q12: Streams Aggregation</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Streams & In-Memory Pagination">Q13: In-Memory Pagination</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Modern Java LTS (JDK 11 vs 17)">Q14: JDK 11 vs 17 LTS</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="JDK Internals & Sorting Algorithms">Q15: TimSort Internals</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="JVM Internals & Garbage Collection">Q16: GC Tuning & Pauses</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="JVM Evolution Post-Java 8">Q17: Post-Java 8 Evolution</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="HashMap Internals & Treeification">Q18: HashMap Treeification</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Modern Concurrency & Async Architecture">Q19: Async CompletableFuture</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Low-Level Concurrency & Memory Architecture">Q20: Volatile & Memory Fences</button>
+                </div>
+            </div>
+<div id="questionsContainer">
 
                 <!-- QUESTION 1: equals & hashCode with Employee and HashSet -->
                 <div class="question-card" id="q-1" data-keywords="equals hashcode hashset collections employee duplicates">
@@ -113,7 +145,11 @@
                             <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'EmployeeSetTest.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-1" style="display:none;">public class Employee {
+                            <div id="snippet-1" style="display:none;">import java.util.Set;
+import java.util.HashSet;
+import java.util.Objects;
+
+public class Employee {
     private int id;
     private String name;
 
@@ -243,7 +279,11 @@ public int hashCode() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'GenericsTrap.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-2" style="display:none;">public class GenericsTrap {
+                            <div id="snippet-2" style="display:none;">import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class GenericsTrap {
 
     public static void addNumber(List&lt;? extends Number&gt; list) {
         list.add(10); 
@@ -353,7 +393,11 @@ copyList(integers, numbers);</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'StreamTricks.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-3" style="display:none;">public class StreamTricks {
+                            <div id="snippet-3" style="display:none;">import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
+public class StreamTricks {
 
     public static void snippetA() {
         Stream.of("apple", "banana", "cherry")
@@ -459,7 +503,11 @@ System.out.println("Total: " + total + ", Items: " + items);</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'InfiniteStreamHang.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-4" style="display:none;">public class RandomNumberService {
+                            <div id="snippet-4" style="display:none;">import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
+
+public class RandomNumberService {
 
     public List&lt;Integer&gt; getFiveSmallestRandoms() {
         Random random = new Random();
@@ -555,7 +603,10 @@ System.out.println("Total: " + total + ", Items: " + items);</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'UserSecurityRecord.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">public record UserAccount(String username, List&lt;String&gt; roles) {
+                            <div id="snippet-5" style="display:none;">import java.util.List;
+import java.util.ArrayList;
+
+public record UserAccount(String username, List&lt;String&gt; roles) {
 }
 
 public class SecurityService {
@@ -654,7 +705,9 @@ public class SecurityService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'DatabaseConnectionManager.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">public class DatabaseConnectionManager {
+                            <div id="snippet-6" style="display:none;">import java.sql.Connection;
+
+public class DatabaseConnectionManager {
     private static DatabaseConnectionManager instance;
     private final ConnectionPool pool;
 
@@ -755,7 +808,12 @@ public class SecurityService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'PaymentGatewayClient.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-7" style="display:none;">public class PaymentGatewayClient {
+                            <div id="snippet-7" style="display:none;">import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class PaymentGatewayClient {
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
     public synchronized String processPayment(PaymentRequest request) throws Exception {
@@ -866,7 +924,15 @@ public class SecurityService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'TenantSecurityFilter.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-8" style="display:none;">public class TenantSecurityFilter implements Filter {
+                            <div id="snippet-8" style="display:none;">import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+public class TenantSecurityFilter implements Filter {
     public static final ThreadLocal&lt;TenantContext&gt; CURRENT_TENANT = new ThreadLocal&lt;&gt;();
 
     @Override
@@ -968,7 +1034,10 @@ public class SecurityService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'TokenManager.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-9" style="display:none;">public class TokenManager {
+                            <div id="snippet-9" style="display:none;">import java.util.List;
+import java.util.ArrayList;
+
+public class TokenManager {
     private List&lt;AuthToken&gt; activeTokens = new ArrayList&lt;&gt;();
 
     public void purgeExpiredTokens() {
@@ -1059,7 +1128,9 @@ public class SecurityService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'DiscountCalculator.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">public class DiscountCalculator {
+                            <div id="snippet-10" style="display:none;">// Java standard types (java.lang.Double, java.lang.Boolean)
+
+public class DiscountCalculator {
 
     public static Double calculateFinalPrice(boolean isVip, Double basePrice, Double discount) {
         if (basePrice == null) return 0.0;
@@ -1154,7 +1225,9 @@ public class SecurityService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'PaymentValidator.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">@FunctionalInterface
+                            <div id="snippet-11" style="display:none;">import java.lang.FunctionalInterface;
+
+@FunctionalInterface
 public interface PaymentValidator {
     boolean validate(Payment payment);
     boolean logValidation(Payment payment);
@@ -1268,7 +1341,9 @@ Predicate&lt;Payment&gt; validator = ((Predicate&lt;Payment&gt;) p -> p.getAmoun
                             <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'SalaryAnalyticsService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-12" style="display:none;">public class SalaryAnalyticsService {
+                            <div id="snippet-12" style="display:none;">import java.util.List;
+
+public class SalaryAnalyticsService {
 
     public Double calculateSeniorSalarySum(List&lt;Employee&gt; employees, String dept, String grade) {
         return employees.stream()
@@ -1370,7 +1445,9 @@ Predicate&lt;Payment&gt; validator = ((Predicate&lt;Payment&gt;) p -> p.getAmoun
                             <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'PaginationService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-13" style="display:none;">public class PaginationService {
+                            <div id="snippet-13" style="display:none;">import java.util.List;
+
+public class PaginationService {
 
     public List&lt;Transaction&gt; getPaginatedTransactions(List&lt;Transaction&gt; allTransactions, int pageNumber, int pageSize) {
         return allTransactions.stream()
@@ -1472,7 +1549,9 @@ Predicate&lt;Payment&gt; validator = ((Predicate&lt;Payment&gt;) p -> p.getAmoun
                             <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'NotificationDispatcher.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-14" style="display:none;">public class NotificationDispatcher {
+                            <div id="snippet-14" style="display:none;">// Standard polymorphic types
+
+public class NotificationDispatcher {
 
     public String dispatch(Notification notification) {
         if (notification instanceof EmailNotification) {
@@ -1587,7 +1666,11 @@ public class NotificationDispatcher {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'ProductCatalogSorter.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-15" style="display:none;">public class ProductCatalogSorter {
+                            <div id="snippet-15" style="display:none;">import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ProductCatalogSorter {
 
     public void sortProducts(List&lt;Product&gt; products) {
         Collections.sort(products, new Comparator&lt;Product&gt;() {
@@ -1689,7 +1772,9 @@ public class NotificationDispatcher {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'TransactionReportService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-16" style="display:none;">public class TransactionReportService {
+                            <div id="snippet-16" style="display:none;">import java.util.List;
+
+public class TransactionReportService {
 
     public String buildAuditLog(List&lt;Transaction&gt; transactions) {
         String auditLog = "";
@@ -1796,7 +1881,9 @@ public class NotificationDispatcher {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'BatchLoaderService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-17" style="display:none;">public class BatchLoaderService {
+                            <div id="snippet-17" style="display:none;">import java.nio.ByteBuffer;
+
+public class BatchLoaderService {
 
     public void processIncomingBatch(byte[] data) {
         ByteBuffer offHeapBuffer = ByteBuffer.allocateDirect(data.length);
@@ -1892,7 +1979,10 @@ public class NotificationDispatcher {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'CollidingKey.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-18" style="display:none;">public class CollidingKey implements Comparable&lt;CollidingKey&gt; {
+                            <div id="snippet-18" style="display:none;">import java.lang.Comparable;
+import java.util.Objects;
+
+public class CollidingKey implements Comparable&lt;CollidingKey&gt; {
     private final int id;
     private final String value;
 
@@ -2007,7 +2097,9 @@ public class NotificationDispatcher {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'OrderAggregationService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-19" style="display:none;">public class OrderAggregationService {
+                            <div id="snippet-19" style="display:none;">import java.util.concurrent.CompletableFuture;
+
+public class OrderAggregationService {
     private final PaymentGatewayClient paymentClient = new PaymentGatewayClient();
     private final InventoryClient inventoryClient = new InventoryClient();
 
@@ -2150,7 +2242,9 @@ public class OrderAggregationService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'HighThroughputMetrics.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-20" style="display:none;">public class HighThroughputMetrics {
+                            <div id="snippet-20" style="display:none;">import java.util.concurrent.atomic.AtomicLong;
+
+public class HighThroughputMetrics {
     private final AtomicLong transactionCounter = new AtomicLong();
 
     public void recordTransaction(long amount) {

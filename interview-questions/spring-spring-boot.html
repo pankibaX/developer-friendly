@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link active"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link active"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -32,7 +34,7 @@
     <main class="main-wrapper">
         <header class="header">
             <h1>🌱 Spring Framework & Spring Boot (2.x / 3.x)</h1>
-            <p>20 Real-world architectural questions covering AOP proxies, @Transactional boundaries, circular dependencies, auto-configuration, GraalVM AOT, thread pools, distributed caching, Netty WebFlux, and Kubernetes lifecycle.</p>
+            <p>21 Real-world architectural questions covering AOP proxies, @Transactional boundaries, circular dependencies, auto-configuration, GraalVM AOT, thread pools, distributed caching, Netty WebFlux, and Kubernetes lifecycle.</p>
         </header>
 
         <div class="content-container">
@@ -42,7 +44,7 @@
                 <div class="skill-eval-top-row">
                     <div class="skill-title-block">
                         <h3>🌱 Skill: Spring & Spring Boot</h3>
-                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                        <p id="statEvaluatedCount">0 of 21 Questions Rated</p>
                     </div>
                     <div class="scorecard-actions" style="display: flex; gap: 8px;">
                         <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
@@ -75,13 +77,44 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Spring topics (e.g. aop proxy, transactional rollback, circular dependency, actuator, auto-configuration)..." onkeyup="filterQuestions()">
             </div>
 
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Spring Core & AOP Mechanics">Q1: AOP Proxy Trap</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Transaction Management & Checked Exceptions">Q2: Rollback Checked Exp</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Transaction Propagation & setRollbackOnly">Q3: REQUIRES_NEW Trap</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Bean Lifecycle & Circular Dependencies">Q4: Circular Dependency</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Spring Boot Auto-Configuration Internals">Q5: Auto-Configuration</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Bean Scopes & Concurrency State Leaks">Q6: Prototype Leak</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Security Context Propagation in Async Threads">Q7: Async SecurityContext</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Actuator Endpoints & Micrometer Cardinality">Q8: Actuator Metrics</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Domain Events & AFTER_COMMIT Silent Failure">Q9: AFTER_COMMIT Flush</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Spring Boot 3 & GraalVM AOT Compilation">Q10: GraalVM AOT</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Async ThreadPoolTaskExecutor Rejection">Q11: Async ThreadPool</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Spring Cache Abstraction & Dogpile Stampede">Q12: Cache Stampede</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Spring Data JPA Dynamic Projections">Q13: JPA Projections</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="ControllerAdvice Exception Ordering">Q14: ControllerAdvice 403</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="WebFlux EventLoop Starvation & BlockHound">Q15: WebFlux Netty</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="WebClient Reactive Memory & Pool Leaks">Q16: WebClient Leak</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Spring Security OAuth2 JWT Resource Server">Q17: OAuth2 JWK Cache</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Custom Starter Validation & FailureAnalyzer">Q18: ConfigProperties</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Distributed Scheduling with ShedLock in K8s">Q19: ShedLock Cron</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Graceful Shutdown & Kubernetes PreStop Hooks">Q20: Graceful Shutdown</button>
+                    <button class="jump-chip" id="jump-chip-21" onclick="scrollToQuestion(21)" title="Transaction Boundaries & External Network Side-Effects">Q21: Order / Email / Rollback</button>
+                </div>
+            </div>
+
             <div id="questionsContainer">
 
                 <!-- QUESTION 1: AOP Proxy Self-Invocation Trap -->
                 <div class="question-card" id="q-1" data-keywords="aop proxy self invocation transactional async cglib aspect">
                     <div class="card-header">
                         <span class="concept-badge">Spring Core & AOP Mechanics</span>
-                        <span class="q-number">Question 1 of 10</span>
+                        <span class="q-number">Question 1 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -109,7 +142,12 @@
                             <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'OrderProcessingService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-1" style="display:none;">@Service
+                            <div id="snippet-1" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+
+@Service
 public class OrderProcessingService {
 
     @Autowired
@@ -224,7 +262,7 @@ public class OrderPaymentService {
                 <div class="question-card" id="q-2" data-keywords="transactional rollback checked exception runtime exception rollbackfor">
                     <div class="card-header">
                         <span class="concept-badge">Transaction Management</span>
-                        <span class="q-number">Question 2 of 10</span>
+                        <span class="q-number">Question 2 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -250,7 +288,12 @@ public class OrderPaymentService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'BankingTransferService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-2" style="display:none;">@Service
+                            <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
+
+@Service
 public class BankingTransferService {
 
     @Autowired
@@ -342,7 +385,7 @@ public class AuditLogException extends RuntimeException {
                 <div class="question-card" id="q-3" data-keywords="propagation required unexpectedrollbackexception setrollbackonly try catch">
                     <div class="card-header">
                         <span class="concept-badge">Transaction Propagation & Boundaries</span>
-                        <span class="q-number">Question 3 of 10</span>
+                        <span class="q-number">Question 3 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -371,7 +414,11 @@ public class AuditLogException extends RuntimeException {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'InvoiceNotificationFlow.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-3" style="display:none;">@Service
+                            <div id="snippet-3" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
 public class InvoiceService {
 
     @Autowired
@@ -479,7 +526,7 @@ public void generateInvoice(InvoiceRequest request) {
                 <div class="question-card" id="q-4" data-keywords="circular dependency constructor injection lazy bean lifecycle spring boot 3">
                     <div class="card-header">
                         <span class="concept-badge">Dependency Injection & Lifecycle</span>
-                        <span class="q-number">Question 4 of 10</span>
+                        <span class="q-number">Question 4 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -509,7 +556,10 @@ public void generateInvoice(InvoiceRequest request) {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'CircularDependency.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-4" style="display:none;">@Service
+                            <div id="snippet-4" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
 public class UserService {
     private final AuditService auditService;
     private final UserRepository userRepository;
@@ -634,7 +684,7 @@ public class AuditService {
                 <div class="question-card" id="q-5" data-keywords="autoconfiguration conditionalonmissingbean spring.factories imports conditionalonclass">
                     <div class="card-header">
                         <span class="concept-badge">Spring Boot Internals</span>
-                        <span class="q-number">Question 5 of 10</span>
+                        <span class="q-number">Question 5 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -660,7 +710,11 @@ public class AuditService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'SecurityStarterAutoConfiguration.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">@AutoConfiguration
+                            <div id="snippet-5" style="display:none;">import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+
+@AutoConfiguration
 public class SecurityStarterAutoConfiguration {
 
     @Bean
@@ -751,7 +805,7 @@ public class SecurityStarterAutoConfiguration {
                 <div class="question-card" id="q-6" data-keywords="prototype singleton scope leak lookup objectprovider">
                     <div class="card-header">
                         <span class="concept-badge">Bean Scope & Concurrency Hazards</span>
-                        <span class="q-number">Question 6 of 10</span>
+                        <span class="q-number">Question 6 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -779,7 +833,15 @@ public class SecurityStarterAutoConfiguration {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'ReportJobRunner.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">@Component
+                            <div id="snippet-6" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import java.util.List;
+import java.util.ArrayList;
+
+@Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ReportContext {
     private String tenantId;
@@ -894,7 +956,7 @@ public abstract class ReportJobRunner {
                 <div class="question-card" id="q-7" data-keywords="securitycontextholder async threadlocal taskdecorator securitycontextexecutor">
                     <div class="card-header">
                         <span class="concept-badge">Spring Security & Concurrency</span>
-                        <span class="q-number">Question 7 of 10</span>
+                        <span class="q-number">Question 7 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -923,7 +985,13 @@ public abstract class ReportJobRunner {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'UserReportService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-7" style="display:none;">@Service
+                            <div id="snippet-7" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.concurrent.CompletableFuture;
+
+@Service
 public class UserReportService {
 
     @Async
@@ -1025,7 +1093,7 @@ public class AsyncSecurityConfig {
                 <div class="question-card" id="q-8" data-keywords="actuator micrometer meterregistry cardinality leak security exposure heapdump env">
                     <div class="card-header">
                         <span class="concept-badge">Actuator & Production Observability</span>
-                        <span class="q-number">Question 8 of 10</span>
+                        <span class="q-number">Question 8 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1051,7 +1119,15 @@ public class AsyncSecurityConfig {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'OrderMetricsController.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-8" style="display:none;">@RestController
+                            <div id="snippet-8" style="display:none;">import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.http.ResponseEntity;
+import io.micrometer.core.instrument.MeterRegistry;
+
+@RestController
 @RequestMapping("/api/orders")
 public class OrderMetricsController {
 
@@ -1142,8 +1218,8 @@ public class OrderMetricsController {
                 <!-- QUESTION 9: TransactionalEventListener AFTER_COMMIT Silent Failure -->
                 <div class="question-card" id="q-9" data-keywords="transactionaleventlistener after_commit events applicationeventpublisher silent failure">
                     <div class="card-header">
-                        <span class="concept-badge">Domain Events & Transaction Sync</span>
-                        <span class="q-number">Question 9 of 10</span>
+                        <span class="concept-badge">Domain Events &amp; Transaction Sync</span>
+                        <span class="q-number">Question 9 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1171,7 +1247,17 @@ public class OrderMetricsController {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'OrderEventFlow.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-9" style="display:none;">@Service
+                            <div id="snippet-9" style="display:none;">package com.example.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.context.ApplicationEventPublisher;
+
+@Service
 public class OrderService {
 
     @Autowired
@@ -1202,6 +1288,7 @@ public class OrderEmailNotifier {
     }
 
     private void sendConfirmationEmail(Order order) {
+        // Sends customer confirmation email
     }
 }</div>
                         </div>
@@ -1230,11 +1317,11 @@ public class OrderEmailNotifier {
                         </div>
 
                         <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
+                            <span>👁️ Show Solution &amp; Candidate Evaluation</span>
                             <span>▼</span>
                         </button>
                         <div class="solution-content">
-                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
                                 <strong>The Root Cause:</strong> In <code>AFTER_COMMIT</code>, the physical database transaction has already completed and committed. The underlying JDBC connection was either closed or unbound from the current thread.
                                 <br><br>
@@ -1246,6 +1333,10 @@ public class OrderEmailNotifier {
 @Component
 public class OrderEmailNotifier {
     private final OrderRepository orderRepository;
+
+    public OrderEmailNotifier(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -1260,11 +1351,21 @@ public class OrderEmailNotifier {
 // Solution 2: Asynchronous Outbox / Event Listener (Recommended)
 @Component
 public class OrderEmailNotifier {
+    private final OrderRepository orderRepository;
+
+    public OrderEmailNotifier(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional
     public void onOrderCreated(OrderCreatedEvent event) {
         // Runs in separate worker thread, opens fresh transaction, doesn't block caller
+        Order order = orderRepository.findById(event.getOrderId()).orElseThrow();
+        sendConfirmationEmail(order);
+        order.setEmailSent(true);
+        orderRepository.save(order);
     }
 }</code></pre>
                             </div>
@@ -1286,7 +1387,7 @@ public class OrderEmailNotifier {
                 <div class="question-card" id="q-10" data-keywords="graalvm native image aot reflection spring boot 3 closed world cglib">
                     <div class="card-header">
                         <span class="concept-badge">Spring Boot 3 & GraalVM AOT Compilation</span>
-                        <span class="q-number">Question 10 of 10</span>
+                        <span class="q-number">Question 10 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1316,7 +1417,10 @@ public class OrderEmailNotifier {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'DynamicIntegrationService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">@Service
+                            <div id="snippet-10" style="display:none;">import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Service
 public class DynamicIntegrationService {
 
     private final ObjectMapper objectMapper;
@@ -1407,7 +1511,7 @@ public class IntegrationRuntimeHints implements RuntimeHintsRegistrar {
                 <div class="question-card" id="q-11" data-keywords="async threadpooltaskexecutor simpleasynctaskexecutor rejection policy abort caller runs out of memory">
                     <div class="card-header">
                         <span class="concept-badge">Asynchronous Processing & Thread Pools</span>
-                        <span class="q-number">Question 11 of 20</span>
+                        <span class="q-number">Question 11 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1435,7 +1539,16 @@ public class IntegrationRuntimeHints implements RuntimeHintsRegistrar {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'AsyncNotificationService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">@Configuration
+                            <div id="snippet-11" style="display:none;">import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import java.util.concurrent.Executor;
+
+@Configuration
 @EnableAsync
 public class AsyncConfig {
 
@@ -1534,7 +1647,7 @@ public Executor notificationExecutor() {
                 <div class="question-card" id="q-12" data-keywords="cache stampede dogpile redis cacheable sync true unless null">
                     <div class="card-header">
                         <span class="concept-badge">Caching Architecture & High Concurrency</span>
-                        <span class="q-number">Question 12 of 20</span>
+                        <span class="q-number">Question 12 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1562,7 +1675,11 @@ public Executor notificationExecutor() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'ProductCatalogService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-12" style="display:none;">@Service
+                            <div id="snippet-12" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+
+@Service
 public class ProductCatalogService {
 
     @Autowired
@@ -1653,7 +1770,7 @@ public class ProductCatalogService {
                 <div class="question-card" id="q-13" data-keywords="spring data jpa projections interface projection class dto heap bloat dirty checking">
                     <div class="card-header">
                         <span class="concept-badge">Data Access Performance & Hibernate Internals</span>
-                        <span class="q-number">Question 13 of 20</span>
+                        <span class="q-number">Question 13 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1680,7 +1797,11 @@ public class ProductCatalogService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'UserRepositoryProjections.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-13" style="display:none;">public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+                            <div id="snippet-13" style="display:none;">import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import java.util.List;
+
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
 
     @Query("SELECT u FROM User u")
     List&lt;User&gt; findAllUsers();
@@ -1761,7 +1882,7 @@ public record UserSummaryDto(Long id, String username, String email) {}</div>
                 <div class="question-card" id="q-14" data-keywords="controlleradvice exceptionhandler accessdeniedexception order security 403 500">
                     <div class="card-header">
                         <span class="concept-badge">Web Architecture & Error Handling</span>
-                        <span class="q-number">Question 14 of 20</span>
+                        <span class="q-number">Question 14 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1792,7 +1913,12 @@ public record UserSummaryDto(Long id, String username, String email) {}</div>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'GlobalExceptionHandler.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-14" style="display:none;">@RestControllerAdvice
+                            <div id="snippet-14" style="display:none;">import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
@@ -1894,7 +2020,7 @@ public class GlobalExceptionHandler {
                 <div class="question-card" id="q-15" data-keywords="webflux netty eventloop blocking schedulers boundedelastic blockhound reactive gateway">
                     <div class="card-header">
                         <span class="concept-badge">Reactive Architecture & Non-Blocking I/O</span>
-                        <span class="q-number">Question 15 of 20</span>
+                        <span class="q-number">Question 15 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1923,7 +2049,17 @@ public class GlobalExceptionHandler {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'TenantAuthenticationFilter.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-15" style="display:none;">@Component
+                            <div id="snippet-15" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.core.Ordered;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.http.HttpStatus;
+import reactor.core.publisher.Mono;
+
+@Component
 public class TenantAuthenticationFilter implements GlobalFilter, Ordered {
 
     @Autowired
@@ -2044,7 +2180,7 @@ public class TenantAuthenticationFilter implements GlobalFilter, Ordered {
                 <div class="question-card" id="q-16" data-keywords="webclient resttemplate connectionprovider connection pool leak databufferlimitexception maxconnections">
                     <div class="card-header">
                         <span class="concept-badge">HTTP Client Architecture & Resilience</span>
-                        <span class="q-number">Question 16 of 20</span>
+                        <span class="q-number">Question 16 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2070,7 +2206,11 @@ public class TenantAuthenticationFilter implements GlobalFilter, Ordered {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'PartnerIntegrationClient.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-16" style="display:none;">@Service
+                            <div id="snippet-16" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+@Service
 public class PartnerIntegrationClient {
 
     private final WebClient webClient = WebClient.builder()
@@ -2185,7 +2325,7 @@ public class WebClientConfig {
                 <div class="question-card" id="q-17" data-keywords="oauth2 jwt resource server jwk set uri caching jwtdecoder securityfilterchain">
                     <div class="card-header">
                         <span class="concept-badge">Cloud Security & Identity Architecture</span>
-                        <span class="q-number">Question 17 of 20</span>
+                        <span class="q-number">Question 17 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2211,7 +2351,13 @@ public class WebClientConfig {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'SecurityResourceServerConfig.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-17" style="display:none;">@Configuration
+                            <div id="snippet-17" style="display:none;">import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
 @EnableWebSecurity
 public class SecurityResourceServerConfig {
 
@@ -2312,7 +2458,7 @@ public JwtAuthenticationConverter jwtAuthenticationConverter() {
                 <div class="question-card" id="q-18" data-keywords="configurationproperties validated custom starter failureanalyzer relaxed binding">
                     <div class="card-header">
                         <span class="concept-badge">Framework Extensibility & Configuration Architecture</span>
-                        <span class="q-number">Question 18 of 20</span>
+                        <span class="q-number">Question 18 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2341,7 +2487,9 @@ public JwtAuthenticationConverter jwtAuthenticationConverter() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'KafkaPlatformProperties.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-18" style="display:none;">@ConfigurationProperties(prefix = "company.kafka")
+                            <div id="snippet-18" style="display:none;">import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "company.kafka")
 public class KafkaPlatformProperties {
 
     private String bootstrapServers;
@@ -2437,7 +2585,7 @@ public class KafkaPlatformProperties {
                 <div class="question-card" id="q-19" data-keywords="scheduled shedlock distributed lock kubernetes replica duplicate execution cron">
                     <div class="card-header">
                         <span class="concept-badge">Distributed Systems & Task Scheduling</span>
-                        <span class="q-number">Question 19 of 20</span>
+                        <span class="q-number">Question 19 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2466,7 +2614,11 @@ public class KafkaPlatformProperties {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'BillingBatchScheduler.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-19" style="display:none;">@Component
+                            <div id="snippet-19" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+
+@Component
 public class BillingBatchScheduler {
 
     @Autowired
@@ -2557,7 +2709,7 @@ public class BillingBatchScheduler {
                 <div class="question-card" id="q-20" data-keywords="graceful shutdown kubernetes sigterm prestop hook readiness probe 502 bad gateway">
                     <div class="card-header">
                         <span class="concept-badge">Cloud-Native Lifecycle & Zero-Downtime Deployments</span>
-                        <span class="q-number">Question 20 of 20</span>
+                        <span class="q-number">Question 20 of 21</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2679,6 +2831,178 @@ spec:
                                 <div class="eval-box eval-good">
                                     <div class="eval-title">🌟 Advanced / Expert Response</div>
                                     Diagrams the asynchronous race between kube-proxy iptables propagation and SIGTERM delivery; configures a 10-15s `preStop` sleep hook and balances `terminationGracePeriodSeconds` with Spring's shutdown phase.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 21: Transaction Boundaries & External Network Side-Effects -->
+                <div class="question-card" id="q-21" data-keywords="transactional rollback email payment side effects connection pool starvation transactionaleventlistener after_commit outbox">
+                    <div class="card-header">
+                        <span class="concept-badge">Transaction Boundaries &amp; External Side-Effects</span>
+                        <span class="q-number">Question 21 of 21</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>External Network Side-Effects in Database Transactions</strong>: Why RDBMS rollbacks cannot undo external network I/O (emails, webhooks, payment calls), why placing network calls inside <code>@Transactional</code> causes database connection pool starvation, and fixing phantom side-effects using <code>@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)</code> and the Transactional Outbox Pattern.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Look at <code>OrderProcessingService</code> in the code snippet.
+                                In a single <code>@Transactional</code> method, the service saves the order to the database, dispatches an order confirmation email to the customer, and invokes the payment gateway.
+                                <br><br>
+                                During execution, <code>paymentService.chargeCreditCard()</code> fails and throws a <code>PaymentFailedException</code>.
+                                The database transaction rolls back cleanly, and the order is NOT created in the database.
+                                <br><br>
+                                <strong>However, the customer still receives an email saying "Your order #123 has been confirmed!"</strong>
+                                <br><br>
+                                <strong>Part A:</strong> Why did the email get sent despite the database transaction rolling back? What are the fundamental limitations of Spring's <code>@Transactional</code> regarding non-database network side-effects?
+                                <br>
+                                <strong>Part B:</strong> What is the major performance hazard of placing external network calls (SMTP email, payment APIs) inside an open database transaction?
+                                <br>
+                                <strong>Part C:</strong> Refactor this code using Spring Domain Events with <code>@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)</code> so the confirmation email is dispatched <strong>only if and when the database transaction successfully commits</strong>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('21', 'OrderProcessingService.java')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-21" style="display:none;">package com.example.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
+
+@Service
+public class OrderProcessingService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private EmailNotificationService emailService;
+
+    @Autowired
+    private PaymentGatewayClient paymentService;
+
+    @Transactional
+    public void processOrder(OrderRequest request) {
+        // Step 1: Save order to database
+        Order order = new Order(request.getCustomerId(), request.getTotalAmount());
+        orderRepository.save(order);
+
+        // Step 2: External network side-effect (Dispatches SMTP/SES email immediately!)
+        emailService.sendConfirmationEmail(order);
+
+        // Step 3: Payment gateway fails and throws PaymentFailedException!
+        // Database transaction rolls back Step 1, but Step 2 (email) was ALREADY sent!
+        paymentService.chargeCreditCard(request.getPaymentToken(), request.getTotalAmount());
+    }
+}</div>
+                        </div>
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-21">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('spring', 21, 1, 'External side-effects in @Transactional, non-rollbackable emails, and AFTER_COMMIT event listeners')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('spring', 21, 2, 'External side-effects in @Transactional, non-rollbackable emails, and AFTER_COMMIT event listeners')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('spring', 21, 3, 'External side-effects in @Transactional, non-rollbackable emails, and AFTER_COMMIT event listeners')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('spring', 21, 4, 'External side-effects in @Transactional, non-rollbackable emails, and AFTER_COMMIT event listeners')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-21">Not Rated</span>
+                        </div>
+
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>👁️ Show Solution &amp; Candidate Evaluation</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>Part A — Root Cause (RDBMS vs Network Boundaries):</strong> Spring's <code>@Transactional</code> operates purely at the database connection / JDBC resource level via <code>Connection.rollback()</code>. Relational databases have zero control over non-transactional network I/O. Once the email packet leaves the network interface over SMTP/SES, it is physically impossible for a database rollback to "unsend" the email.
+                                <br><br>
+                                <strong>Part B — Connection Pool Exhaustion Hazard:</strong> When an application performs external network calls (SMTP email, payment gateway HTTP calls) inside an open <code>@Transactional</code> method, the underlying JDBC database connection is held open and blocked for the entire duration of the external I/O (often 500ms – 5 seconds). Under moderate traffic, this rapidly exhausts the HikariCP connection pool, causing connection acquisition timeouts and bringing down the entire microservice.
+                            </p>
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Idiomatic Architectural Fix: @TransactionalEventListener</span><span class="code-lang">Java</span></div>
+                                <pre><code>// 1. Refactor OrderProcessingService to publish an event instead of calling emailService directly
+@Service
+public class OrderProcessingService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentGatewayClient paymentService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    @Transactional
+    public void processOrder(OrderRequest request) {
+        Order order = new Order(request.getCustomerId(), request.getTotalAmount());
+        orderRepository.save(order);
+
+        // Payment executes BEFORE email is ever considered!
+        paymentService.chargeCreditCard(request.getPaymentToken(), request.getTotalAmount());
+
+        // Publish domain event: does NOT send email yet!
+        eventPublisher.publishEvent(new OrderConfirmedEvent(order.getId()));
+    }
+}
+
+// 2. Event Listener triggered ONLY AFTER the database transaction successfully COMMITS
+@Component
+public class OrderEmailNotifier {
+
+    @Autowired
+    private EmailNotificationService emailService;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    // phase = AFTER_COMMIT guarantees email is NEVER sent if transaction rolled back!
+    // @Async ensures email sending does not delay the client response or hold DB threads
+    @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void onOrderConfirmed(OrderConfirmedEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).orElseThrow();
+        emailService.sendConfirmationEmail(order);
+    }
+}</code></pre>
+                            </div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 10px;">
+                                <strong>Enterprise Production Note (Transactional Outbox Pattern):</strong> If the server crashes <em>after</em> the database commits but <em>before</em> the <code>@Async</code> email listener executes, the email can still be lost. For mission-critical communications (financial receipts), write an <code>OutboxMessage</code> row into an <code>outbox</code> database table in the <strong>same ACID transaction</strong> as the order. A background worker (or Debezium CDC) then polls the committed outbox records and sends emails with guaranteed at-least-once delivery.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests putting `emailService` in a try-catch block or simply moving the payment call before the email call, without understanding `AFTER_COMMIT` event decoupling, connection pool holding hazards, or outbox reliability.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates the boundary mismatch between RDBMS ACID transactions and network I/O, warns about HikariCP connection pool starvation caused by network latency in transactions, implements `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)` with `@Async`, and discusses the Transactional Outbox Pattern for guaranteed delivery.
                                 </div>
                             </div>
                         </div>

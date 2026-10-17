@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link active"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -75,7 +77,37 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Angular topics (e.g. signals, onpush, rxjs leaks, standalone, zoneless, defer, hydration, interceptor, forms)..." onkeyup="filterQuestions()">
             </div>
 
-            <div id="questionsContainer">
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Change Detection & Performance">Q1: OnPush & Change Detection</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Reactivity Architecture (v16–v18)">Q2: Angular Signals (v16–v18)</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Memory Management & Lifecycle">Q3: RxJS Unsubscribe & Leaks</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Component Architecture & Bundling">Q4: Standalone Components</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Dependency Injection & Scoping">Q5: Hierarchical DI & ProvidedIn</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Network Architecture & Interceptors">Q6: HttpInterceptor Fn & Tokens</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Forms & Validation Architecture">Q7: Reactive Forms & Validation</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Routing & Security Guards">Q8: Functional Guards & CanMatch</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Component Composition & DOM Manipulation">Q9: Content Projection & ViewChild</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="State Management Architecture">Q10: NgRx vs SignalStore</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Runtime Internals & Zoneless">Q11: Zoneless Angular Internals</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Directive Architecture & DOM Mechanics">Q12: HostDirectives & DOM</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="SSR, Hydration & Universal">Q13: SSR, Hydration & Event Replay</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Compiler & Template Architecture">Q14: Deferrable Views (@defer)</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Performance Optimization & Code Splitting">Q15: Web Workers & Lazy Routes</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Frontend Security & XSS Mitigation">Q16: DomSanitizer & XSS Defense</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Styling & Component Encapsulation">Q17: ViewEncapsulation & ShadowDOM</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Pipes & Performance Ergonomics">Q18: Pure vs Impure Pipes</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Enterprise Micro Frontends & Federation">Q19: Micro-Frontends & Federation</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Core Web Vitals & Optimization">Q20: Core Web Vitals (LCP, INP)</button>
+                </div>
+            </div>
+<div id="questionsContainer">
                 <!-- QUESTION 1: Change Detection &amp; Performance -->
                 <div class="question-card" id="q-1" data-keywords="change detection onpush mutability reference equality zonejs markforcheck spread">
                     <div class="card-header">
@@ -108,7 +140,10 @@
                             <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'order-list.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-1" style="display:none;">@Component({
+                            <div id="snippet-1" style="display:none;">import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
   selector: &#x27;app-order-list&#x27;,
   standalone: true,
   imports: [CommonModule],
@@ -228,7 +263,9 @@ export class OrderListComponent {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'cart-state.service.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-2" style="display:none;">@Injectable({ providedIn: &#x27;root&#x27; })
+                            <div id="snippet-2" style="display:none;">import { Injectable, signal, computed } from '@angular/core';
+
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class CartStateService {
   cartItems = signal&lt;CartItem[]&gt;([]);
   taxRate = signal&lt;number&gt;(0.08);
@@ -350,7 +387,10 @@ export class CleanCartService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'dashboard-metrics.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-3" style="display:none;">@Component({
+                            <div id="snippet-3" style="display:none;">import { Component, OnInit, OnDestroy } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+
+@Component({
   selector: &#x27;app-dashboard-metrics&#x27;,
   standalone: true,
   template: `&lt;div&gt;Live Users: {{ activeUsers }}&lt;/div&gt;`
@@ -474,7 +514,13 @@ export class DashboardMetricsComponent {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'legacy-app.module.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-4" style="display:none;">@NgModule({
+                            <div id="snippet-4" style="display:none;">import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
   declarations: [UserProfileComponent, UserBillingComponent],
   imports: [CommonModule, RouterModule, FormsModule, HttpClientModule],
   exports: [UserProfileComponent]
@@ -592,7 +638,9 @@ bootstrapApplication(AppComponent, {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'checkout-modal.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">@Injectable({ providedIn: &#x27;root&#x27; })
+                            <div id="snippet-5" style="display:none;">import { Component, Injectable, signal } from '@angular/core';
+
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class ShoppingCartService {
   items = signal&lt;string[]&gt;([]);
 }
@@ -713,7 +761,10 @@ export class CheckoutModalComponent {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'auth.interceptor.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">export const authInterceptor: HttpInterceptorFn = (req, next) =&gt; {
+                            <div id="snippet-6" style="display:none;">import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) =&gt; {
   const authService = inject(AuthService);
   const token = authService.getToken();
   const cloned = req.clone({
@@ -857,7 +908,11 @@ export class CheckoutModalComponent {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'registration-form.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-7" style="display:none;">export function usernameValidator(userService: UserService): AsyncValidatorFn {
+                            <div id="snippet-7" style="display:none;">import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
+export function usernameValidator(userService: UserService): AsyncValidatorFn {
   return (control: AbstractControl): Observable&lt;ValidationErrors | null&gt; =&gt; {
     return userService.checkUsername(control.value).pipe(
       map(isTaken =&gt; isTaken ? { usernameTaken: true } : null),
@@ -990,7 +1045,10 @@ username = new FormControl(&#x27;&#x27;, {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'app.routes.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-8" style="display:none;">export const routes: Routes = [
+                            <div id="snippet-8" style="display:none;">import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+
+export const routes: Routes = [
   {
     path: &#x27;admin&#x27;,
     canActivate: [() =&gt; inject(AuthService).isAdmin()],
@@ -1217,7 +1275,12 @@ username = new FormControl(&#x27;&#x27;, {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'order.effects.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">@Injectable()
+                            <div id="snippet-10" style="display:none;">import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { map, mergeMap, catchError } from 'rxjs/operators';
+
+@Injectable()
 export class OrderEffects {
   loadOrders$ = createEffect(() =&gt;
     this.actions$.pipe(
@@ -1337,7 +1400,9 @@ loadOrders$ = createEffect(() =&gt;
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'trading-chart.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">@Component({
+                            <div id="snippet-11" style="display:none;">import { Component, ViewChild, ElementRef, AfterViewInit, NgZone } from '@angular/core';
+
+@Component({
   selector: &#x27;app-trading-chart&#x27;,
   standalone: true,
   template: `&lt;canvas #chartCanvas (mousemove)=&quot;onMouseMove($event)&quot;&gt;&lt;/canvas&gt;`
@@ -1471,7 +1536,9 @@ export class TradingChartComponent implements AfterViewInit {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'has-role.directive.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-12" style="display:none;">@Directive({
+                            <div id="snippet-12" style="display:none;">import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+
+@Directive({
   selector: &#x27;[appHasRole]&#x27;,
   standalone: true
 })
@@ -1602,7 +1669,9 @@ export class HasRoleDirective {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'user-theme.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-13" style="display:none;">@Component({
+                            <div id="snippet-13" style="display:none;">import { Component, signal, effect } from '@angular/core';
+
+@Component({
   selector: &#x27;app-user-theme&#x27;,
   standalone: true,
   template: `&lt;div&gt;Current Theme: {{ theme }}&lt;/div&gt;`
@@ -1954,7 +2023,10 @@ export class UserThemeComponent implements OnInit {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'notice-board.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-16" style="display:none;">@Component({
+                            <div id="snippet-16" style="display:none;">import { Component, Input, OnInit, SecurityContext } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+@Component({
   selector: &#x27;app-notice-board&#x27;,
   standalone: true,
   template: `&lt;div [innerHTML]=&quot;trustedContent&quot;&gt;&lt;/div&gt;`
@@ -2080,7 +2152,9 @@ export class NoticeBoardComponent {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'custom-button.component.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-17" style="display:none;">@Component({
+                            <div id="snippet-17" style="display:none;">import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
   selector: &#x27;app-custom-button&#x27;,
   standalone: true,
   encapsulation: ViewEncapsulation.None,
@@ -2208,7 +2282,9 @@ export class CustomButtonComponent {}</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'filter-customers.pipe.ts')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-18" style="display:none;">@Pipe({
+                            <div id="snippet-18" style="display:none;">import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
   name: &#x27;filterCustomers&#x27;,
   pure: false,
   standalone: true

@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django, FastAPI & Flask | Technical Interview Suite</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect &amp; Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link active"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🚀 Python Web Frameworks: Django, FastAPI & Flask</h1>
+            <p>20 Senior & Lead Level technical scenarios covering Django ORM optimization, transaction row-locking, FastAPI ASGI concurrency, Pydantic v2, and Flask context locals.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🚀 Skill: Django, FastAPI & Flask</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('python_frameworks')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search Frameworks (e.g. n+1 select_related, select_for_update, pydantic v2, async def blocking, app context, blueprints, scoped_session)..." onkeyup="filterQuestions()">
+            </div>
+
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Django ORM & Query Optimization">Q1: Django N+1 & select_related</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Django Concurrency & Row-Level Locking">Q2: Django select_for_update Locking</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Django Middleware & ASGI Architecture">Q3: Django Async Middleware & ASGI</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Django REST Framework (DRF) Performance">Q4: DRF Serializer Method Field N+1</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Django Signals & Transaction Boundaries">Q5: Django Signals & on_commit Hooks</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Django Enterprise Migrations & Zero-Downtime">Q6: Zero-Downtime Safe Migrations</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Django Caching Architecture & Redis">Q7: Django Cache & Redis Stampede</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="FastAPI & Event Loop Concurrency">Q8: FastAPI def vs async def Starvation</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Pydantic v2 Architecture & Validation">Q9: Pydantic v2 Rust Core Validation</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="FastAPI Dependency Injection & Cleanup">Q10: FastAPI Depends & Cleanup Lifecycles</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="ASGI Deployment & Worker Topologies">Q11: Uvicorn Gunicorn Worker Topologies</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Async Task Processing: BackgroundTasks vs Celery">Q12: BackgroundTasks vs Celery Workers</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Distributed Tracing & ContextVars">Q13: Async Tracing & contextvars Leaks</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="FastAPI Security & Scoped RBAC">Q14: FastAPI Security Scopes & Claims</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Flask Context Locals: App vs Request Context">Q15: Flask App Context vs Request Context</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Flask Application Factory & Blueprints">Q16: Flask App Factory & Blueprints</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Flask Concurrency & Global State Pitfalls">Q17: Flask Global State & Concurrency</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Flask Custom Extension Engineering">Q18: Flask Custom Extensions (init_app)</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Flask & SQLAlchemy: Scoped Sessions & Threading">Q19: Flask scoped_session & Threading</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Flask WSGI Pipeline & ProxyFix">Q20: Flask WSGI Pipeline & ProxyFix</button>
+                </div>
+            </div>
+<!-- Question Cards Container -->
+            <div class="questions-list">
+                <div class="question-card" id="q-1" data-keywords="django orm n+1 select_related prefetch_related prefetch queryset sql query count">
+                    <div class="card-header">
+                        <span class="concept-badge">Django ORM &amp; Query Optimization</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Django ORM $N+1$ query resolution: Understanding when to use <code>select_related</code> (SQL <code>JOIN</code> for single-valued relationships) versus <code>prefetch_related</code> (separate query for multi-valued relationships), and optimizing with custom <code>Prefetch</code> objects.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce reporting endpoint displays the 100 most recent orders, including each order's customer profile and all line items with product details. In production, this single endpoint issues over 1,500 SQL queries to PostgreSQL, taking 8.5 seconds.
+<br><br>
+<strong>Part A:</strong> Explain the exact SQL mechanism difference between <code>select_related</code> and <code>prefetch_related</code>. Why does attempting <code>select_related('items')</code> raise a <code>FieldError</code> on a reverse <code>ForeignKey</code> or <code>ManyToManyField</code>?
+<br>
+<strong>Part B:</strong> In the code snippet, identify every relationship traversal that triggers a hidden subsequent SQL query.
+<br>
+<strong>Part C:</strong> Refactor the query using <code>select_related</code> and <code>Prefetch</code> with a filtered queryset so the entire endpoint executes in exactly <strong>2 SQL queries</strong>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'order_report_views.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">from django.db import models
+from typing import List, Dict, Any
+
+class Customer(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+
+class Product(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name=&#x27;orders&#x27;)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name=&#x27;items&#x27;)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+# N+1 DISASTER: Issues 1 + 100 + (100 * N) SQL queries!
+def get_recent_orders_report() -&gt; List[Dict[str, Any]]:
+    orders = Order.objects.order_by(&#x27;-created_at&#x27;)[:100]
+    report = []
+    for o in orders:
+        report.append({
+            &quot;order_id&quot;: o.id,
+            &quot;customer_name&quot;: o.customer.name, # Query per order!
+            &quot;items&quot;: [
+                {&quot;product&quot;: item.product.title, &quot;qty&quot;: item.quantity} # Queries per item!
+                for item in o.items.all()
+            ]
+        })
+    return report</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 1, 1, 'Django ORM $N+1$ query resolution: Understanding when to use select_related (SQL JOIN for single-valued relationships) v')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 1, 2, 'Django ORM $N+1$ query resolution: Understanding when to use select_related (SQL JOIN for single-valued relationships) v')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 1, 3, 'Django ORM $N+1$ query resolution: Understanding when to use select_related (SQL JOIN for single-valued relationships) v')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 1, 4, 'Django ORM $N+1$ query resolution: Understanding when to use select_related (SQL JOIN for single-valued relationships) v')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>select_related</code> performs an SQL <code>INNER/LEFT OUTER JOIN</code> (strictly for single-valued ForeignKey and OneToOneField)?</li>
+<li>Do they explain <code>prefetch_related</code> performs a second SQL query with <code>WHERE id IN (...)</code> and joins records in Python memory?</li>
+<li>Do they use <code>Prefetch('items', queryset=OrderItem.objects.select_related('product'))</code>?</li>
+<li>Do they confirm the query count drops from $1,500+$ to exactly 2 queries?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. select_related vs prefetch_related:</strong><br>
+• <code>select_related()</code> creates a single complex SQL query with an <code>INNER JOIN</code> or <code>LEFT OUTER JOIN</code>. It is valid <em>only</em> for single-valued relationships (<code>ForeignKey</code> forward lookup and <code>OneToOneField</code>). Applying it to multi-valued relationships (reverse ForeignKey or ManyToMany) raises a <code>FieldError</code> because joining $1:N$ would multiply row results in SQL.<br>
+• <code>prefetch_related()</code> executes a separate query for each relationship using <code>WHERE id IN (...)</code> and joins the objects in Python memory via <code>QuerySet._result_cache</code>.<br><br>
+<strong>2. Optimized 2-Query Architecture:</strong><br>
+<pre><code>from django.db.models import Prefetch
+
+def get_recent_orders_report_optimized() -> List[Dict[str, Any]]:
+    # Query 1: Fetch Orders + Customers via SQL JOIN
+    # Query 2: Fetch OrderItems + Products via IN clause
+    orders = Order.objects.select_related('customer').prefetch_related(
+        Prefetch(
+            'items',
+            queryset=OrderItem.objects.select_related('product')
+        )
+    ).order_by('-created_at')[:100]
+
+    report = []
+    for o in orders:
+        report.append({
+            "order_id": o.id,
+            "customer_name": o.customer.name, # Cached in memory from SQL JOIN
+            "items": [
+                {"product": item.product.title, "qty": item.quantity} # Cached from Prefetch!
+                for item in o.items.all()
+            ]
+        })
+    return report</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-2" data-keywords="django transactions atomic select_for_update race condition double spend f expressions pessimistic locking">
+                    <div class="card-header">
+                        <span class="concept-badge">Django Concurrency &amp; Row-Level Locking</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Django <strong>Database Transactions & Concurrency Control</strong>: Preventing race conditions and double-spending using <code>transaction.atomic()</code>, <code>select_for_update()</code>, and atomic database-level <code>F()</code> expressions.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A fintech payment service provides a wallet debit API. Under load testing with 200 concurrent requests for the same wallet with a $100 balance, the user successfully withdraws $100 five times, leaving a balance of -$400. Look at the code.
+<br><br>
+<strong>Part A:</strong> Explain the <strong>Time-Of-Check to Time-Of-Use (TOCTOU)</strong> race condition occurring in <code>debit_wallet()</code>. Why does wrapping the method in <code>@transaction.atomic</code> alone fail to prevent this race condition?
+<br>
+<strong>Part B:</strong> What is the difference between Optimistic Concurrency Control and Pessimistic Concurrency Control (<code>select_for_update</code>)? What do <code>nowait=True</code> and <code>skip_locked=True</code> do in PostgreSQL?
+<br>
+<strong>Part C:</strong> Refactor <code>debit_wallet()</code> using both <code>select_for_update()</code> and atomic <code>F()</code> expressions to ensure thread-safe balance deductions.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'wallet_service.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">from django.db import transaction, models
+from decimal import Decimal
+from typing import Dict, Any
+
+class Wallet(models.Model):
+    user_id = models.CharField(max_length=64, unique=True)
+    balance = models.DecimalField(max_digits=12, decimal_places=2)
+
+class WalletService:
+    @staticmethod
+    @transaction.atomic # BUG: Atomic transaction does NOT lock the database row!
+    def debit_wallet(user_id: str, amount: Decimal) -&gt; bool:
+        wallet = Wallet.objects.get(user_id=user_id)
+        
+        # TOCTOU Window: Two concurrent threads both see balance &gt;= amount!
+        if wallet.balance &gt;= amount:
+            wallet.balance -= amount
+            wallet.save()
+            return True
+        return False</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 2, 1, 'Django Database Transactions & Concurrency Control: Preventing race conditions and double-spending using transaction.ato')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 2, 2, 'Django Database Transactions & Concurrency Control: Preventing race conditions and double-spending using transaction.ato')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 2, 3, 'Django Database Transactions & Concurrency Control: Preventing race conditions and double-spending using transaction.ato')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 2, 4, 'Django Database Transactions & Concurrency Control: Preventing race conditions and double-spending using transaction.ato')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>@transaction.atomic</code> only provides ACID transaction rollback on exceptions, NOT isolation against read-modify-write race conditions?</li>
+<li>Do they explain that two concurrent transactions read the same initial balance before either commits?</li>
+<li>Do they implement <code>Wallet.objects.select_for_update().get(user_id=user_id)</code> to acquire an exclusive row-level lock (<code>SELECT ... FOR UPDATE</code>)?</li>
+<li>Can they contrast <code>select_for_update</code> with atomic <code>F()</code> expressions: <code>Wallet.objects.filter(..., balance__gte=amount).update(balance=F('balance') - amount)</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why @transaction.atomic Fails Here:</strong><br>
+<code>@transaction.atomic</code> creates a database transaction boundary (<code>BEGIN ... COMMIT</code>). However, under the default <code>READ COMMITTED</code> isolation level, Transaction A and Transaction B can both execute <code>SELECT balance FROM wallet</code> concurrently. Both inspect <code>balance = 100 >= 100</code>, both compute <code>100 - 100 = 0</code> in Python memory, and both write <code>UPDATE wallet SET balance = 0</code>, resulting in the user withdrawing $200 instead of $100.<br><br>
+<strong>2. Solution 1: Pessimistic Row Locking (select_for_update):</strong><br>
+<pre><code>from django.db import transaction
+from decimal import Decimal
+
+class WalletService:
+    @staticmethod
+    @transaction.atomic
+    def debit_wallet(user_id: str, amount: Decimal) -> bool:
+        # Issues SELECT ... FOR UPDATE: locks row until transaction commits
+        wallet = Wallet.objects.select_for_update().get(user_id=user_id)
+        if wallet.balance >= amount:
+            wallet.balance -= amount
+            wallet.save()
+            return True
+        return False</code></pre><br>
+<strong>3. Solution 2: Atomic Database-Level F() Update (High Throughput):</strong><br>
+<pre><code>from django.db.models import F
+
+def debit_wallet_atomic_f(user_id: str, amount: Decimal) -> bool:
+    # Single atomic query executed inside the database engine:
+    # UPDATE wallet SET balance = balance - 100 WHERE user_id = 'x' AND balance >= 100
+    rows_updated = Wallet.objects.filter(
+        user_id=user_id,
+        balance__gte=amount
+    ).update(balance=F('balance') - amount)
+    
+    return rows_updated > 0</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-3" data-keywords="django middleware asgi wsgi async sync_to_async process_view lifecycle">
+                    <div class="card-header">
+                        <span class="concept-badge">Django Middleware &amp; ASGI Architecture</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Django <strong>Middleware Pipeline & Asynchronous Compatibility</strong>: Request/Response middleware flow, <code>process_view</code>, <code>process_exception</code>, and building dual sync/async middleware using <code>async_mode</code> and <code>asgiref</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Your engineering team is migrating a legacy Django monolith to an asynchronous ASGI deployment using Uvicorn. However, after adding a custom audit logging and tenant verification middleware, async views begin throwing <code>SynchronousOnlyOperation</code> errors and request latency spikes.
+<br><br>
+<strong>Part A:</strong> Describe the execution order of Django middleware during the request and response phases. Where do <code>process_view</code>, <code>process_exception</code>, and <code>process_template_response</code> fit in?
+<br>
+<strong>Part B:</strong> What happens when a synchronous middleware is placed in an ASGI pipeline with asynchronous views? Why does Django switch thread contexts back and forth?
+<br>
+<strong>Part C:</strong> Implement an asynchronous-compatible Django middleware that supports both synchronous and asynchronous view handlers without context-switch penalties.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'tenant_middleware.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">from django.http import HttpRequest, HttpResponse
+from typing import Callable
+
+# Legacy Synchronous Middleware
+class TenantAuditMiddleware:
+    def __init__(self, get_response: Callable):
+        self.get_response = get_response
+
+    def __call__(self, request: HttpRequest) -&gt; HttpResponse:
+        # Pre-processing
+        tenant_id = request.headers.get(&quot;X-Tenant-ID&quot;, &quot;PUBLIC&quot;)
+        request.tenant_id = tenant_id
+
+        # Invoking view (Fails when get_response is an async coroutine!)
+        response = self.get_response(request)
+
+        # Post-processing
+        response[&quot;X-Tenant-Resolved&quot;] = tenant_id
+        return response</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 3, 1, 'Django Middleware Pipeline & Asynchronous Compatibility: Request/Response middleware flow, process_view, process_excepti')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 3, 2, 'Django Middleware Pipeline & Asynchronous Compatibility: Request/Response middleware flow, process_view, process_excepti')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 3, 3, 'Django Middleware Pipeline & Asynchronous Compatibility: Request/Response middleware flow, process_view, process_excepti')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 3, 4, 'Django Middleware Pipeline & Asynchronous Compatibility: Request/Response middleware flow, process_view, process_excepti')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain request middleware runs top-to-bottom, response middleware runs bottom-to-top (onion architecture)?</li>
+<li>Do they identify that mixing sync middleware with async views forces Django to wrap execution in thread adapters (<code>sync_to_async</code> / <code>async_to_sync</code>), introducing context-switch latency?</li>
+<li>Do they use <code>async_capable = True</code> and <code>sync_capable = True</code> class attributes?</li>
+<li>Do they implement <code>async def __acall__(self, request)</code> using <code>await self.get_response(request)</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Middleware Execution Pipeline:</strong><br>
+Django middleware operates as an onion wrapper:<br>
+1. <strong>Request Phase:</strong> <code>__call__</code> / <code>__acall__</code> executes top-to-bottom.<br>
+2. <code>process_view()</code>: Called immediately before the view function executes.<br>
+3. <strong>View Execution:</strong> Returns an <code>HttpResponse</code>.<br>
+4. <code>process_exception()</code>: Executes bottom-to-top if the view raises an unhandled exception.<br>
+5. <strong>Response Phase:</strong> Code after <code>get_response()</code> executes bottom-to-top.<br><br>
+<strong>2. Dual Sync/Async Compatible Middleware (Django 3.1+ / 4+ / 5+):</strong><br>
+<pre><code>from django.utils.decorators import sync_and_async_middleware
+from asgiref.sync import iscoroutinefunction
+from django.http import HttpRequest, HttpResponse
+from typing import Callable
+
+@sync_and_async_middleware
+class TenantAuditMiddleware:
+    sync_capable = True
+    async_capable = True
+
+    def __init__(self, get_response: Callable):
+        self.get_response = get_response
+        self._is_async = iscoroutinefunction(get_response)
+
+    def __call__(self, request: HttpRequest) -> HttpResponse:
+        if self._is_async:
+            return self.__acall__(request)
+            
+        # Synchronous execution path
+        tenant_id = request.headers.get("X-Tenant-ID", "PUBLIC")
+        request.tenant_id = tenant_id
+        response = self.get_response(request)
+        response["X-Tenant-Resolved"] = tenant_id
+        return response
+
+    async def __acall__(self, request: HttpRequest) -> HttpResponse:
+        # Asynchronous execution path (zero thread switching!)
+        tenant_id = request.headers.get("X-Tenant-ID", "PUBLIC")
+        request.tenant_id = tenant_id
+        response = await self.get_response(request)
+        response["X-Tenant-Resolved"] = tenant_id
+        return response</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-4" data-keywords="drf django rest framework serializer serializermethodfield annotate performance cursorpagination">
+                    <div class="card-header">
+                        <span class="concept-badge">Django REST Framework (DRF) Performance</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Django REST Framework High-Throughput Optimization</strong>: Eliminating <code>SerializerMethodField</code> CPU bottlenecks, replacing Python calculations with database-level annotations, and efficient pagination.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A financial transactions API built with Django REST Framework (DRF) returns a paginated list of 1,000 transactions. CPU utilization on the application pods hits 100%, and response times exceed 7 seconds. Look at the code.
+<br><br>
+<strong>Part A:</strong> Explain why <code>SerializerMethodField</code> creates massive CPU overhead in DRF when serializing large collections of records.
+<br>
+<strong>Part B:</strong> What is the performance impact of <code>PageNumberPagination</code> (<code>SELECT COUNT(*)</code>) on large tables with millions of rows? Why is <code>CursorPagination</code> dramatically faster?
+<br>
+<strong>Part C:</strong> Refactor the view and serializer to calculate derived fields directly inside the database using <code>QuerySet.annotate()</code>, eliminating the Python-level serializer bottleneck.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'drf_performance.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">from rest_framework import serializers
+from django.db import models
+
+class Transaction(models.Model):
+    account_number = models.CharField(max_length=32)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    fee = models.DecimalField(max_digits=8, decimal_places=2)
+    status = models.CharField(max_length=16)
+
+# SLOW: Invokes Python method 1,000 times per request!
+class TransactionSerializer(serializers.ModelSerializer):
+    net_amount = serializers.SerializerMethodField()
+    is_profitable = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Transaction
+        fields = [&#x27;id&#x27;, &#x27;account_number&#x27;, &#x27;amount&#x27;, &#x27;fee&#x27;, &#x27;net_amount&#x27;, &#x27;is_profitable&#x27;]
+
+    def get_net_amount(self, obj: Transaction) -&gt; float:
+        return float(obj.amount - obj.fee)
+
+    def get_is_profitable(self, obj: Transaction) -&gt; bool:
+        return obj.fee &gt; 2.50</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 4, 1, 'Django REST Framework High-Throughput Optimization: Eliminating SerializerMethodField CPU bottlenecks, replacing Python ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 4, 2, 'Django REST Framework High-Throughput Optimization: Eliminating SerializerMethodField CPU bottlenecks, replacing Python ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 4, 3, 'Django REST Framework High-Throughput Optimization: Eliminating SerializerMethodField CPU bottlenecks, replacing Python ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 4, 4, 'Django REST Framework High-Throughput Optimization: Eliminating SerializerMethodField CPU bottlenecks, replacing Python ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that DRF serializers instantiate Python objects and execute <code>SerializerMethodField</code> callables for every single record, creating Python bytecode overhead?</li>
+<li>Do they explain <code>PageNumberPagination</code> executes a slow <code>SELECT COUNT(*)</code> scan across the entire table on every page load?</li>
+<li>Do they explain <code>CursorPagination</code> uses keyset pagination (<code>WHERE id > cursor LIMIT N</code>) with $O(1)$ indexed seek performance?</li>
+<li>Do they replace Python calculations with <code>F()</code> expressions in <code>QuerySet.annotate()</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why SerializerMethodField Crushes CPU:</strong><br>
+In DRF, <code>SerializerMethodField</code> executes Python-level dynamic method resolution, stack frame allocation, and object boxing for every row. Serializing 1,000 rows executes 2,000 Python function calls. Furthermore, <code>PageNumberPagination</code> runs <code>SELECT COUNT(*) FROM transactions</code> on every request, which forces PostgreSQL to scan index/table pages.<br><br>
+<strong>2. High-Performance Database-Driven Refactoring:</strong><br>
+<pre><code>from rest_framework import serializers
+from django.db.models import F, Case, When, BooleanField, DecimalField
+from rest_framework.pagination import CursorPagination
+
+class FastTransactionSerializer(serializers.ModelSerializer):
+    # Map directly to database annotated fields (zero Python method calls!)
+    net_amount = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
+    is_profitable = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Transaction
+        fields = ['id', 'account_number', 'amount', 'fee', 'net_amount', 'is_profitable']
+
+# In the ViewSet:
+class TransactionViewSet(viewsets.ReadOnlyModelViewSet):
+    pagination_class = CursorPagination # O(1) keyset seek pagination!
+
+    def get_queryset(self):
+        return Transaction.objects.annotate(
+            net_amount=F('amount') - F('fee'),
+            is_profitable=Case(
+                When(fee__gt=2.50, then=True),
+                default=False,
+                output_field=BooleanField()
+            )
+        ).only('id', 'account_number', 'amount', 'fee')</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-5" data-keywords="django signals post_save transaction.on_commit celery race condition doesnotexist">
+                    <div class="card-header">
+                        <span class="concept-badge">Django Signals &amp; Transaction Boundaries</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Django <strong>Signals vs Transaction Boundaries</strong>: The classic <code>post_save</code> race condition with asynchronous task workers, and guaranteeing task execution with <code>transaction.on_commit()</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A logistics platform triggers an asynchronous Celery shipping label generation task whenever an <code>Order</code> is created. In production, 15% of the Celery tasks crash immediately with <code>Order.DoesNotExist: Order matching query does not exist</code>. Five seconds later, inspecting the database shows the order exists.
+<br><br>
+<strong>Part A:</strong> Explain the exact race condition occurring between the database transaction commit and the Celery message broker dispatch in the <code>post_save</code> signal.
+<br>
+<strong>Part B:</strong> Why are Django signals often considered an architectural anti-pattern for critical business workflows compared to explicit service-layer methods?
+<br>
+<strong>Part C:</strong> Fix this race condition using <code>transaction.on_commit()</code>, and explain what happens if the outer transaction rolls back.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'order_signals.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.db import transaction
+from .models import Order
+
+# CRITICAL BUG: post_save fires BEFORE the outer database transaction commits!
+@receiver(post_save, sender=Order)
+def on_order_created(sender, instance, created, **kwargs):
+    if created:
+        # Celery task dispatches to Redis immediately!
+        # Worker picks up message BEFORE Postgres transaction finishes COMMIT!
+        generate_shipping_label_task.delay(instance.id)
+
+# Inside the checkout view:
+@transaction.atomic
+def complete_checkout(request, cart):
+    order = Order.objects.create(total=cart.total)
+    # post_save signal ALREADY fired and Celery task was dispatched!
+    charge_credit_card(cart) # Takes 500ms!
+    # Database COMMIT only happens HERE!
+    return order</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 5, 1, 'Django Signals vs Transaction Boundaries: The classic post_save race condition with asynchronous task workers, and guara')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 5, 2, 'Django Signals vs Transaction Boundaries: The classic post_save race condition with asynchronous task workers, and guara')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 5, 3, 'Django Signals vs Transaction Boundaries: The classic post_save race condition with asynchronous task workers, and guara')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 5, 4, 'Django Signals vs Transaction Boundaries: The classic post_save race condition with asynchronous task workers, and guara')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that <code>post_save</code> fires inside the <code>@transaction.atomic</code> block before the SQL <code>COMMIT</code> statement executes?</li>
+<li>Do they identify the race condition: Celery worker processes the message faster than the DB commit completes, querying an uncommitted row?</li>
+<li>Do they resolve the bug using <code>transaction.on_commit(lambda: generate_shipping_label_task.delay(instance.id))</code>?</li>
+<li>Do they know that if <code>charge_credit_card()</code> fails and the transaction rolls back, <code>on_commit</code> callbacks are discarded automatically?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The Signal-Transaction Race Condition:</strong><br>
+<code>post_save</code> fires as soon as <code>Order.objects.create()</code> executes the SQL <code>INSERT</code> statement. However, because the view is wrapped in <code>@transaction.atomic</code>, the changes are not yet committed to PostgreSQL. The Celery task is published to RabbitMQ/Redis immediately. A distributed Celery worker picks up the task within 2 milliseconds and executes <code>Order.objects.get(id=order_id)</code>. Because PostgreSQL uses Multi-Version Concurrency Control (MVCC), uncommitted rows are invisible to other connections. The worker crashes with <code>Order.DoesNotExist</code>.<br><br>
+<strong>2. Production Solution with transaction.on_commit():</strong><br>
+<pre><code>from django.db import transaction
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=Order)
+def on_order_created(sender, instance, created, **kwargs):
+    if created:
+        # Enqueue execution ONLY after the outer transaction successfully COMMITS
+        transaction.on_commit(
+            lambda: generate_shipping_label_task.delay(instance.id)
+        )</code></pre><br>
+<strong>3. Architectural Best Practice:</strong><br>
+Signals obscure control flow (spaghetti callbacks) and make unit testing difficult. Prefer explicit service-layer orchestration:
+<pre><code>def create_order_service(cart_data) -> Order:
+    with transaction.atomic():
+        order = Order.objects.create(...)
+        charge_payment(order)
+        transaction.on_commit(lambda: generate_shipping_label_task.delay(order.id))
+    return order</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-6" data-keywords="django migrations zero downtime postgresql table locks separate_database_and_state">
+                    <div class="card-header">
+                        <span class="concept-badge">Django Enterprise Migrations &amp; Zero-Downtime</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Zero-Downtime Database Migrations at Scale</strong>: Preventing table locks on multi-million row PostgreSQL tables, managing backward-compatible two-phase column renames, and <code>SeparateDatabaseAndState</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Your team needs to rename a column <code>phone</code> to <code>contact_number</code> in a 40-million row PostgreSQL <code>User</code> table during a rolling Kubernetes deployment. Running <code>python manage.py makemigrations</code> creates an <code>ALTER TABLE users RENAME COLUMN ...</code> migration. When applied in staging under load, it locks the entire table for 15 minutes, causing cascading HTTP 504 timeouts.
+<br><br>
+<strong>Part A:</strong> Why does a naive column rename lock the table in PostgreSQL? How does running old application pods alongside new application pods break when a column is renamed immediately?
+<br>
+<strong>Part B:</strong> What is the 3-phase Expand/Contract (Blue-Green) pattern for zero-downtime schema evolution?
+<br>
+<strong>Part C:</strong> Write the Django migration strategy using <code>migrations.SeparateDatabaseAndState</code> to transition the model without downtime.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'zero_downtime_migration.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">from django.db import migrations, models
+
+# NAIVE MIGRATION: Crashes rolling deployments!
+# Old pods still running code with &#x27;user.phone&#x27; crash with column missing!
+# New pods expect &#x27;user.contact_number&#x27;!
+class Migration(migrations.Migration):
+    dependencies = [(&#x27;users&#x27;, &#x27;0001_initial&#x27;)]
+
+    operations = [
+        migrations.RenameField(
+            model_name=&#x27;user&#x27;,
+            old_name=&#x27;phone&#x27;,
+            new_name=&#x27;contact_number&#x27;,
+        ),
+    ]</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 6, 1, 'Zero-Downtime Database Migrations at Scale: Preventing table locks on multi-million row PostgreSQL tables, managing back')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 6, 2, 'Zero-Downtime Database Migrations at Scale: Preventing table locks on multi-million row PostgreSQL tables, managing back')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 6, 3, 'Zero-Downtime Database Migrations at Scale: Preventing table locks on multi-million row PostgreSQL tables, managing back')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 6, 4, 'Zero-Downtime Database Migrations at Scale: Preventing table locks on multi-million row PostgreSQL tables, managing back')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that during a rolling deploy, old pods and new pods run simultaneously against the same DB schema?</li>
+<li>Do they explain that <code>RENAME COLUMN</code> breaks old pods instantly because they generate SQL referencing <code>phone</code>?</li>
+<li>Do they explain the Expand/Contract pattern: (1) Add new nullable column, (2) Dual-write to both columns, (3) Backfill, (4) Switch reads, (5) Drop old column?</li>
+<li>Do they use <code>SeparateDatabaseAndState</code> to update Django model state independently of raw DDL?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why Naive Renames Fail During Rolling Deploys:</strong><br>
+1. <strong>Table Lock:</strong> In PostgreSQL, renaming a column acquires an <code>ACCESS EXCLUSIVE</code> lock. While the metadata change is fast, any running transactions block the lock, queuing up all subsequent queries behind it until connection pools saturate.<br>
+2. <strong>Code Incompatibility:</strong> In a rolling Kubernetes deployment, Version 1 pods (expecting <code>phone</code>) and Version 2 pods (expecting <code>contact_number</code>) run concurrently. Renaming the column immediately causes all Version 1 pods to crash with <code>UndefinedColumn</code> errors.<br><br>
+<strong>2. Zero-Downtime Expand/Contract Procedure:</strong><br>
+• <strong>Phase 1 (Expand):</strong> Add <code>contact_number</code> as a new nullable column. Deploy code that reads from <code>phone</code> but dual-writes to both <code>phone</code> and <code>contact_number</code>.<br>
+• <strong>Phase 2 (Backfill):</strong> Run background batch scripts to copy historical data from <code>phone</code> to <code>contact_number</code>.<br>
+• <strong>Phase 3 (Switch):</strong> Deploy code that reads and writes strictly to <code>contact_number</code>.<br>
+• <strong>Phase 4 (Contract):</strong> Drop the old <code>phone</code> column in a future release.<br><br>
+<strong>3. Using SeparateDatabaseAndState:</strong><br>
+<pre><code>class Migration(migrations.Migration):
+    operations = [
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                # Tells Django ORM model layer that column is renamed
+                migrations.RenameField('User', 'phone', 'contact_number')
+            ],
+            database_operations=[
+                # Raw DDL omitted or handled via database triggers/views
+            ]
+        )
+    ]</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-7" data-keywords="django caching redis cache stampede dogpiling xfetch multi tenant">
+                    <div class="card-header">
+                        <span class="concept-badge">Django Caching Architecture &amp; Redis</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Django <strong>Caching Architecture & Redis Invalidation</strong>: Multi-tenant cache key partitioning, cache stampede (dog-piling) mitigation, and atomic cache locking.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A multi-tenant SaaS application caches expensive aggregation dashboards in Redis via <code>cache.get()</code> and <code>cache.set()</code>. During peak morning traffic, when a popular tenant's 5-minute cache key expires, 300 concurrent requests simultaneously miss the cache and hit the PostgreSQL database with the exact same 4-second aggregation query, causing database CPU to peg at 100%.
+<br><br>
+<strong>Part A:</strong> What is a <strong>Cache Stampede (Thundering Herd / Dog-piling)</strong>?
+<br>
+<strong>Part B:</strong> How do you design multi-tenant cache keys to guarantee that Tenant A can never accidentally read or overwrite Tenant B's cached records?
+<br>
+<strong>Part C:</strong> Implement a cache stampede mitigation pattern in Django using an atomic Redis distributed lock (mutex) with double-checked locking.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'tenant_cache.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">from django.core.cache import cache
+from typing import Dict, Any
+
+# VULNERABLE: Cache stampede upon expiration + no tenant isolation!
+def get_dashboard_metrics(tenant_id: str) -&gt; Dict[str, Any]:
+    # BUG 1: Static key susceptible to tenant collision if tenant_id is omitted or malformed
+    cache_key = f&quot;metrics_{tenant_id}&quot;
+    
+    data = cache.get(cache_key)
+    if data is None:
+        # BUG 2: Cache Stampede! 200 concurrent requests run this expensive query simultaneously!
+        data = execute_heavy_database_aggregation(tenant_id)
+        cache.set(cache_key, data, timeout=300)
+        
+    return data</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 7, 1, 'Django Caching Architecture & Redis Invalidation: Multi-tenant cache key partitioning, cache stampede (dog-piling) mitig')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 7, 2, 'Django Caching Architecture & Redis Invalidation: Multi-tenant cache key partitioning, cache stampede (dog-piling) mitig')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 7, 3, 'Django Caching Architecture & Redis Invalidation: Multi-tenant cache key partitioning, cache stampede (dog-piling) mitig')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 7, 4, 'Django Caching Architecture & Redis Invalidation: Multi-tenant cache key partitioning, cache stampede (dog-piling) mitig')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify Cache Stampede: simultaneous cache misses for the same key causing concurrent heavy queries to overwhelm the database?</li>
+<li>Do they enforce structured multi-tenant cache keys: <code>tenant:{tenant_id}:v{version}:metrics</code>?</li>
+<li>Do they implement a distributed lock (e.g. <code>cache.lock(lock_key, timeout=10)</code>) so only ONE thread executes the DB query while others wait or return stale data?</li>
+<li>Do they explain probabilistic early expiration (XFetch / stale-while-revalidate)?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Cache Stampede Mechanics:</strong><br>
+When a high-traffic cache key expires, the next $N$ concurrent requests all find <code>cache.get(key) is None</code>. All $N$ requests bypass the cache and execute the heavy query on PostgreSQL simultaneously. The database experiences a massive CPU spike, response latencies explode, and connections pool out.<br><br>
+<strong>2. Distributed Lock Mitigation (Double-Checked Locking):</strong><br>
+<pre><code>from django.core.cache import cache
+import time
+
+def get_dashboard_metrics_safe(tenant_id: str) -> dict:
+    cache_key = f"saas:tenant:{tenant_id}:dashboard:v1"
+    data = cache.get(cache_key)
+    if data is not None:
+        return data
+
+    # Acquire distributed lock: Only ONE worker rebuilds the cache!
+    lock_key = f"lock:{cache_key}"
+    with cache.lock(lock_key, timeout=15):
+        # Double-check: Another worker may have filled the cache while we waited for lock
+        data = cache.get(cache_key)
+        if data is not None:
+            return data
+
+        # Execute expensive database query
+        data = execute_heavy_database_aggregation(tenant_id)
+        cache.set(cache_key, data, timeout=300)
+
+    return data</code></pre><br>
+<strong>Alternative Architecture:</strong> Probabilistic early expiration (XFetch algorithm) or a background Celery beat job that warms and refreshes the cache before TTL expires.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-8" data-keywords="fastapi async def def event loop starvation blocking uvicorn threadpool anyio">
+                    <div class="card-header">
+                        <span class="concept-badge">FastAPI &amp; Event Loop Concurrency</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                FastAPI <strong>Concurrency Mechanics: <code>async def</code> vs standard <code>def</code></strong>: How FastAPI schedules endpoints across the main event loop vs internal AnyIO worker threadpools, and why calling synchronous blocking code inside <code>async def</code> destroys server throughput.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A backend team migrates an endpoint to FastAPI. Assuming that <code>async def</code> is always superior, they define all routes as <code>async def</code>. Inside one endpoint, they make a legacy database call using synchronous PyMongo/requests and compute a CPU-heavy cryptographic hash. Under load, all other routes on the server freeze.
+<br><br>
+<strong>Part A:</strong> Explain how FastAPI handles standard <code>def</code> routes versus <code>async def</code> routes under the hood. Which one runs in an external worker threadpool?
+<br>
+<strong>Part B:</strong> What happens when synchronous blocking I/O (e.g. <code>time.sleep</code>, <code>requests.get</code>) or CPU-bound loops execute inside an <code>async def</code> endpoint in FastAPI?
+<br>
+<strong>Part C:</strong> When should you declare an endpoint as <code>async def</code> versus standard <code>def</code>? Provide the refactored code demonstrating safe offloading.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'fastapi_concurrency.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">from fastapi import FastAPI
+import time
+import requests
+
+app = FastAPI()
+
+# CATASTROPHIC BUG: Calling blocking synchronous code inside async def!
+@app.get(&quot;/api/v1/user-report/{user_id}&quot;)
+async def get_user_report(user_id: str):
+    # Blocking call halts the single-threaded event loop!
+    # No other request can be accepted by Uvicorn during this 2-second sleep!
+    time.sleep(2.0) 
+
+    # Blocking sync HTTP call
+    resp = requests.get(f&quot;https://crm.internal/users/{user_id}&quot;, timeout=5.0)
+    
+    return {&quot;user_id&quot;: user_id, &quot;data&quot;: resp.json()}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 8, 1, 'FastAPI Concurrency Mechanics: async def vs standard def: How FastAPI schedules endpoints across the main event loop vs ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 8, 2, 'FastAPI Concurrency Mechanics: async def vs standard def: How FastAPI schedules endpoints across the main event loop vs ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 8, 3, 'FastAPI Concurrency Mechanics: async def vs standard def: How FastAPI schedules endpoints across the main event loop vs ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 8, 4, 'FastAPI Concurrency Mechanics: async def vs standard def: How FastAPI schedules endpoints across the main event loop vs ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that FastAPI runs <code>async def</code> directly on the main event loop thread, while running standard <code>def</code> in an external threadpool (AnyIO)?</li>
+<li>Do they explain that blocking calls inside <code>async def</code> freeze the entire Uvicorn event loop, blocking all other clients?</li>
+<li>Do they state the rule: Use <code>async def</code> ONLY when using <code>await</code> on non-blocking async libraries; use standard <code>def</code> for sync blocking libraries!</li>
+<li>Do they demonstrate <code>from anyio.to_thread import run_sync</code> or native <code>httpx.AsyncClient</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. FastAPI Concurrency Model:</strong><br>
+• <strong><code>def route():</code> (Synchronous):</strong> FastAPI detects this is a regular function and offloads its execution to an external thread pool (via <code>anyio.to_thread.run_sync</code>). It does <em>not</em> block the main event loop.<br>
+• <strong><code>async def route():</code> (Asynchronous):</strong> FastAPI executes this coroutine directly on the main event loop thread, expecting it to yield control via <code>await</code>.<br><br>
+<strong>2. The Catastrophic Mistake:</strong><br>
+When you run <code>time.sleep()</code> or <code>requests.get()</code> inside an <code>async def</code> route, you execute a synchronous blocking syscall directly on the main event loop thread. The event loop cannot tick, handle network packets, or schedule other tasks. The entire server process halts until the blocking call returns.<br><br>
+<strong>3. Correct Architecture:</strong><br>
+<pre><code>from fastapi import FastAPI
+import httpx
+import asyncio
+
+app = FastAPI()
+
+# Option A: Pure Non-Blocking Async (Highest Performance)
+@app.get("/api/v1/user-report/{user_id}")
+async def get_user_report_async(user_id: str):
+    await asyncio.sleep(2.0) # Non-blocking async sleep!
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(f"https://crm.internal/users/{user_id}", timeout=5.0)
+    return {"user_id": user_id, "data": resp.json()}
+
+# Option B: Standard def for synchronous legacy libraries (Safely thread-pooled)
+@app.get("/api/v1/user-report-sync/{user_id}")
+def get_user_report_sync(user_id: str):
+    # FastAPI automatically runs this inside a worker thread pool!
+    time.sleep(2.0)
+    return {"status": "ok"}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-9" data-keywords="pydantic pydantic v2 model_validator field_validator computed_field serialization pydantic-core rust">
+                    <div class="card-header">
+                        <span class="concept-badge">Pydantic v2 Architecture &amp; Validation</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Pydantic v2 Architecture & High-Performance Validation</strong>: Under-the-hood Rust core (<code>pydantic-core</code>), difference between <code>mode='before'</code> and <code>mode='after'</code> in <code>model_validator</code>, and <code>@computed_field</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A fintech company validates hundreds of thousands of incoming financial transactions per minute using Pydantic in FastAPI. During high-throughput bursts, CPU usage spikes heavily on JSON validation. The team upgrades to Pydantic v2.
+<br><br>
+<strong>Part A:</strong> How did Pydantic v2 achieve a 5x–15x performance increase over Pydantic v1? What is the role of <code>pydantic-core</code> written in Rust?
+<br>
+<strong>Part B:</strong> Explain the critical difference between <code>@model_validator(mode='before')</code> (raw dict manipulation) and <code>@model_validator(mode='after')</code> (validated model instance).
+<br>
+<strong>Part C:</strong> Implement a high-performance Pydantic v2 schema with cross-field validation, a <code>@computed_field</code>, and explain why <code>model_dump(mode='json')</code> is superior to legacy <code>.dict()</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'pydantic_v2_schema.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">from pydantic import BaseModel, Field, model_validator, computed_field
+from decimal import Decimal
+from typing import Optional
+from enum import Enum
+
+class OrderType(str, Enum):
+    MARKET = &quot;MARKET&quot;
+    LIMIT = &quot;LIMIT&quot;
+
+# Goal: Build a Pydantic v2 model where:
+# 1. If order_type == LIMIT, limit_price MUST be provided and &gt; 0.
+# 2. total_cost is a computed field: quantity * limit_price (or market estimated price)
+class TradeOrder(BaseModel):
+    symbol: str = Field(..., min_length=1, max_length=10)
+    quantity: int = Field(..., gt=0)
+    order_type: OrderType
+    limit_price: Optional[Decimal] = None</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 9, 1, 'Pydantic v2 Architecture & High-Performance Validation: Under-the-hood Rust core (pydantic-core), difference between mod')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 9, 2, 'Pydantic v2 Architecture & High-Performance Validation: Under-the-hood Rust core (pydantic-core), difference between mod')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 9, 3, 'Pydantic v2 Architecture & High-Performance Validation: Under-the-hood Rust core (pydantic-core), difference between mod')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 9, 4, 'Pydantic v2 Architecture & High-Performance Validation: Under-the-hood Rust core (pydantic-core), difference between mod')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain Pydantic v2 moves schema validation and JSON parsing into compiled Rust (<code>pydantic-core</code>), bypassing Python bytecode overhead?</li>
+<li>Do they distinguish <code>mode='before'</code> (operates on raw input data before type coercion) from <code>mode='after'</code> (operates on strongly-typed model fields)?</li>
+<li>Do they use <code>@computed_field</code> to include dynamic properties in serialized output without storing them in <code>__dict__</code>?</li>
+<li>Do they use <code>model_dump(mode='json')</code> for fast serialization of Decimals, UUIDs, and Datetimes?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Pydantic v2 Architecture:</strong><br>
+In Pydantic v1, validation was executed in pure Python bytecode via recursive dictionary traversal, making it CPU-intensive. Pydantic v2 rewrote the entire validation and serialization engine in Rust (<code>pydantic-core</code>). Python compiles the model schema into a Rust-level traversal tree. JSON strings are parsed directly in Rust memory without creating intermediate Python objects.<br><br>
+<strong>2. Production Pydantic v2 Implementation:</strong><br>
+<pre><code>from pydantic import BaseModel, Field, model_validator, computed_field
+from decimal import Decimal
+from typing import Optional
+from enum import Enum
+
+class OrderType(str, Enum):
+    MARKET = "MARKET"
+    LIMIT = "LIMIT"
+
+class TradeOrder(BaseModel):
+    symbol: str = Field(..., min_length=1, max_length=10)
+    quantity: int = Field(..., gt=0)
+    order_type: OrderType
+    limit_price: Optional[Decimal] = Field(default=None, gt=0)
+
+    # mode='after': runs on validated instance self
+    @model_validator(mode='after')
+    def validate_limit_order(self) -> 'TradeOrder':
+        if self.order_type == OrderType.LIMIT and self.limit_price is None:
+            raise ValueError("limit_price is strictly required when order_type is LIMIT")
+        return self
+
+    @computed_field
+    def estimated_total(self) -> Decimal:
+        price = self.limit_price or Decimal('100.00')
+        return self.quantity * price
+
+order = TradeOrder(symbol="NVDA", quantity=10, order_type=OrderType.LIMIT, limit_price=Decimal("120.50"))
+# model_dump(mode='json') serializes Decimals into strings/numbers for JSON compliance:
+print(order.model_dump(mode='json'))</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-10" data-keywords="fastapi depends dependency injection yield cleanup database session rollback">
+                    <div class="card-header">
+                        <span class="concept-badge">FastAPI Dependency Injection &amp; Cleanup</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                FastAPI <strong>Dependency Injection Architecture</strong>: Hierarchical dependency graphs, <code>yield</code> dependencies for resource management (connection pooling / transactions), and dependency caching with <code>use_cache</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a high-throughput FastAPI banking service, each request requires a scoped database session. A developer implements a <code>yield</code> dependency for database management. However, when an exception occurs inside the route, the transaction is neither rolled back nor closed, causing connection leaks in PostgreSQL.
+<br><br>
+<strong>Part A:</strong> How does FastAPI resolve hierarchical dependency graphs via <code>Depends()</code>? What does <code>Depends(..., use_cache=True)</code> do when multiple dependencies require the same sub-dependency?
+<br>
+<strong>Part B:</strong> Explain the lifecycle of a <code>yield</code> dependency in FastAPI. What happens to code after the <code>yield</code> statement when an HTTP exception occurs versus an unhandled 500 error?
+<br>
+<strong>Part C:</strong> Implement a production-grade transactional database session dependency with guaranteed commit on success, rollback on error, and session closing in a <code>finally</code> block.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'db_dependency.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">from fastapi import Depends, FastAPI, HTTPException
+from typing import Generator
+
+app = FastAPI()
+
+# BROKEN: Fails to handle rollback when route throws exception!
+def get_db_naive():
+    db = DatabasePool.get_connection()
+    db.begin_transaction()
+    yield db
+    # If route raises HTTPException, code execution never completes cleanly!
+    db.commit()
+    db.close()
+
+@app.post(&quot;/api/v1/transfer&quot;)
+def transfer_funds(amount: float, db = Depends(get_db_naive)):
+    if amount &lt;= 0:
+        raise HTTPException(status_code=400, detail=&quot;Invalid amount&quot;)
+    db.execute(f&quot;UPDATE accounts SET balance = balance - {amount}&quot;)
+    return {&quot;status&quot;: &quot;SUCCESS&quot;}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 10, 1, 'FastAPI Dependency Injection Architecture: Hierarchical dependency graphs, yield dependencies for resource management (c')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 10, 2, 'FastAPI Dependency Injection Architecture: Hierarchical dependency graphs, yield dependencies for resource management (c')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 10, 3, 'FastAPI Dependency Injection Architecture: Hierarchical dependency graphs, yield dependencies for resource management (c')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 10, 4, 'FastAPI Dependency Injection Architecture: Hierarchical dependency graphs, yield dependencies for resource management (c')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that FastAPI executes code before <code>yield</code> during request entry, and code after <code>yield</code> during response cleanup?</li>
+<li>Do they explain that if an exception is raised in the endpoint, it is re-raised inside the dependency at the <code>yield</code> line?</li>
+<li>Do they wrap the <code>yield</code> in a <code>try...except...finally</code> block to guarantee rollback and cleanup?</li>
+<li>Do they explain <code>use_cache=True</code> ensures the dependency executes only once per request and is shared across the dependency tree?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. FastAPI Dependency Graph Resolution:</strong><br>
+FastAPI inspects route parameters and builds a Directed Acyclic Graph (DAG) of dependencies. If Dependency A and Dependency B both require <code>get_current_user</code>, FastAPI caches the result when <code>use_cache=True</code> (the default), ensuring <code>get_current_user</code> executes only once per HTTP request.<br><br>
+<strong>2. The Yield Dependency Lifecycle:</strong><br>
+When an endpoint raises an exception (including <code>HTTPException</code>), FastAPI re-raises that exception directly at the <code>yield</code> expression inside the dependency function. If there is no <code>try...except</code> surrounding the <code>yield</code>, the subsequent code (<code>db.commit()</code>, <code>db.close()</code>) is aborted, leaking the database connection permanently.<br><br>
+<strong>3. Production-Grade Transactional Dependency:</strong><br>
+<pre><code>from fastapi import Depends, FastAPI, HTTPException
+from typing import AsyncGenerator
+
+async def get_db_session() -> AsyncGenerator:
+    session = await AsyncSessionPool.acquire()
+    try:
+        await session.begin()
+        yield session # Yield control to endpoint
+        await session.commit() # Commits if endpoint completed without exception
+    except Exception:
+        await session.rollback() # Rolls back transaction upon any error
+        raise
+    finally:
+        await session.close() # Always releases connection back to pool!</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-11" data-keywords="asgi uvicorn gunicorn uvloop lifespan uvicornworker concurrency kubernetes">
+                    <div class="card-header">
+                        <span class="concept-badge">ASGI Deployment &amp; Worker Topologies</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>ASGI High-Throughput Deployment Topologies</strong>: Gunicorn process manager with <code>UvicornWorker</code>, tuning <code>uvloop</code> and <code>httptools</code>, modern Lifespan context managers, and handling graceful zero-downtime container termination.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are deploying a FastAPI microservice on Kubernetes targeting 20,000 requests per second. A junior engineer configures a single container running <code>uvicorn app:app</code>. Under load, CPU saturation on a single core throttles the container while 7 other CPU cores on the Kubernetes node remain idle.
+<br><br>
+<strong>Part A:</strong> Explain why a single Uvicorn process can only utilize 1 CPU core regardless of node capacity, and how the Gunicorn process manager with <code>UvicornWorker</code> enables multi-process parallelism.
+<br>
+<strong>Part B:</strong> What are <code>uvloop</code> (libuv C-bindings) and <code>httptools</code>? What performance advantage do they provide over Python's standard <code>asyncio</code> event loop?
+<br>
+<strong>Part C:</strong> Implement modern FastAPI <strong>Lifespan Context Managers</strong> (replacing deprecated <code>@app.on_event("startup")</code>) to initialize database connection pools on startup and gracefully drain them on <code>SIGTERM</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'asgi_lifespan.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">from fastapi import FastAPI
+from contextlib import asynccontextmanager
+import asyncio
+
+# Modern FastAPI Lifespan Handler (PEP 533)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup phase: Initialize database connection pools and Kafka producers
+    print(&quot;Initializing async database connection pool...&quot;)
+    app.state.db_pool = await init_async_db_pool()
+    
+    yield # Application serves requests here
+    
+    # Shutdown phase (SIGTERM / Graceful termination):
+    print(&quot;Draining active connections and closing pool...&quot;)
+    await app.state.db_pool.close()
+
+app = FastAPI(lifespan=lifespan)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 11, 1, 'ASGI High-Throughput Deployment Topologies: Gunicorn process manager with UvicornWorker, tuning uvloop and httptools, mo')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 11, 2, 'ASGI High-Throughput Deployment Topologies: Gunicorn process manager with UvicornWorker, tuning uvloop and httptools, mo')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 11, 3, 'ASGI High-Throughput Deployment Topologies: Gunicorn process manager with UvicornWorker, tuning uvloop and httptools, mo')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 11, 4, 'ASGI High-Throughput Deployment Topologies: Gunicorn process manager with UvicornWorker, tuning uvloop and httptools, mo')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that a single Uvicorn process is bounded by a single OS thread and the Python GIL, thus utilizing only 1 CPU core?</li>
+<li>Do they recommend Gunicorn with <code>-k uvicorn.workers.UvicornWorker -w $(2 * CPU + 1)</code> or 1 Uvicorn process per Kubernetes pod with horizontal pod autoscaling (HPA)?</li>
+<li>Do they explain <code>uvloop</code> is written in C (using Node's <code>libuv</code>) providing 2x–4x event loop throughput?</li>
+<li>Do they show how Lifespan handles graceful teardown upon Kubernetes <code>SIGTERM</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Single Worker Limitation & Worker Topology:</strong><br>
+Because CPython has a GIL, a single Uvicorn process runs on a single event loop thread, utilizing at most 100% of 1 CPU core. In multi-core environments, you must run multiple worker processes.<br><br>
+<strong>2. Production Deployment Models:</strong><br>
+• <strong>Kubernetes Native (Recommended):</strong> Run 1 Uvicorn worker per container pod, setting container CPU limits to 1.0–2.0 cores, and scale horizontally using the Horizontal Pod Autoscaler (HPA). This aligns container health and memory isolation with Kubernetes semantics.<br>
+• <strong>VM / Bare-Metal:</strong> Use Gunicorn as the master process supervisor:
+<pre><code>gunicorn -w 8 -k uvicorn.workers.UvicornWorker --timeout 60 app:app</code></pre><br>
+<strong>3. uvloop & httptools:</strong><br>
+Uvicorn automatically loads <code>uvloop</code> (C-based event loop based on <code>libuv</code>) and <code>httptools</code> (fast C HTTP parser). <code>uvloop</code> replaces Python's native event loop, reducing callback overhead and yielding 2x-4x throughput on network socket handling.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-12" data-keywords="fastapi backgroundtasks celery redis rabbitmq task durability memory leak oom">
+                    <div class="card-header">
+                        <span class="concept-badge">Async Task Processing: BackgroundTasks vs Celery</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>FastAPI BackgroundTasks vs Distributed Queues (Celery/Arq)</strong>: Understanding in-process memory vulnerabilities, task durability, worker crashes, and when <code>BackgroundTasks</code> becomes an architectural liability.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer uses FastAPI's native <code>BackgroundTasks</code> to trigger high-volume asynchronous tasks (generating 50MB PDF invoices and video transcoding) immediately after returning an HTTP 202 Accepted response. Under production load, pod memory surges, Kubernetes OOMKills the pod, and hundreds of customer invoices vanish without a trace.
+<br><br>
+<strong>Part A:</strong> How does FastAPI's <code>BackgroundTasks</code> execute under the hood? Why is it strictly an <em>in-process</em> mechanism?
+<br>
+<strong>Part B:</strong> What happens to pending <code>BackgroundTasks</code> when a Kubernetes pod scales down, crashes, or is restarted?
+<br>
+<strong>Part C:</strong> Contrast <code>BackgroundTasks</code> with distributed task queues like <strong>Celery</strong> or <strong>Arq</strong>. Provide architectural guidelines on when to use each.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'background_tasks_danger.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">from fastapi import FastAPI, BackgroundTasks, status
+import time
+
+app = FastAPI()
+
+def heavy_pdf_invoice_generator(customer_id: str, invoice_id: str):
+    # DANGEROUS IN-PROCESS TASK:
+    # Consumes 400MB RAM, runs for 45 seconds inside the API web pod!
+    time.sleep(45)
+    print(f&quot;Invoice {invoice_id} generated for {customer_id}&quot;)
+
+@app.post(&quot;/api/v1/invoices&quot;, status_code=status.HTTP_202_ACCEPTED)
+async def generate_invoice(customer_id: str, background_tasks: BackgroundTasks):
+    invoice_id = &quot;INV-99482&quot;
+    # BUG: If pod restarts or OOM-kills, this task is PERMANENTLY LOST!
+    background_tasks.add_task(heavy_pdf_invoice_generator, customer_id, invoice_id)
+    return {&quot;status&quot;: &quot;ACCEPTED&quot;, &quot;invoice_id&quot;: invoice_id}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 12, 1, 'FastAPI BackgroundTasks vs Distributed Queues (Celery/Arq): Understanding in-process memory vulnerabilities, task durabi')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 12, 2, 'FastAPI BackgroundTasks vs Distributed Queues (Celery/Arq): Understanding in-process memory vulnerabilities, task durabi')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 12, 3, 'FastAPI BackgroundTasks vs Distributed Queues (Celery/Arq): Understanding in-process memory vulnerabilities, task durabi')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 12, 4, 'FastAPI BackgroundTasks vs Distributed Queues (Celery/Arq): Understanding in-process memory vulnerabilities, task durabi')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>BackgroundTasks</code> executes inside the same Python process/event loop directly after sending the response?</li>
+<li>Do they explain that in-process background tasks lack durability: if the container crashes or restarts, all queued and running tasks are lost?</li>
+<li>Do they note that heavy background tasks consume CPU/memory of the web server pod, degrading API response times?</li>
+<li>Do they recommend Celery / Arq / Redis Streams for durable, retryable, CPU/memory-intensive asynchronous tasks?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. How FastAPI BackgroundTasks Works:</strong><br>
+FastAPI's <code>BackgroundTasks</code> is simply a list of functions executed by Starlette in the same process after sending the HTTP response. It is executed in the worker's threadpool or event loop. It has <strong>no persistence</strong>, <strong>no retry logic</strong>, and <strong>no distributed scheduling</strong>.<br><br>
+<strong>2. Critical Architectural Risks:</strong><br>
+• <strong>Zero Durability:</strong> If the pod is killed, crashes, or scales down during a deployment, all tasks in memory are permanently destroyed.<br>
+• <strong>Resource Starvation:</strong> Running a 45-second CPU/memory-heavy task inside an API pod steals resources from active HTTP request handling.<br><br>
+<strong>3. Decision Framework:</strong><br>
+• <strong>Use FastAPI BackgroundTasks for:</strong> Lightweight, non-critical, sub-second actions (e.g. logging an audit metric, incrementing an in-memory counter, triggering a fast webhook).<br>
+• <strong>Use Celery / Arq / Redis Streams for:</strong> Any mission-critical task, long-running operations (>1s), PDF generation, video transcoding, external API retries, and tasks requiring guaranteed delivery (at-least-once processing).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-13" data-keywords="fastapi contextvars distributed tracing correlation_id middleware starlette opentelemetry">
+                    <div class="card-header">
+                        <span class="concept-badge">Distributed Tracing &amp; ContextVars</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Distributed Tracing & Context Propagation in Async Python</strong>: Thread-safety in async environments, Python <code>contextvars</code>, and building correlation ID middleware for FastAPI.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a microservices architecture, you need to propagate a unique <code>X-Correlation-ID</code> across all incoming FastAPI HTTP requests and carry it into downstream database queries, async background tasks, and logger calls. A developer uses a global dictionary <code>REQUEST_CONTEXT = {}</code>, resulting in cross-request data leaks.
+<br><br>
+<strong>Part A:</strong> Why does using <code>threading.local()</code> or a global dictionary fail in asynchronous Python frameworks like FastAPI?
+<br>
+<strong>Part B:</strong> What is Python's <code>contextvars</code> module (PEP 567)? How does it guarantee context isolation across concurrent coroutines on the same OS thread?
+<br>
+<strong>Part C:</strong> Implement a production FastAPI middleware using <code>contextvars.ContextVar</code> that extracts or generates a correlation ID and injects it into all outbound logging records.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'correlation_middleware.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">from fastapi import FastAPI, Request
+from contextvars import ContextVar
+import uuid
+import logging
+
+# ContextVar is isolated per async task hierarchy!
+correlation_id_ctx: ContextVar[str] = ContextVar(&quot;correlation_id&quot;, default=&quot;SYSTEM&quot;)
+
+class CustomLogFilter(logging.Filter):
+    def filter(self, record):
+        # Inject correlation_id into every logging record automatically!
+        record.correlation_id = correlation_id_ctx.get()
+        return True
+
+app = FastAPI()
+
+@app.middleware(&quot;http&quot;)
+async def correlation_id_middleware(request: Request, call_next):
+    # Step 1: Read incoming header or generate new UUID
+    req_id = request.headers.get(&quot;X-Correlation-ID&quot;, str(uuid.uuid4()))
+    
+    # Step 2: Set ContextVar for current task and its child coroutines
+    token = correlation_id_ctx.set(req_id)
+    try:
+        response = await call_next(request)
+        response.headers[&quot;X-Correlation-ID&quot;] = req_id
+        return response
+    finally:
+        # Step 3: Reset context token to prevent leakage
+        correlation_id_ctx.reset(token)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 13, 1, 'Distributed Tracing & Context Propagation in Async Python: Thread-safety in async environments, Python contextvars, and ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 13, 2, 'Distributed Tracing & Context Propagation in Async Python: Thread-safety in async environments, Python contextvars, and ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 13, 3, 'Distributed Tracing & Context Propagation in Async Python: Thread-safety in async environments, Python contextvars, and ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 13, 4, 'Distributed Tracing & Context Propagation in Async Python: Thread-safety in async environments, Python contextvars, and ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that <code>threading.local()</code> fails in AsyncIO because multiple concurrent requests share the exact same single OS thread?</li>
+<li>Do they explain <code>contextvars.ContextVar</code> creates a copy-on-write context dictionary per <code>asyncio.Task</code>, ensuring isolation between concurrent coroutines?</li>
+<li>Do they demonstrate setting the ContextVar in middleware and resetting the token in a <code>finally</code> block?</li>
+<li>Do they show how log formatters access the context variable?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why threading.local Fails in AsyncIO:</strong><br>
+<code>threading.local()</code> isolates data by native OS thread ID. In asynchronous frameworks like FastAPI/Uvicorn, hundreds of concurrent HTTP requests are multiplexed over a <em>single</em> OS thread. Therefore, all concurrent coroutines would share the same <code>threading.local()</code> state, causing Request A to overwrite Request B's customer ID.<br><br>
+<strong>2. How contextvars (PEP 567) Solves This:</strong><br>
+<code>contextvars.ContextVar</code> is designed specifically for asynchronous task trees. When an <code>asyncio.Task</code> is created, it inherits a shallow copy of the current context. Changes made via <code>ContextVar.set()</code> are local to that specific task and its descendants. Other concurrent tasks running on the same thread maintain their own independent context maps.<br><br>
+<strong>3. Best Practice:</strong><br>
+Always reset the context token in a <code>finally</code> block (<code>ctx_var.reset(token)</code>) so that if threadpool workers or coroutine runners are reused, stale context cannot leak into subsequent executions.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-14" data-keywords="fastapi security oauth2 securityscopes rbac jwt permissions dependencies">
+                    <div class="card-header">
+                        <span class="concept-badge">FastAPI Security &amp; Scoped RBAC</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                FastAPI <strong>Role-Based Access Control (RBAC) & OAuth2 Security Scopes</strong>: Declarative permission enforcement via <code>Security</code>, <code>SecurityScopes</code>, and JWT token verification.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An enterprise API requires granular authorization scopes: regular users can only access <code>orders:read</code>, while managers can execute <code>orders:write</code> and <code>admin:billing</code>.
+<br><br>
+<strong>Part A:</strong> How does FastAPI's <code>Security</code> class differ from standard <code>Depends</code>? What is the purpose of <code>SecurityScopes</code>?
+<br>
+<strong>Part B:</strong> In JWT token verification, what are the security risks of checking claims in Python without validating the cryptographic signature and token expiration (<code>exp</code>)?
+<br>
+<strong>Part C:</strong> Implement an end-to-end scoped authorization dependency that validates JWT signatures and verifies that the candidate token contains all required security scopes.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'scoped_rbac.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">from fastapi import Depends, FastAPI, HTTPException, Security, status
+from fastapi.security import OAuth2PasswordBearer, SecurityScopes
+from pydantic import BaseModel
+from typing import List
+import jwt
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl=&quot;token&quot;,
+    scopes={
+        &quot;orders:read&quot;: &quot;Read order status and history.&quot;,
+        &quot;orders:write&quot;: &quot;Create or update orders.&quot;,
+        &quot;admin:billing&quot;: &quot;Full administrative billing access.&quot;
+    }
+)
+
+SECRET_KEY = &quot;enterprise-super-secret-key&quot;
+ALGORITHM = &quot;HS256&quot;
+
+async def get_current_user(
+    security_scopes: SecurityScopes,
+    token: str = Depends(oauth2_scheme)
+):
+    # Verify token and enforce required security_scopes.scopes
+    pass</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 14, 1, 'FastAPI Role-Based Access Control (RBAC) & OAuth2 Security Scopes: Declarative permission enforcement via Security, Secu')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 14, 2, 'FastAPI Role-Based Access Control (RBAC) & OAuth2 Security Scopes: Declarative permission enforcement via Security, Secu')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 14, 3, 'FastAPI Role-Based Access Control (RBAC) & OAuth2 Security Scopes: Declarative permission enforcement via Security, Secu')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 14, 4, 'FastAPI Role-Based Access Control (RBAC) & OAuth2 Security Scopes: Declarative permission enforcement via Security, Secu')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain <code>Security(dependency, scopes=[...])</code> passes required scopes to the dependency via <code>SecurityScopes</code>, whereas <code>Depends()</code> cannot declare scopes?</li>
+<li>Do they decode JWT using <code>jwt.decode(token, key, algorithms=[...])</code> to verify signature and expiry?</li>
+<li>Do they iterate over <code>security_scopes.scopes</code> and verify that token scopes contain all required permissions?</li>
+<li>Do they raise <code>HTTPException(status_code=403, detail="Not enough permissions")</code> on mismatch?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Security vs Depends:</strong><br>
+<code>Security</code> is a subclass of <code>Depends</code> with one key superpower: it accepts a <code>scopes: List[str]</code> parameter. When FastAPI evaluates the dependency, it populates a <code>SecurityScopes</code> object containing the exact scopes declared on the route. This allows writing a single, reusable security validator that dynamically checks whatever scopes the specific route demands.<br><br>
+<strong>2. Complete Scoped RBAC Validator:</strong><br>
+<pre><code>async def get_current_user(
+    security_scopes: SecurityScopes,
+    token: str = Depends(oauth2_scheme)
+) -> dict:
+    authenticate_value = f'Bearer scope="{security_scopes.scope_str}"' if security_scopes.scopes else 'Bearer'
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": authenticate_value},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        token_scopes: List[str] = payload.get("scopes", [])
+    except jwt.PyJWTError:
+        raise credentials_exception
+
+    # Enforce scope check:
+    for scope in security_scopes.scopes:
+        if scope not in token_scopes:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Not enough permissions: Missing scope '{scope}'",
+                headers={"WWW-Authenticate": authenticate_value},
+            )
+            
+    return payload
+
+# Usage on Route:
+@app.post("/api/v1/orders", dependencies=[Security(get_current_user, scopes=["orders:write"])])
+def create_order():
+    return {"status": "Order created"}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-15" data-keywords="flask context application context request context current_app g request localproxy">
+                    <div class="card-header">
+                        <span class="concept-badge">Flask Context Locals: App vs Request Context</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Flask <strong>Context Locals Architecture</strong>: Difference between Application Context (<code>current_app</code>, <code>g</code>) and Request Context (<code>request</code>, <code>session</code>), <code>LocalProxy</code> mechanics, and pushing contexts in background jobs.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A Celery background task in a Flask application needs to query a database model and send an email using Flask extensions. When the Celery worker runs <code>from app import db; User.query.all()</code>, it crashes with: <code>RuntimeError: Working outside of application context</code>.
+<br><br>
+<strong>Part A:</strong> Explain why Flask separates the <strong>Application Context</strong> from the <strong>Request Context</strong>. What objects live in each?
+<br>
+<strong>Part B:</strong> What is a <code>werkzeug.local.LocalProxy</code>? Why do <code>current_app</code> and <code>g</code> look like standard objects but dynamically resolve to the active thread's context?
+<br>
+<strong>Part C:</strong> How do you fix the <code>RuntimeError</code> in Celery workers, CLI scripts, or asynchronous background threads using <code>app.app_context()</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'flask_context_error.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">from flask import Flask, current_app, g, request
+from typing import Optional
+
+app = Flask(__name__)
+app.config[&quot;DATABASE_URI&quot;] = &quot;postgresql://localhost:5432/production&quot;
+
+# Celery background worker function:
+def background_database_cleanup():
+    # CRASH: RuntimeError: Working outside of application context.
+    # Happens because no HTTP request is executing!
+    db_uri = current_app.config[&quot;DATABASE_URI&quot;]
+    print(f&quot;Connecting to: {db_uri}&quot;)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 15, 1, 'Flask Context Locals Architecture: Difference between Application Context (current_app, g) and Request Context (request,')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 15, 2, 'Flask Context Locals Architecture: Difference between Application Context (current_app, g) and Request Context (request,')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 15, 3, 'Flask Context Locals Architecture: Difference between Application Context (current_app, g) and Request Context (request,')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 15, 4, 'Flask Context Locals Architecture: Difference between Application Context (current_app, g) and Request Context (request,')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate articulate that Request Context (request, session) exists only during an active HTTP request?</li>
+<li>Does candidate explain Application Context (current_app, g) provides application-level configuration and extension bindings?</li>
+<li>Do they explain <code>current_app</code> is a <code>LocalProxy</code> that forwards calls to the top of the context stack?</li>
+<li>Do they resolve the background task error with <code>with app.app_context():</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The Two Flask Contexts:</strong><br>
+• <strong>Application Context (<code>current_app</code>, <code>g</code>):</strong> Tracks application-level data, active configurations, database engine bindings, and extension instances. It allows multiple Flask apps to coexist in the same process.<br>
+• <strong>Request Context (<code>request</code>, <code>session</code>):</strong> Tracks HTTP request-specific data: URL parameters, headers, form data, cookies, and WSGI environment.<br><br>
+<strong>2. LocalProxy Mechanics:</strong><br>
+<code>current_app</code> is not the <code>Flask()</code> instance; it is a <code>werkzeug.local.LocalProxy</code>. When you access <code>current_app.config</code>, the proxy looks up the current thread/task in Flask's internal context stack (<code>_cv_app</code>). If no application context is pushed on that thread, it raises <code>RuntimeError</code>.<br><br>
+<strong>3. The Solution:</strong><br>
+<pre><code>def background_database_cleanup():
+    # Explicitly push the application context on the background thread:
+    with app.app_context():
+        # Now current_app and db bindings resolve cleanly!
+        db_uri = current_app.config["DATABASE_URI"]
+        print(f"Connecting to: {db_uri}")</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-16" data-keywords="flask application factory blueprints circular imports init_app testability">
+                    <div class="card-header">
+                        <span class="concept-badge">Flask Application Factory &amp; Blueprints</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Flask Modular Architecture & Enterprise Organization</strong>: Resolving circular imports with the Application Factory Pattern (<code>create_app()</code>), <code>init_app()</code> extension lifecycle, and Blueprints.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A startup's Flask monolith has grown to 50,000 lines. The developers suffer from circular import errors: <code>app.py</code> imports <code>views.py</code>, which imports <code>models.py</code>, which imports <code>db</code> from <code>app.py</code>. Furthermore, writing isolated unit tests is impossible because the <code>app</code> instance is instantiated globally at module load.
+<br><br>
+<strong>Part A:</strong> Explain how circular imports happen in naive Flask setups where <code>app = Flask(__name__)</code> and <code>db = SQLAlchemy(app)</code> live in the root module.
+<br>
+<strong>Part B:</strong> What is the <strong>Application Factory Pattern</strong> (<code>create_app(config_name)</code>)? How does it decouple extension instantiation from configuration?
+<br>
+<strong>Part C:</strong> Refactor the application using <code>Blueprint</code> and the factory pattern so extensions are initialized via <code>extension.init_app(app)</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'app_factory_refactor.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;"># BROKEN ARCHITECTURE (Circular Import Nightmare)
+# app.py:
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config[&#x27;SQLALCHEMY_DATABASE_URI&#x27;] = &#x27;sqlite:///test.db&#x27;
+db = SQLAlchemy(app) # Extensions tied to global app instance!
+
+# views.py imports db from app.py, and app.py imports views.py -&gt; CIRCULAR IMPORT!
+from views import auth_blueprint
+app.register_blueprint(auth_blueprint)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 16, 1, 'Flask Modular Architecture & Enterprise Organization: Resolving circular imports with the Application Factory Pattern (c')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 16, 2, 'Flask Modular Architecture & Enterprise Organization: Resolving circular imports with the Application Factory Pattern (c')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 16, 3, 'Flask Modular Architecture & Enterprise Organization: Resolving circular imports with the Application Factory Pattern (c')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 16, 4, 'Flask Modular Architecture & Enterprise Organization: Resolving circular imports with the Application Factory Pattern (c')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that module-level global <code>app</code> and <code>db</code> forces cross-importing between views, models, and config?</li>
+<li>Do they explain the Application Factory pattern: <code>create_app()</code> instantiates fresh app instances with dynamic configurations (testing vs dev vs prod)?</li>
+<li>Do they instantiate extensions unattached: <code>db = SQLAlchemy()</code>, then bind them inside factory: <code>db.init_app(app)</code>?</li>
+<li>Do they organize routing using <code>Blueprint('auth', __name__)</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why the Global Pattern Fails:</strong><br>
+Instantiating <code>app</code> globally causes immediate circular imports: <code>views</code> needs <code>db</code> from <code>app</code>, but <code>app</code> needs to register routes from <code>views</code>. Moreover, you cannot instantiate multiple app instances for concurrent unit testing with different configurations (e.g. testing SQLite vs production Postgres).<br><br>
+<strong>2. Production Application Factory Pattern:</strong><br>
+<pre><code># extensions.py (Instantiate extensions unattached to any app)
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
+
+# auth/routes.py (Modular routes via Blueprint)
+from flask import Blueprint
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+@auth_bp.route('/login')
+def login(): return "Login Page"
+
+# factory.py (Application Factory)
+from flask import Flask
+from extensions import db
+from auth.routes import auth_bp
+
+def create_app(config_object="config.ProductionConfig") -> Flask:
+    app = Flask(__name__)
+    app.config.from_object(config_object)
+
+    # Initialize extensions with the app instance
+    db.init_app(app)
+
+    # Register blueprints
+    app.register_blueprint(auth_bp)
+
+    return app</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-17" data-keywords="flask thread safety global variable state corruption race condition gunicorn threads">
+                    <div class="card-header">
+                        <span class="concept-badge">Flask Concurrency &amp; Global State Pitfalls</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>WSGI Concurrency & Thread-Safety in Flask</strong>: Why module-level global variables cause data corruption under multi-threaded WSGI workers, and thread-safe alternatives (<code>g</code>, Redis).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer builds a shopping cart feature in Flask. To avoid database lookups, they store user cart items in a module-level global dictionary: <code>USER_CARTS = {}</code>. The server is deployed on Gunicorn with 4 workers and 8 threads per worker. In production, customers complain that items belonging to complete strangers are appearing in their checkout carts.
+<br><br>
+<strong>Part A:</strong> Explain why module-level global variables in Python are shared across threads within the same OS process. What happens when multiple threads read and mutate <code>USER_CARTS</code> simultaneously?
+<br>
+<strong>Part B:</strong> What is the difference between multi-process WSGI models (<code>gunicorn -w 4</code>) and multi-threaded WSGI models (<code>--threads 8</code>) regarding memory sharing?
+<br>
+<strong>Part C:</strong> Refactor this state management using Flask's request-scoped <code>g</code> object and an external distributed cache (Redis) with session cookies.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'cart_race_condition.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">from flask import Flask, request, jsonify
+from typing import Dict, List
+
+app = Flask(__name__)
+
+# CATASTROPHIC BUG: Global mutable state shared across all concurrent worker threads!
+USER_CARTS: Dict[str, List[str]] = {}
+
+@app.post(&quot;/cart/add&quot;)
+def add_to_cart():
+    user_id = request.headers.get(&quot;X-User-ID&quot;)
+    item = request.json.get(&quot;item&quot;)
+
+    # Race condition: Multiple threads modify dictionary simultaneously!
+    # In multi-process setup, carts are also fragmented across different worker PIDs!
+    if user_id not in USER_CARTS:
+        USER_CARTS[user_id] = []
+    
+    USER_CARTS[user_id].append(item)
+    return jsonify({&quot;cart&quot;: USER_CARTS[user_id]})</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 17, 1, 'WSGI Concurrency & Thread-Safety in Flask: Why module-level global variables cause data corruption under multi-threaded ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 17, 2, 'WSGI Concurrency & Thread-Safety in Flask: Why module-level global variables cause data corruption under multi-threaded ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 17, 3, 'WSGI Concurrency & Thread-Safety in Flask: Why module-level global variables cause data corruption under multi-threaded ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 17, 4, 'WSGI Concurrency & Thread-Safety in Flask: Why module-level global variables cause data corruption under multi-threaded ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that module globals are shared across all threads in a process, causing race conditions and state leakage between requests?</li>
+<li>Do they explain that across multi-process workers, each process has its own isolated memory, causing cart fragmentation (Worker 1 has cart, Worker 2 doesn't)?</li>
+<li>Do they emphasize that web applications must be STATELESS?</li>
+<li>Do they replace in-memory globals with Redis, database storage, or encrypted session cookies?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Concurrency Breakdown:</strong><br>
+• <strong>Multi-Threading Race Condition:</strong> In Gunicorn with <code>--threads 8</code>, 8 OS threads run inside the same process memory space. When Thread A and Thread B access <code>USER_CARTS</code> concurrently without mutex locks, dictionary hash tables can corrupt, and one customer's cart can overwrite another's.<br>
+• <strong>Multi-Process Fragmentation:</strong> In Gunicorn with <code>-w 4</code>, there are 4 independent OS processes. A user whose first request hits Worker 1 will find an empty cart when their second request hits Worker 2.<br><br>
+<strong>2. Stateless Architecture with Redis:</strong><br>
+<pre><code>import redis
+import json
+from flask import Flask, request, jsonify, g
+
+app = Flask(__name__)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+@app.post("/cart/add")
+def add_to_cart_safe():
+    user_id = request.headers.get("X-User-ID")
+    item = request.json.get("item")
+    
+    cart_key = f"cart:{user_id}"
+    # Atomically append item to Redis list
+    redis_client.rpush(cart_key, item)
+    redis_client.expire(cart_key, 86400) # 24h TTL
+    
+    items = [i.decode('utf-8') for i in redis_client.lrange(cart_key, 0, -1)]
+    return jsonify({"cart": items})</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-18" data-keywords="flask extension init_app teardown_appcontext extension development context">
+                    <div class="card-header">
+                        <span class="concept-badge">Flask Custom Extension Engineering</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Custom Flask Extension Architecture</strong>: Building reusable Flask extensions following the official Flask Extension guidelines, using <code>teardown_appcontext</code>, and state storage on <code>app.extensions</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are creating an internal open-source Flask extension: <code>FlaskAuditTrail</code>. The extension must record latency and API usage metrics to a central collector, automatically release connections upon request completion, and support the <code>extension.init_app(app)</code> pattern cleanly.
+<br><br>
+<strong>Part A:</strong> What are the structural rules for writing a production-quality Flask extension? Where should the extension store its configuration and client instances?
+<br>
+<strong>Part B:</strong> What is the difference between <code>app.after_request</code> and <code>app.teardown_appcontext</code>? Why must resource cleanup (e.g. closing socket connections) always happen in <code>teardown_appcontext</code>?
+<br>
+<strong>Part C:</strong> Implement the <code>FlaskAuditTrail</code> extension class with configuration defaults, request timing, and teardown handling.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'flask_extension.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;">from flask import Flask, current_app, g, request
+import time
+from typing import Optional
+
+class FlaskAuditTrail:
+    def __init__(self, app: Optional[Flask] = None):
+        self.app = app
+        if app is not None:
+            self.init_app(app)
+
+    def init_app(self, app: Flask) -&gt; None:
+        # Step 1: Set default configs
+        app.config.setdefault(&quot;AUDIT_COLLECTOR_URL&quot;, &quot;https://audit.internal&quot;)
+        
+        # Step 2: Register on app.extensions
+        if not hasattr(app, &quot;extensions&quot;):
+            app.extensions = {}
+        app.extensions[&quot;audit_trail&quot;] = self
+
+        # Step 3: Register request hooks &amp; teardown handlers
+        app.before_request(self._before_request)
+        app.teardown_appcontext(self._teardown)
+
+    def _before_request(self):
+        g.audit_start_time = time.time()
+
+    def _teardown(self, exception: Optional[BaseException]):
+        # Executes even if view raised an unhandled 500 exception!
+        start_time = getattr(g, &quot;audit_start_time&quot;, None)
+        if start_time:
+            duration_ms = (time.time() - start_time) * 1000
+            # Record audit metric cleanly
+            pass</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 18, 1, 'Custom Flask Extension Architecture: Building reusable Flask extensions following the official Flask Extension guideline')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 18, 2, 'Custom Flask Extension Architecture: Building reusable Flask extensions following the official Flask Extension guideline')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 18, 3, 'Custom Flask Extension Architecture: Building reusable Flask extensions following the official Flask Extension guideline')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 18, 4, 'Custom Flask Extension Architecture: Building reusable Flask extensions following the official Flask Extension guideline')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate articulate the <code>Extension(app=None)</code> and <code>init_app(app)</code> two-phase initialization pattern?</li>
+<li>Do they explain <code>after_request</code> does NOT run if an unhandled exception occurs in the view?</li>
+<li>Do they explain <code>teardown_appcontext</code> runs unconditionally at the end of the request, making it the only safe place for cleanup?</li>
+<li>Do they store the extension reference in <code>app.extensions['name']</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Flask Extension Architecture:</strong><br>
+A standard Flask extension must:<br>
+1. Accept <code>app=None</code> in <code>__init__</code> to support the Application Factory pattern.<br>
+2. Provide an <code>init_app(app)</code> method that registers hooks and populates <code>app.config</code> defaults via <code>setdefault()</code>.<br>
+3. Register itself in <code>app.extensions[extension_name] = self</code>.<br><br>
+<strong>2. after_request vs teardown_appcontext:</strong><br>
+• <strong><code>after_request</code>:</strong> Runs only if the view completed without raising an unhandled exception. If an unhandled exception occurs, <code>after_request</code> is skipped.<br>
+• <strong><code>teardown_appcontext</code>:</strong> Guaranteed to execute at the end of every request, even if an exception was raised (passed as <code>exception</code> argument). All database connection rollbacks and socket teardowns must live here.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-19" data-keywords="flask sqlalchemy scoped_session detachedinstanceerror queuepool timeout connection leak">
+                    <div class="card-header">
+                        <span class="concept-badge">Flask &amp; SQLAlchemy: Scoped Sessions &amp; Threading</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Flask-SQLAlchemy Scoped Sessions & Concurrency</strong>: <code>scoped_session</code> mechanics, resolving <code>DetachedInstanceError</code>, preventing connection pool exhaustion, and spawning background threads from web requests.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                In a Flask application using <code>Flask-SQLAlchemy</code>, a view triggers an asynchronous background thread using Python's <code>threading.Thread</code> to process an audit log and updates a user model passed from the request. Shortly after deploying, the server throws <code>DetachedInstanceError: Parent instance <User at 0x...> is not bound to a Session</code> and database connection pool timeouts occur.
+<br><br>
+<strong>Part A:</strong> What is a <code>scoped_session</code> in SQLAlchemy? How does Flask-SQLAlchemy bind a database session to the lifecycle of an HTTP request?
+<br>
+<strong>Part B:</strong> Why does passing an ORM entity into a background thread cause a <code>DetachedInstanceError</code> when the original request finishes?
+<br>
+<strong>Part C:</strong> How do you safely pass data to a background thread without sharing database sessions, and how do you prevent database connection pool exhaustion?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'flask_sqlalchemy_leak.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+import threading
+
+app = Flask(__name__)
+app.config[&#x27;SQLALCHEMY_DATABASE_URI&#x27;] = &#x27;postgresql://localhost/prod&#x27;
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80))
+    email = db.Column(db.String(120))
+
+def background_audit_worker(user: User):
+    # CRASH: DetachedInstanceError!
+    # The HTTP request thread already closed the session and returned the connection to pool!
+    user.email = &quot;updated@example.com&quot;
+    db.session.commit()
+
+@app.route(&quot;/user/update&quot;, methods=[&quot;POST&quot;])
+def update_user():
+    user = User.query.get(1)
+    
+    # DANGEROUS: Passing attached ORM model across thread boundaries!
+    t = threading.Thread(target=background_audit_worker, args=(user,))
+    t.start()
+    
+    return jsonify({&quot;status&quot;: &quot;processing&quot;})</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 19, 1, 'Flask-SQLAlchemy Scoped Sessions & Concurrency: scoped_session mechanics, resolving DetachedInstanceError, preventing co')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 19, 2, 'Flask-SQLAlchemy Scoped Sessions & Concurrency: scoped_session mechanics, resolving DetachedInstanceError, preventing co')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 19, 3, 'Flask-SQLAlchemy Scoped Sessions & Concurrency: scoped_session mechanics, resolving DetachedInstanceError, preventing co')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 19, 4, 'Flask-SQLAlchemy Scoped Sessions & Concurrency: scoped_session mechanics, resolving DetachedInstanceError, preventing co')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that <code>scoped_session</code> binds the session to the current request thread; when the request finishes, Flask closes the session?</li>
+<li>Do they explain <code>DetachedInstanceError</code> occurs when an ORM object attempts to query or lazy-load attributes after its parent session has been closed?</li>
+<li>Do they identify that background threads must never share attached ORM entities or sessions with the request thread?</li>
+<li>Do they extract raw scalar IDs (e.g. <code>user_id</code>), push a new <code>app.app_context()</code> in the thread, and query a fresh session?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. SQLAlchemy scoped_session:</strong><br>
+<code>scoped_session</code> is a registry that provides thread-local or context-local session management. When the HTTP request finishes, Flask-SQLAlchemy calls <code>db.session.remove()</code>, which rolls back uncommitted transactions and releases the connection back to the connection pool. Any ORM entity queried during that request becomes <em>detached</em>.<br><br>
+<strong>2. Safe Threading Architecture:</strong><br>
+Never pass an attached ORM entity to a background thread. Pass primitive scalars (e.g. <code>user_id: int</code>), push a fresh <code>app_context()</code> in the background thread, and query a new session:
+<pre><code>def background_audit_worker(app: Flask, user_id: int, new_email: str):
+    # Push independent application context for the background thread
+    with app.app_context():
+        try:
+            # Query fresh entity in thread's own independent session
+            user = User.query.get(user_id)
+            if user:
+                user.email = new_email
+                db.session.commit()
+        except Exception:
+            db.session.rollback()
+        finally:
+            db.session.remove() # Clean up connection pool!
+
+@app.route("/user/update", methods=["POST"])
+def update_user():
+    user_id = 1
+    t = threading.Thread(
+        target=background_audit_worker,
+        args=(app._get_current_object(), user_id, "updated@example.com")
+    )
+    t.start()
+    return jsonify({"status": "processing"})</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-20" data-keywords="flask wsgi reverse proxy proxyfix werkzeug x-forwarded-for x-forwarded-proto https redirect">
+                    <div class="card-header">
+                        <span class="concept-badge">Flask WSGI Pipeline &amp; ProxyFix</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>WSGI Architecture & Reverse Proxy Hardening</strong>: Configuring <code>ProxyFix</code> for SSL termination, IP resolution, and securing <code>X-Forwarded-For</code> against IP spoofing.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A Flask application is deployed behind an AWS Application Load Balancer (ALB) and Nginx reverse proxy. The application experiences two severe bugs:
+<br>
+1. When calling <code>url_for('login', _external=True)</code> or redirecting, Flask generates <code>http://</code> links instead of <code>https://</code>, breaking SSL.
+<br>
+2. In the audit logs, <code>request.remote_addr</code> always shows the internal private IP of the AWS load balancer (e.g. <code>10.0.1.45</code>) instead of the actual client's public IP address.
+<br><br>
+<strong>Part A:</strong> Explain why a WSGI application running behind an SSL-terminating reverse proxy cannot natively see the client's original scheme (<code>https</code>) or remote IP address.
+<br>
+<strong>Part B:</strong> What is the danger of blindly trusting <code>request.headers.get("X-Forwarded-For")</code> without validating proxy hops? How can attackers spoof their IP address to bypass IP allow-lists?
+<br>
+<strong>Part C:</strong> Implement Werkzeug's <code>ProxyFix</code> middleware with the exact parameters needed for an ALB + Nginx dual-proxy infrastructure.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'proxy_fix_security.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">from flask import Flask, request, redirect, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+app = Flask(__name__)
+
+# VULNERABLE: Blindly trusting raw header allows IP spoofing!
+# An attacker sends: X-Forwarded-For: 127.0.0.1 and bypasses IP firewalls!
+def get_client_ip():
+    forwarded = request.headers.get(&quot;X-Forwarded-For&quot;)
+    if forwarded:
+        return forwarded.split(&quot;,&quot;)[0].strip() # Attacker controlled!
+    return request.remote_addr
+
+# Configure Werkzeug&#x27;s ProxyFix securely:
+# Architecture: Client -&gt; AWS ALB (Hop 1) -&gt; Nginx (Hop 2) -&gt; Gunicorn/Flask
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=2,    # Number of trusted reverse proxy hops for client IP
+    x_proto=2,  # Number of trusted hops for HTTP/HTTPS scheme
+    x_host=2,   # Number of trusted hops for Host header
+    x_prefix=2
+)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_frameworks', 20, 1, 'WSGI Architecture & Reverse Proxy Hardening: Configuring ProxyFix for SSL termination, IP resolution, and securing X-For')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_frameworks', 20, 2, 'WSGI Architecture & Reverse Proxy Hardening: Configuring ProxyFix for SSL termination, IP resolution, and securing X-For')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_frameworks', 20, 3, 'WSGI Architecture & Reverse Proxy Hardening: Configuring ProxyFix for SSL termination, IP resolution, and securing X-For')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_frameworks', 20, 4, 'WSGI Architecture & Reverse Proxy Hardening: Configuring ProxyFix for SSL termination, IP resolution, and securing X-For')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that SSL is terminated at the load balancer, which communicates with Flask over plain HTTP on private IP?</li>
+<li>Do they explain IP spoofing: an attacker can send a fabricated <code>X-Forwarded-For: 1.2.3.4</code>, and if proxies blindly append to the header, reading the first entry trusts the attacker?</li>
+<li>Do they configure <code>ProxyFix</code> with the exact count of trusted hops (e.g. <code>x_for=1</code> or <code>2</code>)?</li>
+<li>Do they explain how <code>ProxyFix</code> updates <code>wsgi.url_scheme</code> and <code>REMOTE_ADDR</code> in the WSGI environment?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why Reverse Proxies Mask Client Identity:</strong><br>
+In production, SSL is terminated at the load balancer (AWS ALB / Cloudflare). The load balancer opens a fresh TCP connection to Flask over plain HTTP. Flask's WSGI server sees the incoming TCP connection originating from the load balancer's private IP (<code>10.0.x.x</code>) and receives <code>wsgi.url_scheme = 'http'</code>.<br><br>
+<strong>2. The IP Spoofing Threat:</strong><br>
+An attacker can send an arbitrary HTTP header: <code>X-Forwarded-For: 192.168.1.1</code>. The load balancer appends the real IP to the end: <code>X-Forwarded-For: 192.168.1.1, 203.0.113.195</code>. If application code blindly takes the first comma-separated value, the attacker successfully spoofs an internal IP, bypassing rate limiters and IP firewalls.<br><br>
+<strong>3. Secure ProxyFix Configuration:</strong><br>
+Werkzeug's <code>ProxyFix</code> securely walks the <code>X-Forwarded-*</code> headers <em>from right to left</em> by the exact number of configured trusted proxy hops:<br>
+<pre><code>from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+app = Flask(__name__)
+
+# Assuming: Client -> AWS ALB (Hop 1) -> Gunicorn (Flask):
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,    # Trust exactly 1 upstream proxy for REMOTE_ADDR
+    x_proto=1,  # Trust exactly 1 upstream proxy for wsgi.url_scheme (https)
+    x_host=1,   # Trust exactly 1 upstream proxy for Host header
+    x_port=1
+)
+
+# Now request.remote_addr is securely resolved, and url_for() generates https:// URLs!</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Code Snippet Modal -->
+    <div id="codeModal" class="code-modal">
+        <div class="modal-backdrop" onclick="closeCodeSnippetModal()"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Challenge</h3>
+                <button class="modal-close-btn" onclick="closeCodeSnippetModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-code-wrapper">
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('python_frameworks');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

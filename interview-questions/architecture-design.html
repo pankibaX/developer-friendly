@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link active"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -75,7 +77,37 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Architecture topics (e.g. solid, 12-factor, hazelcast, cap theorem, sharding, event sourcing, hexagonal, disruptor, session management)..." onkeyup="filterQuestions()">
             </div>
 
-            <div id="questionsContainer">
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Object-Oriented Design & SOLID">Q1: SOLID & ISP Violation</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Cloud-Native Architecture & 12-Factor">Q2: 12-Factor Statelessness</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Distributed Caching & In-Memory Data Grids">Q3: Redis vs Hazelcast IMDG</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Session Management & Scalability">Q4: Sticky Sessions vs Token</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Domain-Driven Design & Data Integrity">Q5: DDD Aggregates & Invariants</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Distributed Systems Theory & CAP">Q6: CAP & PACELC Trade-offs</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Quality Engineering & Testing Architecture">Q7: Test Pyramid Architecture</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="High-Throughput Systems & Mechanical Sympathy">Q8: L1/L2 Cache & False Sharing</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Caching Tiers & Invalidation Patterns">Q9: Cache-Aside vs Write-Through</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Data Partitioning & Scalability">Q10: Sharding & Consistent Hashing</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Event-Driven & Ledger Systems">Q11: Event Sourcing & CQRS</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Legacy Migration & Modernization">Q12: Strangler Fig Migration</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="API Security & DDoS Mitigation">Q13: Zero-Trust & DDoS Defense</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Design Patterns & Extensibility">Q14: GoF Patterns & Extensibility</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Distributed Concurrency & Mutual Exclusion">Q15: Redlock & Distributed Locks</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Streaming Systems & Message Brokers">Q16: Kafka vs RabbitMQ Systems</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Database Lifecycle & Zero-Downtime Migrations">Q17: Expand/Contract Zero-Downtime</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Performance Engineering & Profiling">Q18: Flamegraphs & Allocations</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Architectural Styles & Clean Architecture">Q19: Clean / Hexagonal Arch</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Resilience Engineering & Chaos Testing">Q20: Chaos & Fault Injection</button>
+                </div>
+            </div>
+<div id="questionsContainer">
                 <!-- QUESTION 1: Object-Oriented Design &amp; SOLID -->
                 <div class="question-card" id="q-1" data-keywords="solid principles liskov substitution lsp srp ocp dip fragile base class">
                     <div class="card-header">
@@ -108,7 +140,10 @@
                             <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'AccountHierarchy.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-1" style="display:none;">public abstract class BankAccount {
+                            <div id="snippet-1" style="display:none;">import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public abstract class BankAccount {
     protected BigDecimal balance;
     public BankAccount(BigDecimal initialBalance) {
         this.balance = initialBalance;
@@ -247,7 +282,13 @@ public class FixedTermAccount implements Account {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'LegacyOrderProcessor.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-2" style="display:none;">@Service
+                            <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+@Service
 public class LegacyOrderProcessor {
     private final String dbPassword = &quot;HardcodedProductionPassword123&quot;;
     public void process(Order order) {
@@ -493,7 +534,14 @@ public class CloudNativeOrderProcessor {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'LegacySessionCart.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-4" style="display:none;">@Controller
+                            <div id="snippet-4" style="display:none;">import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import java.util.ArrayList;
+
+@Controller
 public class CheckoutController {
     @PostMapping(&quot;/cart/add&quot;)
     public String addToCart(@RequestParam String item, HttpSession session) {
@@ -616,7 +664,12 @@ public class SessionConfig {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderEntity.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">@Entity
+                            <div id="snippet-5" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import java.math.BigDecimal;
+
+@Entity
 @Table(name = &quot;orders&quot;)
 public class OrderEntity {
     @Id
@@ -735,7 +788,9 @@ public class CustomerDeactivationHandler {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'AtmWithdrawalCoordinator.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">public class AtmWithdrawalCoordinator {
+                            <div id="snippet-6" style="display:none;">import java.math.BigDecimal;
+
+public class AtmWithdrawalCoordinator {
     public WithdrawalResult executeAtmWithdrawal(String accountId, BigDecimal amount) {
         return null;
     }
@@ -851,7 +906,11 @@ public WithdrawalResult processAtmWithdrawal(AccountLedger ledger, BigDecimal am
                             <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'OrderValidationTest.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-7" style="display:none;">public class OrderServiceTest {
+                            <div id="snippet-7" style="display:none;">import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class OrderServiceTest {
     @Test
     public void testOrderTaxCalculation() {
         WebDriver driver = new ChromeDriver();
@@ -968,7 +1027,10 @@ void shouldCalculateEightPercentTaxForStandardItems() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'OrderMatchingEngine.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-8" style="display:none;">public class OrderMatchingEngine {
+                            <div id="snippet-8" style="display:none;">import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class OrderMatchingEngine {
     private final BlockingQueue&lt;OrderCommand&gt; queue = new ArrayBlockingQueue&lt;&gt;(1024);
     public void submitOrder(OrderCommand cmd) throws InterruptedException {
         queue.put(cmd);
@@ -1085,7 +1147,13 @@ public class PaddedSequence {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'ProductCatalogCache.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-9" style="display:none;">@Service
+                            <div id="snippet-9" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+@Service
 public class ProductCatalogService {
     @Autowired
     private ProductRepository db;
@@ -1209,7 +1277,9 @@ public class ProductCatalogService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'ShardRouter.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">public class ShardRouter {
+                            <div id="snippet-10" style="display:none;">// Standard Java utility
+
+public class ShardRouter {
     public int getShardId(String userId, int totalShards) {
         int hash = Math.abs(userId.hashCode());
         return hash % totalShards;
@@ -1335,7 +1405,13 @@ public class ProductCatalogService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'BankAccountAggregate.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">public class BankAccountAggregate {
+                            <div id="snippet-11" style="display:none;">import java.util.UUID;
+import java.time.Instant;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+
+public class BankAccountAggregate {
     private UUID accountId;
     private BigDecimal balance = BigDecimal.ZERO;
     private List&lt;DomainEvent&gt; uncommittedEvents = new ArrayList&lt;&gt;();
@@ -1576,7 +1652,9 @@ route:
                             <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'TieredRateLimitResolver.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-13" style="display:none;">public class TieredRateLimitResolver {
+                            <div id="snippet-13" style="display:none;">import jakarta.servlet.http.HttpServletRequest;
+
+public class TieredRateLimitResolver {
     public RateLimitTier resolveTier(HttpServletRequest request) {
         String apiKey = request.getHeader(&quot;X-API-KEY&quot;);
         String jwt = request.getHeader(&quot;Authorization&quot;);
@@ -1687,7 +1765,9 @@ route:
                             <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'MonolithicPaymentProcessor.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-14" style="display:none;">@Service
+                            <div id="snippet-14" style="display:none;">import org.springframework.stereotype.Service;
+
+@Service
 public class MonolithicPaymentProcessor {
     public PaymentResult processPayment(String type, PaymentCommand cmd) {
         if (&quot;CREDIT_CARD&quot;.equalsIgnoreCase(type)) {
@@ -1822,7 +1902,14 @@ public class PaymentEngine {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'ScheduledSettlementJob.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-15" style="display:none;">@Component
+                            <div id="snippet-15" style="display:none;">import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.redisson.api.RedissonClient;
+import org.redisson.api.RLock;
+import java.util.concurrent.TimeUnit;
+
+@Component
 public class ScheduledSettlementJob {
     @Autowired
     private RedissonClient redisson;
@@ -2160,7 +2247,9 @@ ALTER TABLE users DROP COLUMN phone_number;</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'OrderValidationUtility.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-18" style="display:none;">public class OrderValidationUtility {
+                            <div id="snippet-18" style="display:none;">// Domain validation utility
+
+public class OrderValidationUtility {
     public boolean validateOrder(OrderRequest request) {
         if (!validateEmail(request.getCustomerEmail())) {
             return false;
@@ -2281,7 +2370,16 @@ ALTER TABLE users DROP COLUMN phone_number;</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'DomainPayment.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-19" style="display:none;">@Entity
+                            <div id="snippet-19" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Version;
+import java.math.BigDecimal;
+
+@Entity
 @Table(name = &quot;payments&quot;)
 public class Payment {
     @Id

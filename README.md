@@ -6,7 +6,7 @@ An interactive, production-grade technical interview suite and assessment platfo
 
 ## 🚀 Key Features
 
-- **140 Scenario-Based Questions**: 7 distinct domains with 20 in-depth scenarios each, focusing on real-world edge cases, production bug hunts, system trade-offs, and architecture design.
+- **181 Scenario-Based Questions**: 9 distinct domains with 20–21 in-depth scenarios each, focusing on real-world edge cases, production bug hunts, system trade-offs, and architecture design.
 - **Interactive Candidate Scorecard**:
   - Live rating on a 1–4 qualitative scale (*Cannot Explain*, *Partial*, *Good*, *Exceptional*).
   - Automatically calculates competency and hiring recommendations in real-time.
@@ -28,6 +28,8 @@ An interactive, production-grade technical interview suite and assessment platfo
 | **AWS Cloud (EC2 & Lambda)** | [`aws-deployment.html`](interview-questions/aws-deployment.html) | Serverless architectures, VPC CIDRs, S3 tiering, SQS/SNS decoupled messaging, Zero-downtime deployment. |
 | **Modern Angular** | [`angular.html`](interview-questions/angular.html) | Signals, RxJS operators, Change Detection (OnPush), Dependency Injection, Route Resolvers. |
 | **Architecture & System Design** | [`architecture-design.html`](interview-questions/architecture-design.html) | SOLID refactoring, Event-Driven Architecture, Caching topologies, High Availability, CAP theorem. |
+| **Python Core & AsyncIO** | [`python-core.html`](interview-questions/python-core.html) | GIL bottlenecks, AsyncIO event loop mechanics, Memory & Cyclic GC, Descriptors, Metaclasses, Protocols. |
+| **Django, FastAPI & Flask** | [`python-web-frameworks.html`](interview-questions/python-web-frameworks.html) | Django ORM N+1 & `select_for_update`, FastAPI `async def` vs `def` starvation, Pydantic v2, Flask contexts. |
 
 ---
 
@@ -74,7 +76,9 @@ developer-friendly/
     ├── rest-api-microservices.html
     ├── aws-deployment.html
     ├── angular.html
-    └── architecture-design.html
+    ├── architecture-design.html
+    ├── python-core.html
+    └── python-web-frameworks.html
 ```
 
 ---

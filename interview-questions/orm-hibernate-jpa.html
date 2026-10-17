@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link active"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -75,7 +77,37 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search ORM topics (e.g. n+1 query, dirty checking, optimistic locking, batching, lazy loading, second level cache)..." onkeyup="filterQuestions()">
             </div>
 
-            <div id="questionsContainer">
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Query Performance & Optimization">Q1: N+1 & Optimization</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Hibernate Architecture & Caching">Q2: 1st Level Cache & Dirty Check</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Distributed Caching & Second-Level Cache">Q3: 2nd Level Cache & Redis</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Concurrency & Locking Strategies">Q4: Optimistic vs Pessimistic</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Entity Lifecycle & State Transitions">Q5: Entity Lifecycle & Detached</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Transaction Boundaries & Architecture">Q6: OSIV Anti-Pattern</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Entity Identity & Collection Integrity">Q7: equals() & hashCode()</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="JPQL Bulk Operations & Cache Consistency">Q8: Bulk JPQL & Cache Desync</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Entity Associations & Relationship Ownership">Q9: Bidirectional Ownership</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Advanced Query Engineering">Q10: Criteria vs Specification</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Batch Processing & Identifier Generators">Q11: Batch Inserts & Sequence</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Transaction Concurrency & Database ACID">Q12: Lost Updates & Isolation</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Data Modeling & Deletion Architecture">Q13: Soft Deletes & Cascading</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Persistence Context Flushing & Timing">Q14: FlushMode & Timing</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Domain Modeling & Inheritance Strategies">Q15: Inheritance Strategies</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Dynamic Query Architecture & Type Safety">Q16: Type-Safe QueryDSL</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Transaction Concurrency & Deadlock Prevention">Q17: Deadlock Prevention</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Enterprise Auditing & Data Governance">Q18: Envers & Data Auditing</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Modern Hibernate 6+ & Java Records">Q19: Hibernate 6 & Records</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Connection Pool Architecture & Performance">Q20: HikariCP Sizing & Leak</button>
+                </div>
+            </div>
+<div id="questionsContainer">
 
                 <!-- QUESTION 1: The N+1 Query Problem -->
                 <div class="question-card" id="q-1" data-keywords="n+1 query join fetch entitygraph batchsize lazy loading">
@@ -109,7 +141,12 @@
                             <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'OrderQueryService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-1" style="display:none;">@Service
+                            <div id="snippet-1" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
+@Service
 public class OrderQueryService {
 
     @Autowired
@@ -230,7 +267,12 @@ private List&lt;OrderItem&gt; items = new ArrayList&lt;&gt;();</code></pre>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'AccountRiskEvaluator.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-2" style="display:none;">@Service
+                            <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
+@Service
 public class AccountRiskEvaluator {
 
     @Autowired
@@ -347,7 +389,18 @@ public void evaluateRiskScores() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'UserCacheService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-3" style="display:none;">@Entity
+                            <div id="snippet-3" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Cacheable;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+@Entity
 @Table(name = "users")
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -451,7 +504,15 @@ public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'InventoryAllocationService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-4" style="display:none;">@Entity
+                            <div id="snippet-4" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Version;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+@Entity
 @Table(name = "inventory")
 public class InventoryItem {
     @Id
@@ -571,7 +632,14 @@ public class InventoryAllocationService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'CustomerProvisioningService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">@Entity
+                            <div id="snippet-5" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+@Entity
 @Table(name = "customers")
 public class Customer {
     @Id
@@ -707,7 +775,12 @@ public class Customer implements Persistable&lt;String&gt; {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'DepartmentAsyncReport.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">@Service
+                            <div id="snippet-6" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
 public class DepartmentService {
 
     @Autowired
@@ -819,7 +892,16 @@ public class DepartmentService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'StudentSetTest.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-7" style="display:none;">@Entity
+                            <div id="snippet-7" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Objects;
+
+@Entity
 @Table(name = "students")
 public class Student {
     @Id
@@ -960,7 +1042,16 @@ public int hashCode() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'AccountCreditService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-8" style="display:none;">public interface AccountRepository extends JpaRepository&lt;Account, Long&gt; {
+                            <div id="snippet-8" style="display:none;">import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
+
+public interface AccountRepository extends JpaRepository&lt;Account, Long&gt; {
 
     @Modifying
     @Query("UPDATE Account a SET a.balance = a.balance + :amount WHERE a.id = :id")
@@ -1074,7 +1165,22 @@ public class AccountCreditService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'OrderMappingEntities.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-9" style="display:none;">@Entity
+                            <div id="snippet-9" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.ArrayList;
+
+@Entity
 @Table(name = "orders")
 public class Order {
     @Id
@@ -1215,7 +1321,21 @@ public void removeItem(OrderItem item) {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'PostRepository.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">public interface PostRepository extends JpaRepository&lt;Post, Long&gt; {
+                            <div id="snippet-10" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
+
+public interface PostRepository extends JpaRepository&lt;Post, Long&gt; {
 
     @Query("SELECT p FROM Post p " +
            "JOIN FETCH p.comments " +
@@ -1328,7 +1448,18 @@ public class Post {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'AuditLogBatchService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">@Entity
+                            <div id="snippet-11" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.time.Instant;
+import java.util.List;
+
+@Entity
 @Table(name = "audit_logs")
 public class AuditLog {
     @Id
@@ -1459,7 +1590,13 @@ public class AuditLog {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'LedgerAuditService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-12" style="display:none;">@Service
+                            <div id="snippet-12" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
+import java.math.BigDecimal;
+
+@Service
 public class LedgerAuditService {
 
     @Autowired
@@ -1568,7 +1705,17 @@ public class LedgerAuditService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'UserAccountSoftDelete.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-13" style="display:none;">@Entity
+                            <div id="snippet-13" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.UniqueConstraint;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
+@Entity
 @Table(name = "user_accounts", uniqueConstraints = {
     @UniqueConstraint(name = "uk_user_email", columnNames = "email")
 })
@@ -1676,7 +1823,12 @@ public class UserAccount {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'PaymentProcessingService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-14" style="display:none;">@Service
+                            <div id="snippet-14" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+
+@Service
 public class PaymentProcessingService {
 
     @Autowired
@@ -1788,7 +1940,14 @@ public class PaymentProcessingService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'PaymentInheritanceEntities.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-15" style="display:none;">@Entity
+                            <div id="snippet-15" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+
+@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class PaymentMethod {
     @Id
@@ -1903,7 +2062,12 @@ public class BankAccount extends PaymentMethod {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'ProductSearchSpecification.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-16" style="display:none;">public class ProductSpecifications {
+                            <div id="snippet-16" style="display:none;">import org.springframework.data.jpa.domain.Specification;
+import jakarta.persistence.criteria.Predicate;
+import java.util.List;
+import java.util.ArrayList;
+
+public class ProductSpecifications {
 
     public static Specification&lt;Product&gt; withFilter(ProductSearchFilter filter) {
         return (root, query, cb) -&gt; {
@@ -2017,7 +2181,12 @@ public class BankAccount extends PaymentMethod {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'FundTransferService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-17" style="display:none;">@Service
+                            <div id="snippet-17" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
+
+@Service
 public class FundTransferService {
 
     @Autowired
@@ -2139,7 +2308,16 @@ public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'AuditedOrderEntity.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-18" style="display:none;">@Entity
+                            <div id="snippet-18" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import java.math.BigDecimal;
+
+@Entity
 @Table(name = "orders")
 @Audited
 public class Order {
@@ -2242,7 +2420,18 @@ public class Order {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'ModernCustomerProfile.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-19" style="display:none;">@Entity
+                            <div id="snippet-19" style="display:none;">import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Column;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import java.util.Map;
+
+@Entity
 @Table(name = "customer_profiles")
 public class CustomerProfile {
     @Id
@@ -2355,7 +2544,11 @@ public record UserPreferences(boolean emailNotifications, String theme) {}</div>
                             <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'OrderFulfillmentService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-20" style="display:none;">@Service
+                            <div id="snippet-20" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
 public class OrderFulfillmentService {
 
     @Autowired

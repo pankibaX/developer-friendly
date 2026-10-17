@@ -19,12 +19,14 @@
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
             <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
             <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="aws-deployment.html" class="nav-link active"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
             <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
         </ul>
     </aside>
 
@@ -75,7 +77,37 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Search AWS topics (e.g. vpc cidr, nat gateway, security group, nacl, s3, snapstart, rds proxy, ec2 autoscaling, sqs fifo, iam, route53)..." onkeyup="filterQuestions()">
             </div>
 
-            <div id="questionsContainer">
+            
+            <!-- Quick Jump Question Navigator -->
+            <div class="quick-jump-container">
+                <div class="quick-jump-header">
+                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
+                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
+                </div>
+                <div class="quick-jump-grid">
+                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="VPC & IP Address Management">Q1: VPC Subnetting & CIDR</button>
+                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="VPC Routing & Egress Architecture">Q2: NAT Gateway & VPC Endpoints</button>
+                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Network Security & Defense-in-Depth">Q3: Security Groups vs NACLs</button>
+                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Object Storage & Cost Optimization">Q4: S3 Tiering & Lifecycle</button>
+                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Serverless Runtime & Performance">Q5: Lambda Cold Starts & SnapStart</button>
+                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Serverless Data & Connection Management">Q6: RDS Proxy & Lambda Pools</button>
+                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Compute Scaling & Elasticity">Q7: EC2 Auto Scaling & Metrics</button>
+                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Load Balancing & Traffic Management">Q8: ALB vs NLB & WebSockets</button>
+                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Cloud Security & Identity Governance">Q9: IAM Least Privilege & SCPs</button>
+                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Asynchronous Messaging & Queueing">Q10: SQS Visibility & DLQs</button>
+                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Secrets Management & Rotation">Q11: Secrets Manager & KMS</button>
+                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="NoSQL Architecture & High Throughput">Q12: DynamoDB Keys & Partitions</button>
+                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="API Management & Edge Gateways">Q13: API Gateway & Throttling</button>
+                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="CI/CD & Zero-Downtime Rollouts">Q14: Blue/Green & Canary Deploy</button>
+                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Observability & Operational Health">Q15: CloudWatch & X-Ray Metrics</button>
+                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Edge Caching & Content Delivery">Q16: CloudFront OAC & Caching</button>
+                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="DNS Architecture & Global Traffic Management">Q17: Route 53 Latency & Failover</button>
+                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Multi-Account Security & IAM Governance">Q18: AWS Org & IAM Boundaries</button>
+                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Serverless Scaling & Resource Allocation">Q19: Lambda Concurrency & Scaling</button>
+                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="High Availability & Multi-Region DR">Q20: Multi-Region Disaster Recovery</button>
+                </div>
+            </div>
+<div id="questionsContainer">
                 <!-- QUESTION 1: VPC &amp; IP Address Management -->
                 <div class="question-card" id="q-1" data-keywords="vpc cidr block reserved ip subnet 16 28 ip exhaustion autoscaling">
                     <div class="card-header">
@@ -603,7 +635,14 @@ resource &quot;aws_s3_bucket_lifecycle_configuration&quot; &quot;invoice_lifecyc
                             <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'PaymentLambdaHandler.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-5" style="display:none;">public class PaymentLambdaHandler implements RequestHandler&lt;PaymentEvent, PaymentResult&gt; {
+                            <div id="snippet-5" style="display:none;">import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class PaymentLambdaHandler implements RequestHandler&lt;PaymentEvent, PaymentResult&gt; {
     private static final byte[] transactionSalt = new byte[32];
     private static Connection dbConnection;
     static {
@@ -737,7 +776,15 @@ resource &quot;aws_s3_bucket_lifecycle_configuration&quot; &quot;invoice_lifecyc
                             <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'OrderDatabaseHandler.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-6" style="display:none;">public class OrderDatabaseHandler implements RequestHandler&lt;OrderEvent, String&gt; {
+                            <div id="snippet-6" style="display:none;">import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class OrderDatabaseHandler implements RequestHandler&lt;OrderEvent, String&gt; {
     private static final HikariDataSource dataSource;
     static {
         HikariConfig config = new HikariConfig();
@@ -1245,7 +1292,11 @@ resource &quot;aws_instance&quot; &quot;app_server&quot; {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'TradeProducerService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-10" style="display:none;">@Service
+                            <div id="snippet-10" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
+
+@Service
 public class TradeProducerService {
     @Autowired
     private SqsTemplate sqsTemplate;
@@ -1367,7 +1418,16 @@ public class TradeProducerService {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'DatabaseConnectionService.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-11" style="display:none;">@Service
+                            <div id="snippet-11" style="display:none;">import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.amazonaws.services.secretsmanager.AWSSecretsManager;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueRequest;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueResult;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+@Service
 public class DatabaseConnectionService {
     @Autowired
     private AWSSecretsManager secretsClient;
@@ -1484,7 +1544,10 @@ public Connection getConnection() {
                             <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'DynamoDbOrderRepository.java')">
                                 💻 View Code Snippet (Popup)
                             </button>
-                            <div id="snippet-12" style="display:none;">public void saveOrderEvent(OrderEvent event) {
+                            <div id="snippet-12" style="display:none;">import com.amazonaws.services.dynamodbv2.document.Item;
+import com.amazonaws.services.dynamodbv2.document.Table;
+
+public void saveOrderEvent(OrderEvent event) {
     Item item = new Item()
         .withPrimaryKey(&quot;Status&quot;, event.getStatus(), &quot;Timestamp&quot;, event.getTimestamp())
         .withString(&quot;OrderId&quot;, event.getOrderId())
