@@ -74,8 +74,7 @@ developer-friendly/
     ├── rest-api-microservices.html
     ├── aws-deployment.html
     ├── angular.html
-    ├── architecture-design.html
-    └── generate_all_*.py           # Content generators
+    └── architecture-design.html
 ```
 
 ---
