@@ -6,14 +6,20 @@ An interactive, production-grade technical interview suite and assessment platfo
 
 ## 🚀 Key Features
 
-- **181 Scenario-Based Questions**: 9 distinct domains with 20–21 in-depth scenarios each, focusing on real-world edge cases, production bug hunts, system trade-offs, and architecture design.
+- **Dynamic Question Bank & Coverage-First Architecture**:
+  - **Governing Principle**: *Coverage determines question count, not the other way around.* Domains are not restricted by arbitrary question limits. Questions expand to achieve comprehensive, systematic coverage of real-world edge cases, production bug hunts, system trade-offs, and architecture design.
+  - Dynamic discovery and navigation automatically synchronizes question counts, jump chips, and progress bars directly from the DOM and metadata.
+- **Machine-Readable Technology Coverage Matrix**:
+  - Full structured inventory tracked in [`interview-questions/data/coverage-matrix.json`](interview-questions/data/coverage-matrix.json) and [`interview-questions/js/coverage-matrix.js`](interview-questions/js/coverage-matrix.js) across all 9 domains (concept ID, subtopics, required depth, assessment dimensions, relevant versions, coverage status).
 - **Interactive Candidate Scorecard**:
   - Live rating on a 1–4 qualitative scale (*Cannot Explain*, *Partial*, *Good*, *Exceptional*).
   - Automatically calculates competency and hiring recommendations in real-time.
-  - Auto-saved to browser `localStorage` to prevent data loss during long interviews.
+  - Auto-saved to browser `localStorage` (`interview_master_data_v7`) to prevent data loss during long interviews.
 - **Executive HR & Management Report**:
   - One-click summary generation translating technical ratings into qualitative executive feedback (assessed competencies, candidate strengths, growth areas, and hiring recommendations) without arbitrary numeric scoring.
-- **Code Inspection Modals**: Integrated syntax-highlighted code viewer with one-click clipboard copying.
+- **Code Inspection Modals & Quick Navigation**:
+  - Integrated syntax-highlighted code viewer with valid, production-ready imports and zero solution giveaways.
+  - Responsive Quick Jump Question Navigator with smooth scrolling, highlight pulse animations, and live rating indicators on every domain page.
 
 ---
 

@@ -111,6 +111,17 @@
                 </div>
             </div>
 
+            <!-- Dynamic Coverage Matrix Callout -->
+            <div class="guideline-box" style="border-left-color: #2563eb; background-color: #f0f7ff;">
+                <div class="icon">🎯</div>
+                <div>
+                    <h3 style="color: #1e40af;">Dynamic Question Bank &amp; Coverage-First Architecture</h3>
+                    <p style="color: #1e3a8a;">
+                        <strong>Governing Principle:</strong> <em>Coverage determines question count, not the other way around.</em> The platform is not constrained by fixed 20-question limits. Question counts, progress bars, and navigation chips are derived dynamically from the active DOM and machine-readable <a href="data/coverage-matrix.json" target="_blank" style="color: var(--primary-blue); font-weight: 600; text-decoration: underline;">Technology Coverage Matrix (JSON)</a>.
+                    </p>
+                </div>
+            </div>
+
             <h2 style="font-size: 20px; margin-bottom: 8px;">Interview Topic Tracks</h2>
             <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">
                 Direct links to all domain interview pages.
@@ -303,6 +314,7 @@
     </div>
 
     <!-- Tracker Scripts -->
+    <script src="js/coverage-matrix.js"></script>
     <script src="js/interview-tracker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

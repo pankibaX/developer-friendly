@@ -1171,3 +1171,106 @@ pre {
     animation: questionHighlightPulse 2s ease-out;
 }
 
+/* Sticky Breadcrumb & Domain Switcher Strip (Option 1) */
+.sticky-nav-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.breadcrumb-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.breadcrumb-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: var(--primary-blue-light);
+    transition: all 0.15s ease;
+}
+
+.breadcrumb-home:hover {
+    background-color: #dbeafe;
+    transform: translateX(-1px);
+}
+
+.breadcrumb-separator {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.breadcrumb-current {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.domain-quick-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.switcher-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.track-select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: #f8fafc;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.15s ease;
+}
+
+.track-select:hover,
+.track-select:focus {
+    border-color: var(--primary-blue);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-back-hub {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-back-hub:hover {
+    background-color: #e2e8f0;
+    border-color: #cbd5e1;
+    transform: translateX(-2px);
+}
+
+

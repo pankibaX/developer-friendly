@@ -201,13 +201,33 @@ function updateQuestionRatingUI(qId, activeRating) {
     }
 }
 
+function getDomainTotalQuestions(topicKey) {
+    const cards = document.querySelectorAll('.question-card');
+    if (cards && cards.length > 0) {
+        try {
+            const counts = JSON.parse(localStorage.getItem('interview_dynamic_counts') || '{}');
+            counts[topicKey] = cards.length;
+            localStorage.setItem('interview_dynamic_counts', JSON.stringify(counts));
+        } catch (e) {}
+        return cards.length;
+    }
+    try {
+        const counts = JSON.parse(localStorage.getItem('interview_dynamic_counts') || '{}');
+        if (counts[topicKey]) return counts[topicKey];
+    } catch (e) {}
+    if (window.COVERAGE_MATRIX && window.COVERAGE_MATRIX.domains && window.COVERAGE_MATRIX.domains[topicKey]) {
+        return window.COVERAGE_MATRIX.domains[topicKey].totalEvaluatedQuestions;
+    }
+    return TOPIC_REGISTRY[topicKey]?.totalQuestions || 20;
+}
+
 function updateTopicHeaderUI(topicKey) {
     const data = getAllData();
     const topic = data.topics[topicKey] || { ratings: {} };
     const ratings = Object.values(topic.ratings || {}).map(r => r.rating);
 
     const count = ratings.length;
-    const total = TOPIC_REGISTRY[topicKey]?.totalQuestions || 10;
+    const total = getDomainTotalQuestions(topicKey);
 
     const avg = count > 0 ? ratings.reduce((a, b) => a + b, 0) / count : null;
     const prof = calcProficiency(avg);
@@ -258,9 +278,88 @@ function initBackToTop() {
     });
 }
 
+function syncDynamicQuestionUI(topicKey) {
+    const cards = document.querySelectorAll('.question-card');
+    if (!cards || cards.length === 0) return;
+
+    const total = cards.length;
+    const jumpGrid = document.querySelector('.quick-jump-grid');
+
+    cards.forEach((card, idx) => {
+        const qIdMatch = card.id ? card.id.match(/^q-(\d+)$/) : null;
+        const qId = qIdMatch ? parseInt(qIdMatch[1], 10) : (idx + 1);
+        if (!card.id) card.id = 'q-' + qId;
+
+        // Keep Question badges synchronized: Question X of Total
+        const qNumEl = card.querySelector('.q-number');
+        if (qNumEl) {
+            qNumEl.textContent = `Question ${qId} of ${total}`;
+        }
+
+        // Dynamically ensure jump chip exists if new questions are added to DOM
+        if (jumpGrid && !document.getElementById('jump-chip-' + qId)) {
+            const badgeEl = card.querySelector('.concept-badge');
+            const badgeText = badgeEl ? badgeEl.textContent.trim() : `Topic ${qId}`;
+            const shortText = badgeText.split('&')[0].trim().substring(0, 24);
+
+            const chip = document.createElement('button');
+            chip.className = 'jump-chip';
+            chip.id = 'jump-chip-' + qId;
+            chip.title = badgeText;
+            chip.textContent = `Q${qId}: ${shortText}`;
+            chip.onclick = () => scrollToQuestion(qId);
+            jumpGrid.appendChild(chip);
+        }
+    });
+}
+
+function renderStickyBreadcrumbAndSwitcher(topicKey) {
+    const evalBar = document.querySelector('.skill-evaluation-bar');
+    if (!evalBar) return;
+
+    if (evalBar.querySelector('.sticky-nav-strip')) return; // Avoid duplicates
+
+    const meta = TOPIC_REGISTRY[topicKey] || { title: topicKey, icon: '📌', page: '#' };
+
+    const strip = document.createElement('div');
+    strip.className = 'sticky-nav-strip';
+
+    // Build options for all domains
+    let optionsHtml = '';
+    for (const [key, tMeta] of Object.entries(TOPIC_REGISTRY)) {
+        const selected = (key === topicKey) ? 'selected' : '';
+        optionsHtml += `<option value="${tMeta.page}" ${selected}>${tMeta.icon} ${tMeta.title}</option>`;
+    }
+
+    strip.innerHTML = `
+        <div class="breadcrumb-container">
+            <a href="index.html" class="breadcrumb-home" title="Go to Master Summary Dashboard">
+                <span>🏠</span> <strong>Master Hub</strong>
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">${meta.icon} ${meta.title}</span>
+        </div>
+        <div class="domain-quick-switcher">
+            <label for="trackSwitcher" class="switcher-label">🔀 Switch Track:</label>
+            <select id="trackSwitcher" class="track-select" onchange="if(this.value) window.location.href=this.value" aria-label="Switch Interview Domain">
+                ${optionsHtml}
+            </select>
+            <a href="index.html" class="btn-back-hub" title="Return to Overview & Master Summary">
+                <span>←</span> Back to Hub
+            </a>
+        </div>
+    `;
+
+    // Insert as the very first child of the sticky skill-evaluation-bar
+    evalBar.insertBefore(strip, evalBar.firstChild);
+}
+
 function initTopicPage(topicKey) {
     window.currentTopicKey = topicKey;
     const data = getAllData();
+
+    renderStickyBreadcrumbAndSwitcher(topicKey);
+    syncDynamicQuestionUI(topicKey);
 
     const topic = data.topics[topicKey] || { ratings: {} };
     for (const [qId, item] of Object.entries(topic.ratings || {})) {
@@ -350,7 +449,8 @@ function renderMasterScorecard() {
         const avg  = count > 0 ? ratings.reduce((a, b) => a + b, 0) / count : null;
         const prof = calcProficiency(avg);
 
-        const countCell = `${count} of ${meta.totalQuestions} questions`;
+        const totalQuestions = getDomainTotalQuestions(key);
+        const countCell = `${count} of ${totalQuestions} questions`;
         const avgCell   = avg !== null ? `<strong>${avg.toFixed(1)}</strong> / 4` : '<span style="color:#94a3b8">—</span>';
 
         const row = document.createElement('tr');
