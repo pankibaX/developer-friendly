@@ -7,27 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect &amp; Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link active"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link active"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -76,37 +104,6 @@
             <div class="filter-bar">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Python topics (e.g. gil, asyncio event loop, descriptors, memory leak, weakref, slots, metaclass, protocol)..." onkeyup="filterQuestions()">
             </div>
-
-            
-            <!-- Quick Jump Question Navigator -->
-            <div class="quick-jump-container">
-                <div class="quick-jump-header">
-                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
-                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
-                </div>
-                <div class="quick-jump-grid">
-                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Concurrency & Global Interpreter Lock (GIL)">Q1: GIL & Thread Contention</button>
-                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="AsyncIO & Event Loop Architecture">Q2: AsyncIO Event Loop Starvation</button>
-                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Memory Management & Garbage Collection">Q3: Cyclic GC & Weakref Leaks</button>
-                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Metaprogramming & Class Construction">Q4: Metaclasses vs __init_subclass__</button>
-                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Descriptors Protocol & Attribute Lookup">Q5: Descriptor Protocol (__get__, __set__)</button>
-                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Generators & Memory Streaming">Q6: Generators & Memory Streaming</button>
-                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Context Managers & Exception Suppression">Q7: Context Managers & __exit__</button>
-                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Dynamic Attribute Dispatch & Magic Methods">Q8: __getattr__ vs __getattribute__</button>
-                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Memory Optimization & __slots__">Q9: Memory Optimization with __slots__</button>
-                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Advanced Type System & Protocols">Q10: Typing Protocols & Structural Subtyping</button>
-                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Mutability & Default Argument Traps">Q11: Mutable Default Argument Traps</button>
-                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Multiprocessing & Zero-Copy Shared Memory">Q12: Multiprocessing SharedMemory</button>
-                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Exception Handling & ExceptionGroups">Q13: ExceptionGroup & except* (Python 3.11)</button>
-                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="AsyncIO Structured Concurrency & TaskGroups">Q14: Structured Concurrency & TaskGroup</button>
-                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Decorators, Signature Binding & functools.wraps">Q15: Decorators & functools.wraps</button>
-                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Abstract Base Classes & Virtual Subclasses">Q16: Abstract Base Classes & __subclasshook__</button>
-                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Bytecode & CPython Execution VM">Q17: Bytecode & CPython VM Opcode Execution</button>
-                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Clean Architecture & Dependency Injection">Q18: Clean Architecture & Dependency Injection</button>
-                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Security & Serialization Vulnerabilities">Q19: Pickle Remote Code Execution Hazards</button>
-                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Asynchronous Iterators & Streaming Backpressure">Q20: Async Iterators & Backpressure</button>
-                </div>
-            </div>
 <!-- Question Cards Container -->
             <div class="questions-list">
                 <div class="question-card" id="q-1" data-keywords="gil global interpreter lock threading multiprocessing cpu bound io bound subinterpreters pep 703">
@@ -137,9 +134,14 @@
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'hash_processor.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'hash_processor.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-1" style="display:none;">import threading
 import hashlib
 import time
@@ -205,10 +207,6 @@ def multi_threaded_hashing(payloads: List[bytes]) -&gt; List[str]:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why Multithreading Degrades CPU-Bound Python Performance:</strong><br>
@@ -256,9 +254,14 @@ def parallel_hashing(payloads: List[bytes]) -> List[str]:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'payment_webhook.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'payment_webhook.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-2" style="display:none;">import asyncio
 import time
 import requests
@@ -318,10 +321,6 @@ class PaymentNotificationService:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Root Cause Analysis:</strong><br>
@@ -384,9 +383,14 @@ class PaymentNotificationService:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'session_tracker.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'session_tracker.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-3" style="display:none;">import sys
 import gc
 from typing import Optional
@@ -450,10 +454,6 @@ def create_and_destroy():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Reference Counting vs Cyclic GC:</strong><br>
@@ -509,9 +509,14 @@ class UserTracker:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'plugin_framework.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'plugin_framework.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-4" style="display:none;">from typing import Dict, Any, Type
 
 # Legacy attempt using basic inheritance
@@ -563,10 +568,6 @@ class CryptoPaymentPlugin(BasePaymentPlugin):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Class Construction Lifecycle:</strong><br>
@@ -629,9 +630,14 @@ class CryptoPaymentPlugin(BasePaymentPlugin):
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'trade_descriptors.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'trade_descriptors.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-5" style="display:none;">from decimal import Decimal
 
 class BrokenPositiveDecimal:
@@ -696,10 +702,6 @@ print(t1.price) # Prints 999.99! Both trades share the same price!</div>
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Data vs Non-Data Descriptors & Lookup Precedence:</strong><br>
@@ -764,9 +766,14 @@ class Trade:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'audit_streaming.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'audit_streaming.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-6" style="display:none;">from typing import List, Generator, Dict
 import json
 
@@ -820,10 +827,6 @@ def calculate_audit_stats(filepath: str) -&gt; None:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Memory Analysis:</strong><br>
@@ -880,9 +883,14 @@ def process_stream_single_pass(filepath: str) -> Dict[str, int]:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'managed_transaction.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'managed_transaction.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-7" style="display:none;">class BrokenTransactionManager:
     def __init__(self, db_conn):
         self.db = db_conn
@@ -940,10 +948,6 @@ with BrokenTransactionManager(db) as conn:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The Exception Suppression Rule:</strong><br>
@@ -1006,9 +1010,14 @@ class AsyncDatabaseTransaction:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'dynamic_rpc_proxy.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'dynamic_rpc_proxy.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-8" style="display:none;">class BrokenRpcClient:
     def __init__(self, base_url: str):
         self.base_url = base_url
@@ -1059,10 +1068,6 @@ print(client.base_url) # CRASH: RecursionError!</div>
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The Recursion Trap:</strong><br>
@@ -1118,9 +1123,14 @@ print(client.getUserProfile(user_id=101)) # Successfully dispatches via __getatt
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'order_book_memory.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'order_book_memory.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-9" style="display:none;">import sys
 
 class StandardOrderTick:
@@ -1170,10 +1180,6 @@ ticks = [StandardOrderTick(i, &quot;AAPL&quot;, 150.25, 100) for i in range(1_00
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Standard Object Overhead:</strong><br>
@@ -1228,9 +1234,14 @@ Each instance thus consumes ~150–200 bytes of overhead before storing any actu
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'protocols_variance.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'protocols_variance.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-10" style="display:none;">from typing import Protocol, runtime_checkable, TypeVar, Generic, Sequence, Dict, Any
 
 # Step 1: Define a structural protocol for serializable entities
@@ -1284,10 +1295,6 @@ class ThirdPartyOrder:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Nominal vs Structural Subtyping:</strong><br>
@@ -1346,9 +1353,14 @@ assert isinstance(order, Serializable) # True!</code></pre>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'mutable_audit.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'mutable_audit.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-11" style="display:none;">from typing import List, Dict, Any
 import datetime
 
@@ -1403,10 +1415,6 @@ print(&quot;Customer 2 Tags:&quot;, c2)
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why Default Arguments Leak State:</strong><br>
@@ -1461,9 +1469,14 @@ CPython pre-allocates an array of small integer objects for values between <code
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'shared_memory_ipc.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'shared_memory_ipc.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-12" style="display:none;">import multiprocessing
 from multiprocessing import Queue
 import time
@@ -1518,10 +1531,6 @@ def start_pipeline():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The IPC Bottleneck with Queues:</strong><br>
@@ -1585,9 +1594,14 @@ def main():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'exception_groups.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'exception_groups.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-13" style="display:none;">from typing import List
 
 class PaymentError(Exception): pass
@@ -1643,10 +1657,6 @@ def demonstrate_exception_group():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Exception Chaining Mechanics:</strong><br>
@@ -1698,9 +1708,14 @@ def demonstrate_exception_group():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'structured_concurrency.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'structured_concurrency.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-14" style="display:none;">import asyncio
 
 async def charge_card():
@@ -1758,10 +1773,6 @@ async def naive_checkout():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The Flaw with asyncio.gather:</strong><br>
@@ -1815,9 +1826,14 @@ async def safe_checkout():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'custom_decorator.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'custom_decorator.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-15" style="display:none;">import time
 from typing import Callable, Any
 
@@ -1872,10 +1888,6 @@ print(process_order.__doc__)  # Prints None!</div>
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why functools.wraps is Critical:</strong><br>
@@ -1937,9 +1949,14 @@ def place_order(order_id: str, amount: float = 0.0) -> bool:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'blob_storage_abc.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'blob_storage_abc.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-16" style="display:none;">import abc
 from typing import bytes
 
@@ -1998,10 +2015,6 @@ class ExternalAwsS3Client:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. ABC Instantiation Enforcement:</strong><br>
@@ -2054,9 +2067,14 @@ print(issubclass(ExternalAwsS3Client, BlobStorage)) # True!</code></pre><br>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'bytecode_bench.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'bytecode_bench.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-17" style="display:none;">import dis
 import math
 
@@ -2111,10 +2129,6 @@ def fast_loop():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. CPython VM Evaluation:</strong><br>
@@ -2161,9 +2175,14 @@ Aliasing <code>sin = math.sin</code> replaces dynamic dictionary resolution with
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'hexagonal_di.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'hexagonal_di.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-18" style="display:none;"># VIOLATION: Domain service tightly coupled to specific database driver!
 from typing import Dict, Any
 
@@ -2218,10 +2237,6 @@ class OrderService:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Architectural Inversion:</strong><br>
@@ -2288,9 +2303,14 @@ Unit tests can now inject <code>InMemoryMockOrderAdapter</code> instantly withou
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'pickle_exploit.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'pickle_exploit.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-19" style="display:none;">import pickle
 import os
 
@@ -2344,10 +2364,6 @@ pickle.loads(serialized_exploit)</div>
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The Mechanics of the Pickle Exploit:</strong><br>
@@ -2409,9 +2425,14 @@ class SecureSerializer:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'async_tick_stream.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'async_tick_stream.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-20" style="display:none;">import asyncio
 from typing import AsyncIterator, Optional
 from dataclasses import dataclass
@@ -2477,10 +2498,6 @@ class AsyncTickStream:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Asynchronous Iterator Protocol:</strong><br>
@@ -2544,6 +2561,27 @@ class MarketDataFeed:
             </div>
         </div>
     </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="js/coverage-matrix.js"></script>

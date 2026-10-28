@@ -1,0 +1,2630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes & Docker | Cloud-Native Containers & Orchestration</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+            <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div class="brand-title">
+                <h2>Interview Hub</h2>
+                <p>Architect & Lead</p>
+            </div>
+        </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
+        <ul class="nav-links">
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link active"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
+        </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <header class="header">
+            <h1>🐳 Kubernetes & Docker Container Orchestration</h1>
+            <p>23 Practical code & manifest debugging questions covering Pod Lifecycles, Zero-Downtime Rolling Updates, Resource QoS, JVM Container Tuning, Multi-Stage Builds, Probes, Ingress, and Native Sidecars.</p>
+        </header>
+
+        <div class="content-container">
+
+            <!-- SKILL-LEVEL EVALUATION STICKY BAR -->
+            <div class="skill-evaluation-bar">
+                <div class="skill-eval-top-row">
+                    <div class="skill-title-block">
+                        <h3>🐳 Skill: Kubernetes & Docker</h3>
+                        <p id="statEvaluatedCount">0 of 20 Questions Rated</p>
+                    </div>
+                    <div class="scorecard-actions" style="display: flex; gap: 8px;">
+                        <a href="index.html" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">📋 Master Summary</a>
+                        <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSkillData('k8s')">🔄 Reset</button>
+                    </div>
+                </div>
+                <div class="skill-eval-controls">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <span class="proficiency-label">Calculated Proficiency:</span>
+                        <span class="verdict-badge none" id="statVerdict">Not Rated Yet</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Auto-calculated from 1-4 ratings below ↓</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines Box (Collapsible) -->
+            <div class="guideline-box">
+                <div class="icon">💡</div>
+                <div>
+                    <h3>How to Conduct This Interview</h3>
+                    <p>
+                        Choose <strong>3 to 5 questions</strong> from below. Click <strong>"💻 View Manifest / Code"</strong> to open the challenge in a popup modal, and click <strong>"Copy to Clipboard"</strong> to paste it into your candidate's shared live pad.
+                        Rate the candidate's response using the <strong>1 to 4 rating scale</strong> (Cannot Explain, Partial, Good, Expert). The system automatically computes domain proficiency and hiring recommendation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Filter Bar -->
+            <div class="filter-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search topics (e.g. preStop, cgroups, MaxRAMPercentage, multi-stage, liveness, coredns, ingress, sidecar)..." onkeyup="filterQuestions()">
+            </div>
+
+            <div id="questionsContainer">
+
+                <!-- QUESTION 1: Pod Lifecycle & Zero-Downtime -->
+                <div class="question-card" id="q-1" data-keywords="kubernetes pod lifecycle sigterm prestop rolling update 502 bad gateway zero downtime iptables endpoint slice">
+                    <div class="card-header">
+                        <span class="concept-badge">Pod Lifecycle & Zero-Downtime</span>
+                        <span class="q-number">Question 1 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Kubernetes Pod Termination Lifecycle: Resolving the 2-second HTTP 502/503 race condition during rolling updates between kube-proxy / EndpointSlice iptables deregistration and pod SIGTERM using preStop sleep hooks and graceful shutdown.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                During continuous deployment rolling updates in Kubernetes, client microservices intermittently experience HTTP 502 Bad Gateway and connection reset errors, even though the deployment strategy is set to RollingUpdate (maxUnavailable=0, maxSurge=1) and the application has graceful shutdown enabled.<br><br><strong>Part A:</strong> Explain the exact race condition between the Kubernetes Control Plane removing the Pod IP from the Service Endpoints and the Kubelet sending SIGTERM to the container process.<br><strong>Part B:</strong> Why does server.shutdown=graceful alone fail to prevent these 502 errors?<br><strong>Part C (Deep Probe):</strong> How does configuring a container preStop hook (e.g. sleep 15) eliminate in-flight traffic drops, and what must terminationGracePeriodSeconds be set to?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'deployment-zero-downtime.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-1" style="display:none;">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      # BUG: Default 30s timeout, but no preStop hook!
+      # Kubelet sends SIGTERM immediately while kube-proxy is still routing traffic!
+      containers:
+      - name: order-service
+        image: company/order-service:v2.1
+        ports:
+        - containerPort: 8080</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-1">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 1, 1, 'Pod Lifecycle & Zero-Downtime')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 1, 2, 'Pod Lifecycle & Zero-Downtime')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 1, 3, 'Pod Lifecycle & Zero-Downtime')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 1, 4, 'Pod Lifecycle & Zero-Downtime')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-1">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>Asynchronous Endpoint Deregistration:</strong> When a pod is marked for termination (DeletionTimestamp set), two events happen asynchronously in parallel:
+   - The EndpointSlice controller detects termination and updates the Endpoints object. Kube-proxy on every worker node eventually re-programs iptables/IPVS rules to remove the terminating pod IP. This takes 1-3 seconds across a busy cluster.
+   - Concurrently, the Kubelet immediately sends a <code>SIGTERM</code> signal to the container!
+2. <strong>The 502 Race Condition:</strong> For 1-3 seconds, external load balancers and upstream pods continue routing new TCP requests to the terminating pod IP. Since the container received SIGTERM and stopped accepting new connections, clients receive TCP RST (Connection Refused) or Ingress returns HTTP 502 Bad Gateway!
+<br><br>
+<strong>Production Fix:</strong>
+Add a <code>lifecycle.preStop</code> exec hook that pauses for 15 seconds before SIGTERM is delivered:
+<pre><code>spec:
+  terminationGracePeriodSeconds: 45
+  containers:
+  - name: order-service
+    lifecycle:
+      preStop:
+        exec:
+          command: ["/bin/sh", "-c", "sleep 15"]
+    ports:
+    - containerPort: 8080</code></pre>
+This ensures all kube-proxy instances across the cluster have completely purged the pod IP from routing tables before the application stops accepting connections.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests increasing replica count or setting maxSurge=100%, without recognizing the asynchronous nature of iptables deregistration vs container signal delivery.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Pinpoints the asynchronous kube-proxy iptables race condition, explains why preStop sleep hook is mandatory for zero-downtime, and coordinates terminationGracePeriodSeconds with application shutdown timeouts.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 2: Distributed Batch Scheduling -->
+                <div class="question-card" id="q-2" data-keywords="kubernetes cronjob scheduling shedlock replicas duplicate execution high availability multi instance">
+                    <div class="card-header">
+                        <span class="concept-badge">Distributed Batch Scheduling</span>
+                        <span class="q-number">Question 2 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Distributed Clustered Scheduling: The multi-instance duplicate execution trap of running local schedulers (Spring @Scheduled, Node cron, Go ticker) in horizontally scaled Kubernetes pods, and architectural solutions using native Kubernetes CronJobs vs distributed locks (ShedLock).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A financial microservice has a scheduled batch job running at midnight to compute interest and charge overdue accounts. When deployed in production on Kubernetes with 5 pod replicas for high availability, customer accounts are charged 5 separate times at midnight.<br><br><strong>Part A:</strong> Why does application-level in-memory scheduling execute concurrently across all pod replicas?<br><strong>Part B:</strong> Compare resolving this using a native Kubernetes CronJob resource vs using a distributed locking library like ShedLock or Redis Redlock.<br><strong>Part C:</strong> What happens if a Kubernetes CronJob fails with startingDeadlineSeconds exceeded or concurrencyPolicy=Forbid?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'cronjob-manifest.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-2" style="display:none;"># Architecture Comparison:
+# Solution A: Distributed Locking within scaled deployment
+# Solution B: Native Kubernetes CronJob resource
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: billing-midnight-batch
+spec:
+  schedule: &quot;0 0 * * *&quot;
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: batch-runner
+            image: company/billing-batch:v1.0
+            args: [&quot;--run-batch=interest-accrual&quot;]</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-2">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 2, 1, 'Distributed Batch Scheduling')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 2, 2, 'Distributed Batch Scheduling')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 2, 3, 'Distributed Batch Scheduling')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 2, 4, 'Distributed Batch Scheduling')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-2">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+In-memory schedulers (@Scheduled in Java, cron in Node) run in the memory space of each JVM/process. When Kubernetes runs 5 replicas, 5 completely independent schedulers trigger at midnight simultaneously.
+<br><br>
+<strong>Architectural Solutions:</strong>
+1. <strong>Kubernetes CronJob (Clean Cloud-Native Architecture):</strong> Decouples long-running web servers from batch processing. The web service runs with 0 scheduler threads. At midnight, the K8s CronJob launches a dedicated, ephemeral single-pod job that runs to completion and exits.
+   - Use <code>concurrencyPolicy: Forbid</code> to prevent a second execution if the previous batch overruns.
+2. <strong>Distributed Lock (ShedLock / Redis / ZooKeeper):</strong> If batch logic must live inside the web deployment, acquire an advisory lock in a shared database or Redis with a finite TTL (lockAtMostFor / lockAtLeastFor) before executing.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests scaling the deployment down to 1 replica at 23:59 and scaling up at 00:05, or hardcoding execution to hostname ending in -0 without understanding pod rescheduling.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Distinguishes between ephemeral batch workloads and long-lived HTTP services. Outlines Kubernetes CronJob with concurrencyPolicy, restartPolicy, and backoffLimit, or demonstrates ShedLock lockAtMostFor semantics to handle node crashes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 3: Resource Limits & QoS Classes -->
+                <div class="question-card" id="q-3" data-keywords="kubernetes resources requests limits qos guaranteed burstable besteffort cpu throttling cgroups oomkilled exit 137">
+                    <div class="card-header">
+                        <span class="concept-badge">Resource Limits & QoS Classes</span>
+                        <span class="q-number">Question 3 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Container Resource Management & QoS: Understanding requests (scheduling guarantees) vs limits (enforcement thresholds), CPU CFS quota throttling vs memory OOMKilled (Exit Code 137), and Kubernetes Quality of Service (QoS) eviction priority.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                An engineer configured a microservice with <code>requests: {cpu: 100m, memory: 512Mi}</code> and <code>limits: {cpu: 200m, memory: 1Gi}</code>. During peak traffic, response latency spikes from 20ms to 4,500ms without any memory errors. Concurrently, worker nodes running low on memory terminate pods randomly.<br><br><strong>Part A:</strong> What is the difference between how Linux cgroups handle CPU limits exceeding quota vs memory limits exceeding quota?<br><strong>Part B:</strong> What are Kubernetes QoS classes (Guaranteed, Burstable, BestEffort), and how does the node kubelet determine which pods to evict first during NodePressure?<br><strong>Part C:</strong> Why do many senior performance engineers recommend omitting CPU limits or setting requests = limits in latency-sensitive microservices?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'resource-qos-deployment.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-3" style="display:none;">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-api
+spec:
+  template:
+    spec:
+      containers:
+      - name: payment-api
+        image: company/payment:1.0
+        resources:
+          # QoS: Burstable (requests != limits)
+          # CPU throttling causes massive latency spikes!
+          requests:
+            cpu: &quot;100m&quot;
+            memory: &quot;512Mi&quot;
+          limits:
+            cpu: &quot;200m&quot;
+            memory: &quot;1Gi&quot; </div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-3">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 3, 1, 'Resource Limits & QoS Classes')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 3, 2, 'Resource Limits & QoS Classes')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 3, 3, 'Resource Limits & QoS Classes')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 3, 4, 'Resource Limits & QoS Classes')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-3">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>CPU vs Memory Enforcement:</strong>
+   - <strong>CPU is Compressible:</strong> Enforced by Linux Completely Fair Scheduler (CFS) bandwidth control (<code>cpu.cfs_quota_us</code> / <code>cpu.cfs_period_us</code>). If a container exhausts its CPU quota within a 100ms period, all threads are frozen (throttled) until the next period, causing massive tail latency spikes!
+   - <strong>Memory is Incompressible:</strong> If memory exceeds limit, the Linux kernel OOM killer immediately terminates the process (Exit Code 137: 128 + SIGKILL 9).
+2. <strong>QoS Classes & Eviction Order:</strong>
+   - <code>Guaranteed</code>: requests == limits for all containers (both CPU & memory). Highest survivability; evicted last.
+   - <code>Burstable</code>: requests &lt; limits. Evicted when node runs out of memory if usage exceeds requests.
+   - <code>BestEffort</code>: No requests or limits specified. First to be terminated and killed when node is under pressure!
+3. <strong>Best Practice:</strong> In latency-sensitive Java/Go services, omit CPU limits (or set high headroom) to avoid CFS throttling while setting memory requests == limits to ensure Guaranteed QoS.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Confuses CPU throttling with thread deadlocks; thinks CPU limits kill the container just like memory limits.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains CFS quota period throttling at the cgroup level, details the 3 QoS tiers and their oom_score_adj calculation, and recommends concrete resource configurations.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 4: JVM in Containers & Memory Tuning -->
+                <div class="question-card" id="q-4" data-keywords="docker jvm maxrampercentage container support cgroups heap off heap metaspace oomkilled 137">
+                    <div class="card-header">
+                        <span class="concept-badge">JVM in Containers & Memory Tuning</span>
+                        <span class="q-number">Question 4 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                JVM Container Awareness: Why legacy JVMs and misconfigured flags allocate heap based on physical host RAM instead of container limits, and correctly calculating MaxRAMPercentage, Metaspace, and off-heap memory budgets.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A Spring Boot application running on Java 17 is deployed inside a container with a Kubernetes memory limit of <code>1Gi</code>. The Dockerfile starts the app with <code>java -jar app.jar</code> with no JVM memory flags. Under load, Kubernetes terminates the pod with <code>OOMKilled: Exit Code 137</code>, yet the APM dashboard shows heap memory usage never exceeded 280MB.<br><br><strong>Part A:</strong> How does the JVM determine default max heap in containerized environments when no <code>-Xmx</code> is specified?<br><strong>Part B:</strong> Why did the container get OOMKilled at 1Gi when heap was only 280MB? List the non-heap memory contributors in a JVM.<br><strong>Part C:</strong> What is the modern, production-grade JVM container flag formula using <code>-XX:MaxRAMPercentage</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'Dockerfile-jvm')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-4" style="display:none;">FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY target/billing-service.jar app.jar
+
+# DEFECTIVE ENTRYPOINT:
+# Uses default 25% heap or legacy host detection!
+# Under Kubernetes limits of 1Gi, non-heap buffers + heap exceed 1Gi -&gt; OOMKilled!
+ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;app.jar&quot;]</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-4">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 4, 1, 'JVM in Containers & Memory Tuning')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 4, 2, 'JVM in Containers & Memory Tuning')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 4, 3, 'JVM in Containers & Memory Tuning')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 4, 4, 'JVM in Containers & Memory Tuning')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-4">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>Default Heap Sizing:</strong> In modern OpenJDK (8u191+, 11, 17, 21), <code>-XX:+UseContainerSupport</code> is enabled by default. If no <code>-Xmx</code> is specified, the JVM defaults <code>MaxHeapSize</code> to <strong>25%</strong> of container memory limit (256MB out of 1Gi).
+2. <strong>Non-Heap JVM Memory Contributors:</strong>
+   - Metaspace (class definitions, bytecode)
+   - Thread Stack memory (1MB per thread * 200 Tomcat threads = 200MB)
+   - Direct ByteBuffers & Netty off-heap buffers
+   - Native memory (JVM C++ runtime, garbage collector data structures)
+   - Code Cache (JIT compiled code)
+   Total container RSS = Heap (280MB) + Non-Heap (550MB) + OS / glibc allocator fragmentation (250MB) = 1,080MB &gt; 1,024MB limit -> Kernel OOM Killer executes <code>SIGKILL</code>!
+<br><br>
+<strong>Production Fix:</strong>
+<pre><code>ENTRYPOINT ["java", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MaxRAMPercentage=70.0", \
+  "-XX:InitialRAMPercentage=70.0", \
+  "-XX:+ExitOnOutOfMemoryError", \
+  "-jar", "app.jar"]</code></pre>
+Setting 70% leaves 30% of the container memory budget for thread stacks, Metaspace, Netty direct buffers, and OS overhead.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Assumes setting -Xmx=1g inside a 1Gi container is correct, unaware that non-heap memory will immediately push container RSS past 1Gi.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates container RSS composition (Heap + Metaspace + Stacks + Direct Memory + JIT), explains why 70-75% MaxRAMPercentage is optimal, and uses -XX:+ExitOnOutOfMemoryError.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 5: Multi-Stage Dockerfile & Security -->
+                <div class="question-card" id="q-5" data-keywords="docker dockerfile multi stage layer caching security cve non root user distroless alpine build cache">
+                    <div class="card-header">
+                        <span class="concept-badge">Multi-Stage Dockerfile & Security</span>
+                        <span class="q-number">Question 5 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Container Image Engineering: Optimizing layer caching, minimizing attack surface via multi-stage builds and distroless base images, enforcing non-root execution, and preventing secret exposure in image history.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A team's single-stage Dockerfile produces a 1.2 GB container image. Every minor code change takes 6 minutes to build in CI because Maven downloads all dependencies from scratch. Furthermore, security scanning with Trivy flags 14 critical CVEs due to installed package managers and compilers running as root.<br><br><strong>Part A:</strong> How do multi-stage Docker builds separate build-time SDK dependencies from runtime artifacts?<br><strong>Part B:</strong> How do you structure <code>COPY</code> statements to maximize Docker layer cache hits during Maven/Gradle builds?<br><strong>Part C:</strong> Why should production containers run as an unprivileged user (e.g. <code>USER nonroot</code>), and what security hazards arise from running as PID 1 root?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'Dockerfile-multistage')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-5" style="display:none;"># DEFECTIVE SINGLE-STAGE DOCKERFILE:
+FROM maven:3.9-eclipse-temurin-17
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+EXPOSE 8080
+# Runs as root! Includes full Maven SDK, JDK, apt, curl, compilers (1.2GB image)
+ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;target/app.jar&quot;]</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-5">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 5, 1, 'Multi-Stage Dockerfile & Security')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 5, 2, 'Multi-Stage Dockerfile & Security')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 5, 3, 'Multi-Stage Dockerfile & Security')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 5, 4, 'Multi-Stage Dockerfile & Security')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-5">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Production Multi-Stage Fix:</strong>
+<pre><code># Stage 1: Build & Dependency Caching
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /build
+
+# Cache dependencies independently of source code changes
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy source and build
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Minimal Distroless / Hardened Runtime
+FROM gcr.io/distroless/java17-debian12:nonroot
+WORKDIR /app
+
+# Copy ONLY the compiled jar artifact from builder
+COPY --from=builder /build/target/*.jar app.jar
+
+# Runs as non-root UID 65532 automatically in distroless
+USER nonroot:nonroot
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]</code></pre>
+<strong>Key Benefits:</strong>
+1. Image size shrinks from 1.2GB to ~210MB.
+2. Layer cache: <code>pom.xml</code> is cached; dependencies are not re-downloaded unless <code>pom.xml</code> changes.
+3. Zero CVEs from curl, apt, bash, or GCC because distroless contains only the JRE and minimal glibc.
+4. Non-root execution blocks container breakout exploits that rely on root kernel permissions.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Does not know what multi-stage builds are; suggests running chmod 777 or keeping Maven in the production image.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Demonstrates dependency-caching layer ordering (pom.xml first), multi-stage COPY --from=builder, distroless / alpine minimal runtime, and non-root user enforcement.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 6: Health Probes & Cascading Outages -->
+                <div class="question-card" id="q-6" data-keywords="kubernetes liveness readiness startup probe cascading failure crashloopbackoff death spiral timeout">
+                    <div class="card-header">
+                        <span class="concept-badge">Health Probes & Cascading Outages</span>
+                        <span class="q-number">Question 6 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Container Health Probes: The difference between livenessProbe (container restart), readinessProbe (endpoint routing removal), and startupProbe (initial boot protection), and preventing database outages from causing cascading cluster-wide pod restarts.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                During a temporary 30-second database latency spike, all 20 replicas of an API microservice began crashing simultaneously and entered <code>CrashLoopBackOff</code>. An engineer had configured a <code>livenessProbe</code> to ping <code>/actuator/health</code>, which performs a full database connection check.<br><br><strong>Part A:</strong> What is the catastrophic failure mode of tying a <code>livenessProbe</code> to downstream external dependencies like databases or message brokers?<br><strong>Part B:</strong> What is the difference between <code>livenessProbe</code> and <code>readinessProbe</code>, and what does the Kubelet do when each fails?<br><strong>Part C:</strong> How does Kubernetes 1.18+ <code>startupProbe</code> prevent slow-starting applications (e.g. JVM warm-up) from getting killed prematurely?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'probes-anti-pattern.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-6" style="display:none;">spec:
+  containers:
+  - name: api-service
+    image: company/api:1.0
+    # ANTI-PATTERN: Liveness probe checks external database!
+    # When DB slows down, Kubelet restarts all pods, causing total cluster collapse!
+    livenessProbe:
+      httpGet:
+        path: /actuator/health
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      timeoutSeconds: 2
+      failureThreshold: 3</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-6">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 6, 1, 'Health Probes & Cascading Outages')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 6, 2, 'Health Probes & Cascading Outages')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 6, 3, 'Health Probes & Cascading Outages')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 6, 4, 'Health Probes & Cascading Outages')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-6">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>The Death Spiral:</strong> When the database experiences high load or a failover, <code>/actuator/health</code> times out after 2 seconds. Because this is configured as a <strong>livenessProbe</strong>, the Kubelet kills the container and restarts it! When all 20 pods restart at the same time, they slam the recovering database with 20 * connection pool size new TCP handshakes, ensuring the database never recovers!
+<br><br>
+<strong>Production Probe Architecture:</strong>
+• <strong>livenessProbe:</strong> Must ONLY check local container health (e.g. process not deadlocked, internal event loop alive). It must NEVER check external databases or network dependencies! Spring Boot provides <code>/actuator/health/liveness</code>.
+• <strong>readinessProbe:</strong> Checks if the pod is ready to accept incoming traffic (e.g. database connected, cache warmed). When it fails, Kubernetes simply removes the pod IP from the Service endpoints—it does NOT kill the pod! Spring Boot provides <code>/actuator/health/readiness</code>.
+• <strong>startupProbe:</strong> Holds off liveness and readiness evaluations until the initial bootstrap finishes (e.g. <code>failureThreshold: 30, periodSeconds: 5</code> gives 150s boot grace).
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks liveness probes should verify all downstream dependencies to ensure system consistency.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Clearly differentiates liveness (reboot on internal deadlock) from readiness (drain traffic during DB stalls). Configures Spring Boot /health/liveness vs /health/readiness and startupProbe.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 7: Service Discovery & CoreDNS Latency -->
+                <div class="question-card" id="q-7" data-keywords="kubernetes service discovery coredns clusterip headless ndots 5 resolv conf dns timeout 5 seconds">
+                    <div class="card-header">
+                        <span class="concept-badge">Service Discovery & CoreDNS Latency</span>
+                        <span class="q-number">Question 7 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Kubernetes Service Discovery & DNS Internals: ClusterIP vs Headless services (clusterIP: None), CoreDNS query amplification, and the notorious 5-second DNS resolution delay caused by Linux ndots:5 and single-request-reopen.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A high-throughput microservice making hundreds of outbound HTTP calls to external APIs (e.g. <code>api.stripe.com</code>) experiences intermittent 5,000ms latency spikes. Network tracing reveals that every external DNS lookup triggers 5 sequential DNS queries before resolving, and occasionally times out after exactly 5.000 seconds.<br><br><strong>Part A:</strong> How does Kubernetes default <code>/etc/resolv.conf</code> with <code>ndots:5</code> cause DNS search path amplification for external domains?<br><strong>Part B:</strong> What is the difference between a standard <code>ClusterIP</code> service (kube-proxy VIP load balancing) and a <code>Headless Service</code> (<code>clusterIP: None</code>)? When is Headless mandatory?<br><strong>Part C:</strong> How do you fix the 5-second DNS latency trap using pod <code>dnsConfig</code> options or NodeLocal DNSCache?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'dns-config-fix.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-7" style="display:none;"># Default Kubernetes /etc/resolv.conf inside pods:
+# nameserver 10.96.0.10
+# search default.svc.cluster.local svc.cluster.local cluster.local
+# options ndots:5
+
+# When querying api.stripe.com (2 dots &lt; 5):
+# 1. api.stripe.com.default.svc.cluster.local (NXDOMAIN)
+# 2. api.stripe.com.svc.cluster.local (NXDOMAIN)
+# 3. api.stripe.com.cluster.local (NXDOMAIN)
+# 4. api.stripe.com (SUCCESS, but 4 wasted UDP roundtrips!)
+
+spec:
+  dnsPolicy: &quot;ClusterFirst&quot;
+  # Production DNS Optimization Fix:
+  dnsConfig:
+    options:
+      - name: ndots
+        value: &quot;2&quot;
+      - name: single-request-reopen</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-7">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 7, 1, 'Service Discovery & CoreDNS Latency')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 7, 2, 'Service Discovery & CoreDNS Latency')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 7, 3, 'Service Discovery & CoreDNS Latency')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 7, 4, 'Service Discovery & CoreDNS Latency')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-7">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>The ndots:5 Trap:</strong> Linux resolves hostnames with fewer than <code>ndots</code> periods by appending every domain in the search path before attempting an absolute lookup. Since <code>api.stripe.com</code> contains only 2 dots (&lt; 5), it sends 3 failing queries to CoreDNS first!
+2. <strong>5-Second Timeout:</strong> Linux glibc sends A and AAAA queries concurrently using the same UDP socket. CoreDNS or firewall conntrack race conditions cause one response to be dropped, triggering glibc's default 5-second retransmit timeout!
+<br><br>
+<strong>Solutions:</strong>
+1. <strong>Pod dnsConfig:</strong> Set <code>ndots: 2</code> and <code>single-request-reopen</code> in deployment pod spec.
+2. <strong>FQDN Dot:</strong> In code or config, append a trailing dot to external URLs: <code>https://api.stripe.com./v1/charges</code> (bypasses search path immediately).
+3. <strong>Headless Services:</strong> <code>clusterIP: None</code> returns direct pod IPs as A records instead of a virtual IP, mandatory for stateful clusters like Kafka, Cassandra, and StatefulSets.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Blames CoreDNS pod CPU or thinks ClusterIP does round-robin DNS directly to pods.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains ndots:5 search path expansion, UDP conntrack race on A/AAAA queries, trailing dot notation, and contrasts kube-proxy VIP routing with Headless A-record sets.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 8: Ingress Routing & Path Rewrites -->
+                <div class="question-card" id="q-8" data-keywords="kubernetes ingress nginx rewrite target path regex tls secret websocket cors cert manager">
+                    <div class="card-header">
+                        <span class="concept-badge">Ingress Routing & Path Rewrites</span>
+                        <span class="q-number">Question 8 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Kubernetes Ingress Controllers: Routing traffic with NGINX Ingress, regex path rewriting traps (use-regex vs rewrite-target), SSL/TLS certificate termination, and upstream connection timeouts.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A team configures an Ingress resource to route <code>/api/v1/customers/(.*)</code> to a backend service listening on <code>/customers/(.*)</code>. However, when requests arrive at the backend pod, the path received is literally <code>/api/v1/customers/123</code>, resulting in 404 Not Found from the application router.<br><br><strong>Part A:</strong> How do annotations like <code>nginx.ingress.kubernetes.io/rewrite-target</code> and <code>nginx.ingress.kubernetes.io/use-regex</code> interact to transform URLs?<br><strong>Part B:</strong> What is the difference between PathType <code>Exact</code>, <code>Prefix</code>, and <code>ImplementationSpecific</code> in Kubernetes Networking v1?<br><strong>Part C:</strong> How do you configure Ingress to terminate TLS using a secret generated by cert-manager and enable automatic HTTP-to-HTTPS redirect?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'ingress-manifest.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-8" style="display:none;">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  annotations:
+    # BUG: Missing use-regex annotation or capturing groups!
+    # Upstream receives unstripped /api/v1 prefix -&gt; 404!
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: api.company.com
+    http:
+      paths:
+      - path: /api/v1(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: customer-service
+            port:
+              number: 8080</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-8">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 8, 1, 'Ingress Routing & Path Rewrites')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 8, 2, 'Ingress Routing & Path Rewrites')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 8, 3, 'Ingress Routing & Path Rewrites')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 8, 4, 'Ingress Routing & Path Rewrites')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-8">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+In NGINX Ingress, when using capture groups in <code>path</code> (e.g. <code>/api/v1(/|$)(.*)</code>), you must enable regex parsing via <code>nginx.ingress.kubernetes.io/use-regex: "true"</code> and map <code>rewrite-target: /$2</code>.
+<br><br>
+<strong>Production Fixed Ingress Manifest:</strong>
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - api.company.com
+    secretName: api-tls-cert
+  rules:
+  - host: api.company.com
+    http:
+      paths:
+      - path: /api/v1(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: customer-service
+            port:
+              number: 8080</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests modifying backend application code to add the /api/v1 prefix instead of fixing the Ingress rewrite rule.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains NGINX Ingress regex capture groups ($1, $2), PathType specification rules, TLS secret integration with cert-manager, and ssl-redirect annotations.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 9: ConfigMaps, Secrets & Hot-Reloading -->
+                <div class="question-card" id="q-9" data-keywords="kubernetes configmap secrets volume mount envfrom atomic symlink swap hot reload reloader">
+                    <div class="card-header">
+                        <span class="concept-badge">ConfigMaps, Secrets & Hot-Reloading</span>
+                        <span class="q-number">Question 9 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Configuration Management: Mounting ConfigMaps and Secrets as volume mounts vs environment variables (envFrom), understanding atomic symlink swaps, and why environment variables NEVER update without pod restarts.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer updates a database password in a Kubernetes Secret. Applications that mount the secret as environment variables (<code>envFrom: secretRef</code>) continue using the stale password and fail authentication after connection pool refresh. Meanwhile, services mounting the secret as a volume see the file change, but their internal in-memory caches never update.<br><br><strong>Part A:</strong> Why do environment variables populated from ConfigMaps/Secrets never update inside running container processes?<br><strong>Part B:</strong> How do volume-mounted ConfigMaps update automatically via atomic symlink swaps (<code>..data</code>), and what is the typical update latency?<br><strong>Part C:</strong> How do production architectures achieve true zero-downtime configuration reloads (e.g. Stakater Reloader operator vs Spring Cloud Kubernetes)?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'configmap-secret-modes.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-9" style="display:none;"># Mode A: Environment Variables (NEVER updates dynamically)
+containers:
+- name: app
+  envFrom:
+  - configMapRef:
+      name: app-config
+
+# Mode B: Volume Mount (Files update dynamically via atomic symlink!)
+containers:
+- name: app
+  volumeMounts:
+  - name: config-vol
+    mountPath: /etc/config
+volumes:
+- name: config-vol
+  configMap:
+    name: app-config</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-9">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 9, 1, 'ConfigMaps, Secrets & Hot-Reloading')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 9, 2, 'ConfigMaps, Secrets & Hot-Reloading')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 9, 3, 'ConfigMaps, Secrets & Hot-Reloading')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 9, 4, 'ConfigMaps, Secrets & Hot-Reloading')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-9">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>Environment Variables are Immutable at Process Level:</strong> Linux environment variables are populated into process memory (<code>/proc/PID/environ</code>) during <code>execve()</code> at container startup. The OS provides no mechanism to mutate environment variables of a running process from the outside! Pods MUST be restarted to see new env vars.
+2. <strong>Volume Mount Symlink Swapping:</strong> Kubernetes mounts ConfigMaps using a timestamped directory and a symlink: <code>..data -> ..2026_10_25_14_00/</code>. When the ConfigMap updates, the Kubelet periodically reconciles the volume (governed by Kubelet sync frequency + ConfigMap cache TTL, usually 60-90s) by writing a new directory and updating the symlink atomically.
+3. <strong>Production Reloading Patterns:</strong>
+   - <strong>Reloader Operator:</strong> Automatically performs a rolling update when watched ConfigMaps/Secrets change.
+   - <strong>File Watcher (Inotify):</strong> Applications watch the mounted directory for symlink changes and trigger an internal context refresh.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes environment variables update automatically in Linux if you wait 5 minutes.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Contrasts process-level env var immutability with Kubelet symlink projection (..data), notes the 60-90s Kubelet sync latency, and evaluates Reloader vs in-memory watch patterns.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 10: StorageClasses & Volume Multi-Attach -->
+                <div class="question-card" id="q-10" data-keywords="kubernetes persistent volume pvc storageclass readwriteonce readwritemany multi attach error ebs efs">
+                    <div class="card-header">
+                        <span class="concept-badge">StorageClasses & Volume Multi-Attach</span>
+                        <span class="q-number">Question 10 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Kubernetes Persistent Storage: Access modes (ReadWriteOnce vs ReadWriteMany), understanding the Multi-Attach error for cloud block storage (AWS EBS), and shared network storage (EFS / NFS).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A StatefulSet or Deployment with <code>replicas: 2</code> mounts a PersistentVolumeClaim with <code>accessModes: [ReadWriteOnce]</code> backed by AWS EBS <code>gp3</code>. When the second pod schedules on a different worker node, it hangs permanently in <code>ContainerCreating</code> with the event: <code>Multi-Attach error for volume ... Volume is already exclusively attached to one node</code>.<br><br><strong>Part A:</strong> What is the exact difference between <code>ReadWriteOnce</code> (RWO), <code>ReadWriteMany</code> (RWX), and <code>ReadOnlyMany</code> (ROX)?<br><strong>Part B:</strong> Why can AWS EBS volumes never support RWX across multiple nodes, and why does RWO fail when a Deployment scales to multiple replicas?<br><strong>Part C:</strong> How do you architect stateful storage in Kubernetes using StatefulSets with <code>volumeClaimTemplates</code> or switching to an NFS/EFS CSI driver?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'storage-multi-attach.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-10" style="display:none;"># ANTI-PATTERN: Deployment sharing a single ReadWriteOnce PVC!
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-uploader
+spec:
+  replicas: 3 # Pods land on Node A, Node B, Node C
+  template:
+    spec:
+      containers:
+      - name: uploader
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: ebs-pvc # RWO EBS volume cannot attach to multiple nodes!</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-10">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 10, 1, 'StorageClasses & Volume Multi-Attach')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 10, 2, 'StorageClasses & Volume Multi-Attach')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 10, 3, 'StorageClasses & Volume Multi-Attach')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 10, 4, 'StorageClasses & Volume Multi-Attach')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-10">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>Access Mode Scope:</strong> In Kubernetes, <code>ReadWriteOnce</code> means read-write by a <strong>single node</strong> (not a single pod!). If two pods land on the same worker node, they can both mount it. But if the second pod lands on Node B, cloud block devices (like AWS EBS or GCP Persistent Disk) cannot be physically attached to two distinct VM instances simultaneously at the hypervisor level.
+2. <strong>StatefulSet Solution:</strong> If each pod requires dedicated independent block storage (e.g. database shards, Kafka brokers), use a <strong>StatefulSet</strong> with <code>volumeClaimTemplates</code>. Kubernetes creates a unique PVC for each ordinal pod (<code>data-app-0</code>, <code>data-app-1</code>).
+3. <strong>Shared File System (RWX):</strong> If multiple pods on different nodes must concurrently read and write to the same directory, use a network file system CSI driver like <strong>AWS EFS</strong>, <strong>NFS</strong>, or <strong>CephFS</strong> with <code>ReadWriteMany</code>.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks ReadWriteOnce means only one pod can mount it, or suggests granting chmod 777 to resolve cloud multi-attach errors.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Distinguishes block storage (EBS/RWO) from file storage (EFS/RWX), explains node-level attachment boundaries, and details StatefulSet volumeClaimTemplates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 11: HPA & Autoscaling Thrashing -->
+                <div class="question-card" id="q-11" data-keywords="kubernetes hpa horizontal pod autoscaler metrics server flapping stabilization window custom metrics keda">
+                    <div class="card-header">
+                        <span class="concept-badge">HPA & Autoscaling Thrashing</span>
+                        <span class="q-number">Question 11 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Horizontal Pod Autoscaling: HPA control loop calculations, target metric flapping (thrashing), configuring scale-down stabilization windows, and event-driven autoscaling using KEDA.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A production microservice configured with an HPA targeting <code>50% CPU utilization</code> suffers from severe autoscaling thrashing: it scales from 3 pods up to 20 pods during a brief 1-minute traffic burst, immediately scales down to 3 pods, runs out of capacity, and scales back up to 20 pods, causing severe latency oscillations.<br><br><strong>Part A:</strong> What is the mathematical formula the HPA controller uses to calculate desired replica count?<br><strong>Part B:</strong> Why does rapid scale-down cause flapping, and how does the <code>behavior.scaleDown.stabilizationWindowSeconds</code> field solve it?<br><strong>Part C:</strong> Why is CPU-based autoscaling ineffective for message-driven consumers (Kafka/RabbitMQ), and how does KEDA (Kubernetes Event-driven Autoscaling) solve it?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'hpa-stabilized.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-11" style="display:none;">apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: order-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: order-api
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
+  # Missing behavior stabilization window -&gt; Flapping!</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-11">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 11, 1, 'HPA & Autoscaling Thrashing')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 11, 2, 'HPA & Autoscaling Thrashing')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 11, 3, 'HPA & Autoscaling Thrashing')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 11, 4, 'HPA & Autoscaling Thrashing')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-11">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>HPA Formula:</strong>
+   $$\text{Desired Replicas} = \left\lceil \text{Current Replicas} \times \left( \frac{\text{Current Metric Value}}{\text{Desired Metric Value}} \right) \right\rceil$$
+2. <strong>Flapping & Stabilization Window:</strong> When traffic spikes, replicas scale to 20. Once 20 pods are ready, average CPU drops to 15%. Without stabilization, HPA immediately calculates 5 pods and kills 15 containers. Traffic is still active, so CPU spikes back to 90%, triggering another scale-up.
+<br><br>
+<strong>Production Stabilized Manifest:</strong>
+<pre><code>spec:
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300 # Look back 5 mins; pick max desired replicas
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60 # Scale down at most 10% per minute
+    scaleUp:
+      stabilizationWindowSeconds: 0 # React immediately to bursts
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15</code></pre>
+3. <strong>KEDA for Event Consumers:</strong> Message consumers spend time idle waiting for I/O, keeping CPU low while consumer lag explodes. KEDA scales based on queue depth / Kafka lag directly.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Cannot provide the HPA formula; unaware of the behavior block or why scaling down immediately causes service disruption.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates the ceil(current * (currentVal/targetVal)) formula, configures scaleDown stabilizationWindowSeconds (300s), and justifies KEDA queue-lag scaling.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 12: Pod Disruption Budgets & Node Drains -->
+                <div class="question-card" id="q-12" data-keywords="kubernetes pdb pod disruption budget kubectl drain cluster upgrade node eviction minavailable maxunavailable">
+                    <div class="card-header">
+                        <span class="concept-badge">Pod Disruption Budgets & Node Drains</span>
+                        <span class="q-number">Question 12 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                High Availability & Maintenance: Configuring PodDisruptionBudgets (PDB) to safeguard quorum during node maintenance (kubectl drain) and automated cloud cluster upgrades (EKS/GKE).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                During an automated Kubernetes cluster upgrade on AWS EKS, worker nodes are rotated. Despite having 3 replicas of an essential caching service, all 3 pods were evicted simultaneously from Node A, Node B, and Node C, causing a 45-second total cluster outage.<br><br><strong>Part A:</strong> What is the difference between voluntary disruptions (node drain, cluster upgrade, rollout) and involuntary disruptions (hardware crash, kernel panic, OOM)?<br><strong>Part B:</strong> How does a <code>PodDisruptionBudget</code> (PDB) prevent <code>kubectl drain</code> from evicting too many pods at once?<br><strong>Part C:</strong> What is the danger of setting <code>minAvailable: 100%</code> or <code>maxUnavailable: 0</code> on a 1-replica or small deployment?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'pdb-manifest.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-12" style="display:none;"># DEFECTIVE PDB: Impossible constraint!
+# If replicas=1 and minAvailable=1, kubectl drain can NEVER evict the pod,
+# blocking cluster upgrades indefinitely!
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cache-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: cache-service</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-12">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 12, 1, 'Pod Disruption Budgets & Node Drains')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 12, 2, 'Pod Disruption Budgets & Node Drains')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 12, 3, 'Pod Disruption Budgets & Node Drains')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 12, 4, 'Pod Disruption Budgets & Node Drains')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-12">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>Voluntary vs Involuntary:</strong>
+   - <strong>Involuntary:</strong> Hardware failures, VM preemptions, network partitions. PDB cannot prevent physical hardware death!
+   - <strong>Voluntary:</strong> Actions initiated by humans or cluster controllers: <code>kubectl drain</code>, HPA scale-down, cluster version upgrades. PDB enforces guarantees during voluntary actions.
+2. <strong>PDB Protection Mechanics:</strong> When an engineer or upgrade controller executes <code>kubectl drain node-1</code>, the eviction API queries all PDBs matching the pods. If evicting a pod would violate <code>minAvailable</code> (e.g. only 2 of 3 pods healthy, minAvailable: 2), the eviction is rejected with <code>429 Too Many Requests</code> until healthy pods exist elsewhere.
+3. <strong>The Deadlock Trap:</strong> Setting <code>minAvailable: 100%</code> or <code>maxUnavailable: 0</code> on a single-replica deployment means the pod can never be evicted, causing cluster upgrades to hang indefinitely! Always use <code>maxUnavailable: 1</code> or ensure replicas >= 2.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Thinks PDBs protect against physical node hardware failure or power loss.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Clearly differentiates voluntary vs involuntary disruptions, explains how the Eviction Subresource interacts with PDBs during node drain, and warns against PDB upgrade deadlocks.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 13: Affinity & Topology Spread -->
+                <div class="question-card" id="q-13" data-keywords="kubernetes pod affinity podantiaffinity topologyspreadconstraints multi az high availability scheduling">
+                    <div class="card-header">
+                        <span class="concept-badge">Affinity & Topology Spread</span>
+                        <span class="q-number">Question 13 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Advanced Scheduling & Fault Domains: Using podAntiAffinity and topologySpreadConstraints to prevent Kubernetes from scheduling all replicas onto the same node or single Availability Zone.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A company runs a production Kubernetes cluster across 3 AWS Availability Zones (us-east-1a, 1b, 1c). Following a deployment rollout, AWS reports an outage in us-east-1a. To the team's horror, the entire payment service goes down because all 5 replicas happened to be scheduled onto nodes in us-east-1a.<br><br><strong>Part A:</strong> Why does the default Kubernetes scheduler make no promise to distribute pods evenly across availability zones?<br><strong>Part B:</strong> What is the difference between <code>requiredDuringSchedulingIgnoredDuringExecution</code> and <code>preferredDuringSchedulingIgnoredDuringExecution</code>?<br><strong>Part C:</strong> How do modern Kubernetes 1.19+ <code>topologySpreadConstraints</code> provide superior distribution compared to legacy <code>podAntiAffinity</code>?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'topology-spread-deployment.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-13" style="display:none;">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+spec:
+  replicas: 6
+  template:
+    spec:
+      # Production Fix: Guarantee even distribution across AZs and Nodes!
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: payment-service
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: payment-service</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-13">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 13, 1, 'Affinity & Topology Spread')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 13, 2, 'Affinity & Topology Spread')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 13, 3, 'Affinity & Topology Spread')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 13, 4, 'Affinity & Topology Spread')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-13">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+The default Kubernetes scheduler evaluates node score based on resource fit (least requested priority). If a worker node in Zone A has plenty of free RAM, all 5 pods may schedule onto that single node or zone!
+<br><br>
+<strong>Modern Solution: topologySpreadConstraints:</strong>
+• <code>maxSkew: 1</code>: The difference in pod count between any two zones cannot exceed 1 (e.g. [2, 2, 2] across 3 AZs).
+• <code>topologyKey: topology.kubernetes.io/zone</code>: Defines the failure domain (Availability Zone).
+• <code>whenUnsatisfiable: DoNotSchedule</code>: Hard constraint. If adding a pod would unbalance zones, wait until capacity exists in the underrepresented zone.
+<br><br>
+<strong>Why superior to podAntiAffinity:</strong>
+Legacy <code>podAntiAffinity</code> with <code>topology.kubernetes.io/zone</code> only allowed 1 pod per zone! If you had 6 pods and 3 zones, 3 pods remained permanently Pending. <code>topologySpreadConstraints</code> allows multiple pods per zone while keeping distribution strictly balanced.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests hardcoding nodeSelector with specific instance IDs, or does not know how maxSkew calculates distribution.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Contrasts legacy podAntiAffinity with topologySpreadConstraints, explains maxSkew calculation across failure domains, and details whenUnsatisfiable modes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 14: NetworkPolicies & Zero-Trust CNI -->
+                <div class="question-card" id="q-14" data-keywords="kubernetes networkpolicy cni calico cilium default deny ingress egress zero trust firewall">
+                    <div class="card-header">
+                        <span class="concept-badge">NetworkPolicies & Zero-Trust CNI</span>
+                        <span class="q-number">Question 14 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Cluster Network Security: Kubernetes flat network model vulnerabilities, default-deny NetworkPolicies, CNI plugin requirements (Calico, Cilium, AWS VPC CNI), and isolating backend databases from frontend pods.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A security audit discovers that an insecure frontend pod compromised by remote code execution (RCE) can directly connect to the internal production PostgreSQL database on port 5432 and download credit card tables, because all pods can communicate with all other pods across all namespaces by default.<br><br><strong>Part A:</strong> Explain the Kubernetes flat networking model and why applying a NetworkPolicy has ZERO effect if the cluster uses a basic CNI like Flannel?<br><strong>Part B:</strong> What is the effect of applying an empty <code>spec: {podSelector: {}, policyTypes: ["Ingress"]}</code> NetworkPolicy in a namespace?<br><strong>Part C:</strong> Write a production NetworkPolicy that permits database access to port 5432 ONLY from pods labeled <code>role: backend-api</code>, while blocking all other ingress traffic.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'network-policy-db.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-14" style="display:none;"># Complete Zero-Trust Network Policy for Database Pods:
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgres-netpol
+  namespace: prod-data
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: prod-apps
+      podSelector:
+        matchLabels:
+          role: backend-api
+    ports:
+    - protocol: TCP
+      port: 5432</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-14">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 14, 1, 'NetworkPolicies & Zero-Trust CNI')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 14, 2, 'NetworkPolicies & Zero-Trust CNI')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 14, 3, 'NetworkPolicies & Zero-Trust CNI')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 14, 4, 'NetworkPolicies & Zero-Trust CNI')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-14">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>Kubernetes Flat Network:</strong> By default, Kubernetes implements an open network where every pod can route packets to every other pod without NAT. To enforce NetworkPolicies, an advanced CNI with eBPF or iptables enforcement (like <strong>Calico</strong>, <strong>Cilium</strong>, or <strong>AWS VPC CNI with Network Policy agent</strong>) is mandatory. Flannel does not enforce NetworkPolicies!
+2. <strong>Default Deny Isolation:</strong> As soon as a pod is selected by ANY NetworkPolicy, it becomes 'isolated'. All traffic not explicitly whitelisted is dropped.
+   - An empty selector with <code>policyTypes: [Ingress]</code> creates a <strong>Default Deny Ingress</strong> for the entire namespace!
+3. <strong>Precise Whitelisting:</strong> The solution snippet ensures port 5432 is strictly accessible only from pods labeled <code>role: backend-api</code> located within the <code>prod-apps</code> namespace. All other pods (including frontend pods) are dropped with TCP timeout.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes namespaces provide network isolation by default; does not know that NetworkPolicies require a compatible CNI plugin.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates default-deny mechanics, CNI enforcement requirements (Calico/Cilium), namespaceSelector + podSelector combination rules, and egress DNS rules.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 15: RBAC & Token Security -->
+                <div class="question-card" id="q-15" data-keywords="kubernetes rbac serviceaccount role clusterrole automountserviceaccounttoken least privilege security">
+                    <div class="card-header">
+                        <span class="concept-badge">RBAC & Token Security</span>
+                        <span class="q-number">Question 15 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Kubernetes Role-Based Access Control (RBAC): ServiceAccounts, Role vs ClusterRole bindings, the security hazard of automountServiceAccountToken: true, and mitigating pod escape privilege escalation.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A pod running a customer-facing public web application is compromised via an SSRF vulnerability. The attacker accesses <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code>, queries the Kubernetes API server at <code>https://kubernetes.default.svc</code>, and uses the default token permissions to list all Secrets and Deployments across the entire cluster.<br><br><strong>Part A:</strong> What is the danger of assigning broad ClusterRoles to the <code>default</code> ServiceAccount?<br><strong>Part B:</strong> What is the exact difference between a <code>RoleBinding</code> and a <code>ClusterRoleBinding</code> when binding to a <code>ClusterRole</code>?<br><strong>Part C:</strong> How do you disable automatic token mounting (<code>automountServiceAccountToken: false</code>) for workloads that have no legitimate need to talk to the Kubernetes API?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'rbac-least-privilege.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-15" style="display:none;"># Hardened Pod Spec preventing token theft:
+apiVersion: v1
+kind: Pod
+metadata:
+  name: public-web-app
+spec:
+  # SECURITY FIX: Prevent API token from being mounted into the container!
+  automountServiceAccountToken: false
+  serviceAccountName: unprivileged-sa
+  containers:
+  - name: web
+    image: nginx:alpine</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-15">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 15, 1, 'RBAC & Token Security')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 15, 2, 'RBAC & Token Security')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 15, 3, 'RBAC & Token Security')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 15, 4, 'RBAC & Token Security')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-15">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis & Security Hardening:</strong>
+1. <strong>Automatic Token Injection:</strong> By default, Kubernetes mounts a JWT token, CA certificate, and namespace into every container at <code>/var/run/secrets/kubernetes.io/serviceaccount/</code>. If an attacker gains code execution in the container, they can use this token to authenticate against the API server.
+2. <strong>RoleBinding vs ClusterRoleBinding:</strong>
+   • <strong>ClusterRole:</strong> Defines cluster-wide permissions (e.g. read nodes, read secrets).
+   • <strong>RoleBinding to ClusterRole:</strong> Restricts the permissions of the ClusterRole to the <strong>single namespace</strong> where the RoleBinding resides!
+   • <strong>ClusterRoleBinding:</strong> Grants the permissions across <strong>all namespaces</strong> in the entire cluster (very high privilege).
+3. <strong>Least Privilege:</strong>
+   - Set <code>automountServiceAccountToken: false</code> on pods and ServiceAccounts that don't need Kubernetes API access.
+   - Never grant wildcard <code>resources: ["*"]</code> or <code>verbs: ["*"]</code> to application workloads.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Does not know where tokens are mounted; suggests deleting the kube-apiserver service to prevent access.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains the difference between RoleBinding and ClusterRoleBinding when referencing ClusterRoles, articulates token theft vectors, and configures automountServiceAccountToken: false.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 16: Init Containers & Dependency Ordering -->
+                <div class="question-card" id="q-16" data-keywords="kubernetes init containers flyway liquibase migration dependency ordering crashloopbackoff">
+                    <div class="card-header">
+                        <span class="concept-badge">Init Containers & Dependency Ordering</span>
+                        <span class="q-number">Question 16 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Initialization & Startup Orchestration: Using Init Containers for database schema migrations (Flyway/Liquibase) and dependency availability checks, failure semantics, and avoiding CrashLoopBackOff deadlocks.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A microservice deployment executes Flyway database migrations inside the main Spring Boot application startup. When 10 new pods deploy concurrently during a release, multiple pods attempt to execute <code>CREATE TABLE</code> and index updates at the exact same millisecond, causing database table lock deadlocks and crashing all 10 pods.<br><br><strong>Part A:</strong> How do Init Containers run relative to app containers in pod startup sequence?<br><strong>Part B:</strong> Why is running heavy database schema migrations inside an Init Container of a scaled Deployment (replicas: 10) still an architectural risk, and how does a one-time Kubernetes Job resolve it?<br><strong>Part C:</strong> What happens to a pod if an Init Container exits with code 1 vs code 0?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'init-container-migration.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-16" style="display:none;">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  template:
+    spec:
+      initContainers:
+      # Init container runs to completion BEFORE main container starts!
+      - name: wait-for-postgres
+        image: busybox:1.36
+        command: [&#x27;sh&#x27;, &#x27;-c&#x27;, &#x27;until nc -z postgres-db 5432; do echo waiting for db; sleep 2; done;&#x27;]
+      containers:
+      - name: user-app
+        image: company/user-service:v1.0</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-16">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 16, 1, 'Init Containers & Dependency Ordering')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 16, 2, 'Init Containers & Dependency Ordering')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 16, 3, 'Init Containers & Dependency Ordering')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 16, 4, 'Init Containers & Dependency Ordering')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-16">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>Init Container Execution Order:</strong>
+   - Init containers always run sequentially, one after another, to successful completion (Exit Code 0) <strong>before</strong> any main application containers are started.
+   - If an init container fails (Exit Code != 0), the Kubelet restarts the pod according to its <code>restartPolicy</code>. Main containers NEVER launch if any init container fails!
+2. <strong>Migration Concurrency Hazard:</strong>
+   - If a Deployment has <code>replicas: 10</code>, each of the 10 pods will execute its own init container concurrently! If Flyway's locking mechanism stalls, all 10 pods fail.
+   - <strong>Best Practice:</strong> Decouple schema migrations into a single, pre-deployment <strong>Kubernetes Job</strong> (or Helm <code>pre-install / pre-upgrade</code> hook). Once the migration Job exits 0, the Deployment rollout proceeds safely with 0 migration concurrency risk.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Believes init containers run in parallel with app containers, or suggests putting schema migrations into readiness probes.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Details init container serial execution and failure restart mechanics. Recommends dedicated one-off Kubernetes Jobs for schema migrations to eliminate replica lock contention.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 17: Docker Networking & Port Binding -->
+                <div class="question-card" id="q-17" data-keywords="docker networking bridge host port mapping localhost 127.0.0.1 0.0.0.0 container ip">
+                    <div class="card-header">
+                        <span class="concept-badge">Docker Networking & Port Binding</span>
+                        <span class="q-number">Question 17 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Container Network Isolation: Understanding Docker bridge networks, host networking, why binding to 127.0.0.1 breaks Docker port mapping (-p 8080:8080), and how inter-container communication works.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A developer runs a Node.js or Python backend in Docker using <code>docker run -p 3000:3000 my-api</code>. The application starts cleanly and logs <code>Server running on http://localhost:3000</code>. However, when the developer opens <code>http://localhost:3000</code> in their host browser, they receive <code>ERR_CONNECTION_REFUSED</code>.<br><br><strong>Part A:</strong> Why does binding a server to <code>localhost</code> (127.0.0.1) inside a container cause Docker host port mapping (<code>-p 3000:3000</code>) to fail?<br><strong>Part B:</strong> What is the difference between <code>127.0.0.1</code> and <code>0.0.0.0</code> (INADDR_ANY) in network interface binding?<br><strong>Part C:</strong> When should you use Docker host networking (<code>--network host</code>), and what are the security and portability tradeoffs?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'server-binding.js')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-17" style="display:none;">// DEFECTIVE SERVER BINDING:
+const express = require(&#x27;express&#x27;);
+const app = express();
+
+app.get(&#x27;/health&#x27;, (req, res) =&gt; res.send(&#x27;OK&#x27;));
+
+// BUG: Binds strictly to loopback (127.0.0.1) inside container!
+// Docker bridge port forwarder routes packets to container eth0 IP!
+// Kernel drops packets because loopback only accepts packets originating from inside!
+app.listen(3000, &#x27;127.0.0.1&#x27;, () =&gt; {
+    console.log(&#x27;Server bound to 127.0.0.1:3000&#x27;);
+});
+
+// FIX: Must bind to 0.0.0.0 (all network interfaces):
+// app.listen(3000, &#x27;0.0.0.0&#x27;);</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-17">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 17, 1, 'Docker Networking & Port Binding')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 17, 2, 'Docker Networking & Port Binding')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 17, 3, 'Docker Networking & Port Binding')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 17, 4, 'Docker Networking & Port Binding')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-17">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>Loopback Interface (lo):</strong> Inside a Docker container, <code>127.0.0.1</code> represents the container's isolated loopback interface. Packets arriving at the loopback interface must originate from inside the same container network namespace.
+2. <strong>Bridge Port Forwarding:</strong> When Docker forwards a port (<code>-p 3000:3000</code>), <code>docker-proxy</code> and iptables route traffic from the host to the container's virtual ethernet interface (<code>eth0</code>, e.g. 172.17.0.2). Because the process only bound to <code>127.0.0.1</code> and not <code>eth0</code>, the container OS kernel rejects the incoming SYN packet with TCP RST!
+<br><br>
+<strong>Fix:</strong>
+Bind the server to <code>0.0.0.0</code> (INADDR_ANY). This instructs the socket to accept incoming connections on all available network interfaces, including <code>eth0</code> and <code>lo</code>.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests turning off Docker firewall or thinks the port 3000 is occupied on the host machine.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains network namespace isolation, contrasts loopback (127.0.0.1) with INADDR_ANY (0.0.0.0), and details how docker-proxy forwards packets to container eth0.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 18: Zombie Processes & PID 1 in Containers -->
+                <div class="question-card" id="q-18" data-keywords="docker pid 1 zombie processes signal forwarding tini dumb init sigterm defunc child processes">
+                    <div class="card-header">
+                        <span class="concept-badge">Zombie Processes & PID 1 in Containers</span>
+                        <span class="q-number">Question 18 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Linux Process Trees in Containers: Why containers running arbitrary executables as PID 1 fail to reap zombie child processes or ignore SIGTERM signals, and configuring tini / dumb-init.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A containerized application that spawns background child processes (e.g. ffmpeg or shell scripts) runs for 3 days. Over time, <code>ps aux</code> reveals hundreds of <code>[process] &lt;defunct&gt;</code> entries, and the container eventually exhausts the kernel PID limit. Furthermore, running <code>docker stop</code> always waits 10 seconds before forcibly killing the container with <code>SIGKILL</code>.<br><br><strong>Part A:</strong> What are the two special responsibilities of PID 1 (init) in Linux that standard programming runtimes (Java, Node, Python) do not implement?<br><strong>Part B:</strong> Why does a container running as a shell script (e.g. <code>ENTRYPOINT ["/bin/sh", "-c", "node app.js"]</code>) ignore <code>SIGTERM</code>?<br><strong>Part C:</strong> How do lightweight init systems like <code>tini</code> or Docker's <code>--init</code> flag solve zombie reaping and signal forwarding?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'Dockerfile-pid1')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-18" style="display:none;"># ANTI-PATTERN: Shell form wraps process in /bin/sh as PID 1!
+# /bin/sh does NOT forward SIGTERM to node child process!
+# docker stop waits 10s then SIGKILLs -&gt; corrupts data!
+FROM node:18-alpine
+WORKDIR /app
+COPY . .
+ENTRYPOINT /bin/sh -c &quot;node app.js&quot;
+
+# PRODUCTION FIX:
+# Use tini as PID 1 to reap zombies and forward signals:
+# RUN apk add --no-cache tini
+# ENTRYPOINT [&quot;/sbin/tini&quot;, &quot;--&quot;, &quot;node&quot;, &quot;app.js&quot;]</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-18">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 18, 1, 'Zombie Processes & PID 1 in Containers')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 18, 2, 'Zombie Processes & PID 1 in Containers')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 18, 3, 'Zombie Processes & PID 1 in Containers')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 18, 4, 'Zombie Processes & PID 1 in Containers')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-18">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>PID 1 Responsibilities:</strong>
+   - <strong>Zombie Reaping:</strong> When a child process terminates, it becomes a 'zombie' until its parent calls <code>wait()</code> or <code>waitpid()</code>. If the parent dies, the child is reparented to <strong>PID 1</strong>. Standard runtimes (Node, Python, Java) don't run an init reaping loop, leaving zombie processes hanging forever until the kernel runs out of PIDs.
+   - <strong>Signal Handling:</strong> The Linux kernel treats PID 1 specially: signals without an explicit handler are NOT given default behavior. If PID 1 hasn't registered a handler for <code>SIGTERM</code>, the kernel drops the signal entirely!
+2. <strong>Shell Form Hazard:</strong> <code>ENTRYPOINT /bin/sh -c "..."</code> runs <code>/bin/sh</code> as PID 1. Standard POSIX sh does NOT forward <code>SIGTERM</code> to its child (node), so <code>docker stop</code> times out after 10s and sends <code>SIGKILL</code>!
+3. <strong>Solution:</strong> Use exec form <code>ENTRYPOINT ["node", "app.js"]</code> or prepend an init system: <code>ENTRYPOINT ["/sbin/tini", "--", "node", "app.js"]</code>.
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Unaware of Linux PID 1 semantics; thinks defunct processes are memory leaks in application code.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Articulates orphan reparenting and waitpid() reaping, explains shell vs exec form signal forwarding, and configures tini / dumb-init.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 19: DaemonSets, Taints & Tolerations -->
+                <div class="question-card" id="q-19" data-keywords="kubernetes daemonset deployment taints tolerations noschedule node selector logging monitoring">
+                    <div class="card-header">
+                        <span class="concept-badge">DaemonSets, Taints & Tolerations</span>
+                        <span class="q-number">Question 19 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Cluster-Wide Node Agents: When to use DaemonSets vs Deployments, configuring node taints and tolerations (NoSchedule, NoExecute), and running infrastructure agents across master and worker nodes.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A DevOps team deploys a log collection agent (Fluentbit / Datadog) as a standard Deployment with 10 replicas across a 10-node cluster. Several nodes have multiple log collector pods while other nodes have zero. Furthermore, when dedicated GPU or tainted worker nodes are added, log collectors fail to schedule on them entirely.<br><br><strong>Part A:</strong> What is the architectural difference between a <code>Deployment</code> and a <code>DaemonSet</code>?<br><strong>Part B:</strong> How do Kubernetes <code>Taints</code> on nodes and <code>Tolerations</code> on pods work to prevent unauthorized workloads from running on dedicated nodes?<br><strong>Part C:</strong> How do you configure a DaemonSet to tolerate <code>node-role.kubernetes.io/control-plane:NoSchedule</code> and collect logs from master/control-plane nodes?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'daemonset-tolerations.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-19" style="display:none;">apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: log-collector
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: log-collector
+  template:
+    metadata:
+      labels:
+        name: log-collector
+    spec:
+      # Toleration allows pod to schedule on tainted control-plane nodes:
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: dedicated
+        operator: Equal
+        value: gpu-workload
+        effect: NoSchedule
+      containers:
+      - name: fluentbit
+        image: fluent/fluent-bit:2.1</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-19">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 19, 1, 'DaemonSets, Taints & Tolerations')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 19, 2, 'DaemonSets, Taints & Tolerations')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 19, 3, 'DaemonSets, Taints & Tolerations')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 19, 4, 'DaemonSets, Taints & Tolerations')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-19">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Core Mechanics:</strong>
+1. <strong>DaemonSet vs Deployment:</strong>
+   - <strong>Deployment:</strong> Manages an arbitrary number of replicas based on resource fit. Multiple replicas can land on Node A while Node B has none.
+   - <strong>DaemonSet:</strong> Ensures that <strong>all (or selected) nodes run exactly one copy</strong> of a pod. As nodes are added to the cluster, the DaemonSet controller automatically adds pods; as nodes are destroyed, pods are garbage-collected. Ideal for logging, monitoring, and CNI agents.
+2. <strong>Taints & Tolerations:</strong>
+   - <strong>Taint:</strong> Applied to a node: <code>kubectl taint nodes gpu-node dedicated=gpu:NoSchedule</code>. Rejects any pod that does not explicitly tolerate it.
+   - <strong>Toleration:</strong> Declared on a pod spec to allow (but not force) scheduling on matching tainted nodes.
+   - Effects: <code>NoSchedule</code> (new pods rejected), <code>PreferNoSchedule</code> (soft), <code>NoExecute</code> (evicts existing running pods without toleration).
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests writing a bash script to calculate node count and set Deployment replicas=node count.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Contrasts DaemonSet guarantee of 1 pod per node with Deployment scheduling, explains the 3 taint effects, and writes accurate toleration blocks for control-plane nodes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QUESTION 20: Native Sidecar Containers (K8s 1.28+) -->
+                <div class="question-card" id="q-20" data-keywords="kubernetes native sidecars restartpolicy always istio service mesh cloud sql auth proxy job completion">
+                    <div class="card-header">
+                        <span class="concept-badge">Native Sidecar Containers (K8s 1.28+)</span>
+                        <span class="q-number">Question 20 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Modern Sidecar Architecture: Overcoming legacy sidecar startup and shutdown race conditions (Istio proxy, Cloud SQL Auth Proxy, log forwarders) using Kubernetes 1.28+ Native Sidecar Containers (restartPolicy: Always in initContainers).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                A batch Kubernetes Job has two containers: a batch runner and a Cloud SQL Auth Proxy sidecar. When the batch runner finishes its calculation and exits with code 0, the Cloud SQL Auth Proxy stays running forever. As a result, the Job never marks as Completed, blocking CI/CD pipelines. Conversely, in web deployments, the app starts and makes DB calls before the proxy sidecar finishes initializing, throwing Connection Refused.<br><br><strong>Part A:</strong> What was the fundamental design flaw with multi-container pods in Kubernetes prior to version 1.28 regarding startup and shutdown ordering?<br><strong>Part B:</strong> How do Kubernetes 1.28+ (GA in 1.29) <strong>Native Sidecar Containers</strong> work by declaring <code>restartPolicy: Always</code> inside <code>initContainers</code>?<br><strong>Part C:</strong> How does the native sidecar lifecycle guarantee that sidecars terminate automatically when the main container finishes in a Job?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code / Manifest Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'native-sidecar-pod.yaml')">
+                                    💻 View Manifest / Code (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-20" style="display:none;">apiVersion: batch/v1
+kind: Job
+metadata:
+  name: database-report-job
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+      # KUBERNETES 1.28+ NATIVE SIDECAR:
+      # Starts BEFORE main containers, stays running, and terminates when Job finishes!
+      - name: cloud-sql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
+        restartPolicy: Always # &lt;--- Native Sidecar Marker!
+        args:
+        - &quot;--port=5432&quot;
+        - &quot;my-project:us-central1:my-db&quot;
+      containers:
+      - name: report-runner
+        image: company/report-job:1.0
+        command: [&quot;./run-report.sh&quot;]</div>
+                        </div>
+
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-20">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 20, 1, 'Native Sidecar Containers (K8s 1.28+)')"><span class="star-num">1</span><span class="star-label">Cannot Explain</span></button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 20, 2, 'Native Sidecar Containers (K8s 1.28+)')"><span class="star-num">2</span><span class="star-label">Partial</span></button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 20, 3, 'Native Sidecar Containers (K8s 1.28+)')"><span class="star-num">3</span><span class="star-label">Good</span></button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 20, 4, 'Native Sidecar Containers (K8s 1.28+)')"><span class="star-num">4</span><span class="star-label">Expert</span></button>
+                            </div>
+                            <span class="q-score-display" id="q-score-20">Not Rated</span>
+                        </div>
+
+                        <div class="solution-block">
+                            <div class="solution-content">
+                                <strong>Root Cause Analysis:</strong>
+1. <strong>Legacy Sidecar Pitfalls:</strong> In Kubernetes prior to 1.28, all containers in <code>spec.containers</code> started in parallel with no guaranteed ordering.
+   - <strong>Startup Race:</strong> App container starts sending requests before Istio/Proxy sidecar finishes binding ports -> connection drops.
+   - <strong>Job Shutdown Trap:</strong> When the main batch runner exits, standard sidecars keep running indefinitely, preventing the Pod phase from reaching <code>Succeeded</code>.
+2. <strong>Native Sidecars (Kubernetes 1.28+):</strong>
+   - Defined under <code>initContainers</code> with <code>restartPolicy: Always</code>.
+   - <strong>Startup Guarantee:</strong> The Kubelet starts the native sidecar and waits for its <code>startupProbe</code> to succeed <strong>before</strong> launching the next init container or main app containers!
+   - <strong>Shutdown Guarantee:</strong> When all standard app containers exit (e.g. Job completes), the Kubelet automatically terminates all native sidecars in reverse order, allowing the Job to complete cleanly!
+                            </div>
+                        </div>
+
+                        <div class="senior-rubric-card">
+                            <div class="rubric-header">
+                                <span class="rubric-title">🎯 Senior / Lead Architect Rubric</span>
+                                <span class="rubric-level">Senior Level Assessment</span>
+                            </div>
+                            <p class="rubric-desc">
+                                Evaluates whether the candidate understands cloud-native container internals, Kubernetes controllers, Linux kernel cgroups/namespaces, and production reliability.
+                            </p>
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Beginner Response</div>
+                                    Suggests sending a curl command to http://localhost:15020/quitquitquit to kill the sidecar, or does not know about restartPolicy: Always in initContainers.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Advanced / Expert Response</div>
+                                    Explains the legacy startup/shutdown race conditions in service meshes and jobs, and configures native sidecars using initContainers with restartPolicy: Always.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 21: Kubernetes Architecture & Orchestration -->
+                <div class="question-card" id="q-21" data-keywords="kubernetes why needed problem statement container orchestration self-healing auto-scaling">
+                    <div class="card-header">
+                        <span class="concept-badge">Kubernetes Architecture & Orchestration</span>
+                        <span class="q-number">Question 21 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                The business and technical problem statement of container orchestration: why manual VM management fails in microservices, and how Kubernetes solves self-healing, scaling, and service discovery.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                Why was Kubernetes developed? What operational problems and failure modes arise if an enterprise runs microservices in Docker containers without an orchestrator?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('21', 'DeploymentServiceSpec.yaml')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('21')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-21" style="display:none;">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: company/order-service:v1.2.0
+        resources:
+          limits: { memory: "1Gi", cpu: "1000m" }
+          requests: { memory: "512Mi", cpu: "500m" }</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-21">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 21, 1, 'Why Kubernetes is needed and microservices container orchestration benefits')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 21, 2, 'Why Kubernetes is needed and microservices container orchestration benefits')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 21, 3, 'Why Kubernetes is needed and microservices container orchestration benefits')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 21, 4, 'Why Kubernetes is needed and microservices container orchestration benefits')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-21">Not Rated</span>
+                        </div>
+
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>1. WHAT is Kubernetes &amp; What Problem Does It Solve:</strong>
+                                <br>Docker revolutionized how applications are packaged into portable containers. However, running containers in production across a fleet of physical or virtual machines introduces massive operational complexity. <strong>Kubernetes (K8s)</strong> was created by Google (based on internal Borg/Omega systems) as an open-source container orchestrator to automate container deployment, scaling, healing, and networking at scale.
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>2. WHY: What Disasters Happen If You DO NOT Use Kubernetes?</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Zero Self-Healing (Outages at 3 AM):</strong> If a container crashes on a bare VM or the process segfaults, nobody restarts it. If an entire hardware server dies, all 50 microservices running on that machine vanish until someone manually provisions a new server.</li>
+                                    <li><strong>Port Collisions &amp; IP Chaos:</strong> You cannot run two containers binding to port <code>8080</code> on the same virtual machine without manual port mapping (e.g. <code>8081</code>, <code>8082</code>). You must maintain fragile spreadsheets or reverse proxies tracking which port belongs to which app.</li>
+                                    <li><strong>Downtime During Every Deployment:</strong> Without rolling updates, deploying a new version requires stopping container v1, leaving a service outage window before container v2 boots.</li>
+                                    <li><strong>No Dynamic Auto-Scaling:</strong> During sudden traffic spikes (e.g. Black Friday), single VMs become CPU-choked while other VMs sit idle with 90% free capacity.</li>
+                                    <li><strong>Service Discovery Nightmare:</strong> As containers restart and get new IP addresses, callers cannot locate them without home-grown service discovery registries.</li>
+                                </ul>
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>3. HOW Kubernetes Solves These Problems (The 5 Core Pillars):</strong>
+                                <ol style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Declarative State &amp; Reconciliation Loop:</strong> You specify the desired state in YAML (e.g., <code>replicas: 5</code>). The K8s control plane continuously observes the cluster; if a container crashes, it immediately spawns a replacement to match the desired state.</li>
+                                    <li><strong>Automated Bin-Packing &amp; Scheduling:</strong> The <code>kube-scheduler</code> automatically inspects pod resource requests (CPU/RAM) and schedules pods onto the most suitable worker node across the cluster.</li>
+                                    <li><strong>Zero-Downtime Rolling Deployments:</strong> Kubernetes spins up new version pods, verifies they pass <code>readinessProbe</code> health checks, redirects live traffic, and then gracefully shuts down old pods.</li>
+                                    <li><strong>Service Discovery &amp; Load Balancing:</strong> A Kubernetes <code>Service</code> provides a single, permanent virtual IP (ClusterIP) and internal DNS hostname (e.g., <code>order-service.default.svc.cluster.local</code>) that automatically load-balances traffic across all healthy pod replicas.</li>
+                                    <li><strong>Horizontal Pod Autoscaler (HPA):</strong> Automatically scales replica count from 2 to 50 based on CPU utilization or custom Prometheus metrics.</li>
+                                </ol>
+                            </p>
+
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Production Deployment with Self-Healing & Autoscaling</span><span class="code-lang">YAML</span></div>
+                                <pre><code># 1. Deployment with Health Probes & Resource Guarantees
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # Max 1 extra pod during upgrade
+      maxUnavailable: 0  # Zero downtime during deployments
+  template:
+    spec:
+      containers:
+      - name: payment-app
+        image: payment-service:v2.1.0
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 3 # Auto-restarts container if deadlocked!</code></pre>
+                            </div>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>4. Quick Interview Study Cheat-Sheet:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Docker vs K8s:</strong> Docker packages code into a container; Kubernetes manages and orchestrates fleets of containers across physical machines.</li>
+                                    <li><strong>The Core Loop:</strong> Observe &rarr; Diff &rarr; Act (Reconciliation Loop).</li>
+                                    <li><strong>Health Probes:</strong> <code>livenessProbe</code> triggers container restart; <code>readinessProbe</code> controls traffic routing; <code>startupProbe</code> protects slow-starting JVM apps.</li>
+                                </ul>
+                            </p>
+
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Incomplete Response</div>
+                                    Gives vague answer: "Kubernetes is used to run containers in the cloud", without mentioning self-healing, rolling updates, or reconciliation loops.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Senior / Expert Response</div>
+                                    Clearly articulates the operational pitfalls of un-orchestrated Docker (port clashes, node loss, manual scaling), explains control plane reconciliation, and details health probes and rolling updates.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 22: Kubernetes Configuration & Access -->
+                <div class="question-card" id="q-22" data-keywords="kubeconfig cluster configuration contexts users certificates api server">
+                    <div class="card-header">
+                        <span class="concept-badge">Kubernetes Configuration & Access</span>
+                        <span class="q-number">Question 22 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Kubernetes cluster connectivity and authentication architecture: anatomy of <code>~/.kube/config</code>, contexts, clusters, and credentials.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                How do you configure connectivity to one or multiple Kubernetes clusters? Explain the structure and purpose of <code>kubeconfig</code> (<code>clusters</code>, <code>users</code>, and <code>contexts</code>).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('22', 'kubeconfig-sample.yaml')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('22')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-22" style="display:none;">apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    certificate-authority-data: LS0t...
+    server: https://k8s-prod-api.company.com:6443
+  name: prod-cluster
+
+users:
+- name: developer-alice
+  user:
+    client-certificate-data: LS0t...
+    client-key-data: LS0t...
+
+contexts:
+- context:
+    cluster: prod-cluster
+    user: developer-alice
+    namespace: billing
+  name: prod-billing-context
+
+current-context: prod-billing-context</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-22">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 22, 1, 'Kubernetes kubeconfig structure: clusters, users, and contexts')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 22, 2, 'Kubernetes kubeconfig structure: clusters, users, and contexts')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 22, 3, 'Kubernetes kubeconfig structure: clusters, users, and contexts')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 22, 4, 'Kubernetes kubeconfig structure: clusters, users, and contexts')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-22">Not Rated</span>
+                        </div>
+
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>1. WHAT is Kubeconfig &amp; Where does it live:</strong>
+                                <br>A <strong>kubeconfig</strong> file (default location: <code>~/.kube/config</code>) is the configuration and authentication manifest used by <code>kubectl</code> and client SDKs to organize access to one or more Kubernetes clusters.
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>2. The Triad Architecture (Clusters, Users, Contexts):</strong>
+                                <br>A valid kubeconfig file is structured around three distinct, decoupled sections:
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>`clusters`:</strong> Defines target Kubernetes clusters. Specifies the HTTPS API server URL (e.g. <code>server: https://k8s-prod.company.com:6443</code>) and the Root Certificate Authority (CA) certificate (<code>certificate-authority-data</code>) used to authenticate the API server's TLS certificate.</li>
+                                    <li><strong>`users`:</strong> Defines user identity and authentication credentials. This can be client TLS x509 certificate/key pairs, static bearer tokens, or dynamic cloud provider authentication exec plugins (e.g., AWS IAM Authenticator, Google Cloud SDK <code>gke-gcloud-auth-plugin</code>, Azure AKS token).</li>
+                                    <li><strong>`contexts`:</strong> The binding layer that links a <strong>User</strong> + a <strong>Cluster</strong> + a <strong>Default Namespace</strong> together under a friendly alias (e.g., <code>prod-us-east-billing</code>).</li>
+                                </ul>
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>3. Multi-Cluster Management &amp; Context Switching:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><code>current-context</code> defines which cluster and namespace your active terminal commands target.</li>
+                                    <li>Merging multiple configs: You can concatenate configs using the <code>KUBECONFIG</code> environment variable:
+                                        <br><code>export KUBECONFIG=~/.kube/config:~/.kube/eks-prod.yaml</code>
+                                    </li>
+                                </ul>
+                            </p>
+
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Essential Kubeconfig Management Commands</span><span class="code-lang">Bash</span></div>
+                                <pre><code># 1. View all configured contexts
+kubectl config get-contexts
+
+# 2. Switch to production cluster context safely
+kubectl config use-context prod-billing-context
+
+# 3. Change default namespace for current context (avoids typing -n billing every time)
+kubectl config set-context --current --namespace=billing
+
+# 4. View current active context and API endpoint
+kubectl config current-context
+kubectl cluster-info
+
+# 5. Extract and flatten merged kubeconfig into a clean file
+kubectl config view --flatten &gt; ~/.kube/merged-config</code></pre>
+                            </div>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>4. Quick Interview Study Cheat-Sheet:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Default Path:</strong> <code>~/.kube/config</code>, overridden by <code>$KUBECONFIG</code> env var.</li>
+                                    <li><strong>The Formula:</strong> <code>Context = Cluster (Where) + User (Who) + Namespace (Scope)</code>.</li>
+                                    <li><strong>Cloud IAM Integration:</strong> Modern cloud clusters (EKS, GKE, AKS) do not store static keys in kubeconfig; they use an <code>exec:</code> block that calls the cloud CLI to fetch short-lived OAuth/IAM tokens.</li>
+                                </ul>
+                            </p>
+
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Incomplete Response</div>
+                                    Confuses kubeconfig with a Pod deployment manifest or does not know how a context ties together a user and cluster.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Senior / Expert Response</div>
+                                    Clearly articulates the triad (clusters, users, contexts), explains TLS CA validation, demonstrates <code>kubectl config use-context</code>, and describes cloud IAM auth plugins.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 23: Kubernetes Troubleshooting & Triage -->
+                <div class="question-card" id="q-23" data-keywords="troubleshooting triage crashloopbackoff oomkilled imagepullbackoff pending coredns">
+                    <div class="card-header">
+                        <span class="concept-badge">Kubernetes Troubleshooting & Triage</span>
+                        <span class="q-number">Question 23 of 23</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Triage methodology for real-world Kubernetes production failures: <code>CrashLoopBackOff</code>, <code>OOMKilled</code>, <code>ImagePullBackOff</code>, <code>Pending</code> pods, and <code>CoreDNS</code> lookup failures.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                What are the most common Kubernetes production issues you have encountered, and what is your step-by-step diagnostic workflow to resolve them?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('23', 'DiagnosticWorkflow.sh')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('23')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-23" style="display:none;"># 1. Check pod status
+kubectl get pods -n production
+
+# 2. Inspect pod events (scheduling, image pulls, volume mounts)
+kubectl describe pod order-service-789 -n production
+
+# 3. View crash logs from previous failed instance
+kubectl logs order-service-789 --previous -n production
+
+# 4. Check cluster resource pressure
+kubectl top nodes
+kubectl top pods -n production</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-23">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('k8s', 23, 1, 'Kubernetes production troubleshooting playbook: CrashLoopBackOff, OOMKilled, Pending')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('k8s', 23, 2, 'Kubernetes production troubleshooting playbook: CrashLoopBackOff, OOMKilled, Pending')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('k8s', 23, 3, 'Kubernetes production troubleshooting playbook: CrashLoopBackOff, OOMKilled, Pending')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('k8s', 23, 4, 'Kubernetes production troubleshooting playbook: CrashLoopBackOff, OOMKilled, Pending')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-23">Not Rated</span>
+                        </div>
+
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>1. WHAT is the Incident Triage Hierarchy:</strong>
+                                <br>When troubleshooting broken pods or microservice outages in Kubernetes, follow a strict 4-step diagnostic order:
+                                <br><code>Pod Status (get) &rarr; Event History (describe) &rarr; Crash Logs (logs --previous) &rarr; Cluster Resource Pressure (top)</code>.
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>2. The Top 5 Real-World Kubernetes Failures &amp; Root Causes:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>1. `CrashLoopBackOff`:</strong>
+                                        <br>• <em>Symptom:</em> Container starts, crashes, and Kubernetes restarts it with exponential backoff delay (10s, 20s, 40s... up to 5 min).
+                                        <br>• <em>Root Cause:</em> Fatal startup exception (missing mandatory environment variable, database connection refused, wrong Spring profile, or aggressive <code>livenessProbe</code> killing the container before the JVM finishes warming up).
+                                        <br>• <em>Fix/Diagnostic:</em> <strong><code>kubectl logs &lt;pod&gt; --previous -n &lt;ns&gt;</code></strong>. Standard <code>kubectl logs</code> returns empty because the new container hasn't started yet! The <code>--previous</code> flag pulls the dying stack trace of the terminated container.
+                                    </li>
+                                    <li><strong>2. `OOMKilled` (Exit Code 137 = 128 + 9 [SIGKILL]):</strong>
+                                        <br>• <em>Symptom:</em> Pod restarts silently under load. <code>kubectl describe pod</code> shows <code>Last State: Terminated, Reason: OOMKilled, Exit Code: 137</code>.
+                                        <br>• <em>Root Cause:</em> Container RSS memory exceeded <code>resources.limits.memory</code>. The Linux kernel cgroups OOM-killer executed <code>kill -9</code>. In Java, this happens when JVM heap + Metaspace + thread stacks (~1MB per thread) + native Netty buffers surpass the cgroup limit.
+                                        <br>• <em>Fix:</em> Increase container memory limit and calibrate JVM flags: <code>-XX:MaxRAMPercentage=75.0 -XX:+ExitOnOutOfMemoryError</code>.
+                                    </li>
+                                    <li><strong>3. `ImagePullBackOff` / `ErrImagePull`:</strong>
+                                        <br>• <em>Symptom:</em> Container cannot start; stays in image pull retry loop.
+                                        <br>• <em>Root Cause:</em> Typo in image name/tag, image was deleted from registry, or node lacks IAM/Docker registry pull secret permissions.
+                                        <br>• <em>Fix:</em> Check the bottom <strong>Events</strong> in <code>kubectl describe pod &lt;pod&gt;</code> for the exact HTTP 401/403/404 code, and ensure <code>imagePullSecrets</code> is configured.
+                                    </li>
+                                    <li><strong>4. `Pending` Pod Status:</strong>
+                                        <br>• <em>Symptom:</em> Pod is created but remains in <code>Pending</code> indefinitely without scheduling.
+                                        <br>• <em>Root Cause:</em> 1) Insufficient cluster CPU/RAM matching the pod's <code>resources.requests</code>; 2) Node taints without matching pod tolerations; 3) <code>PersistentVolumeClaim</code> (PVC) cannot bind to a storage volume.
+                                        <br>• <em>Fix:</em> Inspect scheduler events: <code>kubectl describe pod &lt;pod&gt;</code> &rarr; <code>0/12 nodes available: 12 Insufficient cpu</code>.
+                                    </li>
+                                    <li><strong>5. DNS Resolution Timeout (CoreDNS 5s Delay):</strong>
+                                        <br>• <em>Symptom:</em> Intermittent 5-second connection delays when connecting to external APIs.
+                                        <br>• <em>Root Cause:</em> Kubernetes default <code>/etc/resolv.conf</code> has <code>ndots:5</code>, causing single-domain queries to append 4 local cluster search domains first before querying external DNS.
+                                        <br>• <em>Fix:</em> Append a trailing dot to external URLs (e.g. <code>api.stripe.com.</code>) or install NodeLocal DNSCache.
+                                    </li>
+                                </ul>
+                            </p>
+
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Senior Engineer Troubleshooting Diagnostic Toolkit</span><span class="code-lang">Bash</span></div>
+                                <pre><code># 1. Inspect dying container logs before restart
+kubectl logs order-service-789-xyz --previous -n production
+
+# 2. Check pod termination reasons and kernel events
+kubectl describe pod order-service-789-xyz -n production | grep -E "(State|Exit Code|Reason|Events)" -A 10
+
+# 3. Stream cluster-wide warning events sorted by time
+kubectl get events -n production --sort-by='.metadata.creationTimestamp' --field-selector type=Warning
+
+# 4. Interactive debugging container injection (Ephemeral Container in K8s 1.25+)
+kubectl debug -it order-service-789-xyz --image=nicolaka/netshoot --target=order-app -n production</code></pre>
+                            </div>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>3. Quick Interview Study Cheat-Sheet:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Golden Triage Command:</strong> <code>kubectl describe pod &lt;pod&gt;</code> (Look at the Events section at the bottom!).</li>
+                                    <li><strong>Crashed JVM App:</strong> Always run with <code>--previous</code> to read logs before container death.</li>
+                                    <li><strong>Exit Code 137:</strong> $128 + 9$ (SIGKILL) &rarr; Memory limit exceeded (OOMKilled).</li>
+                                    <li><strong>Exit Code 143:</strong> $128 + 15$ (SIGTERM) &rarr; Graceful termination requested by Kubernetes during rolling update or eviction.</li>
+                                </ul>
+                            </p>
+
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Incomplete Response</div>
+                                    Only knows <code>kubectl logs</code>, does not know what <code>--previous</code> is, or cannot explain why exit code 137 means OOMKilled.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Senior / Expert Response</div>
+                                    Demonstrates a systematic diagnostic methodology (describe events &rarr; logs --previous &rarr; cgroup memory &rarr; CoreDNS ndots), explains exit codes (137 vs 143), and mentions ephemeral debug containers.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Reusable Code Snippet Popup Modal -->
+    <div class="modal-overlay" id="codeModal">
+        <div class="modal-card modal-code-card">
+            <div class="modal-header">
+                <h3 id="codeModalTitle">💻 Manifest / Code</h3>
+                <button class="btn-outline" onclick="closeCodeSnippetModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="code-wrapper">
+                    <div class="code-header">
+                        <span>Interview Challenge Manifest / Code</span>
+                        <span class="code-lang">YAML / Dockerfile</span>
+                    </div>
+                    <pre><code id="codeModalPre"></code></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeCodeSnippetModal()">Close</button>
+                <button class="btn-primary" id="copyCodeBtn" onclick="copyModalCode()">📋 Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="js/interview-tracker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initTopicPage('k8s');
+        });
+
+        function toggleSolution(button) {
+            const content = button.nextElementSibling;
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                button.querySelector('span:last-child').textContent = '▼';
+            } else {
+                content.classList.add('show');
+                button.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = card.getAttribute('data-keywords') || '';
+                if (text.includes(input) || keywords.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

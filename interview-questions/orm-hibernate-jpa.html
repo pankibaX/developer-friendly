@@ -7,27 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect & Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link active"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link active"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -76,37 +104,6 @@
             <div class="filter-bar">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search ORM topics (e.g. n+1 query, dirty checking, optimistic locking, batching, lazy loading, second level cache)..." onkeyup="filterQuestions()">
             </div>
-
-            
-            <!-- Quick Jump Question Navigator -->
-            <div class="quick-jump-container">
-                <div class="quick-jump-header">
-                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
-                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
-                </div>
-                <div class="quick-jump-grid">
-                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Query Performance & Optimization">Q1: N+1 & Optimization</button>
-                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Hibernate Architecture & Caching">Q2: 1st Level Cache & Dirty Check</button>
-                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Distributed Caching & Second-Level Cache">Q3: 2nd Level Cache & Redis</button>
-                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Concurrency & Locking Strategies">Q4: Optimistic vs Pessimistic</button>
-                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Entity Lifecycle & State Transitions">Q5: Entity Lifecycle & Detached</button>
-                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Transaction Boundaries & Architecture">Q6: OSIV Anti-Pattern</button>
-                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Entity Identity & Collection Integrity">Q7: equals() & hashCode()</button>
-                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="JPQL Bulk Operations & Cache Consistency">Q8: Bulk JPQL & Cache Desync</button>
-                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Entity Associations & Relationship Ownership">Q9: Bidirectional Ownership</button>
-                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Advanced Query Engineering">Q10: Criteria vs Specification</button>
-                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Batch Processing & Identifier Generators">Q11: Batch Inserts & Sequence</button>
-                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Transaction Concurrency & Database ACID">Q12: Lost Updates & Isolation</button>
-                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Data Modeling & Deletion Architecture">Q13: Soft Deletes & Cascading</button>
-                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Persistence Context Flushing & Timing">Q14: FlushMode & Timing</button>
-                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Domain Modeling & Inheritance Strategies">Q15: Inheritance Strategies</button>
-                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Dynamic Query Architecture & Type Safety">Q16: Type-Safe QueryDSL</button>
-                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Transaction Concurrency & Deadlock Prevention">Q17: Deadlock Prevention</button>
-                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Enterprise Auditing & Data Governance">Q18: Envers & Data Auditing</button>
-                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Modern Hibernate 6+ & Java Records">Q19: Hibernate 6 & Records</button>
-                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Connection Pool Architecture & Performance">Q20: HikariCP Sizing & Leak</button>
-                </div>
-            </div>
 <div id="questionsContainer">
 
                 <!-- QUESTION 1: The N+1 Query Problem -->
@@ -138,9 +135,14 @@
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'OrderQueryService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'OrderQueryService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-1" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -188,10 +190,6 @@ public class OrderQueryService {
                             <span class="q-score-display" id="q-score-1">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -264,9 +262,14 @@ private List&lt;OrderItem&gt; items = new ArrayList&lt;&gt;();</code></pre>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'AccountRiskEvaluator.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'AccountRiskEvaluator.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -317,10 +320,6 @@ public class AccountRiskEvaluator {
                             <span class="q-score-display" id="q-score-2">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -386,9 +385,14 @@ public void evaluateRiskScores() {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'UserCacheService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'UserCacheService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-3" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -443,10 +447,6 @@ public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
                             <span class="q-score-display" id="q-score-3">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -501,9 +501,14 @@ public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'InventoryAllocationService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'InventoryAllocationService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-4" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -564,10 +569,6 @@ public class InventoryAllocationService {
                             <span class="q-score-display" id="q-score-4">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -629,9 +630,14 @@ public class InventoryAllocationService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'CustomerProvisioningService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'CustomerProvisioningService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-5" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -687,10 +693,6 @@ public class CustomerProvisioningService {
                             <span class="q-score-display" id="q-score-5">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -772,9 +774,14 @@ public class Customer implements Persistable&lt;String&gt; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'DepartmentAsyncReport.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'DepartmentAsyncReport.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-6" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
@@ -827,10 +834,6 @@ public class DepartmentService {
                             <span class="q-score-display" id="q-score-6">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -889,9 +892,14 @@ public class DepartmentService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'StudentSetTest.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'StudentSetTest.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-7" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -962,10 +970,6 @@ public class TestMain {
                             <span class="q-score-display" id="q-score-7">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1039,9 +1043,14 @@ public int hashCode() {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'AccountCreditService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'AccountCreditService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-8" style="display:none;">import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -1100,10 +1109,6 @@ public class AccountCreditService {
                             <span class="q-score-display" id="q-score-8">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1162,9 +1167,14 @@ public class AccountCreditService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'OrderMappingEntities.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'OrderMappingEntities.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-9" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -1243,10 +1253,6 @@ public class OrderCheckoutService {
                             <span class="q-score-display" id="q-score-9">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1318,9 +1324,14 @@ public void removeItem(OrderItem item) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'PostRepository.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'PostRepository.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-10" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -1381,10 +1392,6 @@ public class Post {
                             <span class="q-score-display" id="q-score-10">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1445,9 +1452,14 @@ public class Post {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'AuditLogBatchService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'AuditLogBatchService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-11" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -1517,10 +1529,6 @@ public class AuditLogBatchService {
                             <span class="q-score-display" id="q-score-11">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1587,9 +1595,14 @@ public class AuditLog {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'LedgerAuditService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'LedgerAuditService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-12" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -1640,10 +1653,6 @@ public class LedgerAuditService {
                             <span class="q-score-display" id="q-score-12">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1702,9 +1711,14 @@ public class LedgerAuditService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'UserAccountSoftDelete.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'UserAccountSoftDelete.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-13" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -1757,10 +1771,6 @@ public class UserAccount {
                             <span class="q-score-display" id="q-score-13">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1820,9 +1830,14 @@ public class UserAccount {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'PaymentProcessingService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'PaymentProcessingService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-14" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -1875,10 +1890,6 @@ public class PaymentProcessingService {
                             <span class="q-score-display" id="q-score-14">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1937,9 +1948,14 @@ public class PaymentProcessingService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'PaymentInheritanceEntities.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'PaymentInheritanceEntities.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-15" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -1993,10 +2009,6 @@ public class BankAccount extends PaymentMethod {
                             <span class="q-score-display" id="q-score-15">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2059,9 +2071,14 @@ public class BankAccount extends PaymentMethod {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'ProductSearchSpecification.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'ProductSearchSpecification.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-16" style="display:none;">import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.Predicate;
 import java.util.List;
@@ -2113,10 +2130,6 @@ public class ProductSpecifications {
                             <span class="q-score-display" id="q-score-16">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2178,9 +2191,14 @@ public class ProductSpecifications {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'FundTransferService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'FundTransferService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-17" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -2227,10 +2245,6 @@ public class FundTransferService {
                             <span class="q-score-display" id="q-score-17">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2305,9 +2319,14 @@ public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'AuditedOrderEntity.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'AuditedOrderEntity.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-18" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -2357,10 +2376,6 @@ public class Order {
                             <span class="q-score-display" id="q-score-18">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2417,9 +2432,14 @@ public class Order {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'ModernCustomerProfile.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'ModernCustomerProfile.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-19" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -2476,10 +2496,6 @@ public record UserPreferences(boolean emailNotifications, String theme) {}</div>
                             <span class="q-score-display" id="q-score-19">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2496,7 +2512,7 @@ public record UserPreferences(boolean emailNotifications, String theme) {}</div>
                             <div class="evaluation-grid">
                                 <div class="eval-box eval-bad">
                                     <div class="eval-title">⚠️ Junior / Beginner Response</div>
-                                    Unaware of Hibernate 6 features; still recommends writing custom `AttributeConverter<UserPreferences, String>` with manual JSON parsing.
+                                    Unaware of Hibernate 6 features; still recommends writing custom `AttributeConverter&lt;UserPreferences, String&gt;` with manual JSON parsing.
                                 </div>
                                 <div class="eval-box eval-good">
                                     <div class="eval-title">🌟 Advanced / Expert Response</div>
@@ -2541,9 +2557,14 @@ public record UserPreferences(boolean emailNotifications, String theme) {}</div>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'OrderFulfillmentService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'OrderFulfillmentService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-20" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -2593,10 +2614,6 @@ public class OrderFulfillmentService {
                             <span class="q-score-display" id="q-score-20">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2676,6 +2693,27 @@ public class OrderFulfillmentService {
             </div>
         </div>
     </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="js/coverage-matrix.js"></script>

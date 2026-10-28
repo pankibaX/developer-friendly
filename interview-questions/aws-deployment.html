@@ -7,27 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect & Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link active"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link active"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -76,37 +104,6 @@
             <div class="filter-bar">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search AWS topics (e.g. vpc cidr, nat gateway, security group, nacl, s3, snapstart, rds proxy, ec2 autoscaling, sqs fifo, iam, route53)..." onkeyup="filterQuestions()">
             </div>
-
-            
-            <!-- Quick Jump Question Navigator -->
-            <div class="quick-jump-container">
-                <div class="quick-jump-header">
-                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
-                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
-                </div>
-                <div class="quick-jump-grid">
-                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="VPC & IP Address Management">Q1: VPC Subnetting & CIDR</button>
-                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="VPC Routing & Egress Architecture">Q2: NAT Gateway & VPC Endpoints</button>
-                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Network Security & Defense-in-Depth">Q3: Security Groups vs NACLs</button>
-                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Object Storage & Cost Optimization">Q4: S3 Tiering & Lifecycle</button>
-                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Serverless Runtime & Performance">Q5: Lambda Cold Starts & SnapStart</button>
-                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Serverless Data & Connection Management">Q6: RDS Proxy & Lambda Pools</button>
-                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Compute Scaling & Elasticity">Q7: EC2 Auto Scaling & Metrics</button>
-                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="Load Balancing & Traffic Management">Q8: ALB vs NLB & WebSockets</button>
-                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Cloud Security & Identity Governance">Q9: IAM Least Privilege & SCPs</button>
-                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Asynchronous Messaging & Queueing">Q10: SQS Visibility & DLQs</button>
-                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Secrets Management & Rotation">Q11: Secrets Manager & KMS</button>
-                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="NoSQL Architecture & High Throughput">Q12: DynamoDB Keys & Partitions</button>
-                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="API Management & Edge Gateways">Q13: API Gateway & Throttling</button>
-                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="CI/CD & Zero-Downtime Rollouts">Q14: Blue/Green & Canary Deploy</button>
-                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Observability & Operational Health">Q15: CloudWatch & X-Ray Metrics</button>
-                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Edge Caching & Content Delivery">Q16: CloudFront OAC & Caching</button>
-                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="DNS Architecture & Global Traffic Management">Q17: Route 53 Latency & Failover</button>
-                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Multi-Account Security & IAM Governance">Q18: AWS Org & IAM Boundaries</button>
-                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Serverless Scaling & Resource Allocation">Q19: Lambda Concurrency & Scaling</button>
-                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="High Availability & Multi-Region DR">Q20: Multi-Region Disaster Recovery</button>
-                </div>
-            </div>
 <div id="questionsContainer">
                 <!-- QUESTION 1: VPC &amp; IP Address Management -->
                 <div class="question-card" id="q-1" data-keywords="vpc cidr block reserved ip subnet 16 28 ip exhaustion autoscaling">
@@ -137,9 +134,14 @@
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'vpc-subnet.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'vpc-subnet.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-1" style="display:none;">resource &quot;aws_vpc&quot; &quot;app_vpc&quot; {
   cidr_block           = &quot;10.0.0.0/16&quot;
   enable_dns_hostnames = true
@@ -176,10 +178,6 @@ resource &quot;aws_subnet&quot; &quot;service_subnet_az1&quot; {
                             <span class="q-score-display" id="q-score-1">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -256,9 +254,14 @@ resource &quot;aws_subnet&quot; &quot;service_subnet_az1&quot; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'vpc-routing.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'vpc-routing.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-2" style="display:none;">resource &quot;aws_route_table&quot; &quot;private_rt&quot; {
   vpc_id = aws_vpc.app_vpc.id
   route {
@@ -296,10 +299,6 @@ resource &quot;aws_nat_gateway&quot; &quot;nat_gw&quot; {
                             <span class="q-score-display" id="q-score-2">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -375,9 +374,14 @@ resource &quot;aws_route_table&quot; &quot;private_az1_rt&quot; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'nacl-rules.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'nacl-rules.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-3" style="display:none;">resource &quot;aws_network_acl_rule&quot; &quot;inbound_https&quot; {
   network_acl_id = aws_network_acl.web_nacl.id
   rule_number    = 100
@@ -422,10 +426,6 @@ resource &quot;aws_network_acl_rule&quot; &quot;outbound_default&quot; {
                             <span class="q-score-display" id="q-score-3">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -501,9 +501,14 @@ resource &quot;aws_network_acl_rule&quot; &quot;outbound_default&quot; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 's3-bucket-lifecycle.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 's3-bucket-lifecycle.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-4" style="display:none;">resource &quot;aws_s3_bucket&quot; &quot;invoice_bucket&quot; {
   bucket = &quot;enterprise-customer-invoices&quot;
 }
@@ -547,10 +552,6 @@ resource &quot;aws_s3_bucket_lifecycle_configuration&quot; &quot;invoice_lifecyc
                             <span class="q-score-display" id="q-score-4">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -632,9 +633,14 @@ resource &quot;aws_s3_bucket_lifecycle_configuration&quot; &quot;invoice_lifecyc
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'PaymentLambdaHandler.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'PaymentLambdaHandler.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-5" style="display:none;">import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import java.security.SecureRandom;
@@ -683,10 +689,6 @@ public class PaymentLambdaHandler implements RequestHandler&lt;PaymentEvent, Pay
                             <span class="q-score-display" id="q-score-5">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -773,9 +775,14 @@ public class PaymentLambdaHandler implements RequestHandler&lt;PaymentEvent, Pay
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'OrderDatabaseHandler.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'OrderDatabaseHandler.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-6" style="display:none;">import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.zaxxer.hikari.HikariConfig;
@@ -830,10 +837,6 @@ public class OrderDatabaseHandler implements RequestHandler&lt;OrderEvent, Strin
                             <span class="q-score-display" id="q-score-6">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -908,9 +911,14 @@ config.setInitializationFailTimeout(0);</code></pre>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'asg-policy.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'asg-policy.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-7" style="display:none;">resource &quot;aws_autoscaling_policy&quot; &quot;flapping_cpu_policy&quot; {
   name                   = &quot;cpu-simple-policy&quot;
   scaling_adjustment     = 5
@@ -955,10 +963,6 @@ resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;cpu_high&quot; {
                             <span class="q-score-display" id="q-score-7">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1038,9 +1042,14 @@ resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;cpu_high&quot; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'alb-target-group.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'alb-target-group.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-8" style="display:none;">resource &quot;aws_lb_target_group&quot; &quot;api_tg&quot; {
   name                 = &quot;api-production-tg&quot;
   port                 = 8080
@@ -1082,10 +1091,6 @@ resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;cpu_high&quot; {
                             <span class="q-score-display" id="q-score-8">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1165,9 +1170,14 @@ resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;cpu_high&quot; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'application.properties')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'application.properties')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-9" style="display:none;">cloud.aws.credentials.access-key=AKIAIOSFODNN7EXAMPLE
 cloud.aws.credentials.secret-key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 cloud.aws.region.static=us-east-1
@@ -1198,10 +1208,6 @@ cloud.aws.s3.bucket=company-finance-documents</div>
                             <span class="q-score-display" id="q-score-9">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1289,9 +1295,14 @@ resource &quot;aws_instance&quot; &quot;app_server&quot; {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'TradeProducerService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'TradeProducerService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-10" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
@@ -1336,10 +1347,6 @@ public class TradeProducerService {
                             <span class="q-score-display" id="q-score-10">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1415,9 +1422,14 @@ public class TradeProducerService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'DatabaseConnectionService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'DatabaseConnectionService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-11" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
@@ -1464,10 +1476,6 @@ public class DatabaseConnectionService {
                             <span class="q-score-display" id="q-score-11">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1541,9 +1549,14 @@ public Connection getConnection() {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'DynamoDbOrderRepository.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'DynamoDbOrderRepository.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-12" style="display:none;">import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 
@@ -1580,10 +1593,6 @@ public void saveOrderEvent(OrderEvent event) {
                             <span class="q-score-display" id="q-score-12">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1662,9 +1671,14 @@ public void saveOrderEvent(OrderEvent event) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'api-gateway-authorizer.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'api-gateway-authorizer.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-13" style="display:none;">resource &quot;aws_api_gateway_authorizer&quot; &quot;jwt_authorizer&quot; {
   name                   = &quot;custom-jwt-authorizer&quot;
   rest_api_id            = aws_api_gateway_rest_api.app_api.id
@@ -1699,10 +1713,6 @@ public void saveOrderEvent(OrderEvent event) {
                             <span class="q-score-display" id="q-score-13">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1774,9 +1784,14 @@ public void saveOrderEvent(OrderEvent event) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'codedeploy-deployment.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'codedeploy-deployment.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-14" style="display:none;">resource &quot;aws_codedeploy_deployment_group&quot; &quot;app_deployment_group&quot; {
   app_name              = aws_codedeploy_app.app.name
   deployment_group_name = &quot;production-deployment-group&quot;
@@ -1818,10 +1833,6 @@ public void saveOrderEvent(OrderEvent event) {
                             <span class="q-score-display" id="q-score-14">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1899,9 +1910,14 @@ public void saveOrderEvent(OrderEvent event) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'cloudwatch-alarms.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'cloudwatch-alarms.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-15" style="display:none;">resource &quot;aws_cloudwatch_metric_alarm&quot; &quot;api_latency_alarm&quot; {
   alarm_name          = &quot;api-high-latency&quot;
   comparison_operator = &quot;GreaterThanThreshold&quot;
@@ -1938,10 +1954,6 @@ public void saveOrderEvent(OrderEvent event) {
                             <span class="q-score-display" id="q-score-15">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2017,9 +2029,14 @@ public void saveOrderEvent(OrderEvent event) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'deploy-frontend.sh')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'deploy-frontend.sh')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-16" style="display:none;">aws s3 sync ./dist s3:
 aws cloudfront create-invalidation --distribution-id E123456EXAMPLE --paths &quot;/*&quot; </div>
                         </div>
@@ -2048,10 +2065,6 @@ aws cloudfront create-invalidation --distribution-id E123456EXAMPLE --paths &quo
                             <span class="q-score-display" id="q-score-16">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2122,9 +2135,14 @@ aws s3 cp ./dist/index.html s3://company-assets/index.html \
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'route53-failover.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'route53-failover.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-17" style="display:none;">resource &quot;aws_route53_record&quot; &quot;primary_failover&quot; {
   zone_id = aws_route53_zone.main.zone_id
   name    = &quot;api.company.com&quot;
@@ -2162,10 +2180,6 @@ aws s3 cp ./dist/index.html s3://company-assets/index.html \
                             <span class="q-score-display" id="q-score-17">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2240,9 +2254,14 @@ aws s3 cp ./dist/index.html s3://company-assets/index.html \
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'trust-policy.json')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'trust-policy.json')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-18" style="display:none;">{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
@@ -2281,10 +2300,6 @@ aws s3 cp ./dist/index.html s3://company-assets/index.html \
                             <span class="q-score-display" id="q-score-18">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2366,9 +2381,14 @@ aws s3 cp ./dist/index.html s3://company-assets/index.html \
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'lambda-concurrency.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'lambda-concurrency.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-19" style="display:none;">resource &quot;aws_lambda_function&quot; &quot;background_ingest_lambda&quot; {
   function_name = &quot;heavy-background-ingest&quot;
   runtime       = &quot;java17&quot;
@@ -2402,10 +2422,6 @@ aws s3 cp ./dist/index.html s3://company-assets/index.html \
                             <span class="q-score-display" id="q-score-19">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2482,9 +2498,14 @@ resource &quot;aws_lambda_provisioned_concurrency_config&quot; &quot;payment_war
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'aurora-global-dr.tf')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'aurora-global-dr.tf')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-20" style="display:none;">resource &quot;aws_rds_global_cluster&quot; &quot;global_db&quot; {
   global_cluster_identifier = &quot;enterprise-global-db&quot;
   engine                    = &quot;aurora-postgresql&quot;
@@ -2522,10 +2543,6 @@ resource &quot;aws_rds_cluster&quot; &quot;primary_cluster&quot; {
                             <span class="q-score-display" id="q-score-20">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2594,6 +2611,27 @@ resource &quot;aws_rds_cluster&quot; &quot;secondary_cluster&quot; {
             </div>
         </div>
     </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="js/coverage-matrix.js"></script>

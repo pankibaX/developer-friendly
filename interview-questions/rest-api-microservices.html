@@ -7,27 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect & Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link active"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link active"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -76,37 +104,6 @@
             <div class="filter-bar">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Microservices topics (e.g. idempotency, saga, outbox, tracing, circuit breaker, rate limit, rfc 7807, gRPC, CQRS)..." onkeyup="filterQuestions()">
             </div>
-
-            
-            <!-- Quick Jump Question Navigator -->
-            <div class="quick-jump-container">
-                <div class="quick-jump-header">
-                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
-                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
-                </div>
-                <div class="quick-jump-grid">
-                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="API Reliability & Payment Integrity">Q1: Idempotency Keys</button>
-                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Distributed Transactions & Consistency">Q2: Saga Pattern & 2PC</button>
-                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Observability & Context Propagation">Q3: Distributed Tracing & W3C</button>
-                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Resilience & Fault Tolerance">Q4: Circuit Breaker Resilience</button>
-                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Event-Driven & Dual-Write Mitigation">Q5: Transactional Outbox Pattern</button>
-                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="API Lifecycle & Contract Evolution">Q6: API Versioning & Evolution</button>
-                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="API Gateway & Traffic Control">Q7: Rate Limiting & Token Bucket</button>
-                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="High-Performance RPC & Protocols">Q8: gRPC vs REST & Protobuf</button>
-                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Configuration & Cloud Native Operations">Q9: 12-Factor & Config Management</button>
-                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Distributed Data & Read Optimization">Q10: CQRS & Materialized Views</button>
-                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Microservices Security & Identity">Q11: JWT vs mTLS & Zero-Trust</button>
-                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Reactive Systems & Flow Control">Q12: Reactive Backpressure</button>
-                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Edge Architecture & Routing">Q13: BFF & Edge Routing</button>
-                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Testing & Contract Verification">Q14: Consumer-Driven Contracts (Pact)</button>
-                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Service Discovery & Topology">Q15: Service Discovery & Heartbeat</button>
-                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Messaging & Asynchronous Resilience">Q16: Kafka Dead Letter Queues</button>
-                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Fault Isolation & Resource Management">Q17: Bulkhead Isolation Pattern</button>
-                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Infrastructure & Service Mesh">Q18: Istio & Envoy Service Mesh</button>
-                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="API Standards & REST Ergonomics">Q19: HTTP Status & RFC 7807</button>
-                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="High Availability & Multi-Region DR">Q20: Multi-Region Active-Active DR</button>
-                </div>
-            </div>
 <div id="questionsContainer">
                 <!-- QUESTION 1: API Reliability &amp; Payment Integrity -->
                 <div class="question-card" id="q-1" data-keywords="idempotency key distributed lock redis setnx race condition payment double charge">
@@ -137,9 +134,14 @@
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'PaymentChargeController.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'PaymentChargeController.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-1" style="display:none;">import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -201,10 +203,6 @@ public class PaymentChargeController {
                             <span class="q-score-display" id="q-score-1">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -297,9 +295,14 @@ public class DistributedIdempotencyManager {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'OrderCheckoutService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'OrderCheckoutService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -350,10 +353,6 @@ public class OrderCheckoutService {
                             <span class="q-score-display" id="q-score-2">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -439,9 +438,14 @@ public class OrderSagaOrchestrator {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'TransferAuditService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'TransferAuditService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-3" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -495,10 +499,6 @@ public class TransferAuditService {
                             <span class="q-score-display" id="q-score-3">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -586,9 +586,14 @@ public class AsyncTracingConfig {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'CreditCheckClient.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'CreditCheckClient.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-4" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -629,10 +634,6 @@ public class CreditCheckClient {
                             <span class="q-score-display" id="q-score-4">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -718,9 +719,14 @@ public class ResilientCreditService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderPlacementService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderPlacementService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-5" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -767,10 +773,6 @@ public class OrderPlacementService {
                             <span class="q-score-display" id="q-score-5">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -857,9 +859,14 @@ public class OrderService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'UserProfileResponse.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'UserProfileResponse.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-6" style="display:none;">import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -902,10 +909,6 @@ public class UserProfileResponse {
                             <span class="q-score-display" id="q-score-6">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -988,9 +991,14 @@ public class EvolvingUserResponse {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'NaiveRateLimitFilter.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'NaiveRateLimitFilter.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-7" style="display:none;">import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -1052,10 +1060,6 @@ public class NaiveRateLimitFilter implements Filter {
                             <span class="q-score-display" id="q-score-7">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1137,9 +1141,14 @@ end</code></pre>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'TelemetryIngestController.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'TelemetryIngestController.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-8" style="display:none;">import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -1185,10 +1194,6 @@ public class TelemetryIngestController {
                             <span class="q-score-display" id="q-score-8">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1267,9 +1272,14 @@ service TelemetryComputeService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'PaymentClientService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'PaymentClientService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-9" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -1317,10 +1327,6 @@ public class PaymentClientService {
                             <span class="q-score-display" id="q-score-9">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1405,9 +1411,14 @@ public class PaymentProperties {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'OrderCommandQueryController.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'OrderCommandQueryController.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-10" style="display:none;">import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -1462,10 +1473,6 @@ public class OrderCommandQueryController {
                             <span class="q-score-display" id="q-score-10">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1538,9 +1545,14 @@ public ResponseEntity&lt;List&lt;OrderDTO&gt;&gt; getCustomerOrders(
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'OrderToInventoryClient.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'OrderToInventoryClient.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-11" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -1583,10 +1595,6 @@ public class OrderToInventoryClient {
                             <span class="q-score-display" id="q-score-11">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1665,9 +1673,14 @@ public WebClient webClient(ServletOAuth2AuthorizedClientExchangeFilterFunction o
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'MarketDataStreamService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'MarketDataStreamService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-12" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Flux;
@@ -1710,10 +1723,6 @@ public class MarketDataStreamService {
                             <span class="q-score-display" id="q-score-12">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1789,9 +1798,14 @@ public class ResilientMarketStream {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'HeavyGatewayFilter.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'HeavyGatewayFilter.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-13" style="display:none;">import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -1844,10 +1858,6 @@ public class HeavyGatewayFilter implements GlobalFilter {
                             <span class="q-score-display" id="q-score-13">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1928,9 +1938,14 @@ public class GatewayRoutesConfig {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'OrderCustomerClient.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'OrderCustomerClient.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-14" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -1977,10 +1992,6 @@ public class CustomerDetails {
                             <span class="q-score-display" id="q-score-14">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2061,9 +2072,14 @@ public V4Pact createCustomerPact(PactDslWithProvider builder) {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'LoadBalancedClientConfig.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'LoadBalancedClientConfig.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-15" style="display:none;">import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -2119,10 +2135,6 @@ public class OrderDispatcherService {
                             <span class="q-score-display" id="q-score-15">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2207,9 +2219,14 @@ spring:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'BillingEventConsumer.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'BillingEventConsumer.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-16" style="display:none;">import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -2252,10 +2269,6 @@ public class BillingEventConsumer {
                             <span class="q-score-display" id="q-score-16">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2341,9 +2354,14 @@ public class ResilientBillingConsumer {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'OrderAndInvoiceService.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'OrderAndInvoiceService.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-17" style="display:none;">import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -2396,10 +2414,6 @@ public class OrderAndInvoiceService {
                             <span class="q-score-display" id="q-score-17">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2486,9 +2500,14 @@ public ResponseEntity&lt;byte[]&gt; reportBusyFallback(String id, BulkheadFullEx
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'InternalOrderClient.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'InternalOrderClient.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-18" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
@@ -2528,10 +2547,6 @@ public class InternalOrderClient {
                             <span class="q-score-display" id="q-score-18">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2614,9 +2629,14 @@ spec:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'LegacyErrorResponse.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'LegacyErrorResponse.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-19" style="display:none;">import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -2668,10 +2688,6 @@ public class AccountController {
                             <span class="q-score-display" id="q-score-19">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2756,9 +2772,14 @@ public class GlobalExceptionHandler {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'MultiRegionAccountRouting.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'MultiRegionAccountRouting.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-20" style="display:none;">import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -2795,10 +2816,6 @@ public class MultiRegionAccountRouting {
                             <span class="q-score-display" id="q-score-20">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2881,6 +2898,27 @@ public class RegionAwareRoutingFilter implements Filter {
             </div>
         </div>
     </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="js/coverage-matrix.js"></script>

@@ -7,27 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect & Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link active"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link active"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -96,28 +124,16 @@
                 </table>
             </div>
 
-            <!-- Guidelines Box -->
+            <!-- Guidelines Box (Collapsible) -->
             <div class="guideline-box">
                 <div class="icon">💡</div>
                 <div>
                     <h3>Interview Workflow</h3>
                     <p>
-                        <strong>1. Open a Topic:</strong> Click a section below (Java, Spring, etc.).<br>
-                        <strong>2. Code Challenge:</strong> Click <em>"💻 View Code Snippet"</em> → share with candidate → observe response.<br>
-                        <strong>3. Rate 1–4:</strong> On each question card, tap <strong>1 = Cannot Explain · 2 = Partial · 3 = Good · 4 = Expert</strong>. Rate 3–5 questions per domain for a meaningful result.<br>
-                        <strong>4. Calculated Decision:</strong> The system automatically computes domain proficiencies and suggests a <strong>HIRE</strong> or <strong>REJECT</strong> recommendation.<br>
-                        <strong>5. Export Report:</strong> Click <strong>"📋 Generate Master Summary"</strong> to produce a clean, non-numerical executive evaluation report ready for HR and management.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Dynamic Coverage Matrix Callout -->
-            <div class="guideline-box" style="border-left-color: #2563eb; background-color: #f0f7ff;">
-                <div class="icon">🎯</div>
-                <div>
-                    <h3 style="color: #1e40af;">Dynamic Question Bank &amp; Coverage-First Architecture</h3>
-                    <p style="color: #1e3a8a;">
-                        <strong>Governing Principle:</strong> <em>Coverage determines question count, not the other way around.</em> The platform is not constrained by fixed 20-question limits. Question counts, progress bars, and navigation chips are derived dynamically from the active DOM and machine-readable <a href="data/coverage-matrix.json" target="_blank" style="color: var(--primary-blue); font-weight: 600; text-decoration: underline;">Technology Coverage Matrix (JSON)</a>.
+                        <strong>1. Open a Topic:</strong> Select any domain below.<br>
+                        <strong>2. Code Challenge:</strong> Click <em>"💻 View Code Snippet"</em> → share with candidate → observe debugging approach.<br>
+                        <strong>3. Rate 1–4:</strong> Tap <strong>1 = Cannot Explain · 2 = Partial · 3 = Good · 4 = Expert</strong>.<br>
+                        <strong>4. Recommendation & Export:</strong> The system automatically computes proficiencies and suggests <strong>HIRE</strong> or <strong>REJECT</strong>. Click <strong>"📋 Generate Master Summary"</strong> to produce the final assessment report.
                     </p>
                 </div>
             </div>
@@ -139,7 +155,7 @@
                         </p>
                     </div>
                     <div class="hub-card-footer">
-                        <span>21 Practical Questions</span>
+                        <span>24 Practical Questions</span>
                         <span>Open & Assess →</span>
                     </div>
                 </a>
@@ -150,7 +166,22 @@
                         <div class="hub-card-icon" style="background: var(--accent-green-bg); color: var(--accent-green);">🌱</div>
                         <h3 class="hub-card-title">Spring & Spring Boot</h3>
                         <p class="hub-card-desc">
-                            AOP proxies, @Transactional boundaries, circular dependencies, auto-configuration, GraalVM AOT, thread pools, Netty WebFlux, and Kubernetes lifecycle.
+                            AOP dynamic proxies, @Transactional boundaries, multi-datasource routing, Spring Data JPA L1 cache/Persistable optimizations, Virtual Threads, Resilience4j, and Spring Modulith outbox.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>29 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- Spring Batch Card -->
+                <a href="spring-batch.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #f0fdfa; color: #0d9488;">⚙️</div>
+                        <h3 class="hub-card-title">Spring Batch & Large-Scale Processing</h3>
+                        <p class="hub-card-desc">
+                            Chunk processing vs Tasklets, Cursor vs Paging readers, Skip & Retry policies, JobRepository schema, Partitioning, Remote Chunking, and Spring Batch 5 modernization.
                         </p>
                     </div>
                     <div class="hub-card-footer">
@@ -204,6 +235,51 @@
                     </div>
                 </a>
 
+                <!-- Apache Camel Card -->
+                <a href="camel.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #fef3c7; color: #b45309;">🐪</div>
+                        <h3 class="hub-card-title">Apache Camel & Integration</h3>
+                        <p class="hub-card-desc">
+                            Route lifecycle, In/Out message exchange, stream caching traps, error handling (onException vs DLC), Aggregator & Splitter EIPs, idempotent consumers, and JTA transactions.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>24 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- Apache Kafka Card -->
+                <a href="kafka.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #f1f5f9; color: #0f172a;">🦅</div>
+                        <h3 class="hub-card-title">Apache Kafka & Streaming</h3>
+                        <p class="hub-card-desc">
+                            Producer reliability (acks/idempotence), consumer rebalance storms, offset commit traps, Exactly-Once Semantics (EOS), consumer lag triage, and Kafka Streams state stores.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>20 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
+                <!-- Kubernetes & Docker Card -->
+                <a href="kubernetes-docker.html" class="hub-card">
+                    <div>
+                        <div class="hub-card-icon" style="background: #eff6ff; color: #2563eb;">🐳</div>
+                        <h3 class="hub-card-title">Kubernetes & Docker</h3>
+                        <p class="hub-card-desc">
+                            Pod lifecycle & zero-downtime rolling updates, resource QoS & CPU CFS throttling, JVM container tuning, multi-stage builds, CoreDNS ndots, Ingress, and native sidecars.
+                        </p>
+                    </div>
+                    <div class="hub-card-footer">
+                        <span>23 Practical Questions</span>
+                        <span>Open & Assess →</span>
+                    </div>
+                </a>
+
                 <!-- Angular Card -->
                 <a href="angular.html" class="hub-card">
                     <div>
@@ -229,7 +305,7 @@
                         </p>
                     </div>
                     <div class="hub-card-footer">
-                        <span>20 Practical Questions</span>
+                        <span>22 Practical Questions</span>
                         <span>Open & Assess →</span>
                     </div>
                 </a>
@@ -306,8 +382,9 @@
                 </p>
                 <textarea id="masterSummaryTextarea" style="width: 100%; height: 320px; font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 14px; border: 1px solid var(--border-color); border-radius: 6px; background-color: #f8fafc; resize: vertical; line-height: 1.5;"></textarea>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
                 <button class="btn-outline" onclick="closeMasterSummaryModal()">Close</button>
+                <button class="btn-outline" id="downloadMasterSummaryBtn" onclick="downloadFeedbackReportText()" style="display: inline-flex; align-items: center; gap: 6px;">📥 Download Report (.txt)</button>
                 <button class="btn-primary" id="copyMasterSummaryBtn" onclick="copyMasterSummaryToClipboard()">📋 Copy Report to Clipboard</button>
             </div>
         </div>

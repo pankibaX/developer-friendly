@@ -7,34 +7,62 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect & Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link active"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link active"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="main-wrapper">
         <header class="header">
             <h1>📐 Architecture & System Design</h1>
-            <p>20 Advanced Architectural questions covering SOLID refactoring, 12-Factor App, Hazelcast distributed caching, Session clustering, CAP theorem in banking, Sharding, Event Sourcing, Hexagonal Architecture, and Disaster Recovery.</p>
+            <p>22 Advanced Architectural questions covering SOLID refactoring, 12-Factor App, Hazelcast distributed caching, Session clustering, CAP theorem in banking, Sharding, Event Sourcing, Hexagonal Architecture, and Disaster Recovery.</p>
         </header>
 
         <div class="content-container">
@@ -76,43 +104,12 @@
             <div class="filter-bar">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Architecture topics (e.g. solid, 12-factor, hazelcast, cap theorem, sharding, event sourcing, hexagonal, disruptor, session management)..." onkeyup="filterQuestions()">
             </div>
-
-            
-            <!-- Quick Jump Question Navigator -->
-            <div class="quick-jump-container">
-                <div class="quick-jump-header">
-                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
-                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
-                </div>
-                <div class="quick-jump-grid">
-                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Object-Oriented Design & SOLID">Q1: SOLID & ISP Violation</button>
-                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Cloud-Native Architecture & 12-Factor">Q2: 12-Factor Statelessness</button>
-                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Distributed Caching & In-Memory Data Grids">Q3: Redis vs Hazelcast IMDG</button>
-                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Session Management & Scalability">Q4: Sticky Sessions vs Token</button>
-                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Domain-Driven Design & Data Integrity">Q5: DDD Aggregates & Invariants</button>
-                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Distributed Systems Theory & CAP">Q6: CAP & PACELC Trade-offs</button>
-                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Quality Engineering & Testing Architecture">Q7: Test Pyramid Architecture</button>
-                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="High-Throughput Systems & Mechanical Sympathy">Q8: L1/L2 Cache & False Sharing</button>
-                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Caching Tiers & Invalidation Patterns">Q9: Cache-Aside vs Write-Through</button>
-                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="Data Partitioning & Scalability">Q10: Sharding & Consistent Hashing</button>
-                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="Event-Driven & Ledger Systems">Q11: Event Sourcing & CQRS</button>
-                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Legacy Migration & Modernization">Q12: Strangler Fig Migration</button>
-                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="API Security & DDoS Mitigation">Q13: Zero-Trust & DDoS Defense</button>
-                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="Design Patterns & Extensibility">Q14: GoF Patterns & Extensibility</button>
-                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Distributed Concurrency & Mutual Exclusion">Q15: Redlock & Distributed Locks</button>
-                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Streaming Systems & Message Brokers">Q16: Kafka vs RabbitMQ Systems</button>
-                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Database Lifecycle & Zero-Downtime Migrations">Q17: Expand/Contract Zero-Downtime</button>
-                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Performance Engineering & Profiling">Q18: Flamegraphs & Allocations</button>
-                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Architectural Styles & Clean Architecture">Q19: Clean / Hexagonal Arch</button>
-                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Resilience Engineering & Chaos Testing">Q20: Chaos & Fault Injection</button>
-                </div>
-            </div>
 <div id="questionsContainer">
                 <!-- QUESTION 1: Object-Oriented Design &amp; SOLID -->
                 <div class="question-card" id="q-1" data-keywords="solid principles liskov substitution lsp srp ocp dip fragile base class">
                     <div class="card-header">
                         <span class="concept-badge">Object-Oriented Design &amp; SOLID</span>
-                        <span class="q-number">Question 1 of 20</span>
+                        <span class="q-number">Question 1 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -137,9 +134,14 @@
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'AccountHierarchy.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'AccountHierarchy.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-1" style="display:none;">import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -196,10 +198,6 @@ public class FixedTermDepositAccount extends BankAccount {
                             <span class="q-score-display" id="q-score-1">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -254,7 +252,7 @@ public class FixedTermAccount implements Account {
                 <div class="question-card" id="q-2" data-keywords="12 factor app cloud native stateless configuration environment parity disposability">
                     <div class="card-header">
                         <span class="concept-badge">Cloud-Native Architecture &amp; 12-Factor</span>
-                        <span class="q-number">Question 2 of 20</span>
+                        <span class="q-number">Question 2 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -279,9 +277,14 @@ public class FixedTermAccount implements Account {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'LegacyOrderProcessor.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'LegacyOrderProcessor.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-2" style="display:none;">import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.sql.Connection;
@@ -329,10 +332,6 @@ public class LegacyOrderProcessor {
                             <span class="q-score-display" id="q-score-2">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -381,7 +380,7 @@ public class CloudNativeOrderProcessor {
                 <div class="question-card" id="q-3" data-keywords="hazelcast imdg near cache cache stampede split brain quorum invalidation stale read">
                     <div class="card-header">
                         <span class="concept-badge">Distributed Caching &amp; In-Memory Data Grids</span>
-                        <span class="q-number">Question 3 of 20</span>
+                        <span class="q-number">Question 3 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -406,9 +405,14 @@ public class CloudNativeOrderProcessor {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'hazelcast-config.xml')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'hazelcast-config.xml')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-3" style="display:none;">&lt;hazelcast&gt;
     &lt;map name=&quot;seat-availability&quot;&gt;
         &lt;in-memory-format&gt;BINARY&lt;/in-memory-format&gt;
@@ -446,10 +450,6 @@ public class CloudNativeOrderProcessor {
                             <span class="q-score-display" id="q-score-3">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -506,7 +506,7 @@ public class CloudNativeOrderProcessor {
                 <div class="question-card" id="q-4" data-keywords="session management sticky session spring session redis hazelcast blast radius jwt">
                     <div class="card-header">
                         <span class="concept-badge">Session Management &amp; Scalability</span>
-                        <span class="q-number">Question 4 of 20</span>
+                        <span class="q-number">Question 4 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -531,9 +531,14 @@ public class CloudNativeOrderProcessor {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'LegacySessionCart.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'LegacySessionCart.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-4" style="display:none;">import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -580,10 +585,6 @@ public class CheckoutController {
                             <span class="q-score-display" id="q-score-4">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -636,7 +637,7 @@ public class SessionConfig {
                 <div class="question-card" id="q-5" data-keywords="referential integrity microservices ddd bounded context aggregate root eventual consistency">
                     <div class="card-header">
                         <span class="concept-badge">Domain-Driven Design &amp; Data Integrity</span>
-                        <span class="q-number">Question 5 of 20</span>
+                        <span class="q-number">Question 5 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -661,9 +662,14 @@ public class SessionConfig {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderEntity.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'OrderEntity.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-5" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -703,10 +709,6 @@ public class OrderEntity {
                             <span class="q-score-display" id="q-score-5">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -758,7 +760,7 @@ public class CustomerDeactivationHandler {
                 <div class="question-card" id="q-6" data-keywords="cap theorem consistency availability partition tolerance cp vs ap pacelc split brain">
                     <div class="card-header">
                         <span class="concept-badge">Distributed Systems Theory &amp; CAP</span>
-                        <span class="q-number">Question 6 of 20</span>
+                        <span class="q-number">Question 6 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -785,9 +787,14 @@ public class CustomerDeactivationHandler {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'AtmWithdrawalCoordinator.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'AtmWithdrawalCoordinator.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-6" style="display:none;">import java.math.BigDecimal;
 
 public class AtmWithdrawalCoordinator {
@@ -821,10 +828,6 @@ public class AtmWithdrawalCoordinator {
                             <span class="q-score-display" id="q-score-6">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -878,7 +881,7 @@ public WithdrawalResult processAtmWithdrawal(AccountLedger ledger, BigDecimal am
                 <div class="question-card" id="q-7" data-keywords="tdd test driven development testing pyramid unit integration contract e2e flakiness">
                     <div class="card-header">
                         <span class="concept-badge">Quality Engineering &amp; Testing Architecture</span>
-                        <span class="q-number">Question 7 of 20</span>
+                        <span class="q-number">Question 7 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -903,9 +906,14 @@ public WithdrawalResult processAtmWithdrawal(AccountLedger ledger, BigDecimal am
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'OrderValidationTest.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'OrderValidationTest.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-7" style="display:none;">import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -946,10 +954,6 @@ public class OrderServiceTest {
                             <span class="q-score-display" id="q-score-7">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -999,7 +1003,7 @@ void shouldCalculateEightPercentTaxForStandardItems() {
                 <div class="question-card" id="q-8" data-keywords="lmax disruptor mechanical sympathy ring buffer false sharing lock free cas cpu cache">
                     <div class="card-header">
                         <span class="concept-badge">High-Throughput Systems &amp; Mechanical Sympathy</span>
-                        <span class="q-number">Question 8 of 20</span>
+                        <span class="q-number">Question 8 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1024,9 +1028,14 @@ void shouldCalculateEightPercentTaxForStandardItems() {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'OrderMatchingEngine.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'OrderMatchingEngine.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-8" style="display:none;">import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -1065,10 +1074,6 @@ public class OrderMatchingEngine {
                             <span class="q-score-display" id="q-score-8">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1119,7 +1124,7 @@ public class PaddedSequence {
                 <div class="question-card" id="q-9" data-keywords="caching hierarchy l1 l2 write through write behind cache aside stampede dual cache">
                     <div class="card-header">
                         <span class="concept-badge">Caching Tiers &amp; Invalidation Patterns</span>
-                        <span class="q-number">Question 9 of 20</span>
+                        <span class="q-number">Question 9 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1144,9 +1149,14 @@ public class PaddedSequence {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'ProductCatalogCache.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'ProductCatalogCache.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-9" style="display:none;">import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -1199,10 +1209,6 @@ public class ProductCatalogService {
                             <span class="q-score-display" id="q-score-9">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1249,7 +1255,7 @@ public class ProductCatalogService {
                 <div class="question-card" id="q-10" data-keywords="database sharding consistent hashing hash ring virtual nodes modulo rebalancing">
                     <div class="card-header">
                         <span class="concept-badge">Data Partitioning &amp; Scalability</span>
-                        <span class="q-number">Question 10 of 20</span>
+                        <span class="q-number">Question 10 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1274,9 +1280,14 @@ public class ProductCatalogService {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'ShardRouter.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'ShardRouter.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-10" style="display:none;">// Standard Java utility
 
 public class ShardRouter {
@@ -1311,10 +1322,6 @@ public class ShardRouter {
                             <span class="q-score-display" id="q-score-10">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1377,7 +1384,7 @@ public class ShardRouter {
                 <div class="question-card" id="q-11" data-keywords="event sourcing cqrs event store projection snapshotting replay audit trail">
                     <div class="card-header">
                         <span class="concept-badge">Event-Driven &amp; Ledger Systems</span>
-                        <span class="q-number">Question 11 of 20</span>
+                        <span class="q-number">Question 11 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1402,9 +1409,14 @@ public class ShardRouter {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'BankAccountAggregate.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'BankAccountAggregate.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-11" style="display:none;">import java.util.UUID;
 import java.time.Instant;
 import java.math.BigDecimal;
@@ -1454,10 +1466,6 @@ public class BankAccountAggregate {
                             <span class="q-score-display" id="q-score-11">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1508,7 +1516,7 @@ public class BankAccountAggregate {
                 <div class="question-card" id="q-12" data-keywords="strangler fig pattern legacy migration monolith to microservices api gateway dark launching">
                     <div class="card-header">
                         <span class="concept-badge">Legacy Migration &amp; Modernization</span>
-                        <span class="q-number">Question 12 of 20</span>
+                        <span class="q-number">Question 12 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1533,9 +1541,14 @@ public class BankAccountAggregate {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'gateway-strangler-routes.yml')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'gateway-strangler-routes.yml')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-12" style="display:none;">routes:
   - id: payment-microservice
     uri: lb:
@@ -1571,10 +1584,6 @@ public class BankAccountAggregate {
                             <span class="q-score-display" id="q-score-12">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1624,7 +1633,7 @@ route:
                 <div class="question-card" id="q-13" data-keywords="rate limiting token bucket leaky bucket ddos waf cloudflare layer 7 bot mitigation">
                     <div class="card-header">
                         <span class="concept-badge">API Security &amp; DDoS Mitigation</span>
-                        <span class="q-number">Question 13 of 20</span>
+                        <span class="q-number">Question 13 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1649,9 +1658,14 @@ route:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'TieredRateLimitResolver.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'TieredRateLimitResolver.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-13" style="display:none;">import jakarta.servlet.http.HttpServletRequest;
 
 public class TieredRateLimitResolver {
@@ -1687,10 +1701,6 @@ public class TieredRateLimitResolver {
                             <span class="q-score-display" id="q-score-13">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1737,7 +1747,7 @@ public class TieredRateLimitResolver {
                 <div class="question-card" id="q-14" data-keywords="design patterns strategy factory open closed principle ocp spring registry refactoring">
                     <div class="card-header">
                         <span class="concept-badge">Design Patterns &amp; Extensibility</span>
-                        <span class="q-number">Question 14 of 20</span>
+                        <span class="q-number">Question 14 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1762,9 +1772,14 @@ public class TieredRateLimitResolver {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'MonolithicPaymentProcessor.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'MonolithicPaymentProcessor.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-14" style="display:none;">import org.springframework.stereotype.Service;
 
 @Service
@@ -1810,10 +1825,6 @@ public class MonolithicPaymentProcessor {
                             <span class="q-score-display" id="q-score-14">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -1874,7 +1885,7 @@ public class PaymentEngine {
                 <div class="question-card" id="q-15" data-keywords="distributed lock redlock redis advisory lock fencing token gc pause martin kleppmann">
                     <div class="card-header">
                         <span class="concept-badge">Distributed Concurrency &amp; Mutual Exclusion</span>
-                        <span class="q-number">Question 15 of 20</span>
+                        <span class="q-number">Question 15 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -1899,9 +1910,14 @@ public class PaymentEngine {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'ScheduledSettlementJob.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'ScheduledSettlementJob.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-15" style="display:none;">import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -1951,10 +1967,6 @@ public class ScheduledSettlementJob {
                             <span class="q-score-display" id="q-score-15">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2003,7 +2015,7 @@ int updateWithFencing(@Param(&quot;id&quot;) Long id, @Param(&quot;bal&quot;) Bi
                 <div class="question-card" id="q-16" data-keywords="kafka log compaction retention tombstones consumer group rebalance partition">
                     <div class="card-header">
                         <span class="concept-badge">Streaming Systems &amp; Message Brokers</span>
-                        <span class="q-number">Question 16 of 20</span>
+                        <span class="q-number">Question 16 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2028,9 +2040,14 @@ int updateWithFencing(@Param(&quot;id&quot;) Long id, @Param(&quot;bal&quot;) Bi
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'kafka-topic-config.sh')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'kafka-topic-config.sh')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-16" style="display:none;">kafka-topics.sh --create --topic customer-profile-updates \
   --partitions 12 --replication-factor 3 \
   --config cleanup.policy=delete \
@@ -2061,10 +2078,6 @@ int updateWithFencing(@Param(&quot;id&quot;) Long id, @Param(&quot;bal&quot;) Bi
                             <span class="q-score-display" id="q-score-16">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2110,7 +2123,7 @@ int updateWithFencing(@Param(&quot;id&quot;) Long id, @Param(&quot;bal&quot;) Bi
                 <div class="question-card" id="q-17" data-keywords="database migration zero downtime expand contract liquibase flyway column rename">
                     <div class="card-header">
                         <span class="concept-badge">Database Lifecycle &amp; Zero-Downtime Migrations</span>
-                        <span class="q-number">Question 17 of 20</span>
+                        <span class="q-number">Question 17 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2135,9 +2148,14 @@ int updateWithFencing(@Param(&quot;id&quot;) Long id, @Param(&quot;bal&quot;) Bi
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'V2__rename_phone.sql')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'V2__rename_phone.sql')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-17" style="display:none;">-- Problematic Migration Script Executed During Rolling Deploy
 ALTER TABLE users RENAME COLUMN phone_number TO contact_number;
 ALTER TABLE users ALTER COLUMN contact_number SET NOT NULL;</div>
@@ -2167,10 +2185,6 @@ ALTER TABLE users ALTER COLUMN contact_number SET NOT NULL;</div>
                             <span class="q-score-display" id="q-score-17">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2219,7 +2233,7 @@ ALTER TABLE users DROP COLUMN phone_number;</code></pre>
                 <div class="question-card" id="q-18" data-keywords="performance profiling async-profiler flamegraph cpu bottleneck memory leak mat">
                     <div class="card-header">
                         <span class="concept-badge">Performance Engineering &amp; Profiling</span>
-                        <span class="q-number">Question 18 of 20</span>
+                        <span class="q-number">Question 18 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2244,9 +2258,14 @@ ALTER TABLE users DROP COLUMN phone_number;</code></pre>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'OrderValidationUtility.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'OrderValidationUtility.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-18" style="display:none;">// Domain validation utility
 
 public class OrderValidationUtility {
@@ -2287,10 +2306,6 @@ public class OrderValidationUtility {
                             <span class="q-score-display" id="q-score-18">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2342,7 +2357,7 @@ public class OrderValidationUtility {
                 <div class="question-card" id="q-19" data-keywords="hexagonal architecture ports and adapters clean architecture domain layer dependency inversion">
                     <div class="card-header">
                         <span class="concept-badge">Architectural Styles &amp; Clean Architecture</span>
-                        <span class="q-number">Question 19 of 20</span>
+                        <span class="q-number">Question 19 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2367,9 +2382,14 @@ public class OrderValidationUtility {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'DomainPayment.java')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'DomainPayment.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-19" style="display:none;">import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -2419,10 +2439,6 @@ public class Payment {
                             <span class="q-score-display" id="q-score-19">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2482,7 +2498,7 @@ public interface PaymentRepositoryPort {
                 <div class="question-card" id="q-20" data-keywords="chaos engineering netflix chaos monkey multi datacenter active active failover blast radius">
                     <div class="card-header">
                         <span class="concept-badge">Resilience Engineering &amp; Chaos Testing</span>
-                        <span class="q-number">Question 20 of 20</span>
+                        <span class="q-number">Question 20 of 22</span>
                     </div>
                     <div class="card-body">
                         <div class="section-block">
@@ -2507,9 +2523,14 @@ public interface PaymentRepositoryPort {
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'ChaosExperiment.json')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'ChaosExperiment.json')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-20" style="display:none;">{
   &quot;name&quot;: &quot;DatacenterNetworkLatencyExperiment&quot;,
   &quot;target&quot;: &quot;payment-microservice&quot;,
@@ -2546,10 +2567,6 @@ public interface PaymentRepositoryPort {
                             <span class="q-score-display" id="q-score-20">Not Rated</span>
                         </div>
 
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>👁️ Show Solution & Candidate Evaluation</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
                             <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
@@ -2597,6 +2614,311 @@ public void runControlledChaosExperiment(ChaosFault fault, MetricsMonitor monito
                         </div>
                     </div>
                 </div>
+
+                <!-- QUESTION 21: System Scale & Complexity -->
+                <div class="question-card" id="q-21" data-keywords="project complexity scale high availability distributed architecture">
+                    <div class="card-header">
+                        <span class="concept-badge">System Scale & Complexity</span>
+                        <span class="q-number">Question 21 of 22</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Structuring enterprise project architecture walkthroughs: conveying scale (RPS, throughput, data volume), architectural trade-offs, and high availability design.
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                When asked in an interview: "How complex are the projects you have worked on so far?", what architectural framework should you use to articulate scale, complexity, and design trade-offs?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('21', 'ArchitectureOverview.txt')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('21')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-21" style="display:none;">[Distributed Event-Driven Payment Gateway]
+Scale:
+  - 15,000 requests/sec peak traffic
+  - 99.99% Availability SLA (&lt; 52 minutes downtime/year)
+  - Sub-50ms p99 latency target
+
+Core Challenges:
+  - Idempotent payment processing across distributed networks
+  - Multi-region active-active disaster recovery
+  - Zero message loss during broker failovers</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-21">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('architecture', 21, 1, 'Structuring project complexity, scale, and high availability in architecture interviews')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('architecture', 21, 2, 'Structuring project complexity, scale, and high availability in architecture interviews')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('architecture', 21, 3, 'Structuring project complexity, scale, and high availability in architecture interviews')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('architecture', 21, 4, 'Structuring project complexity, scale, and high availability in architecture interviews')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-21">Not Rated</span>
+                        </div>
+
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>1. WHAT is the interviewer evaluating when asking "How complex are your projects?":</strong>
+                                <br>The interviewer is evaluating whether you can think and communicate as a <strong>Lead / Staff / Principal Architect</strong> rather than an individual task implementer. They are testing whether you understand quantitative scale (RPS, concurrency, data volume), non-functional requirements (SLAs, latency percentiles, disaster recovery), and non-trivial trade-offs.
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>2. WHY most candidates fail this question:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Vague Hand-Waving:</strong> Saying "it was a very complex microservice with lots of APIs" without offering a single concrete number or latency target.</li>
+                                    <li><strong>Feature Listing instead of Architecture:</strong> Explaining business features ("we have a login screen, a cart, and order checkout") instead of distributed engineering challenges (idempotency, distributed transactions, cache invalidation, network partitions).</li>
+                                    <li><strong>Inability to Defend Tech Choices:</strong> Saying "we used Kafka because everyone uses Kafka" instead of articulating why Kafka was chosen over RabbitMQ or SQS.</li>
+                                </ul>
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>3. HOW to articulate Project Complexity (The 4-Step Architect Framework):</strong>
+                                <ol style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>The 2-Sentence Elevator Pitch:</strong> State the domain, mission, and core system responsibility.
+                                        <br><em>Example:</em> "I led the architecture of an event-driven, multi-region payment orchestration platform processing real-time credit card transactions and bank settlements across 12 countries."
+                                    </li>
+                                    <li><strong>Concrete Quantitative Scale (The Hard Numbers):</strong> Always provide 4 key metrics:
+                                        <ul style="margin-left: 20px; margin-top: 4px;">
+                                            <li><strong>Throughput:</strong> Peak 25,000 requests/sec with daily volume of 40M transactions.</li>
+                                            <li><strong>Latency:</strong> p50 &lt; 15ms, p99 &lt; 50ms end-to-end SLA.</li>
+                                            <li><strong>Availability Target:</strong> 99.99% availability (&le; 52 minutes of unscheduled downtime per year).</li>
+                                            <li><strong>Data Footprint:</strong> 8 TB active database working set with 2 TB daily analytics streaming to Kafka/Snowflake.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Deep Engineering Hurdles Solved:</strong> Highlight 2 or 3 non-trivial technical challenges:
+                                        <ul style="margin-left: 20px; margin-top: 4px;">
+                                            <li><strong>Zero Double-Charging (Idempotency):</strong> Implemented distributed Redis idempotency keys with database unique constraints to prevent double charges during client network retries.</li>
+                                            <li><strong>Dual-Write Problem:</strong> Solved atomic state persistence and event publishing using the <strong>Transactional Outbox Pattern with Debezium CDC</strong>, eliminating distributed 2-Phase Commit (2PC) bottlenecks.</li>
+                                            <li><strong>Graceful Degradation / Resilience:</strong> Deployed Resilience4j circuit breakers and rate limiters to shed non-critical traffic during downstream banking outages.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Trade-Offs &amp; Technical Rationale:</strong>
+                                        <br>Explain why technology X was chosen over Y (e.g. "We chose Apache Kafka over RabbitMQ because we required persistent log replayability to reconstruct state after disaster recovery, and partitioned ordering guarantees").
+                                    </li>
+                                </ol>
+                            </p>
+
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Architectural Metrics Blueprint (Memorize for Interviews)</span><span class="code-lang">Text</span></div>
+                                <pre><code>1. Throughput:      Peak RPS, Read/Write ratio (e.g. 80% Read / 20% Write)
+2. Latency:         p50, p95, p99 percentiles (Never quote an "average" latency!)
+3. Resilience:      RTO (Recovery Time Objective &lt; 15 min), RPO (Recovery Point Objective = 0)
+4. Data Volume:     Daily ingestion volume, retention policy, partition strategy
+5. Trade-off:       CAP Theorem balance (e.g., CP for banking balances vs AP for product catalog)</code></pre>
+                            </div>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>4. Quick Interview Study Cheat-Sheet:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>Never quote "Average" Latency:</strong> Averages hide long-tail p99 degradation. Always speak in p95 and p99 percentiles.</li>
+                                    <li><strong>Highlight Trade-offs:</strong> Every architecture choice has a cost (e.g. Eventual Consistency improves availability at the expense of temporary read staleness).</li>
+                                    <li><strong>Own the Failures:</strong> Mention a real incident you diagnosed (e.g., connection pool exhaustion or Kafka consumer lag rebalance storm) and how you permanently engineered around it.</li>
+                                </ul>
+                            </p>
+
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Incomplete Response</div>
+                                    Talks solely about framework syntax (Spring annotations, writing controllers) without providing quantitative scale, SLAs, or distributed systems challenges.
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Senior / Expert Response</div>
+                                    Follows the 4-step Lead framework: Business context &rarr; Hard quantitative metrics (RPS, p99, 99.99%) &rarr; Deep engineering hurdles (Idempotency, Outbox, CDC) &rarr; Architectural trade-offs and rationale.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION 22: Insurance Domain Architecture -->
+                <div class="question-card" id="q-22" data-keywords="insurance domain policy claims underwriting rating engine acord ifrs17">
+                    <div class="card-header">
+                        <span class="concept-badge">Insurance Domain Architecture</span>
+                        <span class="q-number">Question 22 of 22</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="section-block">
+                            <div class="section-title">📌 1. Concept Covered</div>
+                            <div class="concept-text">
+                                Key enterprise workflows in the Insurance domain: Policy Administration, Underwriting, Claims Adjudication, Rating Engines, and Regulatory Standards (ACORD, IFRS 17).
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">❓ 2. Question</div>
+                            <div class="question-title">
+                                If interviewing for an Insurance technology role, what are the primary business domains, core workflows, and architectural patterns standard across modern insurance platforms?
+                            </div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-title">💻 3. Code Challenge</div>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('22', 'InsuranceDomainModel.java')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('22')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
+                            <div id="snippet-22" style="display:none;">public record Policy(
+    String policyNumber,
+    PolicyHolder holder,
+    Coverage coverage,
+    BigDecimal annualPremium,
+    PolicyStatus status
+) {}
+
+public record Claim(
+    String claimId,
+    String policyNumber,
+    BigDecimal claimedAmount,
+    ClaimStatus status,
+    List&lt;Evidence&gt; attachments
+) {}</div>
+                        </div>
+
+                        <!-- 1-4 Answer Quality Rating -->
+                        <div class="question-rating-panel">
+                            <span class="rating-panel-label">🎯 Answer Quality:</span>
+                            <div class="star-rating-group" id="star-group-22">
+                                <button class="star-btn" data-rating="1" onclick="setQuestionRating('architecture', 22, 1, 'Insurance domain architectural patterns, policy administration, and claims workflows')">
+                                    <span class="star-num">1</span>
+                                    <span class="star-label">Cannot Explain</span>
+                                </button>
+                                <button class="star-btn" data-rating="2" onclick="setQuestionRating('architecture', 22, 2, 'Insurance domain architectural patterns, policy administration, and claims workflows')">
+                                    <span class="star-num">2</span>
+                                    <span class="star-label">Partial</span>
+                                </button>
+                                <button class="star-btn" data-rating="3" onclick="setQuestionRating('architecture', 22, 3, 'Insurance domain architectural patterns, policy administration, and claims workflows')">
+                                    <span class="star-num">3</span>
+                                    <span class="star-label">Good</span>
+                                </button>
+                                <button class="star-btn" data-rating="4" onclick="setQuestionRating('architecture', 22, 4, 'Insurance domain architectural patterns, policy administration, and claims workflows')">
+                                    <span class="star-num">4</span>
+                                    <span class="star-label">Expert</span>
+                                </button>
+                            </div>
+                            <span class="q-score-display" id="q-score-22">Not Rated</span>
+                        </div>
+
+                        <div class="solution-content">
+                            <div class="solution-heading">Answer Key & Deep-Dive Explanation</div>
+                            
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>1. WHAT is the Insurance Domain Architectural Landscape:</strong>
+                                <br>The insurance industry is organized around two foundational core systems: <strong>Policy Administration Systems (PAS)</strong> (managing contracts and premium intake) and <strong>Claims Management Systems (CMS)</strong> (managing loss payouts), connected via actuarial rating engines, billing systems, and regulatory reporting tiers.
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>2. The Core Insurance Business Domains &amp; End-to-End Lifecycles:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>1. Policy Administration System (PAS) Lifecycle:</strong>
+                                        <br><code>Quote &rarr; Underwrite &rarr; Bind &rarr; Issue &rarr; Endorsement &rarr; Renewal / Cancellation</code>
+                                        <br>• <em>Quote:</em> Prospective customer enters details; rating engine calculates estimated premium.
+                                        <br>• <em>Underwriting:</em> Risk assessment evaluating risk appetite, external credit/loss history, and medical or telematics records.
+                                        <br>• <em>Bind &amp; Issue:</em> Legal contract creation upon first premium payment.
+                                        <br>• <em>Endorsement (Mid-Term Adjustment - MTA):</em> Modifying an active policy (e.g., adding a new driver or changing address) and recalculating prorated premium.
+                                    </li>
+                                    <li><strong>2. Claims Adjudication Pipeline:</strong>
+                                        <br><code>FNOL (First Notice of Loss) &rarr; Coverage Validation &rarr; Fraud Triage &rarr; Adjuster Assessment &rarr; Settlement &amp; Subrogation</code>
+                                        <br>• <em>FNOL:</em> Customer reports an accident or property damage.
+                                        <br>• <em>Coverage Verification:</em> System checks if the policy was active on the date of loss and if the peril is covered.
+                                        <br>• <em>Fraud Triage:</em> Machine learning rule engines score claim for suspicious patterns.
+                                        <br>• <em>Settlement &amp; Subrogation:</em> Claim is approved and paid out. If a third party was at fault, subrogation recovers costs from the other insurer.
+                                    </li>
+                                    <li><strong>3. Rating &amp; Actuarial Engine:</strong>
+                                        <br>Stateless calculation microservice executing complex mathematical formula tables based on loss probability, catastrophe models, and regional insurance commission regulations.
+                                    </li>
+                                </ul>
+                            </p>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>3. Regulatory &amp; Integration Standards (Key Acronyms to Know):</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>ACORD (Association for Cooperative Operations Research and Development):</strong> The global data standard for XML and JSON message exchange between carriers, brokers, agents, and aggregators.</li>
+                                    <li><strong>IFRS 17 / GAAP:</strong> International accounting and financial reporting standards requiring insurers to report cash flows, contractual service margins (CSM), and insurance risk liabilities on balance sheets.</li>
+                                    <li><strong>HIPAA / PCI-DSS / GDPR:</strong> Strict compliance governing Protected Health Information (PHI) and payment card storage.</li>
+                                </ul>
+                            </p>
+
+                            <div class="code-wrapper">
+                                <div class="code-header"><span>Insurance Domain Aggregate Roots</span><span class="code-lang">Java</span></div>
+                                <pre><code>public record Policy(
+    String policyNumber,
+    PolicyHolder holder,
+    Coverage coverage,
+    BigDecimal annualPremium,
+    PolicyStatus status
+) {
+    public boolean isActiveOnDate(LocalDate incidentDate) {
+        return status == PolicyStatus.ACTIVE 
+            &amp;&amp; !incidentDate.isBefore(coverage.effectiveDate()) 
+            &amp;&amp; !incidentDate.isAfter(coverage.expirationDate());
+    }
+}
+
+public enum PolicyStatus {
+    QUOTED, UNDERWRITING, BOUND, ACTIVE, EXPIRED, CANCELLED
+}
+
+public enum ClaimStatus {
+    FNOL_SUBMITTED, UNDER_INVESTIGATION, APPROVED, REJECTED, SETTLED
+}</code></pre>
+                            </div>
+
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <strong>4. Quick Interview Study Cheat-Sheet:</strong>
+                                <ul style="margin-left: 20px; margin-top: 4px; font-size: 13px; color: var(--text-secondary);">
+                                    <li><strong>FNOL:</strong> First Notice of Loss (the entry point of all insurance claims).</li>
+                                    <li><strong>Endorsement:</strong> Any change to an active policy during its contract term.</li>
+                                    <li><strong>Subrogation:</strong> The insurer pursuing a third party that caused an insurance loss to recover payout costs.</li>
+                                    <li><strong>ACORD:</strong> The universal XML/JSON data interchange format across the insurance industry.</li>
+                                </ul>
+                            </p>
+
+                            <div class="evaluation-grid">
+                                <div class="eval-box eval-bad">
+                                    <div class="eval-title">⚠️ Junior / Incomplete Response</div>
+                                    Has no familiarity with insurance terminology (unaware of FNOL, Endorsements, Underwriting, or Subrogation).
+                                </div>
+                                <div class="eval-box eval-good">
+                                    <div class="eval-title">🌟 Senior / Expert Response</div>
+                                    Masterfully details the Policy Administration lifecycle (Quote to Endorsement to Renewal), Claims Adjudication (FNOL to Subrogation), Rating Engines, and ACORD/IFRS 17 regulatory standards.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
@@ -2623,6 +2945,27 @@ public void runControlledChaosExperiment(ChaosFault fault, MetricsMonitor monito
             </div>
         </div>
     </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="js/coverage-matrix.js"></script>

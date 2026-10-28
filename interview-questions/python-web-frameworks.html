@@ -7,27 +7,55 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+                <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-icon">⚡</div>
             <div class="brand-title">
                 <h2>Interview Hub</h2>
-                <p>Architect &amp; Lead Level</p>
+                <p>Architect & Lead</p>
             </div>
         </div>
+
+        <!-- Real-Time Topic Filter Search -->
+        <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">🔍</span>
+            <input type="text" class="sidebar-search-input" placeholder="Quick find topic..." onkeyup="filterSidebarTopics(this.value)" aria-label="Filter topics">
+        </div>
+
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary</a></li>
-            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot <span class="nav-badge">21 Qs</span></a></li>
-            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM, JPA & Hibernate <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS (EC2 & Lambda) <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async <span class="nav-badge">20 Qs</span></a></li>
-            <li><a href="python-web-frameworks.html" class="nav-link active"><span>🚀</span> Django, FastAPI & Flask <span class="nav-badge">20 Qs</span></a></li>
+            <li class="nav-section-title">Dashboard</li>
+            <li><a href="index.html" class="nav-link"><span>🏠</span> Overview & Summary<span class="nav-badge">Hub</span></a></li>
+
+            <li class="nav-section-title">Backend & JVM Core</li>
+            <li><a href="java.html" class="nav-link"><span>☕</span> Java & JVM<span class="nav-badge">24</span></a></li>
+            <li><a href="spring-spring-boot.html" class="nav-link"><span>🌱</span> Spring & Boot<span class="nav-badge">29</span></a></li>
+            <li><a href="spring-batch.html" class="nav-link"><span>⚙️</span> Spring Batch<span class="nav-badge">20</span></a></li>
+            <li><a href="orm-hibernate-jpa.html" class="nav-link"><span>🗄️</span> ORM & Hibernate<span class="nav-badge">20</span></a></li>
+
+            <li class="nav-section-title">Cloud, Streaming & DevOps</li>
+            <li><a href="rest-api-microservices.html" class="nav-link"><span>🌐</span> REST & Microservices<span class="nav-badge">20</span></a></li>
+            <li><a href="aws-deployment.html" class="nav-link"><span>☁️</span> AWS Cloud<span class="nav-badge">20</span></a></li>
+            <li><a href="camel.html" class="nav-link"><span>🐪</span> Apache Camel<span class="nav-badge">24</span></a></li>
+            <li><a href="kafka.html" class="nav-link"><span>🦅</span> Apache Kafka<span class="nav-badge">20</span></a></li>
+            <li><a href="kubernetes-docker.html" class="nav-link"><span>🐳</span> Kubernetes & Docker<span class="nav-badge">23</span></a></li>
+
+            <li class="nav-section-title">Architecture, Web & Python</li>
+            <li><a href="architecture-design.html" class="nav-link"><span>📐</span> Architecture & Design<span class="nav-badge">22</span></a></li>
+            <li><a href="angular.html" class="nav-link"><span>🅰️</span> Angular<span class="nav-badge">20</span></a></li>
+            <li><a href="python-core.html" class="nav-link"><span>🐍</span> Python Core & Async<span class="nav-badge">20</span></a></li>
+            <li><a href="python-web-frameworks.html" class="nav-link active"><span>🚀</span> Django, FastAPI & Flask<span class="nav-badge">20</span></a></li>
         </ul>
+
+        <!-- Live Candidate Assessment Mini-Card -->
+        <div class="sidebar-footer-card">
+            <div class="sfc-row">
+                <span class="sfc-label">Assessment</span>
+                <span class="sfc-val" id="sidebarMiniCount">0/292 Rated</span>
+            </div>
+            <div class="sfc-bar"><div class="sfc-fill" id="sidebarMiniFill" style="width: 0%;"></div></div>
+            <div class="sfc-status" id="sidebarMiniStatus">Awaiting Ratings</div>
+        </div>
     </aside>
 
     <!-- Main Content Area -->
@@ -76,37 +104,6 @@
             <div class="filter-bar">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search Frameworks (e.g. n+1 select_related, select_for_update, pydantic v2, async def blocking, app context, blueprints, scoped_session)..." onkeyup="filterQuestions()">
             </div>
-
-            
-            <!-- Quick Jump Question Navigator -->
-            <div class="quick-jump-container">
-                <div class="quick-jump-header">
-                    <span class="quick-jump-title">⚡ Quick Question Navigator (Jump to Question):</span>
-                    <span class="quick-jump-subtitle">Click any topic to scroll directly • Green indicates rated</span>
-                </div>
-                <div class="quick-jump-grid">
-                    <button class="jump-chip" id="jump-chip-1" onclick="scrollToQuestion(1)" title="Django ORM & Query Optimization">Q1: Django N+1 & select_related</button>
-                    <button class="jump-chip" id="jump-chip-2" onclick="scrollToQuestion(2)" title="Django Concurrency & Row-Level Locking">Q2: Django select_for_update Locking</button>
-                    <button class="jump-chip" id="jump-chip-3" onclick="scrollToQuestion(3)" title="Django Middleware & ASGI Architecture">Q3: Django Async Middleware & ASGI</button>
-                    <button class="jump-chip" id="jump-chip-4" onclick="scrollToQuestion(4)" title="Django REST Framework (DRF) Performance">Q4: DRF Serializer Method Field N+1</button>
-                    <button class="jump-chip" id="jump-chip-5" onclick="scrollToQuestion(5)" title="Django Signals & Transaction Boundaries">Q5: Django Signals & on_commit Hooks</button>
-                    <button class="jump-chip" id="jump-chip-6" onclick="scrollToQuestion(6)" title="Django Enterprise Migrations & Zero-Downtime">Q6: Zero-Downtime Safe Migrations</button>
-                    <button class="jump-chip" id="jump-chip-7" onclick="scrollToQuestion(7)" title="Django Caching Architecture & Redis">Q7: Django Cache & Redis Stampede</button>
-                    <button class="jump-chip" id="jump-chip-8" onclick="scrollToQuestion(8)" title="FastAPI & Event Loop Concurrency">Q8: FastAPI def vs async def Starvation</button>
-                    <button class="jump-chip" id="jump-chip-9" onclick="scrollToQuestion(9)" title="Pydantic v2 Architecture & Validation">Q9: Pydantic v2 Rust Core Validation</button>
-                    <button class="jump-chip" id="jump-chip-10" onclick="scrollToQuestion(10)" title="FastAPI Dependency Injection & Cleanup">Q10: FastAPI Depends & Cleanup Lifecycles</button>
-                    <button class="jump-chip" id="jump-chip-11" onclick="scrollToQuestion(11)" title="ASGI Deployment & Worker Topologies">Q11: Uvicorn Gunicorn Worker Topologies</button>
-                    <button class="jump-chip" id="jump-chip-12" onclick="scrollToQuestion(12)" title="Async Task Processing: BackgroundTasks vs Celery">Q12: BackgroundTasks vs Celery Workers</button>
-                    <button class="jump-chip" id="jump-chip-13" onclick="scrollToQuestion(13)" title="Distributed Tracing & ContextVars">Q13: Async Tracing & contextvars Leaks</button>
-                    <button class="jump-chip" id="jump-chip-14" onclick="scrollToQuestion(14)" title="FastAPI Security & Scoped RBAC">Q14: FastAPI Security Scopes & Claims</button>
-                    <button class="jump-chip" id="jump-chip-15" onclick="scrollToQuestion(15)" title="Flask Context Locals: App vs Request Context">Q15: Flask App Context vs Request Context</button>
-                    <button class="jump-chip" id="jump-chip-16" onclick="scrollToQuestion(16)" title="Flask Application Factory & Blueprints">Q16: Flask App Factory & Blueprints</button>
-                    <button class="jump-chip" id="jump-chip-17" onclick="scrollToQuestion(17)" title="Flask Concurrency & Global State Pitfalls">Q17: Flask Global State & Concurrency</button>
-                    <button class="jump-chip" id="jump-chip-18" onclick="scrollToQuestion(18)" title="Flask Custom Extension Engineering">Q18: Flask Custom Extensions (init_app)</button>
-                    <button class="jump-chip" id="jump-chip-19" onclick="scrollToQuestion(19)" title="Flask & SQLAlchemy: Scoped Sessions & Threading">Q19: Flask scoped_session & Threading</button>
-                    <button class="jump-chip" id="jump-chip-20" onclick="scrollToQuestion(20)" title="Flask WSGI Pipeline & ProxyFix">Q20: Flask WSGI Pipeline & ProxyFix</button>
-                </div>
-            </div>
 <!-- Question Cards Container -->
             <div class="questions-list">
                 <div class="question-card" id="q-1" data-keywords="django orm n+1 select_related prefetch_related prefetch queryset sql query count">
@@ -137,9 +134,14 @@
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'order_report_views.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('1', 'order_report_views.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('1')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-1" style="display:none;">from django.db import models
 from typing import List, Dict, Any
 
@@ -211,10 +213,6 @@ def get_recent_orders_report() -&gt; List[Dict[str, Any]]:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. select_related vs prefetch_related:</strong><br>
@@ -276,9 +274,14 @@ def get_recent_orders_report_optimized() -> List[Dict[str, Any]]:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'wallet_service.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('2', 'wallet_service.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('2')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-2" style="display:none;">from django.db import transaction, models
 from decimal import Decimal
 from typing import Dict, Any
@@ -336,10 +339,6 @@ class WalletService:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why @transaction.atomic Fails Here:</strong><br>
@@ -403,9 +402,14 @@ def debit_wallet_atomic_f(user_id: str, amount: Decimal) -> bool:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'tenant_middleware.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('3', 'tenant_middleware.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('3')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-3" style="display:none;">from django.http import HttpRequest, HttpResponse
 from typing import Callable
 
@@ -462,10 +466,6 @@ class TenantAuditMiddleware:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Middleware Execution Pipeline:</strong><br>
@@ -540,9 +540,14 @@ class TenantAuditMiddleware:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'drf_performance.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('4', 'drf_performance.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('4')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-4" style="display:none;">from rest_framework import serializers
 from django.db import models
 
@@ -603,10 +608,6 @@ class TransactionSerializer(serializers.ModelSerializer):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why SerializerMethodField Crushes CPU:</strong><br>
@@ -670,9 +671,14 @@ class TransactionViewSet(viewsets.ReadOnlyModelViewSet):
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'order_signals.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('5', 'order_signals.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('5')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-5" style="display:none;">from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import transaction
@@ -731,10 +737,6 @@ def complete_checkout(request, cart):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The Signal-Transaction Race Condition:</strong><br>
@@ -791,9 +793,14 @@ Signals obscure control flow (spaghetti callbacks) and make unit testing difficu
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'zero_downtime_migration.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('6', 'zero_downtime_migration.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('6')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-6" style="display:none;">from django.db import migrations, models
 
 # NAIVE MIGRATION: Crashes rolling deployments!
@@ -846,10 +853,6 @@ class Migration(migrations.Migration):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why Naive Renames Fail During Rolling Deploys:</strong><br>
@@ -905,9 +908,14 @@ class Migration(migrations.Migration):
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'tenant_cache.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('7', 'tenant_cache.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('7')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-7" style="display:none;">from django.core.cache import cache
 from typing import Dict, Any
 
@@ -960,10 +968,6 @@ def get_dashboard_metrics(tenant_id: str) -&gt; Dict[str, Any]:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Cache Stampede Mechanics:</strong><br>
@@ -1024,9 +1028,14 @@ def get_dashboard_metrics_safe(tenant_id: str) -> dict:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'fastapi_concurrency.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('8', 'fastapi_concurrency.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('8')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-8" style="display:none;">from fastapi import FastAPI
 import time
 import requests
@@ -1081,10 +1090,6 @@ async def get_user_report(user_id: str):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. FastAPI Concurrency Model:</strong><br>
@@ -1145,9 +1150,14 @@ def get_user_report_sync(user_id: str):
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'pydantic_v2_schema.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('9', 'pydantic_v2_schema.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('9')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-9" style="display:none;">from pydantic import BaseModel, Field, model_validator, computed_field
 from decimal import Decimal
 from typing import Optional
@@ -1202,10 +1212,6 @@ class TradeOrder(BaseModel):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Pydantic v2 Architecture:</strong><br>
@@ -1273,9 +1279,14 @@ print(order.model_dump(mode='json'))</code></pre>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'db_dependency.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('10', 'db_dependency.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('10')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-10" style="display:none;">from fastapi import Depends, FastAPI, HTTPException
 from typing import Generator
 
@@ -1333,10 +1344,6 @@ def transfer_funds(amount: float, db = Depends(get_db_naive)):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. FastAPI Dependency Graph Resolution:</strong><br>
@@ -1390,9 +1397,14 @@ async def get_db_session() -> AsyncGenerator:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'asgi_lifespan.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('11', 'asgi_lifespan.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('11')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-11" style="display:none;">from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import asyncio
@@ -1448,10 +1460,6 @@ app = FastAPI(lifespan=lifespan)</div>
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Single Worker Limitation & Worker Topology:</strong><br>
@@ -1494,9 +1502,14 @@ Uvicorn automatically loads <code>uvloop</code> (C-based event loop based on <co
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'background_tasks_danger.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('12', 'background_tasks_danger.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('12')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-12" style="display:none;">from fastapi import FastAPI, BackgroundTasks, status
 import time
 
@@ -1551,10 +1564,6 @@ async def generate_invoice(customer_id: str, background_tasks: BackgroundTasks):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. How FastAPI BackgroundTasks Works:</strong><br>
@@ -1597,9 +1606,14 @@ FastAPI's <code>BackgroundTasks</code> is simply a list of functions executed by
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'correlation_middleware.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('13', 'correlation_middleware.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('13')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-13" style="display:none;">from fastapi import FastAPI, Request
 from contextvars import ContextVar
 import uuid
@@ -1667,10 +1681,6 @@ async def correlation_id_middleware(request: Request, call_next):
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why threading.local Fails in AsyncIO:</strong><br>
@@ -1711,9 +1721,14 @@ Always reset the context token in a <code>finally</code> block (<code>ctx_var.re
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'scoped_rbac.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('14', 'scoped_rbac.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('14')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-14" style="display:none;">from fastapi import Depends, FastAPI, HTTPException, Security, status
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from pydantic import BaseModel
@@ -1777,10 +1792,6 @@ async def get_current_user(
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Security vs Depends:</strong><br>
@@ -1849,9 +1860,14 @@ def create_order():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'flask_context_error.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('15', 'flask_context_error.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('15')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-15" style="display:none;">from flask import Flask, current_app, g, request
 from typing import Optional
 
@@ -1901,10 +1917,6 @@ def background_database_cleanup():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. The Two Flask Contexts:</strong><br>
@@ -1951,9 +1963,14 @@ def background_database_cleanup():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'app_factory_refactor.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('16', 'app_factory_refactor.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('16')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-16" style="display:none;"># BROKEN ARCHITECTURE (Circular Import Nightmare)
 # app.py:
 from flask import Flask
@@ -2003,10 +2020,6 @@ app.register_blueprint(auth_blueprint)</div>
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why the Global Pattern Fails:</strong><br>
@@ -2071,9 +2084,14 @@ def create_app(config_object="config.ProductionConfig") -> Flask:
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'cart_race_condition.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('17', 'cart_race_condition.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('17')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-17" style="display:none;">from flask import Flask, request, jsonify
 from typing import Dict, List
 
@@ -2131,10 +2149,6 @@ def add_to_cart():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Concurrency Breakdown:</strong><br>
@@ -2192,9 +2206,14 @@ def add_to_cart_safe():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'flask_extension.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('18', 'flask_extension.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('18')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-18" style="display:none;">from flask import Flask, current_app, g, request
 import time
 from typing import Optional
@@ -2265,10 +2284,6 @@ class FlaskAuditTrail:
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Flask Extension Architecture:</strong><br>
@@ -2299,7 +2314,7 @@ A standard Flask extension must:<br>
                         <div class="section-block">
                             <div class="section-title">❓ 2. Question</div>
                             <div class="question-title">
-                                In a Flask application using <code>Flask-SQLAlchemy</code>, a view triggers an asynchronous background thread using Python's <code>threading.Thread</code> to process an audit log and updates a user model passed from the request. Shortly after deploying, the server throws <code>DetachedInstanceError: Parent instance <User at 0x...> is not bound to a Session</code> and database connection pool timeouts occur.
+                                In a Flask application using <code>Flask-SQLAlchemy</code>, a view triggers an asynchronous background thread using Python's <code>threading.Thread</code> to process an audit log and updates a user model passed from the request. Shortly after deploying, the server throws <code>DetachedInstanceError: Parent instance &lt;User at 0x...&gt; is not bound to a Session</code> and database connection pool timeouts occur.
 <br><br>
 <strong>Part A:</strong> What is a <code>scoped_session</code> in SQLAlchemy? How does Flask-SQLAlchemy bind a database session to the lifecycle of an HTTP request?
 <br>
@@ -2311,9 +2326,14 @@ A standard Flask extension must:<br>
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'flask_sqlalchemy_leak.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('19', 'flask_sqlalchemy_leak.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('19')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-19" style="display:none;">from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import threading
@@ -2379,10 +2399,6 @@ def update_user():
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. SQLAlchemy scoped_session:</strong><br>
@@ -2448,9 +2464,14 @@ def update_user():
 
                         <div class="section-block">
                             <div class="section-title">💻 3. Code Challenge</div>
-                            <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'proxy_fix_security.py')">
-                                💻 View Code Snippet (Popup)
-                            </button>
+                            <div class="card-btn-group">
+                                <button class="btn-view-code" onclick="openCodeSnippetModal('20', 'proxy_fix_security.py')">
+                                    💻 View Code Snippet (Popup)
+                                </button>
+                                <button class="btn-view-solution" onclick="openSolutionModal('20')">
+                                    👁️ View Solution &amp; Evaluation (Popup)
+                                </button>
+                            </div>
                             <div id="snippet-20" style="display:none;">from flask import Flask, request, redirect, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -2510,10 +2531,6 @@ app.wsgi_app = ProxyFix(
                         </div>
 
                         <!-- Collapsible Solution Drawer -->
-                        <button class="solution-toggle" onclick="toggleSolution(this)">
-                            <span>💡 5. Expected Senior / Lead Answer &amp; Architecture Trade-offs</span>
-                            <span>▼</span>
-                        </button>
                         <div class="solution-content">
                             <div class="solution-heading">Answer Key &amp; Deep-Dive Explanation</div>
                             <strong>1. Why Reverse Proxies Mask Client Identity:</strong><br>
@@ -2566,6 +2583,27 @@ app.wsgi_app = ProxyFix(
             </div>
         </div>
     </div>
+    <!-- Reusable Solution & Candidate Evaluation Popup Modal -->
+    <div class="modal-overlay" id="solutionModal">
+        <div class="modal-card modal-solution-card">
+            <div class="modal-header">
+                <div>
+                    <span class="concept-badge" id="solutionModalBadge" style="margin-bottom: 4px; display: inline-block;">Solution & Evaluation</span>
+                    <h3 id="solutionModalTitle" style="margin: 0; font-size: 16px;">👁️ Solution & Candidate Evaluation</h3>
+                </div>
+                <button class="btn-outline" onclick="closeSolutionModal()" style="padding: 4px 10px;">✕</button>
+            </div>
+            <div class="modal-body" id="solutionModalBody"></div>
+            <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 12px; color: var(--text-muted);">💡 Tip: Rate candidate below on the question card</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-outline" id="copySolutionCodeBtn" onclick="copySolutionCode()" style="display: none;">📋 Copy Solution Code</button>
+                    <button class="btn-primary" onclick="closeSolutionModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="js/coverage-matrix.js"></script>
